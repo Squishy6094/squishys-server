@@ -692,69 +692,69 @@ end
 
 -- Toggle Saves --
 if mod_storage_load("LGPSave") == nil then
-    print("'Lava Groundpound' not found in 'squishy's-server.sav', set to default 'on'")
+    print("'Lava Groundpound' not found in 'squishys-server.sav', set to default 'on'")
     mod_storage_save("LGPSave", "true")
 end
 
 if mod_storage_load("AQSSave") == nil then
-    print("'Anti-Quicksand' not found in 'squishy's-server.sav', set to default 'on'")
+    print("'Anti-Quicksand' not found in 'squishys-server.sav', set to default 'on'")
     mod_storage_save("AQSSave", "true")
 end
 
 if mod_storage_load("WKSave") == nil then
-    print("'Modded Wallkick' not found in 'squishy's-server.sav', set to default 'on'")
+    print("'Modded Wallkick' not found in 'squishys-server.sav', set to default 'on'")
     mod_storage_save("WKSave", "true")
 end
 
 if mod_storage_load("CRSave") == nil then
-    print("'Extra Hud' > 'Collectables Radar' not found in 'squishy's-server.sav', set to default 'on'")
+    print("'Extra Hud' > 'Collectables Radar' not found in 'squishys-server.sav', set to default 'on'")
     mod_storage_save("CRSave", "true")
 end
 
 if mod_storage_load("CTSave") == nil then
-    print("'Extra Hud' > 'Cap Timer' not found in 'squishy's-server.sav', set to default 'on'")
+    print("'Extra Hud' > 'Cap Timer' not found in 'squishys-server.sav', set to default 'on'")
     mod_storage_save("CTSave", "true")
 end
 
 if mod_storage_load("notifSave") == nil then
-    print("'Server Popups' not found in 'squishy's-server.sav', set to default 'on'")
+    print("'Server Popups' not found in 'squishys-server.sav', set to default 'on'")
     mod_storage_save("notifSave", "true")
 end
 
 if mod_storage_load("CMDSave") == nil then
-    print("'Commands' not found in 'squishy's-server.sav', set to default 'off'")
+    print("'Commands' not found in 'squishys-server.sav', set to default 'off'")
     mod_storage_save("CMDSave", "false")
 end
 
 if mod_storage_load("DescSave") == nil then
-    print("'Descriptions' not found in 'squishy's-server.sav', set to default 'on'")
+    print("'Descriptions' not found in 'squishys-server.sav', set to default 'on'")
     mod_storage_save("DescSave", "true")
 end
 
 if mod_storage_load("SSCSave") == nil then
-    print("'Star Spawn Cutscene' not found in 'squishy's-server.sav', set to default 'on'")
+    print("'Star Spawn Cutscene' not found in 'squishys-server.sav', set to default 'on'")
     mod_storage_save("SSCSave", "true")
 end
-print("Saving configuration to 'squishy's-server.sav'")
+print("Saving configuration to 'squishys-server.sav'")
 
 
 function on_player_connected(m)
     if mod_storage_load("LGPSave") == "true" then
         gPlayerSyncTable[m.playerIndex].LGP = true
-    else
+    elseif mod_storage_load("LGPSave") == "false" then
         gPlayerSyncTable[m.playerIndex].LGP = false
     end
 
     gGlobalSyncTable.GlobalAQS = true
     if mod_storage_load("AQSSave") == "true" then
         gPlayerSyncTable[m.playerIndex].AQS = true
-    else
+    elseif mod_storage_load("AQSSave") == "false" then
         gPlayerSyncTable[m.playerIndex].AQS = false
     end
 
     if mod_storage_load("WKSave") == "true" then
         gPlayerSyncTable[m.playerIndex].wallSlide = true
-    else
+    elseif mod_storage_load("WKSave") == "false" then
         gPlayerSyncTable[m.playerIndex].wallSlide = false
     end
 
@@ -774,25 +774,25 @@ function on_player_connected(m)
 
     if mod_storage_load("notifSave") == "true" then
         gPlayerSyncTable[m.playerIndex].notif = true
-    else
+    elseif mod_storage_load("notifSave") == "false" then
         gPlayerSyncTable[m.playerIndex].notif = false
     end
 
     if mod_storage_load("CMDSave") == "true" then
         gPlayerSyncTable[m.playerIndex].CMDToggle = true
-    else
+    elseif mod_storage_load("CMDSave") == "false" then
         gPlayerSyncTable[m.playerIndex].CMDToggle = false
     end
 
     if mod_storage_load("DescSave") == "true" then
         gPlayerSyncTable[m.playerIndex].Descriptions = true
-    else
+    elseif mod_storage_load("DescSave") == "false" then
         gPlayerSyncTable[m.playerIndex].Descriptions = false
     end
 
     if mod_storage_load("SSCSave") == "true" then
         gPlayerSyncTable[m.playerIndex].SSC = true
-    else
+    elseif mod_storage_load("SSCSave") == "false" then
         gPlayerSyncTable[m.playerIndex].SSC = false
     end
 end
