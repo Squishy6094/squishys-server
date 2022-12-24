@@ -20,6 +20,50 @@ local optionHoverTimer = 0
 local optionHoverCanMove = true
 local optionTab = 1
 
+function hud_print_description(CMDName, Line1, Line2, Line3, Line4, Line5, Line6, Line7, Line8, Line9)
+    local m = gMarioStates[0]
+    if gPlayerSyncTable[m.playerIndex].Descriptions == true then
+        djui_hud_print_text(CMDName, ((djui_hud_get_screen_width()/2) + 100), 85, 0.3)
+        if Line1 ~= nil then djui_hud_print_text(Line1, ((djui_hud_get_screen_width()/2) + 100), 100, 0.3) end
+        if Line2 ~= nil then djui_hud_print_text(Line2, ((djui_hud_get_screen_width()/2) + 100), 108, 0.3) end
+        if Line3 ~= nil then djui_hud_print_text(Line3, ((djui_hud_get_screen_width()/2) + 100), 116, 0.3) end
+        if Line4 ~= nil then djui_hud_print_text(Line4, ((djui_hud_get_screen_width()/2) + 100), 124, 0.3) end
+        if Line5 ~= nil then djui_hud_print_text(Line5, ((djui_hud_get_screen_width()/2) + 100), 132, 0.3) end
+        if Line6 ~= nil then djui_hud_print_text(Line6, ((djui_hud_get_screen_width()/2) + 100), 140, 0.3) end
+        if Line7 ~= nil then djui_hud_print_text(Line7, ((djui_hud_get_screen_width()/2) + 100), 148, 0.3) end
+        if Line8 ~= nil then djui_hud_print_text(Line8, ((djui_hud_get_screen_width()/2) + 100), 156, 0.3) end
+        if Line9 ~= nil then djui_hud_print_text(Line9, ((djui_hud_get_screen_width()/2) + 100), 164, 0.3) end
+
+    end
+end
+
+function hud_print_toggle_status(SyncTable)
+    if optionTab == 2 and optionHover <= 2 then
+        if SyncTable then
+            djui_hud_print_text("On", ((djui_hud_get_screen_width()/2) + 70), 70 + (optionHover * 10), 0.3)
+        elseif not SyncTable then
+            djui_hud_print_text("Off", ((djui_hud_get_screen_width()/2) + 70), 70 + (optionHover * 10), 0.3)
+        end
+    else
+        if SyncTable then
+            djui_hud_print_text("On", ((djui_hud_get_screen_width()/2)), 70 + (optionHover * 10), 0.3)
+        elseif not SyncTable then
+            djui_hud_print_text("Off", ((djui_hud_get_screen_width()/2)), 70 + (optionHover * 10), 0.3)
+        end
+    end
+end
+
+function hud_print_unique_toggle_status(SyncTable, ToggleText1, ToggleText2, ToggleText3, ToggleRequirement1, ToggleRequirement2, ToggleRequirement3)
+    if ToggleRequirement1 == nil then ToggleRequirement1 = 0 end
+    if ToggleRequirement2 == nil then ToggleRequirement2 = 1 end
+    if ToggleRequirement3 == nil then ToggleRequirement3 = 2 end
+
+    if SyncTable == ToggleRequirement1 then djui_hud_print_text(ToggleText1, ((djui_hud_get_screen_width()/2)), 70 + (optionHover * 10), 0.3) end
+    if SyncTable == ToggleRequirement2 then djui_hud_print_text(ToggleText2, ((djui_hud_get_screen_width()/2)), 70 + (optionHover * 10), 0.3) end
+    if SyncTable == ToggleRequirement3 then djui_hud_print_text(ToggleText3, ((djui_hud_get_screen_width()/2)), 70 + (optionHover * 10), 0.3) end
+end
+
+
 function mario_update(m)
     if m.playerIndex == hostnum and m.playerIndex == 0 then
         gGlobalSyncTable.pausetimerF = gGlobalSyncTable.pausetimerF + 1
@@ -181,56 +225,22 @@ function displaymenu()
             djui_hud_set_color(255, 255, 255, 255)
             djui_hud_print_text("Lava Groundpound", ((djui_hud_get_screen_width()/2) - 70), 80, 0.3)
             if optionHover == 1 then
-                if gPlayerSyncTable[m.playerIndex].Descriptions == true then
-                    djui_hud_print_text("Lava Groundpound:", ((djui_hud_get_screen_width()/2) + 100), 85, 0.3)
-                    djui_hud_print_text("Ground-Pounding on lava will", ((djui_hud_get_screen_width()/2) + 100), 100, 0.3)
-                    djui_hud_print_text("give you a speed and height", ((djui_hud_get_screen_width()/2) + 100), 108, 0.3)
-                    djui_hud_print_text("boost, at the cost of health.", ((djui_hud_get_screen_width()/2) + 100), 116, 0.3)
-                end
-                if gPlayerSyncTable[m.playerIndex].LGP == true then
-                    djui_hud_print_text("On", ((djui_hud_get_screen_width()/2)), 80, 0.3)
-                elseif gPlayerSyncTable[m.playerIndex].LGP == false then
-                    djui_hud_print_text("Off", ((djui_hud_get_screen_width()/2)), 80, 0.3)
-                end
+                hud_print_description("Lava Groundpound:", "Ground-Pounding on lava will","give you a speed and height","boost, at the cost of health.")
+                hud_print_toggle_status(gPlayerSyncTable[m.playerIndex].LGP)
             end
             djui_hud_print_text("Anti-Quicksand", ((djui_hud_get_screen_width()/2) - 70), 90, 0.3)
             if optionHover == 2 then
-                if gPlayerSyncTable[m.playerIndex].Descriptions == true then
-                    djui_hud_print_text("Anti-Quicksand:", ((djui_hud_get_screen_width()/2) + 100), 85, 0.3)
-                    djui_hud_print_text("Makes instant quicksand act", ((djui_hud_get_screen_width()/2) + 100), 100, 0.3)
-                    djui_hud_print_text("like lava, preventing what", ((djui_hud_get_screen_width()/2) + 100), 108, 0.3)
-                    djui_hud_print_text("may seem like an unfair", ((djui_hud_get_screen_width()/2) + 100), 116, 0.3)
-                    djui_hud_print_text("deaths.", ((djui_hud_get_screen_width()/2) + 100), 124, 0.3)
-                    if gPlayerSyncTable[m.playerIndex].LGP == true then
-                        djui_hud_print_text("(Does not include", ((djui_hud_get_screen_width()/2) + 124), 124, 0.3)
-                        djui_hud_print_text("Lava Groundpound", ((djui_hud_get_screen_width()/2) + 100), 132, 0.3)
-                        djui_hud_print_text("functionalities)", ((djui_hud_get_screen_width()/2) + 100), 140, 0.3)
-                    end
-                end
+                hud_print_description("Anti-Quicksand:", "Makes instant quicksand act","like lava, preventing what","may seem like an unfair","deaths. (Does not include","Lava Groundpound functions)")
                 if gGlobalSyncTable.GlobalAQS == true then
-                    if gPlayerSyncTable[m.playerIndex].AQS == true then
-                        djui_hud_print_text("On", ((djui_hud_get_screen_width()/2)), 90, 0.3)
-                    elseif gPlayerSyncTable[m.playerIndex].AQS == false then
-                        djui_hud_print_text("Off", ((djui_hud_get_screen_width()/2)), 90, 0.3)
-                    end
+                    hud_print_toggle_status(gPlayerSyncTable[m.playerIndex].AQS)
                 else
                     djui_hud_print_text("Forced Off", ((djui_hud_get_screen_width()/2)), 90, 0.3)
                 end
             end
             djui_hud_print_text("Modded Wallkick", ((djui_hud_get_screen_width()/2) - 70), 100, 0.3)
             if optionHover == 3 then
-                if gPlayerSyncTable[m.playerIndex].Descriptions == true then
-                    djui_hud_print_text("Modded Wallkick:", ((djui_hud_get_screen_width()/2) + 100), 85, 0.3)
-                    djui_hud_print_text("Adds Wallsliding and more", ((djui_hud_get_screen_width()/2) + 100), 100, 0.3)
-                    djui_hud_print_text("lenient angles you can wall", ((djui_hud_get_screen_width()/2) + 100), 108, 0.3)
-                    djui_hud_print_text("kick at, best for a more", ((djui_hud_get_screen_width()/2) + 100), 116, 0.3)
-                    djui_hud_print_text("modern experience.", ((djui_hud_get_screen_width()/2) + 100), 124, 0.3)
-                end
-                if gPlayerSyncTable[0].wallSlide == true then
-                    djui_hud_print_text("On", ((djui_hud_get_screen_width()/2)), 100, 0.3)
-                elseif gPlayerSyncTable[0].wallSlide == false then
-                    djui_hud_print_text("Off", ((djui_hud_get_screen_width()/2)), 100, 0.3)
-                end
+                hud_print_description("Modded Wallkick:", "Adds Wallsliding and more","lenient angles you can wall","kick at, best for a more","modern experience.")
+                hud_print_toggle_status(gPlayerSyncTable[0].wallSlide)
             end
         elseif optionTab == 2 then
             if optionHover < 1 then
@@ -249,55 +259,22 @@ function displaymenu()
             djui_hud_set_color(255, 255, 255, 255)
             djui_hud_print_text("Extra HUD", ((djui_hud_get_screen_width()/2) - 70), 80, 0.3)
             if optionHover == 1 or optionHover == 2 then
-                if gPlayerSyncTable[m.playerIndex].Descriptions == true then
-                    djui_hud_print_text("Extra HUD:", ((djui_hud_get_screen_width()/2) + 100), 85, 0.3)
-                    djui_hud_print_text("Adds Quality of Life HUD", ((djui_hud_get_screen_width()/2) + 100), 100, 0.3)
-                    djui_hud_print_text("Elements to tell extra", ((djui_hud_get_screen_width()/2) + 100), 108, 0.3)
-                    djui_hud_print_text("Information", ((djui_hud_get_screen_width()/2) + 100), 116, 0.3)
-                end
+                hud_print_description("Extra HUD:", "Adds Quality of Life HUD","Elements to tell extra","Information")
                 djui_hud_print_text("Red Coin Radar", ((djui_hud_get_screen_width()/2)), 80, 0.3)
                 djui_hud_print_text("Cap Timer", ((djui_hud_get_screen_width()/2)), 90, 0.3)
             end
             if optionHover == 1 then
-                if gPlayerSyncTable[m.playerIndex].Descriptions == true then
-                    djui_hud_print_text("Collectables Radar:", ((djui_hud_get_screen_width()/2) + 100), 130, 0.3)
-                    djui_hud_print_text("Tells you how far away", ((djui_hud_get_screen_width()/2) + 100), 145, 0.3)
-                    djui_hud_print_text("Red coins and Secrets", ((djui_hud_get_screen_width()/2) + 100), 153, 0.3)
-                    djui_hud_print_text("are.", ((djui_hud_get_screen_width()/2) + 100), 161, 0.3)
-                end
-                if gPlayerSyncTable[m.playerIndex].radarToggle == true then
-                    djui_hud_print_text("On", ((djui_hud_get_screen_width()/2) + 70), 80, 0.3)
-                elseif gPlayerSyncTable[m.playerIndex].radarToggle == false then
-                    djui_hud_print_text("Off", ((djui_hud_get_screen_width()/2) + 70), 80, 0.3)
-                end
+                hud_print_description("","","","","","Collectables Radar:", "Tells you how far away","Red coins and Secrets","are.")
+                hud_print_toggle_status(gPlayerSyncTable[m.playerIndex].radarToggle)
             end
             if optionHover == 2 then
-                if gPlayerSyncTable[m.playerIndex].Descriptions == true then
-                    djui_hud_print_text("Cap Timer:", ((djui_hud_get_screen_width()/2) + 100), 130, 0.3)
-                    djui_hud_print_text("Tells you how many seconds", ((djui_hud_get_screen_width()/2) + 100), 145, 0.3)
-                    djui_hud_print_text("your cap has left until it", ((djui_hud_get_screen_width()/2) + 100), 153, 0.3)
-                    djui_hud_print_text("runs out.", ((djui_hud_get_screen_width()/2) + 100), 161, 0.3)
-                end
-                if gPlayerSyncTable[m.playerIndex].capTimerToggle == true then
-                    djui_hud_print_text("On", ((djui_hud_get_screen_width()/2) + 70), 90, 0.3)
-                elseif gPlayerSyncTable[m.playerIndex].capTimerToggle == false then
-                    djui_hud_print_text("Off", ((djui_hud_get_screen_width()/2) + 70), 90, 0.3)
-                end
+                hud_print_description("","","","","","Cap Timer:", "Tells you how many seconds","your cap has left until it","runs out.")
+                hud_print_toggle_status(gPlayerSyncTable[m.playerIndex].radarToggle)
             end
             djui_hud_print_text("Server Popups", ((djui_hud_get_screen_width()/2) - 70), 90, 0.3)
             if optionHover == 3 then
-                if gPlayerSyncTable[m.playerIndex].Descriptions == true then
-                    djui_hud_print_text("Server Popups:", ((djui_hud_get_screen_width()/2) + 100), 85, 0.3)
-                    djui_hud_print_text("Shows Tips/Hints about the", ((djui_hud_get_screen_width()/2) + 100), 100, 0.3)
-                    djui_hud_print_text("server every 3-5 minutes.", ((djui_hud_get_screen_width()/2) + 100), 108, 0.3)
-                    djui_hud_print_text("Recommended for if you're", ((djui_hud_get_screen_width()/2) + 100), 116, 0.3)
-                    djui_hud_print_text("new to the server.", ((djui_hud_get_screen_width()/2) + 100), 124, 0.3)
-                end
-                if gPlayerSyncTable[m.playerIndex].notif == true then
-                    djui_hud_print_text("On", ((djui_hud_get_screen_width()/2)), 90, 0.3)
-                elseif gPlayerSyncTable[m.playerIndex].notif == false then
-                    djui_hud_print_text("Off", ((djui_hud_get_screen_width()/2)), 90, 0.3)
-                end
+                hud_print_description("Server Popups:", "Shows Tips/Hints about the","server every 3-5 minutes.","Recommended for if you're","new to the server.")
+                hud_print_toggle_status(gPlayerSyncTable[m.playerIndex].notif)
             end
         elseif optionTab == 3 then
             if optionHover < 1 then
@@ -309,50 +286,15 @@ function displaymenu()
             djui_hud_render_rect(((djui_hud_get_screen_width()/2) - 72), 80 + (optionHover * 10 - 10), 70, 9)
 
             djui_hud_set_color(255, 255, 255, 255)
-            djui_hud_print_text("Commands", ((djui_hud_get_screen_width()/2) - 70), 80, 0.3)
+            djui_hud_print_text("Descriptions", ((djui_hud_get_screen_width()/2) - 70), 80, 0.3)
             if optionHover == 1 then
-                if gPlayerSyncTable[m.playerIndex].Descriptions == true then
-                    djui_hud_print_text("Commands:", ((djui_hud_get_screen_width()/2) + 100), 85, 0.3)
-                    djui_hud_print_text("Allows you to edit all of", ((djui_hud_get_screen_width()/2) + 100), 100, 0.3)
-                    djui_hud_print_text("these options via chat", ((djui_hud_get_screen_width()/2) + 100), 108, 0.3)
-                    djui_hud_print_text("commands, Not recommended.", ((djui_hud_get_screen_width()/2) + 100), 116, 0.3)
-                end
-                if gPlayerSyncTable[m.playerIndex].CMDToggle == true then
-                    djui_hud_print_text("On", ((djui_hud_get_screen_width()/2)), 80, 0.3)
-                elseif gPlayerSyncTable[m.playerIndex].CMDToggle == false then
-                    djui_hud_print_text("Off", ((djui_hud_get_screen_width()/2)), 80, 0.3)
-                end
+                hud_print_description("Descriptions:", "Toggles these descriptions","you see on the right,","Recommended to turn Off if","you like a more minimalistic","menu.")
+                hud_print_toggle_status(gPlayerSyncTable[m.playerIndex].Descriptions)
             end
-            djui_hud_print_text("Descriptions", ((djui_hud_get_screen_width()/2) - 70), 90, 0.3)
+            djui_hud_print_text("Star Spawn Cutscene", ((djui_hud_get_screen_width()/2) - 70), 90, 0.3)
             if optionHover == 2 then
-                if gPlayerSyncTable[m.playerIndex].Descriptions == true then
-                    djui_hud_print_text("Descriptions:", ((djui_hud_get_screen_width()/2) + 100), 85, 0.3)
-                    djui_hud_print_text("Toggles these descriptions", ((djui_hud_get_screen_width()/2) + 100), 100, 0.3)
-                    djui_hud_print_text("you see on the right, ", ((djui_hud_get_screen_width()/2) + 100), 108, 0.3)
-                    djui_hud_print_text("Recommended to turn Off if", ((djui_hud_get_screen_width()/2) + 100), 116, 0.3)
-                    djui_hud_print_text("you like a more minimalistic", ((djui_hud_get_screen_width()/2) + 100), 124, 0.3)
-                    djui_hud_print_text("menu.", ((djui_hud_get_screen_width()/2) + 100), 132, 0.3)
-                end
-                if gPlayerSyncTable[m.playerIndex].Descriptions == true then
-                    djui_hud_print_text("On", ((djui_hud_get_screen_width()/2)), 90, 0.3)
-                elseif gPlayerSyncTable[m.playerIndex].Descriptions == false then
-                    djui_hud_print_text("Off", ((djui_hud_get_screen_width()/2)), 90, 0.3)
-                end
-            end
-            djui_hud_print_text("Star Spawn Cutscene", ((djui_hud_get_screen_width()/2) - 70), 100, 0.3)
-            if optionHover == 3 then
-                if gPlayerSyncTable[m.playerIndex].Descriptions == true then
-                    djui_hud_print_text("Star Spawn Cutscene:", ((djui_hud_get_screen_width()/2) + 100), 85, 0.3)
-                    djui_hud_print_text("Toggles if Star Spawning", ((djui_hud_get_screen_width()/2) + 100), 100, 0.3)
-                    djui_hud_print_text("Cutscenes play, Recommended", ((djui_hud_get_screen_width()/2) + 100), 108, 0.3)
-                    djui_hud_print_text("if you don't know where a", ((djui_hud_get_screen_width()/2) + 100), 116, 0.3)
-                    djui_hud_print_text("star spawns.", ((djui_hud_get_screen_width()/2) + 100), 124, 0.3)
-                end
-                if gPlayerSyncTable[m.playerIndex].SSC == true then
-                    djui_hud_print_text("On", ((djui_hud_get_screen_width()/2)), 100, 0.3)
-                elseif gPlayerSyncTable[m.playerIndex].SSC == false then
-                    djui_hud_print_text("Off", ((djui_hud_get_screen_width()/2)), 100, 0.3)
-                end
+                hud_print_description("Star Spawn Cutscene:", "Toggles if Star Spawning","Cutscenes play, Recommended","if you don't know where a","star spawns.")
+                hud_print_toggle_status(gPlayerSyncTable[m.playerIndex].SSC)
             end
         elseif optionTab == 4 then
             if optionHover < 1 then
@@ -366,230 +308,73 @@ function displaymenu()
             djui_hud_set_color(255, 255, 255, 255)
             djui_hud_print_text("Death Type", ((djui_hud_get_screen_width()/2) - 70), 80, 0.3)
             if optionHover == 1 then
-                if gPlayerSyncTable[m.playerIndex].Descriptions == true then
-                    djui_hud_print_text("Death Type:", ((djui_hud_get_screen_width()/2) + 100), 85, 0.3)
-                    djui_hud_print_text("Chenges how players die", ((djui_hud_get_screen_width()/2) + 100), 100, 0.3)
-                    djui_hud_print_text("and respawn after death.", ((djui_hud_get_screen_width()/2) + 100), 108, 0.3)
-                end
-                if gGlobalSyncTable.bubbleDeath == 0 then
-                    djui_hud_print_text("Normal", ((djui_hud_get_screen_width()/2)), 80, 0.3)
-                elseif gGlobalSyncTable.bubbleDeath == 1 then
-                    djui_hud_print_text("Bubble", ((djui_hud_get_screen_width()/2)), 80, 0.3)
-                end
+                hud_print_description("Death Type:", "Chenges how players die","and respawn after death.")
+                hud_print_unique_toggle_status(gGlobalSyncTable.bubbleDeath,"Normal", "Bubble", "Downing")
             end
             djui_hud_print_text("Player Interactions", ((djui_hud_get_screen_width()/2) - 70), 90, 0.3)
             if optionHover == 2 then
-                if gPlayerSyncTable[m.playerIndex].Descriptions == true then
-                    djui_hud_print_text("Player Interactions:", ((djui_hud_get_screen_width()/2) + 100), 85, 0.3)
-                    djui_hud_print_text("Changes if and how players", ((djui_hud_get_screen_width()/2) + 100), 100, 0.3)
-                    djui_hud_print_text("interact with each other.", ((djui_hud_get_screen_width()/2) + 100), 108, 0.3)
-                end
-                if gGlobalSyncTable.playerInteractions == 0 then
-                    djui_hud_print_text("Non-Solid", ((djui_hud_get_screen_width()/2)), 90, 0.3)
-                elseif gGlobalSyncTable.playerInteractions == 1 then
-                    djui_hud_print_text("Solid", ((djui_hud_get_screen_width()/2)), 90, 0.3)
-                elseif gGlobalSyncTable.playerInteractions == 2 then
-                    djui_hud_print_text("Friendly Fire", ((djui_hud_get_screen_width()/2)), 90, 0.3)
-                end
+                hud_print_description("Player Interactions:", "Changes if and how players","interact with each other.")
+                hud_print_unique_toggle_status(gGlobalSyncTable.playerInteractions,"Non-Solid", "Solid", "Friendly Fire")
             end
             djui_hud_print_text("Player Knockback", ((djui_hud_get_screen_width()/2) - 70), 100, 0.3)
             if optionHover == 3 then
-                if gPlayerSyncTable[m.playerIndex].Descriptions == true then
-                    djui_hud_print_text("Player Knockback:", ((djui_hud_get_screen_width()/2) + 100), 85, 0.3)
-                    djui_hud_print_text("Changes how far players get", ((djui_hud_get_screen_width()/2) + 100), 100, 0.3)
-                    djui_hud_print_text("knocked back after being hit", ((djui_hud_get_screen_width()/2) + 100), 108, 0.3)
-                    djui_hud_print_text("by another player.", ((djui_hud_get_screen_width()/2) + 100), 116, 0.3)
-                end
-                if gGlobalSyncTable.playerKnockbackStrength == 10 then
-                    djui_hud_print_text("Weak", ((djui_hud_get_screen_width()/2)), 100, 0.3)
-                elseif gGlobalSyncTable.playerKnockbackStrength == 25 then
-                    djui_hud_print_text("Normal", ((djui_hud_get_screen_width()/2)), 100, 0.3)
-                elseif gGlobalSyncTable.playerKnockbackStrength == 60 then
-                    djui_hud_print_text("Too Much", ((djui_hud_get_screen_width()/2)), 100, 0.3)
-                end
+                hud_print_description("Player Knockback:", "Changes how far players get","knocked back after being hit","by another player.")
+                hud_print_unique_toggle_status(gGlobalSyncTable.playerKnockbackStrength,"Weak", "Normal", "Too Much", 10, 25, 60)
             end
             djui_hud_print_text("Share Lives", ((djui_hud_get_screen_width()/2) - 70), 110, 0.3)
             if optionHover == 4 then
-                if gPlayerSyncTable[m.playerIndex].Descriptions == true then
-                    djui_hud_print_text("Share Lives:", ((djui_hud_get_screen_width()/2) + 100), 85, 0.3)
-                    djui_hud_print_text("Changes if players in the", ((djui_hud_get_screen_width()/2) + 100), 100, 0.3)
-                    djui_hud_print_text("same level share lives.", ((djui_hud_get_screen_width()/2) + 100), 108, 0.3)
-                end
-                if gGlobalSyncTable.shareLives == 1 then
-                    djui_hud_print_text("On", ((djui_hud_get_screen_width()/2)), 110, 0.3)
-                elseif gGlobalSyncTable.shareLives == 0 then
-                    djui_hud_print_text("Off", ((djui_hud_get_screen_width()/2)), 110, 0.3)
-                end
+                hud_print_description("Share Lives:", "Changes if players in the","same level share lives.")
+                hud_print_unique_toggle_status(gGlobalSyncTable.shareLives, "Off", "On")
             end
             djui_hud_print_text("On Star Collection", ((djui_hud_get_screen_width()/2) - 70), 120, 0.3)
             if optionHover == 5 then
-                if gPlayerSyncTable[m.playerIndex].Descriptions == true then
-                    djui_hud_print_text("On Star Collection:", ((djui_hud_get_screen_width()/2) + 100), 85, 0.3)
-                    djui_hud_print_text("Determines what happens", ((djui_hud_get_screen_width()/2) + 100), 100, 0.3)
-                    djui_hud_print_text("after you collect a star.", ((djui_hud_get_screen_width()/2) + 100), 108, 0.3)
-                end
-                if gGlobalSyncTable.stayInLevelAfterStar == 0 then
-                    djui_hud_print_text("Leave Level", ((djui_hud_get_screen_width()/2)), 120, 0.3)
-                elseif gGlobalSyncTable.stayInLevelAfterStar == 1 then
-                    djui_hud_print_text("Stay in Level", ((djui_hud_get_screen_width()/2)), 120, 0.3)
-                elseif gGlobalSyncTable.stayInLevelAfterStar == 2 then
-                    djui_hud_print_text("Non-stop", ((djui_hud_get_screen_width()/2)), 120, 0.3)
-                end
+                hud_print_description("On Star Collection:", "Determines what happens","after you collect a star.")
+                hud_print_unique_toggle_status(gGlobalSyncTable.stayInLevelAfterStar, "Leave Level", "Stay in Level", "Non-Stop")
             end
             djui_hud_print_text("Global Anti-Quicksand", ((djui_hud_get_screen_width()/2) - 70), 130, 0.3)
             if optionHover == 6 then
-                if gPlayerSyncTable[m.playerIndex].Descriptions == true then
-                    djui_hud_print_text("Global Anti-Quicksand:", ((djui_hud_get_screen_width()/2) + 100), 85, 0.3)
-                    djui_hud_print_text("Determines if players can", ((djui_hud_get_screen_width()/2) + 100), 100, 0.3)
-                    djui_hud_print_text("locally change AQS or if", ((djui_hud_get_screen_width()/2) + 100), 108, 0.3)
-                    djui_hud_print_text("it's forced off.", ((djui_hud_get_screen_width()/2) + 100), 116, 0.3)
-                end
-                if gGlobalSyncTable.GlobalAQS == true then
-                    djui_hud_print_text("On", ((djui_hud_get_screen_width()/2)), 130, 0.3)
-                elseif gGlobalSyncTable.GlobalAQS == false then
-                    djui_hud_print_text("Off", ((djui_hud_get_screen_width()/2)), 130, 0.3)
-                end
+                hud_print_description("Global Anti-Quicksand:", "Determines if players can","locally change AQS or if","it's forced off.")
+                hud_print_toggle_status(gGlobalSyncTable.stayInLevelAfterStar)
+            end
+        end
+    end
+end
+
+
+--Reminder to fix this, it's broken :(
+function before_update_toggle(OptionTabRequirement, OptionHoverRequirement, SyncTableToggle, StorageName)
+    local m = gMarioStates[0]
+    if optionTab == OptionTabRequirement and optionHover == OptionHoverRequirement then
+        if optionHoverCanMove then
+            if SyncTableToggle and (m.controller.buttonDown & A_BUTTON) ~= 0 then
+                SyncTableToggle = false
+                if StorageName ~= nil then mod_storage_save(StorageName, "false") end
+                optionHoverCanMove = false
+            elseif (not SyncTableToggle) and (m.controller.buttonDown & A_BUTTON) ~= 0 then
+                SyncTableToggle = true
+                if StorageName ~= nil then mod_storage_save(StorageName, "true") end
+                optionHoverCanMove = true
             end
         end
     end
 end
 
 function before_update(m)
-    if menu == true and m.playerIndex == 0 then
+    if menu and m.playerIndex == 0 then
+        before_update_toggle(1, 1, gPlayerSyncTable[m.playerIndex].LGP, "LGPSave")
+        before_update_toggle(1, 2, gPlayerSyncTable[m.playerIndex].AQS, "AQSSave")
+        before_update_toggle(1, 3, gPlayerSyncTable[m.playerIndex].wallSlide, "WKSave")
+        before_update_toggle(2, 1, gPlayerSyncTable[m.playerIndex].radarToggle, "CRSave")
+        before_update_toggle(2, 2, gPlayerSyncTable[m.playerIndex].capTimerToggle, "CTSave")
+        before_update_toggle(2, 3, gPlayerSyncTable[m.playerIndex].notif, "notifSave")
+        before_update_toggle(3, 1, gPlayerSyncTable[m.playerIndex].Descriptions, "DescSave")
+        before_update_toggle(3, 2, gPlayerSyncTable[m.playerIndex].SSC, "SSCSave")
+        before_update_toggle(4, 1, gGlobalSyncTable.bubbleDeath)
+
+
+
         if optionHoverCanMove == true then
-            if optionTab == 1 then
-                if optionHover == 1 then
-                    if gPlayerSyncTable[m.playerIndex].LGP == true then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gPlayerSyncTable[m.playerIndex].LGP = false
-                            mod_storage_save("LGPSave", "false")
-                            optionHoverCanMove = false
-                        end
-                    elseif gPlayerSyncTable[m.playerIndex].LGP == false then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gPlayerSyncTable[m.playerIndex].LGP = true
-                            mod_storage_save("LGPSave", "true")
-                            optionHoverCanMove = false
-                        end
-                    end
-                elseif optionHover == 2 then
-                    if gPlayerSyncTable[m.playerIndex].AQS == true and gGlobalSyncTable.GlobalAQS == true then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gPlayerSyncTable[m.playerIndex].AQS = false
-                            mod_storage_save("AQSSave", "false")
-                            optionHoverCanMove = false
-                        end
-                    elseif gPlayerSyncTable[m.playerIndex].AQS == false and gGlobalSyncTable.GlobalAQS == true then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gPlayerSyncTable[m.playerIndex].AQS = true
-                            mod_storage_save("AQSSave", "true")
-                            optionHoverCanMove = false
-                        end
-                    end
-                elseif optionHover == 3 then
-                    if gPlayerSyncTable[0].wallSlide == true then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gPlayerSyncTable[0].wallSlide = false
-                            mod_storage_save("WKSave", "false")
-                            optionHoverCanMove = false
-                        end
-                    elseif gPlayerSyncTable[0].wallSlide == false then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gPlayerSyncTable[0].wallSlide = true
-                            mod_storage_save("WKSave", "true")
-                            optionHoverCanMove = false
-                        end
-                    end
-                end
-            elseif optionTab == 2 then
-                if optionHover == 1 then
-                    if gPlayerSyncTable[m.playerIndex].radarToggle == true then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gPlayerSyncTable[m.playerIndex].radarToggle = false
-                            mod_storage_save("CRSave", "false")
-                            optionHoverCanMove = false
-                        end
-                    elseif gPlayerSyncTable[m.playerIndex].radarToggle == false then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gPlayerSyncTable[m.playerIndex].radarToggle = true
-                            mod_storage_save("CRSave", "true")
-                            optionHoverCanMove = false
-                        end
-                    end
-                elseif optionHover == 2 then
-                    if gPlayerSyncTable[m.playerIndex].capTimerToggle == true then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gPlayerSyncTable[m.playerIndex].capTimerToggle = false
-                            mod_storage_save("CTSave", "false")
-                            optionHoverCanMove = false
-                        end
-                    elseif gPlayerSyncTable[m.playerIndex].capTimerToggle == false then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gPlayerSyncTable[m.playerIndex].capTimerToggle = true
-                            mod_storage_save("CTSave", "true")
-                            optionHoverCanMove = false
-                        end
-                    end
-                elseif optionHover == 3 then
-                    if gPlayerSyncTable[m.playerIndex].notif == true then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gPlayerSyncTable[m.playerIndex].notif = false
-                            mod_storage_save("notifSave", "false")
-                            optionHoverCanMove = false
-                        end
-                    elseif gPlayerSyncTable[m.playerIndex].notif == false then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gPlayerSyncTable[m.playerIndex].notif = true
-                            mod_storage_save("notifSave", "true")
-                            optionHoverCanMove = false
-                        end
-                    end
-                end
-            elseif optionTab == 3 then
-                if optionHover == 1 then
-                    if gPlayerSyncTable[m.playerIndex].CMDToggle == true then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gPlayerSyncTable[m.playerIndex].CMDToggle = false
-                            mod_storage_save("CMDSave", "false")
-                            optionHoverCanMove = false
-                        end
-                    elseif gPlayerSyncTable[m.playerIndex].CMDToggle == false then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gPlayerSyncTable[m.playerIndex].CMDToggle = true
-                            mod_storage_save("CMDSave", "true")
-                            optionHoverCanMove = false
-                        end
-                    end
-                elseif optionHover == 2 then
-                    if gPlayerSyncTable[m.playerIndex].Descriptions == true then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gPlayerSyncTable[m.playerIndex].Descriptions = false
-                            mod_storage_save("DescSave", "false")
-                            optionHoverCanMove = false
-                        end
-                    elseif gPlayerSyncTable[m.playerIndex].Descriptions == false then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gPlayerSyncTable[m.playerIndex].Descriptions = true
-                            mod_storage_save("DescSave", "true")
-                            optionHoverCanMove = false
-                        end
-                    end
-                elseif optionHover == 3 then
-                    if gPlayerSyncTable[m.playerIndex].SSC == true then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gPlayerSyncTable[m.playerIndex].SSC = false
-                            mod_storage_save("SSCSave", "false")
-                            optionHoverCanMove = false
-                        end
-                    elseif gPlayerSyncTable[m.playerIndex].SSC == false then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gPlayerSyncTable[m.playerIndex].SSC = true
-                            mod_storage_save("SSCSave", "true")
-                            optionHoverCanMove = false
-                        end
-                    end
-                end
-            elseif optionTab == 4 then
+            if optionTab == 4 then
                 if optionHover == 1 then
                     if gGlobalSyncTable.bubbleDeath == 1 then
                         if m.controller.buttonDown & A_BUTTON ~= 0 then
@@ -760,15 +545,13 @@ function on_player_connected(m)
 
     if mod_storage_load("CRSave") == "true" then
         gPlayerSyncTable[m.playerIndex].radarToggle = true
-        gPlayerSyncTable[m.playerIndex].capTimerToggle = true
     elseif mod_storage_load("CRSave") == "false" then
         gPlayerSyncTable[m.playerIndex].radarToggle = false
-        gPlayerSyncTable[m.playerIndex].capTimerToggle = false
-    elseif mod_storage_load("CRSave") == "cap" then
-        gPlayerSyncTable[m.playerIndex].radarToggle = false
+    end
+
+    if mod_storage_load("CTSave") == "true" then
         gPlayerSyncTable[m.playerIndex].capTimerToggle = true
-    elseif mod_storage_load("CRSave") == "radar" then
-        gPlayerSyncTable[m.playerIndex].radarToggle = true
+    elseif mod_storage_load("CTSave") == "false" then
         gPlayerSyncTable[m.playerIndex].capTimerToggle = false
     end
 
