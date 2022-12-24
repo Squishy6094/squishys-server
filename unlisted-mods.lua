@@ -471,7 +471,6 @@ function mario_update(m)
         if m.action == ACT_BURNING_GROUND then
             if (m.controller.buttonPressed & Z_TRIG) ~= 0 then
                 burn_press = burn_press + 1
-                print("" ..burn_press.. "")
                 m.particleFlags = m.particleFlags | PARTICLE_DUST
                 play_sound(SOUND_GENERAL_FLAME_OUT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
             end
