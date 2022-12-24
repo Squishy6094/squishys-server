@@ -340,41 +340,142 @@ function displaymenu()
     end
 end
 
-
---Reminder to fix this, it's broken :(
-function before_update_toggle(OptionTabRequirement, OptionHoverRequirement, SyncTableToggle, StorageName)
-    local m = gMarioStates[0]
-    if optionTab == OptionTabRequirement and optionHover == OptionHoverRequirement then
-        if optionHoverCanMove then
-            if SyncTableToggle and (m.controller.buttonDown & A_BUTTON) ~= 0 then
-                SyncTableToggle = false
-                if StorageName ~= nil then mod_storage_save(StorageName, "false") end
-                optionHoverCanMove = false
-            elseif (not SyncTableToggle) and (m.controller.buttonDown & A_BUTTON) ~= 0 then
-                SyncTableToggle = true
-                if StorageName ~= nil then mod_storage_save(StorageName, "true") end
-                optionHoverCanMove = true
-            end
-        end
-    end
-end
-
 function before_update(m)
-    if menu and m.playerIndex == 0 then
-        before_update_toggle(1, 1, gPlayerSyncTable[m.playerIndex].LGP, "LGPSave")
-        before_update_toggle(1, 2, gPlayerSyncTable[m.playerIndex].AQS, "AQSSave")
-        before_update_toggle(1, 3, gPlayerSyncTable[m.playerIndex].wallSlide, "WKSave")
-        before_update_toggle(2, 1, gPlayerSyncTable[m.playerIndex].radarToggle, "CRSave")
-        before_update_toggle(2, 2, gPlayerSyncTable[m.playerIndex].capTimerToggle, "CTSave")
-        before_update_toggle(2, 3, gPlayerSyncTable[m.playerIndex].notif, "notifSave")
-        before_update_toggle(3, 1, gPlayerSyncTable[m.playerIndex].Descriptions, "DescSave")
-        before_update_toggle(3, 2, gPlayerSyncTable[m.playerIndex].SSC, "SSCSave")
-        before_update_toggle(4, 1, gGlobalSyncTable.bubbleDeath)
-
-
-
+    if menu == true and m.playerIndex == 0 then
         if optionHoverCanMove == true then
-            if optionTab == 4 then
+            if optionTab == 1 then
+                if optionHover == 1 then
+                    if gPlayerSyncTable[m.playerIndex].LGP == true then
+                        if m.controller.buttonDown & A_BUTTON ~= 0 then
+                            gPlayerSyncTable[m.playerIndex].LGP = false
+                            mod_storage_save("LGPSave", "false")
+                            optionHoverCanMove = false
+                        end
+                    elseif gPlayerSyncTable[m.playerIndex].LGP == false then
+                        if m.controller.buttonDown & A_BUTTON ~= 0 then
+                            gPlayerSyncTable[m.playerIndex].LGP = true
+                            mod_storage_save("LGPSave", "true")
+                            optionHoverCanMove = false
+                        end
+                    end
+                elseif optionHover == 2 then
+                    if gPlayerSyncTable[m.playerIndex].AQS == true and gGlobalSyncTable.GlobalAQS == true then
+                        if m.controller.buttonDown & A_BUTTON ~= 0 then
+                            gPlayerSyncTable[m.playerIndex].AQS = false
+                            mod_storage_save("AQSSave", "false")
+                            optionHoverCanMove = false
+                        end
+                    elseif gPlayerSyncTable[m.playerIndex].AQS == false and gGlobalSyncTable.GlobalAQS == true then
+                        if m.controller.buttonDown & A_BUTTON ~= 0 then
+                            gPlayerSyncTable[m.playerIndex].AQS = true
+                            mod_storage_save("AQSSave", "true")
+                            optionHoverCanMove = false
+                        end
+                    end
+                elseif optionHover == 3 then
+                    if gPlayerSyncTable[0].wallSlide == true then
+                        if m.controller.buttonDown & A_BUTTON ~= 0 then
+                            gPlayerSyncTable[0].wallSlide = false
+                            mod_storage_save("WKSave", "false")
+                            optionHoverCanMove = false
+                        end
+                    elseif gPlayerSyncTable[0].wallSlide == false then
+                        if m.controller.buttonDown & A_BUTTON ~= 0 then
+                            gPlayerSyncTable[0].wallSlide = true
+                            mod_storage_save("WKSave", "true")
+                            optionHoverCanMove = false
+                        end
+                    end
+                end
+            elseif optionTab == 2 then
+                if optionHover == 1 then
+                    if gPlayerSyncTable[m.playerIndex].radarToggle == true then
+                        if m.controller.buttonDown & A_BUTTON ~= 0 then
+                            gPlayerSyncTable[m.playerIndex].radarToggle = false
+                            mod_storage_save("CRSave", "false")
+                            optionHoverCanMove = false
+                        end
+                    elseif gPlayerSyncTable[m.playerIndex].radarToggle == false then
+                        if m.controller.buttonDown & A_BUTTON ~= 0 then
+                            gPlayerSyncTable[m.playerIndex].radarToggle = true
+                            mod_storage_save("CRSave", "true")
+                            optionHoverCanMove = false
+                        end
+                    end
+                elseif optionHover == 2 then
+                    if gPlayerSyncTable[m.playerIndex].capTimerToggle == true then
+                        if m.controller.buttonDown & A_BUTTON ~= 0 then
+                            gPlayerSyncTable[m.playerIndex].capTimerToggle = false
+                            mod_storage_save("CTSave", "false")
+                            optionHoverCanMove = false
+                        end
+                    elseif gPlayerSyncTable[m.playerIndex].capTimerToggle == false then
+                        if m.controller.buttonDown & A_BUTTON ~= 0 then
+                            gPlayerSyncTable[m.playerIndex].capTimerToggle = true
+                            mod_storage_save("CTSave", "true")
+                            optionHoverCanMove = false
+                        end
+                    end
+                elseif optionHover == 3 then
+                    if gPlayerSyncTable[m.playerIndex].notif == true then
+                        if m.controller.buttonDown & A_BUTTON ~= 0 then
+                            gPlayerSyncTable[m.playerIndex].notif = false
+                            mod_storage_save("notifSave", "false")
+                            optionHoverCanMove = false
+                        end
+                    elseif gPlayerSyncTable[m.playerIndex].notif == false then
+                        if m.controller.buttonDown & A_BUTTON ~= 0 then
+                            gPlayerSyncTable[m.playerIndex].notif = true
+                            mod_storage_save("notifSave", "true")
+                            optionHoverCanMove = false
+                        end
+                    end
+                end
+            elseif optionTab == 3 then
+                if optionHover == 1 then
+                    if gPlayerSyncTable[m.playerIndex].CMDToggle == true then
+                        if m.controller.buttonDown & A_BUTTON ~= 0 then
+                            gPlayerSyncTable[m.playerIndex].CMDToggle = false
+                            mod_storage_save("CMDSave", "false")
+                            optionHoverCanMove = false
+                        end
+                    elseif gPlayerSyncTable[m.playerIndex].CMDToggle == false then
+                        if m.controller.buttonDown & A_BUTTON ~= 0 then
+                            gPlayerSyncTable[m.playerIndex].CMDToggle = true
+                            mod_storage_save("CMDSave", "true")
+                            optionHoverCanMove = false
+                        end
+                    end
+                elseif optionHover == 2 then
+                    if gPlayerSyncTable[m.playerIndex].Descriptions == true then
+                        if m.controller.buttonDown & A_BUTTON ~= 0 then
+                            gPlayerSyncTable[m.playerIndex].Descriptions = false
+                            mod_storage_save("DescSave", "false")
+                            optionHoverCanMove = false
+                        end
+                    elseif gPlayerSyncTable[m.playerIndex].Descriptions == false then
+                        if m.controller.buttonDown & A_BUTTON ~= 0 then
+                            gPlayerSyncTable[m.playerIndex].Descriptions = true
+                            mod_storage_save("DescSave", "true")
+                            optionHoverCanMove = false
+                        end
+                    end
+                elseif optionHover == 3 then
+                    if gPlayerSyncTable[m.playerIndex].SSC == true then
+                        if m.controller.buttonDown & A_BUTTON ~= 0 then
+                            gPlayerSyncTable[m.playerIndex].SSC = false
+                            mod_storage_save("SSCSave", "false")
+                            optionHoverCanMove = false
+                        end
+                    elseif gPlayerSyncTable[m.playerIndex].SSC == false then
+                        if m.controller.buttonDown & A_BUTTON ~= 0 then
+                            gPlayerSyncTable[m.playerIndex].SSC = true
+                            mod_storage_save("SSCSave", "true")
+                            optionHoverCanMove = false
+                        end
+                    end
+                end
+            elseif optionTab == 4 then
                 if optionHover == 1 then
                     if gGlobalSyncTable.bubbleDeath == 1 then
                         if m.controller.buttonDown & A_BUTTON ~= 0 then
@@ -545,13 +646,15 @@ function on_player_connected(m)
 
     if mod_storage_load("CRSave") == "true" then
         gPlayerSyncTable[m.playerIndex].radarToggle = true
+        gPlayerSyncTable[m.playerIndex].capTimerToggle = true
     elseif mod_storage_load("CRSave") == "false" then
         gPlayerSyncTable[m.playerIndex].radarToggle = false
-    end
-
-    if mod_storage_load("CTSave") == "true" then
+        gPlayerSyncTable[m.playerIndex].capTimerToggle = false
+    elseif mod_storage_load("CRSave") == "cap" then
+        gPlayerSyncTable[m.playerIndex].radarToggle = false
         gPlayerSyncTable[m.playerIndex].capTimerToggle = true
-    elseif mod_storage_load("CTSave") == "false" then
+    elseif mod_storage_load("CRSave") == "radar" then
+        gPlayerSyncTable[m.playerIndex].radarToggle = true
         gPlayerSyncTable[m.playerIndex].capTimerToggle = false
     end
 
