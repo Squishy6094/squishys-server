@@ -613,6 +613,7 @@ end
 -----------------
 
 local msgtimer = -10
+local lastpopupnum = 0
 print("Connected to Server")
 
 function mario_update_msgtimer(m)
@@ -623,26 +624,33 @@ function mario_update_msgtimer(m)
         else
             djui_popup_create("Thanks For Joining\n\\#005500\\Squishy's Server\\#dddddd\\,\nEnjoy your Stay!",3)
         end
+        popupnum = math.random(1,11)
     end
-    popupnum = math.random(1,12)
     if msgtimer >= math.random(72000,1080000) and gPlayerSyncTable[m.playerIndex].notif == true then
-        msgtimer = 0 
+        msgtimer = 0
+        popupnum = math.random(1,11)
+        if lastpopupnum == popupnum then
+            popupnum = math.random(1,11)
+        end
+        lastpopupnum = popupnum
         if popupnum >= 1 and popupnum <= 3 then
             djui_popup_create("Thanks For Playing on\n\\#005500\\Squishy's Server\\#dddddd\\!",2)
         elseif popupnum == 4 then
-            djui_popup_create('You can turn off custom wallkicks in the Server Options',2)
+            djui_popup_create('Custom Moves hindering your\ngameplay? You can turn them\noff under the Movesets tab\nin the Server Options!',4)
         elseif popupnum == 5 then
             djui_popup_create('This game is brought to you by \nThe QOL Mod Creators!',3)
         elseif popupnum == 6 then
-            djui_popup_create('These messages pop-up every 4-6 minutes, You can turn them off in the Server Options',3)
+            djui_popup_create('These messages pop-up every 4-6 minutes, You can turn them off\nin the Server Options',3)
         elseif popupnum == 7 then
-            djui_popup_create("Remember to tip your hosts folks,\nThey won't get their pay any other way!",3)
+            djui_popup_create("Remember to tip your hosts folks,\nThey won't get their pay\nany other way!",3)
         elseif popupnum == 8 then
             djui_popup_create("If you get knocked back, you can\npress Z when you hit the ground to\nTech and get right back up",3)
         elseif popupnum == 9 then
-            djui_popup_create("Hate all the HUD clutter? You can toggle off Extra Hud Elements in the Server Options",3)
-        elseif popupnum == 9 then
-            djui_popup_create("Not seeing an added feature shown in the changelog? Delete your Mod Cashe and Rejoin the Room!",3)
+            djui_popup_create("Hate all the HUD clutter? You can toggle off Extra Hud Elements\nin the Server Options",3)
+        elseif popupnum == 10 then
+            djui_popup_create("Not seeing an added feature shown\nin the changelog? Delete your\nMod Cashe and Rejoin the Room!",3)
+        elseif popupnum == 11 then
+            djui_popup_create("You can get though a door\nquicker if you kick it down!",2)
         end
     end
 end
