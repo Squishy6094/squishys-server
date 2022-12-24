@@ -44,6 +44,12 @@ function hud_print_toggle_status(SyncTable)
         elseif not SyncTable then
             djui_hud_print_text("Off", ((djui_hud_get_screen_width()/2) + 70), 70 + (optionHover * 10), 0.3)
         end
+    elseif optionTab == 2 and optionHover == 3 then
+        if SyncTable then
+            djui_hud_print_text("On", (djui_hud_get_screen_width()/2), 70 + (optionHover * 10 - 10), 0.3)
+        elseif not SyncTable then
+            djui_hud_print_text("Off", (djui_hud_get_screen_width()/2), 70 + (optionHover * 10 - 10), 0.3)
+        end
     else
         if SyncTable then
             djui_hud_print_text("On", ((djui_hud_get_screen_width()/2)), 70 + (optionHover * 10), 0.3)
@@ -278,8 +284,8 @@ function displaymenu()
             end
         elseif optionTab == 3 then
             if optionHover < 1 then
-                optionHover = 3
-            elseif  optionHover > 3 then
+                optionHover = 2
+            elseif  optionHover > 2 then
                 optionHover = 1
             end
             djui_hud_set_color(150, 150, 150, 255)
@@ -433,20 +439,6 @@ function before_update(m)
                 end
             elseif optionTab == 3 then
                 if optionHover == 1 then
-                    if gPlayerSyncTable[m.playerIndex].CMDToggle == true then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gPlayerSyncTable[m.playerIndex].CMDToggle = false
-                            mod_storage_save("CMDSave", "false")
-                            optionHoverCanMove = false
-                        end
-                    elseif gPlayerSyncTable[m.playerIndex].CMDToggle == false then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gPlayerSyncTable[m.playerIndex].CMDToggle = true
-                            mod_storage_save("CMDSave", "true")
-                            optionHoverCanMove = false
-                        end
-                    end
-                elseif optionHover == 2 then
                     if gPlayerSyncTable[m.playerIndex].Descriptions == true then
                         if m.controller.buttonDown & A_BUTTON ~= 0 then
                             gPlayerSyncTable[m.playerIndex].Descriptions = false
@@ -460,7 +452,7 @@ function before_update(m)
                             optionHoverCanMove = false
                         end
                     end
-                elseif optionHover == 3 then
+                elseif optionHover == 2 then
                     if gPlayerSyncTable[m.playerIndex].SSC == true then
                         if m.controller.buttonDown & A_BUTTON ~= 0 then
                             gPlayerSyncTable[m.playerIndex].SSC = false
