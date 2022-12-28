@@ -837,7 +837,17 @@ function on_set_mario_action(m)
     end
 end
 
+coins = 0
 function update()
+    local hudCoins = hud_get_value(HUD_DISPLAY_COINS)
+    if coins ~= hudCoins then
+        if gServerSettings.stayInLevelAfterStar > 0 and hudCoins >= (gLevelValues.coinsRequiredForCoinStar/2) and hudCoins % (gLevelValues.coinsRequiredForCoinStar/2) == 0 and coins ~= hudCoins then
+            coins = hudCoins
+            gMarioStates[0].numLives = gMarioStates[0].numLives + 1
+            play_sound(SOUND_GENERAL_COLLECT_1UP, gMarioStates[0].marioObj.header.gfx.cameraToObject)
+        end
+    end
+
     ---@type MarioState
     local m = gMarioStates[0]
     ---@type Camera
