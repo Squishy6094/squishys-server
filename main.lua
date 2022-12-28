@@ -246,8 +246,16 @@ function displayrules(m)
             color
         },
         {
-            "Remove Star Spawn Cutscene",
+            "Remove SSC",
             -150,
+            250,
+            globalFont,
+            0.8,
+            color
+        },
+        {
+            "Game Over Savior",
+            0,
             250,
             globalFont,
             0.8,
