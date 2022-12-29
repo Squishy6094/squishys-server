@@ -221,30 +221,42 @@ function displaymenu()
         
         if optionTab == 1 then
             if optionHover < 1 then
-                optionHover = 3
-            elseif  optionHover > 3 then
+                optionHover = 4
+            elseif  optionHover > 4 then
                 optionHover = 1
             end
             djui_hud_set_color(150, 150, 150, 255)
             djui_hud_render_rect(((djui_hud_get_screen_width()/2) - 72), 80 + (optionHover * 10 - 10), 70, 9)
 
             djui_hud_set_color(255, 255, 255, 255)
-            djui_hud_print_text("Lava Groundpound", ((djui_hud_get_screen_width()/2) - 70), 80, 0.3)
+            djui_hud_print_text("Moveset", ((djui_hud_get_screen_width()/2) - 70), 80, 0.3)
             if optionHover == 1 then
+                hud_print_description("Movesets:", "Change small things about","how Mario moves to make","movement feel better")
+                hud_print_unique_toggle_status(gPlayerSyncTable[m.playerIndex].moveset, "Default", "Character", "QOL")
+                if gPlayerSyncTable[m.playerIndex].moveset == 0 then
+                    hud_print_description("","","","","","Default:","Just the good ol' SM64", "movement everyone knows","and loves!")
+                elseif gPlayerSyncTable[m.playerIndex].moveset == 1 then
+                    hud_print_description("","","","","","Character Moveset:","Changes your movement based", "on which Character you're","playing as.")
+                elseif gPlayerSyncTable[m.playerIndex].moveset == 2 then
+                    hud_print_description("","","","","","Quality of Life Moveset:","Adds QOL Moves like the", "The Groundpound Jump,","Groundpound Dive, Spin-Pound,", "Water-Pound, etc.")
+                end
+            end
+            djui_hud_print_text("Lava Groundpound", ((djui_hud_get_screen_width()/2) - 70), 90, 0.3)
+            if optionHover == 2 then
                 hud_print_description("Lava Groundpound:", "Ground-Pounding on lava will","give you a speed and height","boost, at the cost of health.")
                 hud_print_toggle_status(gPlayerSyncTable[m.playerIndex].LGP)
             end
-            djui_hud_print_text("Anti-Quicksand", ((djui_hud_get_screen_width()/2) - 70), 90, 0.3)
-            if optionHover == 2 then
+            djui_hud_print_text("Anti-Quicksand", ((djui_hud_get_screen_width()/2) - 70), 100, 0.3)
+            if optionHover == 3 then
                 hud_print_description("Anti-Quicksand:", "Makes instant quicksand act","like lava, preventing what","may seem like an unfair","deaths. (Does not include","Lava Groundpound functions)")
                 if gGlobalSyncTable.GlobalAQS == true then
                     hud_print_toggle_status(gPlayerSyncTable[m.playerIndex].AQS)
                 else
-                    djui_hud_print_text("Forced Off", ((djui_hud_get_screen_width()/2)), 90, 0.3)
+                    djui_hud_print_text("Forced Off", ((djui_hud_get_screen_width()/2)), 100, 0.3)
                 end
             end
-            djui_hud_print_text("Modded Wallkick", ((djui_hud_get_screen_width()/2) - 70), 100, 0.3)
-            if optionHover == 3 then
+            djui_hud_print_text("Modded Wallkick", ((djui_hud_get_screen_width()/2) - 70), 110, 0.3)
+            if optionHover == 4 then
                 hud_print_description("Modded Wallkick:", "Adds Wallsliding and more","lenient angles you can wall","kick at, best for a more","modern experience.")
                 hud_print_toggle_status(gPlayerSyncTable[0].wallSlide)
             end
@@ -351,6 +363,26 @@ function before_update(m)
         if optionHoverCanMove == true then
             if optionTab == 1 then
                 if optionHover == 1 then
+                    if gPlayerSyncTable[m.playerIndex].moveset == 0 then
+                        if m.controller.buttonDown & A_BUTTON ~= 0 then
+                            gPlayerSyncTable[m.playerIndex].moveset = 1
+                            mod_storage_save("MoveSave", "1")
+                            optionHoverCanMove = false
+                        end
+                    elseif gPlayerSyncTable[m.playerIndex].moveset == 1 then
+                        if m.controller.buttonDown & A_BUTTON ~= 0 then
+                            gPlayerSyncTable[m.playerIndex].moveset = 2
+                            mod_storage_save("MoveSave", "2")
+                            optionHoverCanMove = false
+                        end
+                    elseif gPlayerSyncTable[m.playerIndex].moveset == 2 then
+                        if m.controller.buttonDown & A_BUTTON ~= 0 then
+                            gPlayerSyncTable[m.playerIndex].moveset = 0
+                            mod_storage_save("MoveSave", "0")
+                            optionHoverCanMove = false
+                        end
+                    end
+                elseif optionHover == 2 then
                     if gPlayerSyncTable[m.playerIndex].LGP == true then
                         if m.controller.buttonDown & A_BUTTON ~= 0 then
                             gPlayerSyncTable[m.playerIndex].LGP = false
@@ -364,7 +396,7 @@ function before_update(m)
                             optionHoverCanMove = false
                         end
                     end
-                elseif optionHover == 2 then
+                elseif optionHover == 3 then
                     if gPlayerSyncTable[m.playerIndex].AQS == true and gGlobalSyncTable.GlobalAQS == true then
                         if m.controller.buttonDown & A_BUTTON ~= 0 then
                             gPlayerSyncTable[m.playerIndex].AQS = false
@@ -378,7 +410,7 @@ function before_update(m)
                             optionHoverCanMove = false
                         end
                     end
-                elseif optionHover == 3 then
+                elseif optionHover == 4 then
                     if gPlayerSyncTable[0].wallSlide == true then
                         if m.controller.buttonDown & A_BUTTON ~= 0 then
                             gPlayerSyncTable[0].wallSlide = false
@@ -569,6 +601,11 @@ function before_update(m)
 end
 
 -- Toggle Saves --
+if mod_storage_load("MoveSave") == nil then
+    print("'Moveset' not found in 'squishys-server.sav', set to default 'default'")
+    mod_storage_save("MoveSave", "0")
+end
+
 if mod_storage_load("LGPSave") == nil then
     print("'Lava Groundpound' not found in 'squishys-server.sav', set to default 'on'")
     mod_storage_save("LGPSave", "true")
@@ -617,6 +654,9 @@ print("Saving configuration to 'squishys-server.sav'")
 
 
 function on_player_connected(m)
+
+    gPlayerSyncTable[m.playerIndex].moveset = tonumber(mod_storage_load("MoveSave"))
+
     if mod_storage_load("LGPSave") == "true" then
         gPlayerSyncTable[m.playerIndex].LGP = true
     elseif mod_storage_load("LGPSave") == "false" then
