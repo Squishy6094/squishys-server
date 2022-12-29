@@ -7,7 +7,7 @@ gGlobalSyncTable.pausetimerS2Digit = 0
 gGlobalSyncTable.pausetimerM2Digit = 0
 gGlobalSyncTable.pausetimerH2Digit = 0
 
-gGlobalSyncTable.bubbleDeath = gServerSettings.bubbleDeath
+gGlobalSyncTable.bubbleDeath = 2
 gGlobalSyncTable.playerInteractions = gServerSettings.playerInteractions
 gGlobalSyncTable.playerKnockbackStrength = gServerSettings.playerKnockbackStrength
 gGlobalSyncTable.shareLives = gServerSettings.shareLives
