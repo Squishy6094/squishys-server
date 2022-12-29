@@ -13,6 +13,8 @@ gGlobalSyncTable.playerKnockbackStrength = gServerSettings.playerKnockbackStreng
 gGlobalSyncTable.shareLives = gServerSettings.shareLives
 gGlobalSyncTable.skipIntro = gServerSettings.skipIntro
 gGlobalSyncTable.stayInLevelAfterStar = gServerSettings.stayInLevelAfterStar
+gGlobalSyncTable.GlobalAQS = 1
+gGlobalSyncTable.GlobalMoveset = 1
 
 local menu = false
 local optionHover = 1
@@ -236,7 +238,12 @@ function displaymenu()
             djui_hud_print_text("Moveset", ((djui_hud_get_screen_width()/2) - 70), 80, 0.3)
             if optionHover == 1 then
                 hud_print_description("Movesets:", "Change small things about","how Mario moves to make","movement feel better")
-                hud_print_unique_toggle_status(gPlayerSyncTable[m.playerIndex].moveset, "Default", "Character", "QOL")
+                if gGlobalSyncTable.GlobalMoveset then
+                    hud_print_unique_toggle_status(gPlayerSyncTable[m.playerIndex].moveset, "Default", "Character", "QOL")
+                else
+                    djui_hud_print_text("Forced Off", ((djui_hud_get_screen_width()/2)), 80, 0.3)
+                end
+                
                 if gPlayerSyncTable[m.playerIndex].moveset == 0 then
                     hud_print_description("","","","","","Default:","Just the good ol' SM64", "movement everyone knows","and loves!")
                 elseif gPlayerSyncTable[m.playerIndex].moveset == 1 then
@@ -320,8 +327,8 @@ function displaymenu()
             end
         elseif optionTab == 4 then
             if optionHover < 1 then
-                optionHover = 6
-            elseif  optionHover > 6 then
+                optionHover = 7
+            elseif  optionHover > 7 then
                 optionHover = 1
             end
             djui_hud_set_color(150, 150, 150, 255)
@@ -353,33 +360,38 @@ function displaymenu()
                 hud_print_description("On Star Collection:", "Determines what happens","after you collect a star.")
                 hud_print_unique_toggle_status(gGlobalSyncTable.stayInLevelAfterStar, "Leave Level", "Stay in Level", "Non-Stop")
             end
-            djui_hud_print_text("Global Anti-Quicksand", ((djui_hud_get_screen_width()/2) - 70), 130, 0.3)
+            djui_hud_print_text("Global Movesets", ((djui_hud_get_screen_width()/2) - 70), 130, 0.3)
             if optionHover == 6 then
+                hud_print_description("Global Movesets:", "Determines if players can","locally change what moveset","they're using, Off forces","everyone to default.")
+                hud_print_toggle_status(gGlobalSyncTable.GlobalMoveset)
+            end
+            djui_hud_print_text("Global Anti-Quicksand", ((djui_hud_get_screen_width()/2) - 70), 140, 0.3)
+            if optionHover == 7 then
                 hud_print_description("Global Anti-Quicksand:", "Determines if players can","locally change AQS or if","it's forced off.")
-                hud_print_toggle_status(gGlobalSyncTable.stayInLevelAfterStar)
+                hud_print_toggle_status(gGlobalSyncTable.GlobalAQS)
             end
         end
     end
 end
 
 function before_update(m)
-    if menu == true and m.playerIndex == 0 then
-        if optionHoverCanMove == true then
+    if menu and m.playerIndex == 0 then
+        if optionHoverCanMove then
             if optionTab == 1 then
                 if optionHover == 1 then
-                    if gPlayerSyncTable[m.playerIndex].moveset == 0 then
+                    if gPlayerSyncTable[m.playerIndex].moveset == 0 and gGlobalSyncTable.GlobalMoveset then
                         if m.controller.buttonDown & A_BUTTON ~= 0 then
                             gPlayerSyncTable[m.playerIndex].moveset = 1
                             mod_storage_save("MoveSave", "1")
                             optionHoverCanMove = false
                         end
-                    elseif gPlayerSyncTable[m.playerIndex].moveset == 1 then
+                    elseif gPlayerSyncTable[m.playerIndex].moveset == 1 and gGlobalSyncTable.GlobalMoveset then
                         if m.controller.buttonDown & A_BUTTON ~= 0 then
                             gPlayerSyncTable[m.playerIndex].moveset = 2
                             mod_storage_save("MoveSave", "2")
                             optionHoverCanMove = false
                         end
-                    elseif gPlayerSyncTable[m.playerIndex].moveset == 2 then
+                    elseif gPlayerSyncTable[m.playerIndex].moveset == 2 and gGlobalSyncTable.GlobalMoveset then
                         if m.controller.buttonDown & A_BUTTON ~= 0 then
                             gPlayerSyncTable[m.playerIndex].moveset = 0
                             mod_storage_save("MoveSave", "0")
@@ -401,13 +413,13 @@ function before_update(m)
                         end
                     end
                 elseif optionHover == 3 then
-                    if gPlayerSyncTable[m.playerIndex].AQS == true and gGlobalSyncTable.GlobalAQS == true then
+                    if gPlayerSyncTable[m.playerIndex].AQS == true and gGlobalSyncTable.GlobalAQS then
                         if m.controller.buttonDown & A_BUTTON ~= 0 then
                             gPlayerSyncTable[m.playerIndex].AQS = false
                             mod_storage_save("AQSSave", "false")
                             optionHoverCanMove = false
                         end
-                    elseif gPlayerSyncTable[m.playerIndex].AQS == false and gGlobalSyncTable.GlobalAQS == true then
+                    elseif gPlayerSyncTable[m.playerIndex].AQS == false and gGlobalSyncTable.GlobalAQS then
                         if m.controller.buttonDown & A_BUTTON ~= 0 then
                             gPlayerSyncTable[m.playerIndex].AQS = true
                             mod_storage_save("AQSSave", "true")
@@ -585,6 +597,19 @@ function before_update(m)
                         end
                     end
                 elseif optionHover == 6 then
+                    if gGlobalSyncTable.GlobalMoveset == 1 then
+                        if m.controller.buttonDown & A_BUTTON ~= 0 then
+                            gGlobalSyncTable.GlobalMoveset = 0
+                            print("Works")
+                            optionHoverCanMove = false
+                        end
+                    elseif gGlobalSyncTable.GlobalMoveset == 0 then
+                        if m.controller.buttonDown & A_BUTTON ~= 0 then
+                            gGlobalSyncTable.GlobalMoveset = 1
+                            optionHoverCanMove = false
+                        end
+                    end
+                elseif optionHover == 7 then
                     if gGlobalSyncTable.GlobalAQS == 1 then
                         if m.controller.buttonDown & A_BUTTON ~= 0 then
                             gGlobalSyncTable.GlobalAQS = 0
