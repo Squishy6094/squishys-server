@@ -310,6 +310,22 @@ local function on_interact(interactor, interactee, interactType, interactValue)
         - interactor.health * HP_TO_HEAL_COUNTER_UNITS_FACTOR
 end
 
+local Idiot = audio_stream_load("Idiot.mp3")
+local once
+local TECH_KB = {
+    [ACT_GROUND_BONK]             = ACT_BACKWARD_ROLLOUT,
+    [ACT_BACKWARD_GROUND_KB]      = ACT_BACKWARD_ROLLOUT,
+    [ACT_HARD_BACKWARD_GROUND_KB] = ACT_BACKWARD_ROLLOUT,
+    [ACT_HARD_FORWARD_GROUND_KB]  = ACT_FORWARD_ROLLOUT,
+    [ACT_FORWARD_GROUND_KB]       = ACT_FORWARD_ROLLOUT,
+    [ACT_DEATH_EXIT_LAND]         = ACT_BACKWARD_ROLLOUT,
+  
+}
+local tech_tmr = 0
+local burn_press = 0
+local slopetimer = 0
+
+z = 0
 --Teching hook mario action--
 
 local function localtechaction(m)
