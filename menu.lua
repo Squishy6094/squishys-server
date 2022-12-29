@@ -75,7 +75,11 @@ function mario_update(m)
         gGlobalSyncTable.pausetimerF = gGlobalSyncTable.pausetimerF + 1
     end
 
-    gServerSettings.bubbleDeath = gGlobalSyncTable.bubbleDeath
+    if gGlobalSyncTable.bubbleDeath ~= 2 then
+        gServerSettings.bubbleDeath = gGlobalSyncTable.bubbleDeath
+    else 
+        gServerSettings.bubbleDeath = 0
+    end
     gServerSettings.playerInteractions = gGlobalSyncTable.playerInteractions
     gServerSettings.playerKnockbackStrength = gGlobalSyncTable.playerKnockbackStrength
     gServerSettings.shareLives = gGlobalSyncTable.shareLives
@@ -501,14 +505,19 @@ function before_update(m)
                 end
             elseif optionTab == 4 then
                 if optionHover == 1 then
-                    if gGlobalSyncTable.bubbleDeath == 1 then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gGlobalSyncTable.bubbleDeath = 0
-                            optionHoverCanMove = false
-                        end
-                    elseif gGlobalSyncTable.bubbleDeath == 0 then
+                    if gGlobalSyncTable.bubbleDeath == 0 then
                         if m.controller.buttonDown & A_BUTTON ~= 0 then
                             gGlobalSyncTable.bubbleDeath = 1
+                            optionHoverCanMove = false
+                        end
+                    elseif gGlobalSyncTable.bubbleDeath == 1 then
+                        if m.controller.buttonDown & A_BUTTON ~= 0 then
+                            gGlobalSyncTable.bubbleDeath = 2
+                            optionHoverCanMove = false
+                        end
+                    elseif gGlobalSyncTable.bubbleDeath == 2 then
+                        if m.controller.buttonDown & A_BUTTON ~= 0 then
+                            gGlobalSyncTable.bubbleDeath = 0
                             optionHoverCanMove = false
                         end
                     end
