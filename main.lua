@@ -270,6 +270,14 @@ function displayrules(m)
             color
         },
         {
+            "Downing",
+            -150,
+            270,
+            globalFont,
+            0.8,
+            color
+        },
+        {
             "Anti Quicksand",
             0,
             270,
