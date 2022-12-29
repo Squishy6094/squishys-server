@@ -190,14 +190,6 @@ function displayrules(m)
             color
         },
         {
-            "AFK Command",
-            150,
-            190,
-            globalFont,
-            0.8,
-            color
-        },
-        {
             "60 Degree Wallkicks",
             150,
             210,

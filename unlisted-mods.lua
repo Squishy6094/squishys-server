@@ -310,29 +310,6 @@ local function on_interact(interactor, interactee, interactType, interactValue)
         - interactor.health * HP_TO_HEAL_COUNTER_UNITS_FACTOR
 end
 
---AFK Command--
-
-local timer = 0
-isAFK = false
-isAFKWater = false
-gGlobalSyncTable.CanAFK = true
-local Idiot = audio_stream_load("Idiot.mp3")
-local once
-local TECH_KB = {
-    [ACT_GROUND_BONK]             = ACT_BACKWARD_ROLLOUT,
-    [ACT_BACKWARD_GROUND_KB]      = ACT_BACKWARD_ROLLOUT,
-    [ACT_HARD_BACKWARD_GROUND_KB] = ACT_BACKWARD_ROLLOUT,
-    [ACT_HARD_FORWARD_GROUND_KB]  = ACT_FORWARD_ROLLOUT,
-    [ACT_FORWARD_GROUND_KB]       = ACT_FORWARD_ROLLOUT,
-    [ACT_DEATH_EXIT_LAND]         = ACT_BACKWARD_ROLLOUT,
-  
-}
-local tech_tmr = 0
-local burn_press = 0
-local slopetimer = 0
-
-z = 0
-
 --Teching hook mario action--
 
 local function localtechaction(m)
@@ -415,85 +392,6 @@ id_bhvBrokenDoor = hook_behavior(nil, OBJ_LIST_GENACTOR, true, bhv_broken_door_i
 extraVel = 0
 --- @param m MarioState
 function mario_update(m)
-      -- AFK Command Behavior
-      if m.playerIndex ~= 0 then return end
-      
-      if isAFK then
-        m.freeze = true
-        m.flags = m.flags | MARIO_VANISH_CAP
-        set_mario_action(m, ACT_SLEEPING, 0)
-        timer = 0
-    end
-
-    if isAFKWater then
-        m.freeze = true
-        m.faceAngle.y = m.intendedYaw
-        m.flags = m.flags | MARIO_VANISH_CAP
-        timer = 0
-    end
-
-          -- if AFK is disabled
-          if timer >= 1 then
-            set_mario_action(m, ACT_WAKING_UP, 0)
-            m.flags = m.flags & ~MARIO_VANISH_CAP
-            timer = 0
-       end
-
-       if (m.input & INPUT_IN_WATER) ~= 0 and isAFK == true then
-            isAFK = false
-            isAFKWater = true
-       end
-
-         -- Dying
-    if m.action == ACT_BUBBLED then
-        isAFK = false
-        isAFKWater = false
-    end
-
-    if m.action == ACT_STANDING_DEATH then
-        isAFK = false
-        isAFKWater = false
-    end
-
-    if m.action == ACT_WATER_DEATH then
-        isAFK = false
-        isAFKWater = false
-    end
-
-    if m.action == ACT_DROWNING then
-        isAFK = false
-        isAFKWater = false
-    end
-
-    if m.action == ACT_QUICKSAND_DEATH then
-        isAFK = false
-        isAFKWater = false
-    end
-
-    if gGlobalSyncTable.CanAFK == false then
-        isAFK = false
-        isAFKWater = false
-    end
-
-    --PUDisable--
-
-    if m.pos.x >= 0 then
-        puX = math.floor((8192 + m.pos.x) / 65536)
-    else
-        puX = math.ceil((-8192 + m.pos.x) / 65536)
-    end
-
-    if m.pos.z >= 0 then
-        puZ = math.floor((8192 + m.pos.z) / 65536)
-    else
-        puZ = math.ceil((-8192 + m.pos.z) / 65536)
-    end
-
-    if (puX ~= 0) or (puZ ~= 0) then
-        warp_restart_level()
-        audio_stream_play(Idiot, false, 1)
-    end
-
     --Preview Blue Coins--
 
     if m.playerIndex ~= 0 then
@@ -757,43 +655,6 @@ function on_exclude_levels_command(msg)
         djui_chat_message_create("Exclude Levels status: \\ff0000\\OFF")
     end
     return true
-end
-
--- AFK Command and mess
-function AFK(msg)
-
-    if msg == "on" and gGlobalSyncTable.CanAFK == true then
-        isAFK = true
-        play_sound(SOUND_GENERAL_COIN, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-    return true
-    elseif msg == "off" and isAFK == true then
-        isAFK = false
-        play_sound(SOUND_GENERAL_COIN, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-        timer = timer + 1
-        return true
-    elseif msg == "off" and isAFK == false and isAFKWater == true then
-        isAFKWater = false
-        play_sound(SOUND_GENERAL_COIN, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-        timer = timer + 1
-        return true
-    elseif msg == "off" and isAFK == false then
-        play_sound(SOUND_MENU_CAMERA_BUZZ, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-        return true
-    elseif gGlobalSyncTable.CanAFK == false then
-        djui_chat_message_create("You cannot use this command right now")
-        play_sound(SOUND_MENU_CAMERA_BUZZ, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-        return true
-    end
-end
-
-function CANAFK(msg)
-    if msg == "on" then
-        gGlobalSyncTable.CanAFK = true
-    return true
-    elseif msg == "off" then
-        gGlobalSyncTable.CanAFK = false
-        return true
-    end
 end
 
 --Wallslide--
@@ -1296,7 +1157,6 @@ hook_event(HOOK_ON_LEVEL_INIT, on_level_init)
 hook_event(HOOK_ON_PAUSE_EXIT, on_pause_exit)
 
 if network_is_server() or network_is_moderator() then
-    hook_chat_command("canafk", "[on|off] Allow/Disallow players afking", CANAFK)
     hook_chat_command("bust-ex-levels", "[on|off] Exclude problematic levels in Door Bust", on_exclude_levels_command)
 end
     
