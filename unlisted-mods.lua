@@ -214,6 +214,81 @@ function display()
             djui_hud_render_texture(get_texture_info("capbox"), 21, 167 + capboxmove, 1, 1)
         end
     end
+
+    --Downing
+    if gGlobalSyncTable.bubbleDeath ~= 2 then return end
+    djui_hud_set_resolution(RESOLUTION_N64)
+    djui_hud_set_font(FONT_NORMAL)
+
+    local width = djui_hud_get_screen_width()
+    local height = djui_hud_get_screen_height()
+
+    local m = gMarioStates[0]
+    if m.action == _G.ACT_DOWN and not l4d2Hud then
+        djui_hud_set_resolution(RESOLUTION_N64)
+        djui_hud_set_font(FONT_HUD)
+        djui_hud_set_adjusted_color(255, 255, 255, 255)
+        djui_hud_print_text(tostring(math.floor(gPlayerSyncTable[0].downHealth)), width * 0.53, 32, 1)
+    end
+
+    local near = nearest_mario_state_to_object(m.marioObj)
+    if near ~= nil and active_player(near) ~= 0 and dist_between_objects(m.marioObj, near.marioObj) < 250 and near.action == _G.ACT_DOWN and m.action ~= _G.ACT_DOWN and (m.action & ACT_GROUP_MASK) ~= ACT_GROUP_CUTSCENE then
+        if not soundPlayed then
+            play_sound(SOUND_MENU_CHANGE_SELECT, m.marioObj.header.gfx.cameraToObject)
+            soundPlayed = true
+        end
+        if not (l4d2Hud and (m.controller.buttonDown & Z_TRIG) ~= 0) then
+            local text = "Help " .. name_without_hex(gNetworkPlayers[near.playerIndex].name) .. " up"
+            local out = { x = 0, y = 0, z = 0 }
+            djui_hud_world_pos_to_screen_pos(near.pos, out)
+            djui_hud_set_adjusted_color(0, 0, 0, 180)
+            djui_hud_print_text(text, out.x - (djui_hud_measure_text(text) * 0.5), out.y + 1, 0.5)
+            djui_hud_print_text(tostring(math.floor(reviveTimer / 30)), out.x - (djui_hud_measure_text(text) * 0.25), out.y + 13, 0.5)
+            djui_hud_set_adjusted_color(255, 255, 255, 255)
+            djui_hud_print_text(text, out.x - (djui_hud_measure_text(text) * 0.5), out.y, 0.5)
+            djui_hud_print_text(tostring(math.floor(reviveTimer / 30)), out.x - (djui_hud_measure_text(text) * 0.25), out.y + 12, 0.5)
+        end
+        if (m.controller.buttonDown & Z_TRIG) ~= 0 then
+            if reviveTimer > 0 then
+                reviveTimer = reviveTimer - 1
+                if l4d2Hud then
+                    width = (djui_hud_get_screen_width() * 0.5) + 3
+                    height = djui_hud_get_screen_height() * 0.5
+                    djui_hud_set_adjusted_color(77, 73, 79, 255)
+                    djui_hud_render_rect(width - 69, height - 18, 29, 29)
+                    djui_hud_render_rect(width - 41, height - 4, 118, 15)
+                    djui_hud_set_color(0, 0, 0, 255)
+                    djui_hud_render_rect(width - 68, height - 17, 27, 27)
+                    djui_hud_render_rect(width - 40, height - 3, 116, 13)
+                    -- text
+                    djui_hud_set_adjusted_color(255, 255, 255, 255)
+                    djui_hud_set_font(FONT_MENU)
+                    djui_hud_print_text("+", width - 67, height - 25, 0.6)
+                    djui_hud_set_font(FONT_NORMAL)
+                    djui_hud_set_color(0, 0, 0, 180)
+                    djui_hud_print_text("REVIVING PLAYER", width - 38, height - 20, 0.45)
+                    djui_hud_set_adjusted_color(255, 255, 255, 255)
+                    djui_hud_print_text("REVIVING PLAYER", width - 38, height - 21, 0.45)
+                    -- bar
+                    djui_hud_set_adjusted_color(221, 184, 64, 255)
+                    local fill = lerp(1.78, 0, (reviveTimer / reviveTime))
+                    djui_hud_render_texture(_G.l4dBarTexture, width - 39, height - 2, fill, 0.175)
+                end
+            else
+                reviveTimer = reviveTime
+                network_send(true, { id = PACKET_REVIVE, global = network_global_index_from_local(near.playerIndex), savior = gNetworkPlayers[0].globalIndex })
+            end
+        else
+            reviveTimer = reviveTime
+        end
+    else
+        soundPlayed = false
+    end
+
+    if m.action == _G.ACT_DOWN then
+        djui_hud_set_color(0, 0, 0, lerp(255, 0, gPlayerSyncTable[0].downHealth / 300))
+        djui_hud_render_rect(0, 0, width + 2, height + 2)
+    end
 end
 
 --Star Heal--
@@ -337,6 +412,7 @@ end
 
 id_bhvBrokenDoor = hook_behavior(nil, OBJ_LIST_GENACTOR, true, bhv_broken_door_init, bhv_broken_door_loop)
 
+extraVel = 0
 --- @param m MarioState
 function mario_update(m)
       -- AFK Command Behavior
@@ -617,6 +693,51 @@ function mario_update(m)
         set_camera_shake_from_hit(SHAKE_MED_DAMAGE)
         play_sound(SOUND_GENERAL_METAL_POUND, m.marioObj.header.gfx.cameraToObject)
     end
+
+    --Downing
+    if gGlobalSyncTable.bubbleDeath ~= 2 then return end
+    _G.downHealth[m.playerIndex] = gPlayerSyncTable[m.playerIndex].downHealth
+
+    if should_be_downed(m) and not (m.playerIndex == 0 and not gotUp) then
+        if m.action ~= _G.ACT_DOWN then play_character_sound(m, CHAR_SOUND_WAAAOOOW) end
+        m.action = _G.ACT_DOWN
+    end
+
+    if m.action == _G.ACT_DOWN then network_player_set_description(gNetworkPlayers[0], "Down", 255, 0, 0, 255) else network_player_set_description(gNetworkPlayers[0], "", 255, 255, 255, 255) end
+
+    if m.playerIndex ~= 0  then return end
+
+    if gGlobalSyncTable.customFallDamage then
+        m.peakHeight = m.pos.y
+
+        if m.vel.y <= -75 then
+            extraVel = extraVel + 2.5
+            m.vel.y = m.vel.y - extraVel
+        end
+
+        if (m.prevAction & ACT_FLAG_AIR) ~= 0 and m.action ~= ACT_LEDGE_GRAB and m.prevAction ~= ACT_TWIRLING and m.prevAction ~= ACT_SHOT_FROM_CANNON and (m.action & ACT_FLAG_AIR) == 0 and m.vel.y <= -90 and m.floor.type ~= SURFACE_BURNING and m.floor.type ~= SURFACE_INSTANT_QUICKSAND then
+            local dmgMult = get_fall_damage_multiplier(math.abs(m.vel.y))
+            if dmgMult == 15 then
+                m.health = 383
+            else
+                local dmg = (m.vel.y * dmgMult)
+                m.health = m.health + dmg
+                m.health = clamp(m.health, 0xff, 0x880)
+            end
+            set_camera_shake_from_hit(SHAKE_FALL_DAMAGE)
+            m.squishTimer = 30
+            play_character_sound(m, CHAR_SOUND_ATTACKED)
+        end
+
+        if (m.action & ACT_FLAG_AIR) == 0 then extraVel = 0 end
+    end
+
+    if player_alive_count() < DOWNING_MIN_PLAYERS then return end
+
+    if (m.action & ACT_GROUP_MASK) ~= ACT_GROUP_CUTSCENE then gotUp = true end
+
+    local heart = obj_get_nearest_object_with_behavior_id(m.marioObj, id_bhvRecoveryHeart)
+    if heart ~= nil and obj_check_if_collided_with_object(m.marioObj, heart) ~= 0 and gPlayerSyncTable[0].downHealth < 300 then undown(m) end
 end
 
 --- @param m MarioState
@@ -791,6 +912,7 @@ local quicksand_death_surfaces = {
     [SURFACE_INSTANT_MOVING_QUICKSAND] = true
 }
 
+--- @param m MarioState
 function on_set_mario_action(m)
     --Fixed Bubbleing
     if m.prevAction == ACT_BUBBLED then
@@ -834,6 +956,14 @@ function on_set_mario_action(m)
     if m.action == ACT_SOFT_BONK and gPlayerSyncTable[m.playerIndex].wallSlide then
         m.faceAngle.y = m.faceAngle.y + 0x8000
         set_mario_action(m, ACT_WALL_SLIDE, 0)
+    end
+
+    --Downing
+    if gGlobalSyncTable.bubbleDeath ~= 2 then return end
+    if m.playerIndex ~= 0 or player_alive_count() < DOWNING_MIN_PLAYERS then return end
+
+    if (m.prevAction == _G.ACT_DOWN or should_be_downed(m)) and (m.action & ACT_GROUP_MASK) == ACT_GROUP_SUBMERGED then
+        m.health = 0xff
     end
 end
 
@@ -1101,64 +1231,6 @@ function player_alive_count()
     return count
 end
 
-extraVel = 0
---- @param m MarioState
-function mario_update(m)
-    if gGlobalSyncTable.bubbleDeath ~= 2 then return end
-    _G.downHealth[m.playerIndex] = gPlayerSyncTable[m.playerIndex].downHealth
-
-    if should_be_downed(m) and not (m.playerIndex == 0 and not gotUp) then
-        if m.action ~= _G.ACT_DOWN then play_character_sound(m, CHAR_SOUND_WAAAOOOW) end
-        m.action = _G.ACT_DOWN
-    end
-
-    if m.action == _G.ACT_DOWN then network_player_set_description(gNetworkPlayers[0], "Down", 255, 0, 0, 255) else network_player_set_description(gNetworkPlayers[0], "", 255, 255, 255, 255) end
-
-    if m.playerIndex ~= 0  then return end
-
-    if gGlobalSyncTable.customFallDamage then
-        m.peakHeight = m.pos.y
-
-        if m.vel.y <= -75 then
-            extraVel = extraVel + 2.5
-            m.vel.y = m.vel.y - extraVel
-        end
-
-        if (m.prevAction & ACT_FLAG_AIR) ~= 0 and m.action ~= ACT_LEDGE_GRAB and m.prevAction ~= ACT_TWIRLING and m.prevAction ~= ACT_SHOT_FROM_CANNON and (m.action & ACT_FLAG_AIR) == 0 and m.vel.y <= -90 and m.floor.type ~= SURFACE_BURNING and m.floor.type ~= SURFACE_INSTANT_QUICKSAND then
-            local dmgMult = get_fall_damage_multiplier(math.abs(m.vel.y))
-            if dmgMult == 15 then
-                m.health = 383
-            else
-                local dmg = (m.vel.y * dmgMult)
-                m.health = m.health + dmg
-                m.health = clamp(m.health, 0xff, 0x880)
-            end
-            set_camera_shake_from_hit(SHAKE_FALL_DAMAGE)
-            m.squishTimer = 30
-            play_character_sound(m, CHAR_SOUND_ATTACKED)
-        end
-
-        if (m.action & ACT_FLAG_AIR) == 0 then extraVel = 0 end
-    end
-
-    if player_alive_count() < DOWNING_MIN_PLAYERS then return end
-
-    if (m.action & ACT_GROUP_MASK) ~= ACT_GROUP_CUTSCENE then gotUp = true end
-
-    local heart = obj_get_nearest_object_with_behavior_id(m.marioObj, id_bhvRecoveryHeart)
-    if heart ~= nil and obj_check_if_collided_with_object(m.marioObj, heart) ~= 0 and gPlayerSyncTable[0].downHealth < 300 then undown(m) end
-end
-
---- @param m MarioState
-function on_set_mario_action(m)
-    if gGlobalSyncTable.bubbleDeath ~= 2 then return end
-    if m.playerIndex ~= 0 or player_alive_count() < DOWNING_MIN_PLAYERS then return end
-
-    if (m.prevAction == _G.ACT_DOWN or should_be_downed(m)) and (m.action & ACT_GROUP_MASK) == ACT_GROUP_SUBMERGED then
-        m.health = 0xff
-    end
-end
-
 --- @param m MarioState
 function on_player_connected(m)
     gPlayerSyncTable[m.playerIndex].downHealth = 300
@@ -1167,81 +1239,6 @@ end
 reviveTime = 210
 reviveTimer = reviveTime
 soundPlayed = false
-function on_hud_render()
-    if gGlobalSyncTable.bubbleDeath ~= 2 then return end
-    djui_hud_set_resolution(RESOLUTION_N64)
-    djui_hud_set_font(FONT_NORMAL)
-
-    local width = djui_hud_get_screen_width()
-    local height = djui_hud_get_screen_height()
-
-    local m = gMarioStates[0]
-    if m.action == _G.ACT_DOWN and not l4d2Hud then
-        djui_hud_set_resolution(RESOLUTION_N64)
-        djui_hud_set_font(FONT_HUD)
-        djui_hud_set_adjusted_color(255, 255, 255, 255)
-        djui_hud_print_text(tostring(math.floor(gPlayerSyncTable[0].downHealth)), width * 0.53, 32, 1)
-    end
-
-    local near = nearest_mario_state_to_object(m.marioObj)
-    if near ~= nil and active_player(near) ~= 0 and dist_between_objects(m.marioObj, near.marioObj) < 250 and near.action == _G.ACT_DOWN and m.action ~= _G.ACT_DOWN and (m.action & ACT_GROUP_MASK) ~= ACT_GROUP_CUTSCENE then
-        if not soundPlayed then
-            play_sound(SOUND_MENU_CHANGE_SELECT, m.marioObj.header.gfx.cameraToObject)
-            soundPlayed = true
-        end
-        if not (l4d2Hud and (m.controller.buttonDown & Z_TRIG) ~= 0) then
-            local text = "Help " .. name_without_hex(gNetworkPlayers[near.playerIndex].name) .. " up"
-            local out = { x = 0, y = 0, z = 0 }
-            djui_hud_world_pos_to_screen_pos(near.pos, out)
-            djui_hud_set_adjusted_color(0, 0, 0, 180)
-            djui_hud_print_text(text, out.x - (djui_hud_measure_text(text) * 0.5), out.y + 1, 0.5)
-            djui_hud_print_text(tostring(math.floor(reviveTimer / 30)), out.x - (djui_hud_measure_text(text) * 0.25), out.y + 13, 0.5)
-            djui_hud_set_adjusted_color(255, 255, 255, 255)
-            djui_hud_print_text(text, out.x - (djui_hud_measure_text(text) * 0.5), out.y, 0.5)
-            djui_hud_print_text(tostring(math.floor(reviveTimer / 30)), out.x - (djui_hud_measure_text(text) * 0.25), out.y + 12, 0.5)
-        end
-        if (m.controller.buttonDown & Z_TRIG) ~= 0 then
-            if reviveTimer > 0 then
-                reviveTimer = reviveTimer - 1
-                if l4d2Hud then
-                    width = (djui_hud_get_screen_width() * 0.5) + 3
-                    height = djui_hud_get_screen_height() * 0.5
-                    djui_hud_set_adjusted_color(77, 73, 79, 255)
-                    djui_hud_render_rect(width - 69, height - 18, 29, 29)
-                    djui_hud_render_rect(width - 41, height - 4, 118, 15)
-                    djui_hud_set_color(0, 0, 0, 255)
-                    djui_hud_render_rect(width - 68, height - 17, 27, 27)
-                    djui_hud_render_rect(width - 40, height - 3, 116, 13)
-                    -- text
-                    djui_hud_set_adjusted_color(255, 255, 255, 255)
-                    djui_hud_set_font(FONT_MENU)
-                    djui_hud_print_text("+", width - 67, height - 25, 0.6)
-                    djui_hud_set_font(FONT_NORMAL)
-                    djui_hud_set_color(0, 0, 0, 180)
-                    djui_hud_print_text("REVIVING PLAYER", width - 38, height - 20, 0.45)
-                    djui_hud_set_adjusted_color(255, 255, 255, 255)
-                    djui_hud_print_text("REVIVING PLAYER", width - 38, height - 21, 0.45)
-                    -- bar
-                    djui_hud_set_adjusted_color(221, 184, 64, 255)
-                    local fill = lerp(1.78, 0, (reviveTimer / reviveTime))
-                    djui_hud_render_texture(_G.l4dBarTexture, width - 39, height - 2, fill, 0.175)
-                end
-            else
-                reviveTimer = reviveTime
-                network_send(true, { id = PACKET_REVIVE, global = network_global_index_from_local(near.playerIndex), savior = gNetworkPlayers[0].globalIndex })
-            end
-        else
-            reviveTimer = reviveTime
-        end
-    else
-        soundPlayed = false
-    end
-
-    if m.action == _G.ACT_DOWN then
-        djui_hud_set_color(0, 0, 0, lerp(255, 0, gPlayerSyncTable[0].downHealth / 300))
-        djui_hud_render_rect(0, 0, width + 2, height + 2)
-    end
-end
 
 function on_packet_receive(dataTable)
     if gGlobalSyncTable.bubbleDeath ~= 2 then return end
@@ -1277,14 +1274,6 @@ function on_custom_fall_damage_command()
     return true
 end
 
-hook_event(HOOK_MARIO_UPDATE, mario_update)
-hook_event(HOOK_ON_SET_MARIO_ACTION, on_set_mario_action)
-hook_event(HOOK_ON_PLAYER_CONNECTED, on_player_connected)
-hook_event(HOOK_ON_HUD_RENDER, on_hud_render)
-hook_event(HOOK_ON_PACKET_RECEIVE, on_packet_receive)
-hook_event(HOOK_ON_LEVEL_INIT, on_level_init)
-hook_event(HOOK_ON_PAUSE_EXIT, on_pause_exit)
-
 for i = 1, (MAX_PLAYERS - 1) do
     hook_on_sync_table_change(gPlayerSyncTable[i], "downHealth", i, on_downhealth_changed)
 end
@@ -1302,6 +1291,9 @@ hook_event(HOOK_ALLOW_INTERACT, allow_interact)
 hook_mario_action(ACT_WALL_SLIDE, act_wall_slide)
 hook_event(HOOK_BEFORE_PHYS_STEP, wallkicks)
 hook_event(HOOK_ON_PLAYER_CONNECTED, on_player_connected)
+hook_event(HOOK_ON_PACKET_RECEIVE, on_packet_receive)
+hook_event(HOOK_ON_LEVEL_INIT, on_level_init)
+hook_event(HOOK_ON_PAUSE_EXIT, on_pause_exit)
 
 if network_is_server() or network_is_moderator() then
     hook_chat_command("canafk", "[on|off] Allow/Disallow players afking", CANAFK)
