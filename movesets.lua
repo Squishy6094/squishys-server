@@ -39,7 +39,7 @@ ACT_SPIN_POUND_LAND = allocate_mario_action(ACT_FLAG_STATIONARY | ACT_FLAG_ATTAC
 ACT_SPIN_POUND      = allocate_mario_action(ACT_FLAG_AIR | ACT_FLAG_ATTACKING)
 
 function act_spin_pound(m)
-    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 then return end
+    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 or not gGlobalSyncTable.GlobalMoveset then return end
     local e = gStateExtras[m.playerIndex]
     if m.actionTimer == 0 then
         m.actionState = m.actionArg
@@ -99,7 +99,7 @@ function act_spin_pound(m)
 end
 
 function act_spin_pound_land(m)
-    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 then return end
+    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 or not gGlobalSyncTable.GlobalMoveset then return end
     m.actionState = 1
 
     if m.actionTimer <= 8 then
@@ -135,7 +135,7 @@ function act_spin_pound_land(m)
 end
 
 function luigi_before_phys_step(m)
-    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 then return end
+    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 or not gGlobalSyncTable.GlobalMoveset then return end
     local e = gStateExtras[m.playerIndex]
 
     local floorClass = mario_get_floor_class(m)
@@ -194,7 +194,7 @@ function luigi_before_phys_step(m)
 end
 
 function luigi_on_set_action(m)
-    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 then return end
+    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 or not gGlobalSyncTable.GlobalMoveset then return end
     local e = gStateExtras[m.playerIndex]
 	
 	if gPlayerSyncTable[0].modelId ~= nil then return end
@@ -222,7 +222,7 @@ function luigi_on_set_action(m)
 end
 
 function luigi_update(m)
-    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 then return end
+    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 or not gGlobalSyncTable.GlobalMoveset then return end
     local e = gStateExtras[m.playerIndex]
 	
 	if gPlayerSyncTable[0].modelId ~= nil then return end
@@ -279,7 +279,7 @@ gEventTable[CT_LUIGI] = {
 -----------
 
 function toad_before_phys_step(m)
-    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 then return end
+    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 or not gGlobalSyncTable.GlobalMoveset then return end
     local e = gStateExtras[m.playerIndex]
 
     local hScale = 1.0
@@ -305,7 +305,7 @@ function toad_before_phys_step(m)
 end
 
 function toad_on_set_action(m)
-    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 then return end
+    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 or not gGlobalSyncTable.GlobalMoveset then return end
     local e = gStateExtras[m.playerIndex]
 
     -- wall kick height based on how fast toad is going
@@ -341,7 +341,7 @@ function toad_on_set_action(m)
 end
 
 function toad_update(m)
-    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 then return end
+    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 or not gGlobalSyncTable.GlobalMoveset then return end
     local e = gStateExtras[m.playerIndex]
 
     -- track average forward velocity
@@ -382,7 +382,7 @@ ACT_ELEGANT_JUMP     = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR |
 ACT_WALUIGI_AIR_SWIM = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_MOVING | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)
 
 function act_wall_slide(m)
-    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 then return end
+    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 or not gGlobalSyncTable.GlobalMoveset then return end
     if (m.input & INPUT_A_PRESSED) ~= 0 then
         local rc = set_mario_action(m, ACT_TRIPLE_JUMP, 0)
         m.vel.y = 72.0
@@ -422,7 +422,7 @@ function act_wall_slide(m)
 end
 
 function act_elegant_jump(m)
-    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 then return end
+    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 or not gGlobalSyncTable.GlobalMoveset then return end
     local e = gStateExtras[m.playerIndex]
     if m.actionTimer == 0 then
         m.particleFlags = m.particleFlags | PARTICLE_MIST_CIRCLE
@@ -463,7 +463,7 @@ function act_elegant_jump(m)
 end
 
 function act_waluigi_air_swim(m)
-    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 then return end
+    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 or not gGlobalSyncTable.GlobalMoveset then return end
     local e = gStateExtras[m.playerIndex]
     
     if m.actionTimer == 0 then
@@ -520,7 +520,7 @@ function act_waluigi_air_swim(m)
 end
 
 function waluigi_before_phys_step(m)
-    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 then return end
+    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 or not gGlobalSyncTable.GlobalMoveset then return end
     local e = gStateExtras[m.playerIndex]
 
     local hScale = 1.0
@@ -542,7 +542,7 @@ function waluigi_before_phys_step(m)
 end
 
 function waluigi_on_set_action(m)
-    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 then return end
+    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 or not gGlobalSyncTable.GlobalMoveset then return end
     local e = gStateExtras[m.playerIndex]
 
     -- wall slide
@@ -573,7 +573,7 @@ function waluigi_on_set_action(m)
 end
 
 function waluigi_update(m)
-    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 then return end
+    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 or not gGlobalSyncTable.GlobalMoveset then return end
     local e = gStateExtras[m.playerIndex]
 
     -- increase player damage (go easy on the capless players)
@@ -631,7 +631,7 @@ ACT_PILEDRIVER     = allocate_mario_action(ACT_FLAG_AIR | ACT_FLAG_ATTACKING | A
 ACT_WARIO_SPINNING_OBJ = allocate_mario_action(ACT_FLAG_STATIONARY)
 
 function act_corkscrew_conk(m)
-    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 then return end
+    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 or not gGlobalSyncTable.GlobalMoveset then return end
     local e = gStateExtras[m.playerIndex]
 
     -- visuals
@@ -661,7 +661,7 @@ function act_corkscrew_conk(m)
 end
 
 function act_wario_dash(m)
-    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 then return end
+    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 or not gGlobalSyncTable.GlobalMoveset then return end
     local e = gStateExtras[m.playerIndex]
 
     -- when hitting wall, knock Wario backwards and thrust him upwards
@@ -715,7 +715,7 @@ function act_wario_dash(m)
 end
 
 function act_wario_air_dash(m)
-    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 then return end
+    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 or not gGlobalSyncTable.GlobalMoveset then return end
     local e = gStateExtras[m.playerIndex]
 
     -- when hitting wall, knock Wario backwards and thrust him upwards
@@ -765,7 +765,7 @@ function act_wario_air_dash(m)
 end
 
 function act_wario_spinning_obj(m)
-    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 then return end
+    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 or not gGlobalSyncTable.GlobalMoveset then return end
     local spin = 0
 
     -- throw object
@@ -843,7 +843,7 @@ function act_wario_spinning_obj(m)
 end
 
 function wario_update_spin_input(m)
-    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 then return end
+    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 or not gGlobalSyncTable.GlobalMoveset then return end
     local e = gStateExtras[m.playerIndex]
     local rawAngle = atan2s(-m.controller.stickY, m.controller.stickX)
     e.spinInput = 0
@@ -926,7 +926,7 @@ function wario_update_spin_input(m)
 end
 
 function act_wario_hold_jump(m)
-    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 then return end
+    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 or not gGlobalSyncTable.GlobalMoveset then return end
     if (m.marioObj.oInteractStatus & INT_STATUS_MARIO_DROP_OBJECT) ~= 0 then
         return drop_and_set_mario_action(m, ACT_FREEFALL, 0)
     end
@@ -946,7 +946,7 @@ function act_wario_hold_jump(m)
 end
 
 function act_piledriver(m)
-    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 then return end
+    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 or not gGlobalSyncTable.GlobalMoveset then return end
     local e = gStateExtras[m.playerIndex]
 	if m.actionTimer == 0 then
 		play_sound(SOUND_ACTION_SPIN, m.marioObj.header.gfx.cameraToObject)
@@ -981,7 +981,7 @@ function act_piledriver(m)
 end
 
 function wario_before_phys_step(m)
-    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 then return end
+    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 or not gGlobalSyncTable.GlobalMoveset then return end
     local hScale = 1.0
 
     -- slower on ground
@@ -1017,7 +1017,7 @@ function wario_before_phys_step(m)
 end
 
 function wario_on_set_action(m)
-    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 then return end
+    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 or not gGlobalSyncTable.GlobalMoveset then return end
     local e = gStateExtras[m.playerIndex]
 
     -- air dash
@@ -1101,7 +1101,7 @@ function wario_on_set_action(m)
 end
 
 function wario_update(m)
-    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 then return end
+    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 or not gGlobalSyncTable.GlobalMoveset then return end
     local hScale = 1.0
     local e = gStateExtras[m.playerIndex]
 
@@ -1257,7 +1257,7 @@ ACT_WALL_SLIDE = (0x0BF | ACT_FLAG_AIR | ACT_FLAG_MOVING | ACT_FLAG_ALLOW_VERTIC
 
 
 function mario_update(m)
-    if gPlayerSyncTable[m.playerIndex].moveset ~= 2 then return end
+    if gPlayerSyncTable[m.playerIndex].moveset ~= 2 or not gGlobalSyncTable.GlobalMoveset then return end
 
     if m.action == ACT_GROUND_POUND_LAND and m.controller.buttonPressed & A_BUTTON ~=0 then
         m.vel.y = 30
@@ -1305,7 +1305,7 @@ end
 
 ---@param m MarioState
 function before_mario_update(m)
-    if gPlayerSyncTable[m.playerIndex].moveset ~= 2 then return end
+    if gPlayerSyncTable[m.playerIndex].moveset ~= 2 or not gGlobalSyncTable.GlobalMoveset then return end
     if m.prevAction == ACT_GROUND_POUND_LAND and m.action == ACT_TRIPLE_JUMP and m.controller.buttonPressed & B_BUTTON ~= 0 then
         m.vel.y = 36
         m.forwardVel = 25
@@ -1317,7 +1317,7 @@ end
 
 ---@param m MarioState
 function act_water_ground_pound(m)
-    if gPlayerSyncTable[m.playerIndex].moveset ~= 2 then return end
+    if gPlayerSyncTable[m.playerIndex].moveset ~= 2 or not gGlobalSyncTable.GlobalMoveset then return end
 
     m.actionTimer = m.actionTimer + 1
 
