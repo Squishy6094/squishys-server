@@ -663,21 +663,6 @@ function mario_update_msgtimer(m)
     end
 end
 
-function togglenotif(msg)
-    if msg == "on" then
-        gPlayerSyncTable[m.playerIndex].notif = true
-        djui_chat_message_create("Pop-up are now on")
-        return true
-    elseif msg == "off" then
-        gPlayerSyncTable[m.playerIndex].notif = false
-        djui_chat_message_create("Pop-up are now off")
-        return true
-    else 
-        djui_chat_message_create("Please type a valid option [on|off]")
-        return true
-    end
-end
-
 --Manual Pop-ups--
 for i = 0, MAX_PLAYERS - 1, 1 do
     gPlayerSyncTable[i].showMSG = false
@@ -706,7 +691,6 @@ end
 hook_event(HOOK_MARIO_UPDATE, mario_update_msgtimer)
 hook_event(HOOK_ON_HUD_RENDER, displayrules)
 hook_chat_command("rules", "displays the rules of this server", displayrules2)
-hook_chat_command("server-popup", "[on|off] Toggle if pop-ups with tips show", togglenotif)
 if network_is_server() or network_is_moderator() then
     hook_chat_command('servermsg', "Type a message to send as a popup to everyone.", chat_command)
 end
