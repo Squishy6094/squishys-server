@@ -13,8 +13,8 @@ gGlobalSyncTable.playerKnockbackStrength = gServerSettings.playerKnockbackStreng
 gGlobalSyncTable.shareLives = gServerSettings.shareLives
 gGlobalSyncTable.skipIntro = gServerSettings.skipIntro
 gGlobalSyncTable.stayInLevelAfterStar = gServerSettings.stayInLevelAfterStar
-gGlobalSyncTable.GlobalAQS = 1
-gGlobalSyncTable.GlobalMoveset = 1
+gGlobalSyncTable.GlobalAQS = true
+gGlobalSyncTable.GlobalMoveset = true
 
 local menu = false
 local optionHover = 1
@@ -241,7 +241,7 @@ function displaymenu()
                 if gGlobalSyncTable.GlobalMoveset then
                     hud_print_unique_toggle_status(gPlayerSyncTable[m.playerIndex].moveset, "Default", "Character", "QOL")
                 else
-                    djui_hud_print_text("Forced Off", ((djui_hud_get_screen_width()/2)), 80, 0.3)
+                    djui_hud_print_text("Forced Default", ((djui_hud_get_screen_width()/2)), 80, 0.3)
                 end
                 
                 if gPlayerSyncTable[m.playerIndex].moveset == 0 then
@@ -327,8 +327,8 @@ function displaymenu()
             end
         elseif optionTab == 4 then
             if optionHover < 1 then
-                optionHover = 7
-            elseif  optionHover > 7 then
+                optionHover = 8
+            elseif  optionHover > 8 then
                 optionHover = 1
             end
             djui_hud_set_color(150, 150, 150, 255)
@@ -369,6 +369,11 @@ function displaymenu()
             if optionHover == 7 then
                 hud_print_description("Global Anti-Quicksand:", "Determines if players can","locally change AQS or if","it's forced off.")
                 hud_print_toggle_status(gGlobalSyncTable.GlobalAQS)
+            end
+            djui_hud_print_text("Door Bust Ex Levels", ((djui_hud_get_screen_width()/2) - 70), 150, 0.3)
+            if optionHover == 8 then
+                hud_print_description("Exclude Door Bust Levels:", "Toggle Excluding problematic","levels in Door Bust, such as","BBH or HMC.")
+                hud_print_toggle_status(gGlobalSyncTable.excludeLevels)
             end
         end
     end
@@ -597,27 +602,38 @@ function before_update(m)
                         end
                     end
                 elseif optionHover == 6 then
-                    if gGlobalSyncTable.GlobalMoveset == 1 then
+                    if gGlobalSyncTable.GlobalMoveset == true then
                         if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gGlobalSyncTable.GlobalMoveset = 0
-                            print("Works")
+                            gGlobalSyncTable.GlobalMoveset = false
                             optionHoverCanMove = false
                         end
-                    elseif gGlobalSyncTable.GlobalMoveset == 0 then
+                    elseif gGlobalSyncTable.GlobalMoveset == false then
                         if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gGlobalSyncTable.GlobalMoveset = 1
+                            gGlobalSyncTable.GlobalMoveset = true
                             optionHoverCanMove = false
                         end
                     end
                 elseif optionHover == 7 then
-                    if gGlobalSyncTable.GlobalAQS == 1 then
+                    if gGlobalSyncTable.GlobalAQS == true then
                         if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gGlobalSyncTable.GlobalAQS = 0
+                            gGlobalSyncTable.GlobalAQS = false
                             optionHoverCanMove = false
                         end
-                    elseif gGlobalSyncTable.GlobalAQS == 0 then
+                    elseif gGlobalSyncTable.GlobalAQS == false then
                         if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gGlobalSyncTable.GlobalAQS = 1
+                            gGlobalSyncTable.GlobalAQS = true
+                            optionHoverCanMove = false
+                        end
+                    end
+                elseif optionHover == 8 then
+                    if gGlobalSyncTable.excludeLevels == true then
+                        if m.controller.buttonDown & A_BUTTON ~= 0 then
+                            gGlobalSyncTable.excludeLevels = false
+                            optionHoverCanMove = false
+                        end
+                    elseif gGlobalSyncTable.excludeLevels == false then
+                        if m.controller.buttonDown & A_BUTTON ~= 0 then
+                            gGlobalSyncTable.excludeLevels = true
                             optionHoverCanMove = false
                         end
                     end
