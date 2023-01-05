@@ -1,11 +1,5 @@
 
-gGlobalSyncTable.pausetimerF = 0
-gGlobalSyncTable.pausetimerS = 0
-gGlobalSyncTable.pausetimerM = 0
-gGlobalSyncTable.pausetimerH = 0
-gGlobalSyncTable.pausetimerS2Digit = 0
-gGlobalSyncTable.pausetimerM2Digit = 0
-gGlobalSyncTable.pausetimerH2Digit = 0
+gGlobalSyncTable.RoomTimerF = 0
 
 gGlobalSyncTable.bubbleDeath = 2
 gGlobalSyncTable.playerInteractions = gServerSettings.playerInteractions
@@ -74,7 +68,7 @@ end
 
 function mario_update(m)
     if m.playerIndex == hostnum and m.playerIndex == 0 then
-        gGlobalSyncTable.pausetimerF = gGlobalSyncTable.pausetimerF + 1
+        gGlobalSyncTable.RoomTimerF = gGlobalSyncTable.RoomTimerF + 1
     end
 
     if gGlobalSyncTable.bubbleDeath ~= 2 then
@@ -91,6 +85,23 @@ end
 
 function displaymenu()
     local m = gMarioStates[0]
+
+
+    --Room Timer--
+
+    local minutes = 0
+    local Seconds = 0
+    local Hours = 0
+    if math.floor(gGlobalSyncTable.RoomTimerF/30/60) < 0 then
+        Seconds = math.ceil(gGlobalSyncTable.speedrunTimer/30)
+    else
+        Hours = math.floor(gGlobalSyncTable.RoomTimerF/30/60/60)
+        minutes = math.floor(gGlobalSyncTable.RoomTimerF/30/60%60)
+        Seconds = math.floor(gGlobalSyncTable.RoomTimerF/30)%60
+    end
+
+    local RoomTime = string.format("%s:%s:%s", string.format("%02d", Hours), string.format("%02d", minutes), string.format("%02d", Seconds))
+
     if is_game_paused() then
         djui_hud_set_font(FONT_NORMAL)
         if m.action ~= ACT_EXIT_LAND_SAVE_DIALOG then
@@ -109,39 +120,13 @@ function displaymenu()
         if m.action == ACT_EXIT_LAND_SAVE_DIALOG then
             djui_hud_set_color(0, 0, 0, 255)
             djui_hud_print_text("Room has been Open for:", ((djui_hud_get_screen_width()/2) - 33), 31, 0.3)
-            djui_hud_print_text(""..gGlobalSyncTable.pausetimerH2Digit..gGlobalSyncTable.pausetimerH..":"..gGlobalSyncTable.pausetimerM2Digit..gGlobalSyncTable.pausetimerM..":"..gGlobalSyncTable.pausetimerS2Digit..gGlobalSyncTable.pausetimerS.."", ((djui_hud_get_screen_width()/2) - 32.5), 42, 0.7)
+            djui_hud_print_text(RoomTime, ((djui_hud_get_screen_width()/2) - 32.5), 42, 0.7)
         end
         djui_hud_set_color(255, 255, 255, 255)
         djui_hud_print_text("Room has been Open for:", ((djui_hud_get_screen_width()/2) - 35), 30, 0.3)
-        djui_hud_print_text(""..gGlobalSyncTable.pausetimerH2Digit..gGlobalSyncTable.pausetimerH..":"..gGlobalSyncTable.pausetimerM2Digit..gGlobalSyncTable.pausetimerM..":"..gGlobalSyncTable.pausetimerS2Digit..gGlobalSyncTable.pausetimerS.."", ((djui_hud_get_screen_width()/2) - 35), 40, 0.7)
+        djui_hud_print_text(RoomTime, ((djui_hud_get_screen_width()/2) - 35), 40, 0.7)
     else 
         menu = false
-    end
-
-        --Room Timer--
-    if gGlobalSyncTable.pausetimerF >= 30 then
-        gGlobalSyncTable.pausetimerS = gGlobalSyncTable.pausetimerS + 1
-        gGlobalSyncTable.pausetimerF = 0
-    end    
-    if gGlobalSyncTable.pausetimerS >= 10 then
-        gGlobalSyncTable.pausetimerS2Digit = gGlobalSyncTable.pausetimerS2Digit + 1
-        gGlobalSyncTable.pausetimerS = 0
-    end
-    if gGlobalSyncTable.pausetimerS2Digit >= 6 then
-        gGlobalSyncTable.pausetimerM = gGlobalSyncTable.pausetimerM + 1
-        gGlobalSyncTable.pausetimerS2Digit = 0
-    end
-    if gGlobalSyncTable.pausetimerM >= 10 then
-        gGlobalSyncTable.pausetimerM2Digit = gGlobalSyncTable.pausetimerM2Digit + 1
-        gGlobalSyncTable.pausetimerM = 0
-    end
-    if gGlobalSyncTable.pausetimerM2Digit >= 6 then
-        gGlobalSyncTable.pausetimerH = gGlobalSyncTable.pausetimerH + 1
-        gGlobalSyncTable.pausetimerM2Digit = 0
-    end
-    if gGlobalSyncTable.pausetimerH >= 10 then
-        gGlobalSyncTable.pausetimerH2Digit = gGlobalSyncTable.pausetimerH2Digit + 1
-        gGlobalSyncTable.pausetimerH = 0
     end
 
     if menu == true then
