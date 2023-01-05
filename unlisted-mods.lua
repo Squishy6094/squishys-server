@@ -405,43 +405,18 @@ end
 
 id_bhvBrokenDoor = hook_behavior(nil, OBJ_LIST_GENACTOR, true, bhv_broken_door_init, bhv_broken_door_loop)
 
+local visible = false
 extraVel = 0
 --- @param m MarioState
 function mario_update(m)
-    --Preview Blue Coins--
+    if m.playerIndex ~= 0 then return end
 
-    if m.playerIndex ~= 0 then
-        return
-    end
-    
-    --Intializes as the blue coin switch
-    local obj = find_object_with_behavior(get_behavior_from_id(id_bhvBlueCoinSwitch))
+    local obj = obj_get_nearest_object_with_behavior_id(m.marioObj, id_bhvBlueCoinSwitch)
     if obj ~= nil then
-        local dist = dist_between_object_and_point(obj, m.pos.x, m.pos.y, m.pos.z)
-        if dist < 110 then
-            --So this doesn't execute every frame Mario is on the blue coin switch
-            if once == true then
-                obj = obj_get_first(OBJ_LIST_LEVEL)
-                while obj ~= nil do
-                    if get_id_from_behavior(obj.behavior) == id_bhvHiddenBlueCoin then
-                        --Having other players see and potentially collect fake coins is unideal
-                        --Luckily enough, it only displays for local player
-                        cur_obj_enable_rendering_and_become_tangible(obj)
-                    end
-                    obj = obj_get_next(obj)
-                end
-            end
-            once = false
+        if m.marioObj.platform == obj or obj.oAction == 1 or obj.oAction == 2 then
+            visible = true
         else
-            once = true
-            --Yeah reusing code, without even putting it in a function
-            obj = obj_get_first(OBJ_LIST_LEVEL)
-            while obj ~= nil do
-                if get_id_from_behavior(obj.behavior) == id_bhvHiddenBlueCoin then
-                    cur_obj_disable_rendering_and_become_intangible(obj)
-                end
-                obj = obj_get_next(obj)
-            end
+            visible = false
         end
     end
 
@@ -1155,9 +1130,19 @@ for i = 1, (MAX_PLAYERS - 1) do
     hook_on_sync_table_change(gPlayerSyncTable[i], "downHealth", i, on_downhealth_changed)
 end
 
+--For blue coin preview
+function bhv_custom_hidden_blue_coin_loop(obj)
+    if visible then
+        cur_obj_enable_rendering()
+    else
+        cur_obj_disable_rendering()
+    end
+end
+
+hook_behavior(id_bhvHiddenBlueCoin, OBJ_LIST_LEVEL, false, nil, bhv_custom_hidden_blue_coin_loop)
+
+
 hook_mario_action(_G.ACT_DOWN, act_down, INTERACT_PLAYER)
-
-
 hook_event(HOOK_MARIO_UPDATE, mario_update)
 hook_event(HOOK_ON_SET_MARIO_ACTION, localtechaction)
 hook_event(HOOK_ON_SET_MARIO_ACTION, on_set_mario_action)
