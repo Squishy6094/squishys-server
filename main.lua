@@ -1,5 +1,5 @@
 -- name: -Squishy's Server-
--- description: \\#005500\\~~~~~Squishy's Server Stuff~~~~~\n\n\\#dddddd\\Displays rules/welcome message to anyone who connects to your Squishy's Servers, Along with some quality of life features!\n\n\\#ff8800\\Warning: If you pulled this from your tmp folder in attempts to host with it,\n\\#ff0000\\Do Not. \\#ff8800\\You could get in serious trouble as it's an unreleased mod you didn't make.\n\n\\#005500\\~~~~~~~~~~~~~~~~~~~~~~~~
+-- description: \\#008800\\~~~~~Squishy's Server Stuff~~~~~\n\n\\#dddddd\\Displays rules/welcome message to anyone who connects to your Squishy's Servers, Along with some quality of life features!\n\n\\#ff8800\\Do not host with this mod publicly, You could get in trouble as it's an unreleased mod you didn't make.\n\n\\#008800\\~~~~~~~~~~~~~~~~~~~~~~~~
 
 -- false: Window won't close when mouse hovers over the OK button, only Buttons work
 -- true: Window will close when mouse hovers over the OK button, alternatively buttons work too
