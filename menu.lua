@@ -54,14 +54,16 @@ function hud_print_toggle_status(SyncTable)
     end
 end
 
-function hud_print_unique_toggle_status(SyncTable, ToggleText1, ToggleText2, ToggleText3, ToggleRequirement1, ToggleRequirement2, ToggleRequirement3)
+function hud_print_unique_toggle_status(SyncTable, ToggleText1, ToggleText2, ToggleText3, ToggleText4, ToggleRequirement1, ToggleRequirement2, ToggleRequirement3)
     if ToggleRequirement1 == nil then ToggleRequirement1 = 0 end
     if ToggleRequirement2 == nil then ToggleRequirement2 = 1 end
     if ToggleRequirement3 == nil then ToggleRequirement3 = 2 end
+    if ToggleRequirement4 == nil then ToggleRequirement4 = 3 end
 
     if SyncTable == ToggleRequirement1 then djui_hud_print_text(ToggleText1, ((djui_hud_get_screen_width()/2)), 70 + (optionHover * 10), 0.3) end
     if SyncTable == ToggleRequirement2 then djui_hud_print_text(ToggleText2, ((djui_hud_get_screen_width()/2)), 70 + (optionHover * 10), 0.3) end
     if SyncTable == ToggleRequirement3 then djui_hud_print_text(ToggleText3, ((djui_hud_get_screen_width()/2)), 70 + (optionHover * 10), 0.3) end
+    if SyncTable == ToggleRequirement4 then djui_hud_print_text(ToggleText4, ((djui_hud_get_screen_width()/2)), 70 + (optionHover * 10), 0.3) end
 end
 
 
@@ -229,7 +231,7 @@ function displaymenu()
             if optionHover == 1 then
                 hud_print_description("Movesets:", "Change small things about","how Mario moves to make","movement feel better")
                 if gGlobalSyncTable.GlobalMoveset then
-                    hud_print_unique_toggle_status(gPlayerSyncTable[m.playerIndex].moveset, "Default", "Character", "QOL")
+                    hud_print_unique_toggle_status(gPlayerSyncTable[m.playerIndex].moveset, "Default", "Character", "QOL", "Robot 64")
                 else
                     djui_hud_print_text("Forced Default", ((djui_hud_get_screen_width()/2)), 80, 0.3)
                 end
@@ -240,6 +242,8 @@ function displaymenu()
                     hud_print_description("","","","","","Character Moveset:","Changes your movement based", "on which Character you're","playing as.")
                 elseif gPlayerSyncTable[m.playerIndex].moveset == 2 then
                     hud_print_description("","","","","","Quality of Life Moveset:","Adds QOL Moves like the", "The Groundpound Jump,","Groundpound Dive, Spin-Pound,", "Water-Pound, etc.")
+                elseif gPlayerSyncTable[m.playerIndex].moveset == 3 then
+                    hud_print_description("","","","","","Robot 64 Moveset:","Adds the Moves and physics", "from the SM64 inspired",'Roblox Game "Robot 64!"')
                 end
             end
             djui_hud_print_text("Lava Groundpound", ((djui_hud_get_screen_width()/2) - 70), 90, 0.3)
@@ -338,12 +342,12 @@ function displaymenu()
             djui_hud_print_text("Player Knockback", ((djui_hud_get_screen_width()/2) - 70), 100, 0.3)
             if optionHover == 3 then
                 hud_print_description("Player Knockback:", "Changes how far players get","knocked back after being hit","by another player.")
-                hud_print_unique_toggle_status(gGlobalSyncTable.playerKnockbackStrength,"Weak", "Normal", "Too Much", 10, 25, 60)
+                hud_print_unique_toggle_status(gGlobalSyncTable.playerKnockbackStrength,"Weak", "Normal", "Too Much","", 10, 25, 60)
             end
             djui_hud_print_text("Share Lives", ((djui_hud_get_screen_width()/2) - 70), 110, 0.3)
             if optionHover == 4 then
                 hud_print_description("Share Lives:", "Changes if players in the","same level share lives.")
-                hud_print_unique_toggle_status(gGlobalSyncTable.shareLives, "Off", "On")
+                hud_print_toggle_status(gGlobalSyncTable.shareLives)
             end
             djui_hud_print_text("On Star Collection", ((djui_hud_get_screen_width()/2) - 70), 120, 0.3)
             if optionHover == 5 then
@@ -389,6 +393,12 @@ function before_update(m)
                             optionHoverTimer = 0
                         end
                     elseif gPlayerSyncTable[m.playerIndex].moveset == 2 and gGlobalSyncTable.GlobalMoveset then
+                        if m.controller.buttonDown & A_BUTTON ~= 0 then
+                            gPlayerSyncTable[m.playerIndex].moveset = 3
+                            mod_storage_save("MoveSave", "3")
+                            optionHoverTimer = 0
+                        end
+                    elseif gPlayerSyncTable[m.playerIndex].moveset == 3 and gGlobalSyncTable.GlobalMoveset then
                         if m.controller.buttonDown & A_BUTTON ~= 0 then
                             gPlayerSyncTable[m.playerIndex].moveset = 0
                             mod_storage_save("MoveSave", "0")
