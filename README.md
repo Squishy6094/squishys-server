@@ -11,7 +11,7 @@
 
  If that doesn't work, clear/delete your **"mod.cashe,"** relaunch the game, and try again.
 
-###### *(Note: This does not accout for any outside mods I might also be hosting with)*
+###### *(Note: This does not account for any outside mods I might also be hosting with)*
 
 ### Do not publicly host with this mod!
  This mod is not meant for outside public use, and is specifically for the reasons above!
