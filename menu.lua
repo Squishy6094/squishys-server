@@ -373,8 +373,6 @@ function displaymenu()
     end
 end
 
-
-
 function before_update(m)
     if menu and m.playerIndex == 0 then
         if optionHoverTimer == -1 then
