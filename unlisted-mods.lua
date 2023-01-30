@@ -46,7 +46,7 @@ function display()
     local distNum = tonumber(string.format('%.0f', red_coin_distance))
     local textLength = djui_hud_measure_text(tostring(distNum))
     obj = obj_get_first_with_behavior_id(id_bhvRedCoin)
-    if (obj ~= nil) and radarToggle == true then
+    if (obj ~= nil) and radarToggle   then
         if is_game_paused() then
             djui_hud_set_color(255, 255, 255, 255)
             djui_hud_print_text(string.format("%.0f", red_coin_distance / 10), x + 107 - textLength, y - 55, scale)
@@ -73,7 +73,7 @@ function display()
     textLength = djui_hud_measure_text(tostring(distNum))
     obj = obj_get_first_with_behavior_id(id_bhvHiddenStarTrigger)
 
-    if (obj ~= nil) and radarToggle == true then
+    if (obj ~= nil) and radarToggle   then
         if is_game_paused() then
             djui_hud_set_color(255, 255, 255, 255)
             djui_hud_print_text(string.format("%.0f", secret_distance / 10), x + 107 - textLength, y - 75, scale)
@@ -109,7 +109,7 @@ function display()
     local m = gMarioStates[0]
     distNum = tonumber(string.format('%.0f', (math.ceil(m.capTimer/30))))
     textLength = djui_hud_measure_text(tostring(distNum))
-    if capTimerToggle == true then
+    if capTimerToggle   then
         if (m.flags & (MARIO_WING_CAP | MARIO_METAL_CAP | MARIO_VANISH_CAP)) ~= 0 then
             djui_hud_set_color(255, 255, 255, 255)
             djui_hud_print_text(".", 40, 167 + capboxmove, 1)
@@ -636,24 +636,12 @@ function allow_interact(m, o)
     return true
 end
 
-
-function on_exclude_levels_command(msg)
-    if msg == "on" then
-        gGlobalSyncTable.excludeLevels = true
-        djui_chat_message_create("Exclude Levels status: \\00ff00\\ON")
-    else
-        gGlobalSyncTable.excludeLevels = false
-        djui_chat_message_create("Exclude Levels status: \\ff0000\\OFF")
-    end
-    return true
-end
-
 --Wallslide--
 
 ACT_WALL_SLIDE = (0x0BF | ACT_FLAG_AIR | ACT_FLAG_MOVING | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)
 
 function act_wall_slide(m)
-    if not gPlayerSyncTable[m.playerIndex].CWK and mod_storage_load("Wallslide") == true then return end
+    if not gPlayerSyncTable[m.playerIndex].CWK and mod_storage_load("Wallslide")   then return end
 
     if (m.input & INPUT_A_PRESSED) ~= 0 then
         local rc = set_mario_action(m, ACT_WALL_KICK_AIR, 0)
@@ -780,7 +768,7 @@ function on_set_mario_action(m)
     end
     --Lava Groundpound--
 
-    if LGP == true then
+    if LGP   then
         if m.prevAction == ACT_GROUND_POUND_LAND and m.action == ACT_LAVA_BOOST then
             m.vel.y = m.vel.y * 1.1
             m.forwardVel = 70
@@ -790,7 +778,7 @@ function on_set_mario_action(m)
     
     --Anti quicksand--
 
-    if AQS == true and gGlobalSyncTable.GlobalAQS == true then
+    if AQS   and gGlobalSyncTable.GlobalAQS   then
         if m.action == ACT_QUICKSAND_DEATH then
             set_mario_action(m, ACT_LAVA_BOOST, 0)
             if m.flags & MARIO_METAL_CAP ~= 0 then
@@ -1156,8 +1144,3 @@ hook_event(HOOK_ON_PLAYER_CONNECTED, on_player_connected)
 hook_event(HOOK_ON_PACKET_RECEIVE, on_packet_receive)
 hook_event(HOOK_ON_LEVEL_INIT, on_level_init)
 hook_event(HOOK_ON_PAUSE_EXIT, on_pause_exit)
-
-if network_is_server() or network_is_moderator() then
-    hook_chat_command("bust-ex-levels", "[on|off] Exclude problematic levels in Door Bust", on_exclude_levels_command)
-end
-    

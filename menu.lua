@@ -18,7 +18,7 @@ local optionHoverTimer = -1
 
 function hud_print_description(CMDName, Line1, Line2, Line3, Line4, Line5, Line6, Line7, Line8, Line9)
     local m = gMarioStates[0]
-    if descriptions == true then
+    if descriptions   then
         djui_hud_print_text(CMDName, ((djui_hud_get_screen_width()/2) + 100), 85, 0.3)
         if Line1 ~= nil then djui_hud_print_text(Line1, ((djui_hud_get_screen_width()/2) + 100), 100, 0.3) end
         if Line2 ~= nil then djui_hud_print_text(Line2, ((djui_hud_get_screen_width()/2) + 100), 108, 0.3) end
@@ -108,7 +108,7 @@ function displaymenu()
         if m.action ~= ACT_EXIT_LAND_SAVE_DIALOG then
             if (m.controller.buttonPressed & L_TRIG) ~= 0 and menu == false then
                 menu = true
-            elseif (m.controller.buttonPressed & B_BUTTON) ~= 0 and menu == true then
+            elseif (m.controller.buttonPressed & B_BUTTON) ~= 0 and menu   then
                 menu = false
             end
             djui_hud_set_resolution(RESOLUTION_DJUI)
@@ -130,7 +130,7 @@ function displaymenu()
         menu = false
     end
 
-    if menu == true then
+    if menu   then
         if network_is_server() or network_is_moderator() then
             if optionTab < 1 then
                 optionTab = 4
@@ -188,7 +188,7 @@ function displaymenu()
         djui_hud_print_text("Server", ((djui_hud_get_screen_width()/2) - (djui_hud_measure_text("Server")* 0.3 / 2)), 50, 0.3)
 
         
-        if descriptions == true then
+        if descriptions   then
             djui_hud_set_color(0, 0, 0, 170)
             djui_hud_render_rect(((djui_hud_get_screen_width()/2) + 91), ((djui_hud_get_screen_height()/2) - 42), 104, 104)
             djui_hud_set_color(0, 0, 0, 220)
@@ -254,7 +254,7 @@ function displaymenu()
             djui_hud_print_text("Anti-Quicksand", ((djui_hud_get_screen_width()/2) - 70), 100, 0.3)
             if optionHover == 3 then
                 hud_print_description("Anti-Quicksand:", "Makes instant quicksand act","like lava, preventing what","may seem like an unfair","deaths. (Does not include","Lava Groundpound functions)")
-                if gGlobalSyncTable.GlobalAQS == true then
+                if gGlobalSyncTable.GlobalAQS   then
                     hud_print_toggle_status(AQS)
                 else
                     djui_hud_print_text("Forced Off", ((djui_hud_get_screen_width()/2)), 100, 0.3)
@@ -374,268 +374,266 @@ function displaymenu()
 end
 
 function before_update(m)
-    if menu and m.playerIndex == 0 then
-        if optionHoverTimer == -1 then
-            if optionTab == 1 then
-                if optionHover == 1 then
-                    if gPlayerSyncTable[m.playerIndex].moveset == 0 and gGlobalSyncTable.GlobalMoveset then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gPlayerSyncTable[m.playerIndex].moveset = 1
-                            mod_storage_save("MoveSave", "1")
-                            optionHoverTimer = 0
-                        end
-                    elseif gPlayerSyncTable[m.playerIndex].moveset == 1 and gGlobalSyncTable.GlobalMoveset then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gPlayerSyncTable[m.playerIndex].moveset = 2
-                            mod_storage_save("MoveSave", "2")
-                            optionHoverTimer = 0
-                        end
-                    elseif gPlayerSyncTable[m.playerIndex].moveset == 2 and gGlobalSyncTable.GlobalMoveset then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gPlayerSyncTable[m.playerIndex].moveset = 3
-                            mod_storage_save("MoveSave", "3")
-                            optionHoverTimer = 0
-                        end
-                    elseif gPlayerSyncTable[m.playerIndex].moveset == 3 and gGlobalSyncTable.GlobalMoveset then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gPlayerSyncTable[m.playerIndex].moveset = 0
-                            mod_storage_save("MoveSave", "0")
-                            optionHoverTimer = 0
-                        end
+    if menu and m.playerIndex == 0 and optionHoverTimer == -1 then
+        if optionTab == 1 then
+            if optionHover == 1 then
+                if gPlayerSyncTable[m.playerIndex].moveset == 0 and gGlobalSyncTable.GlobalMoveset then
+                    if m.controller.buttonDown & A_BUTTON ~= 0 then
+                        gPlayerSyncTable[m.playerIndex].moveset = 1
+                        mod_storage_save("MoveSave", "1")
+                        optionHoverTimer = 0
                     end
-                elseif optionHover == 2 then
-                    if LGP == true then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            LGP = false
-                            mod_storage_save("LGPSave", "false")
-                            optionHoverTimer = 0
-                        end
-                    elseif LGP == false then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            LGP = true
-                            mod_storage_save("LGPSave", "true")
-                            optionHoverTimer = 0
-                        end
+                elseif gPlayerSyncTable[m.playerIndex].moveset == 1 and gGlobalSyncTable.GlobalMoveset then
+                    if m.controller.buttonDown & A_BUTTON ~= 0 then
+                        gPlayerSyncTable[m.playerIndex].moveset = 2
+                        mod_storage_save("MoveSave", "2")
+                        optionHoverTimer = 0
                     end
-                elseif optionHover == 3 then
-                    if AQS == true and gGlobalSyncTable.GlobalAQS then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            AQS = false
-                            mod_storage_save("AQSSave", "false")
-                            optionHoverTimer = 0
-                        end
-                    elseif AQS == false and gGlobalSyncTable.GlobalAQS then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            AQS = true
-                            mod_storage_save("AQSSave", "true")
-                            optionHoverTimer = 0
-                        end
+                elseif gPlayerSyncTable[m.playerIndex].moveset == 2 and gGlobalSyncTable.GlobalMoveset then
+                    if m.controller.buttonDown & A_BUTTON ~= 0 then
+                        gPlayerSyncTable[m.playerIndex].moveset = 3
+                        mod_storage_save("MoveSave", "3")
+                        optionHoverTimer = 0
                     end
-                elseif optionHover == 4 then
-                    if gPlayerSyncTable[0].wallSlide == true then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gPlayerSyncTable[0].wallSlide = false
-                            mod_storage_save("WKSave", "false")
-                            optionHoverTimer = 0
-                        end
-                    elseif gPlayerSyncTable[0].wallSlide == false then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gPlayerSyncTable[0].wallSlide = true
-                            mod_storage_save("WKSave", "true")
-                            optionHoverTimer = 0
-                        end
+                elseif gPlayerSyncTable[m.playerIndex].moveset == 3 and gGlobalSyncTable.GlobalMoveset then
+                    if m.controller.buttonDown & A_BUTTON ~= 0 then
+                        gPlayerSyncTable[m.playerIndex].moveset = 0
+                        mod_storage_save("MoveSave", "0")
+                        optionHoverTimer = 0
                     end
                 end
-            elseif optionTab == 2 then
-                if optionHover == 1 then
-                    if radarToggle == true then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            radarToggle = false
-                            mod_storage_save("CRSave", "false")
-                            optionHoverTimer = 0
-                        end
-                    elseif radarToggle == false then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            radarToggle = true
-                            mod_storage_save("CRSave", "true")
-                            optionHoverTimer = 0
-                        end
+            elseif optionHover == 2 then
+                if LGP   then
+                    if m.controller.buttonDown & A_BUTTON ~= 0 then
+                        LGP = false
+                        mod_storage_save("LGPSave", "false")
+                        optionHoverTimer = 0
                     end
-                elseif optionHover == 2 then
-                    if capTimerToggle == true then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            capTimerToggle = false
-                            mod_storage_save("CTSave", "false")
-                            optionHoverTimer = 0
-                        end
-                    elseif capTimerToggle == false then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            capTimerToggle = true
-                            mod_storage_save("CTSave", "true")
-                            optionHoverTimer = 0
-                        end
-                    end
-                elseif optionHover == 3 then
-                    if notif == true then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            notif = false
-                            mod_storage_save("notifSave", "false")
-                            optionHoverTimer = 0
-                        end
-                    elseif notif == false then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            notif = true
-                            mod_storage_save("notifSave", "true")
-                            optionHoverTimer = 0
-                        end
+                elseif LGP == false then
+                    if m.controller.buttonDown & A_BUTTON ~= 0 then
+                        LGP = true
+                        mod_storage_save("LGPSave", "true")
+                        optionHoverTimer = 0
                     end
                 end
-            elseif optionTab == 3 then
-                if optionHover == 1 then
-                    if descriptions == true then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            descriptions = false
-                            mod_storage_save("DescSave", "false")
-                            optionHoverTimer = 0
-                        end
-                    elseif descriptions == false then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            descriptions = true
-                            mod_storage_save("DescSave", "true")
-                            optionHoverTimer = 0
-                        end
+            elseif optionHover == 3 then
+                if AQS   and gGlobalSyncTable.GlobalAQS then
+                    if m.controller.buttonDown & A_BUTTON ~= 0 then
+                        AQS = false
+                        mod_storage_save("AQSSave", "false")
+                        optionHoverTimer = 0
                     end
-                elseif optionHover == 2 then
-                    if SSC == true then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            SSC = false
-                            mod_storage_save("SSCSave", "false")
-                            optionHoverTimer = 0
-                        end
-                    elseif SSC == false then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            SSC = true
-                            mod_storage_save("SSCSave", "true")
-                            optionHoverTimer = 0
-                        end
+                elseif AQS == false and gGlobalSyncTable.GlobalAQS then
+                    if m.controller.buttonDown & A_BUTTON ~= 0 then
+                        AQS = true
+                        mod_storage_save("AQSSave", "true")
+                        optionHoverTimer = 0
                     end
                 end
-            elseif optionTab == 4 then
-                if optionHover == 1 then
-                    if gGlobalSyncTable.bubbleDeath == 0 then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gGlobalSyncTable.bubbleDeath = 1
-                            optionHoverTimer = 0
-                        end
-                    elseif gGlobalSyncTable.bubbleDeath == 1 then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gGlobalSyncTable.bubbleDeath = 2
-                            optionHoverTimer = 0
-                        end
-                    elseif gGlobalSyncTable.bubbleDeath == 2 then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gGlobalSyncTable.bubbleDeath = 0
-                            optionHoverTimer = 0
-                        end
+            elseif optionHover == 4 then
+                if gPlayerSyncTable[0].wallSlide   then
+                    if m.controller.buttonDown & A_BUTTON ~= 0 then
+                        gPlayerSyncTable[0].wallSlide = false
+                        mod_storage_save("WKSave", "false")
+                        optionHoverTimer = 0
                     end
-                elseif optionHover == 2 then
-                    if gGlobalSyncTable.playerInteractions == 0 then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gGlobalSyncTable.playerInteractions = 1
-                            optionHoverTimer = 0
-                        end
-                    elseif gGlobalSyncTable.playerInteractions == 1 then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gGlobalSyncTable.playerInteractions = 2
-                            optionHoverTimer = 0
-                        end
-                    elseif gGlobalSyncTable.playerInteractions == 2 then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gGlobalSyncTable.playerInteractions = 0
-                            optionHoverTimer = 0
-                        end
+                elseif gPlayerSyncTable[0].wallSlide == false then
+                    if m.controller.buttonDown & A_BUTTON ~= 0 then
+                        gPlayerSyncTable[0].wallSlide = true
+                        mod_storage_save("WKSave", "true")
+                        optionHoverTimer = 0
                     end
-                elseif optionHover == 3 then
-                    if gGlobalSyncTable.playerKnockbackStrength == 10 then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gGlobalSyncTable.playerKnockbackStrength = 25
-                            optionHoverTimer = 0
-                        end
-                    elseif gGlobalSyncTable.playerKnockbackStrength == 25 then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gGlobalSyncTable.playerKnockbackStrength = 60
-                            optionHoverTimer = 0
-                        end
-                    elseif gGlobalSyncTable.playerKnockbackStrength == 60 then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gGlobalSyncTable.playerKnockbackStrength = 10
-                            optionHoverTimer = 0
-                        end
+                end
+            end
+        elseif optionTab == 2 then
+            if optionHover == 1 then
+                if radarToggle   then
+                    if m.controller.buttonDown & A_BUTTON ~= 0 then
+                        radarToggle = false
+                        mod_storage_save("CRSave", "false")
+                        optionHoverTimer = 0
                     end
-                elseif optionHover == 4 then
-                    if gGlobalSyncTable.shareLives == 1 then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gGlobalSyncTable.shareLives = 0
-                            optionHoverTimer = 0
-                        end
-                    elseif gGlobalSyncTable.shareLives == 0 then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gGlobalSyncTable.shareLives = 1
-                            optionHoverTimer = 0
-                        end
+                elseif radarToggle == false then
+                    if m.controller.buttonDown & A_BUTTON ~= 0 then
+                        radarToggle = true
+                        mod_storage_save("CRSave", "true")
+                        optionHoverTimer = 0
                     end
-                elseif optionHover == 5 then
-                    if gGlobalSyncTable.stayInLevelAfterStar == 0 then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gGlobalSyncTable.stayInLevelAfterStar = 1
-                            optionHoverTimer = 0
-                        end
-                    elseif gGlobalSyncTable.stayInLevelAfterStar == 1 then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gGlobalSyncTable.stayInLevelAfterStar = 2
-                            optionHoverTimer = 0
-                        end
-                    elseif gGlobalSyncTable.stayInLevelAfterStar == 2 then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gGlobalSyncTable.stayInLevelAfterStar = 0
-                            optionHoverTimer = 0
-                        end
+                end
+            elseif optionHover == 2 then
+                if capTimerToggle   then
+                    if m.controller.buttonDown & A_BUTTON ~= 0 then
+                        capTimerToggle = false
+                        mod_storage_save("CTSave", "false")
+                        optionHoverTimer = 0
                     end
-                elseif optionHover == 6 then
-                    if gGlobalSyncTable.GlobalMoveset == true then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gGlobalSyncTable.GlobalMoveset = false
-                            optionHoverTimer = 0
-                        end
-                    elseif gGlobalSyncTable.GlobalMoveset == false then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gGlobalSyncTable.GlobalMoveset = true
-                            optionHoverTimer = 0
-                        end
+                elseif capTimerToggle == false then
+                    if m.controller.buttonDown & A_BUTTON ~= 0 then
+                        capTimerToggle = true
+                        mod_storage_save("CTSave", "true")
+                        optionHoverTimer = 0
                     end
-                elseif optionHover == 7 then
-                    if gGlobalSyncTable.GlobalAQS == true then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gGlobalSyncTable.GlobalAQS = false
-                            optionHoverTimer = 0
-                        end
-                    elseif gGlobalSyncTable.GlobalAQS == false then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gGlobalSyncTable.GlobalAQS = true
-                            optionHoverTimer = 0
-                        end
+                end
+            elseif optionHover == 3 then
+                if notif   then
+                    if m.controller.buttonDown & A_BUTTON ~= 0 then
+                        notif = false
+                        mod_storage_save("notifSave", "false")
+                        optionHoverTimer = 0
                     end
-                elseif optionHover == 8 then
-                    if gGlobalSyncTable.excludeLevels == true then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gGlobalSyncTable.excludeLevels = false
-                            optionHoverTimer = 0
-                        end
-                    elseif gGlobalSyncTable.excludeLevels == false then
-                        if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gGlobalSyncTable.excludeLevels = true
-                            optionHoverTimer = 0
-                        end
+                elseif notif == false then
+                    if m.controller.buttonDown & A_BUTTON ~= 0 then
+                        notif = true
+                        mod_storage_save("notifSave", "true")
+                        optionHoverTimer = 0
+                    end
+                end
+            end
+        elseif optionTab == 3 then
+            if optionHover == 1 then
+                if descriptions   then
+                    if m.controller.buttonDown & A_BUTTON ~= 0 then
+                        descriptions = false
+                        mod_storage_save("DescSave", "false")
+                        optionHoverTimer = 0
+                    end
+                elseif descriptions == false then
+                    if m.controller.buttonDown & A_BUTTON ~= 0 then
+                        descriptions = true
+                        mod_storage_save("DescSave", "true")
+                        optionHoverTimer = 0
+                    end
+                end
+            elseif optionHover == 2 then
+                if SSC   then
+                    if m.controller.buttonDown & A_BUTTON ~= 0 then
+                        SSC = false
+                        mod_storage_save("SSCSave", "false")
+                        optionHoverTimer = 0
+                    end
+                elseif SSC == false then
+                    if m.controller.buttonDown & A_BUTTON ~= 0 then
+                        SSC = true
+                        mod_storage_save("SSCSave", "true")
+                        optionHoverTimer = 0
+                    end
+                end
+            end
+        elseif optionTab == 4 then
+            if optionHover == 1 then
+                if gGlobalSyncTable.bubbleDeath == 0 then
+                    if m.controller.buttonDown & A_BUTTON ~= 0 then
+                        gGlobalSyncTable.bubbleDeath = 1
+                        optionHoverTimer = 0
+                    end
+                elseif gGlobalSyncTable.bubbleDeath == 1 then
+                    if m.controller.buttonDown & A_BUTTON ~= 0 then
+                        gGlobalSyncTable.bubbleDeath = 2
+                        optionHoverTimer = 0
+                    end
+                elseif gGlobalSyncTable.bubbleDeath == 2 then
+                    if m.controller.buttonDown & A_BUTTON ~= 0 then
+                        gGlobalSyncTable.bubbleDeath = 0
+                        optionHoverTimer = 0
+                    end
+                end
+            elseif optionHover == 2 then
+                if gGlobalSyncTable.playerInteractions == 0 then
+                    if m.controller.buttonDown & A_BUTTON ~= 0 then
+                        gGlobalSyncTable.playerInteractions = 1
+                        optionHoverTimer = 0
+                    end
+                elseif gGlobalSyncTable.playerInteractions == 1 then
+                    if m.controller.buttonDown & A_BUTTON ~= 0 then
+                        gGlobalSyncTable.playerInteractions = 2
+                        optionHoverTimer = 0
+                    end
+                elseif gGlobalSyncTable.playerInteractions == 2 then
+                    if m.controller.buttonDown & A_BUTTON ~= 0 then
+                        gGlobalSyncTable.playerInteractions = 0
+                        optionHoverTimer = 0
+                    end
+                end
+            elseif optionHover == 3 then
+                if gGlobalSyncTable.playerKnockbackStrength == 10 then
+                    if m.controller.buttonDown & A_BUTTON ~= 0 then
+                        gGlobalSyncTable.playerKnockbackStrength = 25
+                        optionHoverTimer = 0
+                    end
+                elseif gGlobalSyncTable.playerKnockbackStrength == 25 then
+                    if m.controller.buttonDown & A_BUTTON ~= 0 then
+                        gGlobalSyncTable.playerKnockbackStrength = 60
+                        optionHoverTimer = 0
+                    end
+                elseif gGlobalSyncTable.playerKnockbackStrength == 60 then
+                    if m.controller.buttonDown & A_BUTTON ~= 0 then
+                        gGlobalSyncTable.playerKnockbackStrength = 10
+                        optionHoverTimer = 0
+                    end
+                end
+            elseif optionHover == 4 then
+                if gGlobalSyncTable.shareLives == 1 then
+                    if m.controller.buttonDown & A_BUTTON ~= 0 then
+                        gGlobalSyncTable.shareLives = 0
+                        optionHoverTimer = 0
+                    end
+                elseif gGlobalSyncTable.shareLives == 0 then
+                    if m.controller.buttonDown & A_BUTTON ~= 0 then
+                        gGlobalSyncTable.shareLives = 1
+                        optionHoverTimer = 0
+                    end
+                end
+            elseif optionHover == 5 then
+                if gGlobalSyncTable.stayInLevelAfterStar == 0 then
+                    if m.controller.buttonDown & A_BUTTON ~= 0 then
+                        gGlobalSyncTable.stayInLevelAfterStar = 1
+                        optionHoverTimer = 0
+                    end
+                elseif gGlobalSyncTable.stayInLevelAfterStar == 1 then
+                    if m.controller.buttonDown & A_BUTTON ~= 0 then
+                        gGlobalSyncTable.stayInLevelAfterStar = 2
+                        optionHoverTimer = 0
+                    end
+                elseif gGlobalSyncTable.stayInLevelAfterStar == 2 then
+                    if m.controller.buttonDown & A_BUTTON ~= 0 then
+                        gGlobalSyncTable.stayInLevelAfterStar = 0
+                        optionHoverTimer = 0
+                    end
+                end
+            elseif optionHover == 6 then
+                if gGlobalSyncTable.GlobalMoveset   then
+                    if m.controller.buttonDown & A_BUTTON ~= 0 then
+                        gGlobalSyncTable.GlobalMoveset = false
+                        optionHoverTimer = 0
+                    end
+                elseif gGlobalSyncTable.GlobalMoveset == false then
+                    if m.controller.buttonDown & A_BUTTON ~= 0 then
+                        gGlobalSyncTable.GlobalMoveset = true
+                        optionHoverTimer = 0
+                    end
+                end
+            elseif optionHover == 7 then
+                if gGlobalSyncTable.GlobalAQS   then
+                    if m.controller.buttonDown & A_BUTTON ~= 0 then
+                        gGlobalSyncTable.GlobalAQS = false
+                        optionHoverTimer = 0
+                    end
+                elseif gGlobalSyncTable.GlobalAQS == false then
+                    if m.controller.buttonDown & A_BUTTON ~= 0 then
+                        gGlobalSyncTable.GlobalAQS = true
+                        optionHoverTimer = 0
+                    end
+                end
+            elseif optionHover == 8 then
+                if gGlobalSyncTable.excludeLevels then
+                    if m.controller.buttonDown & A_BUTTON ~= 0 then
+                        gGlobalSyncTable.excludeLevels = false
+                        optionHoverTimer = 0
+                    end
+                elseif gGlobalSyncTable.excludeLevels == false then
+                    if m.controller.buttonDown & A_BUTTON ~= 0 then
+                        gGlobalSyncTable.excludeLevels = true
+                        optionHoverTimer = 0
                     end
                 end
             end
