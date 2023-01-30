@@ -18,7 +18,7 @@ local optionHoverTimer = -1
 
 function hud_print_description(CMDName, Line1, Line2, Line3, Line4, Line5, Line6, Line7, Line8, Line9)
     local m = gMarioStates[0]
-    if gPlayerSyncTable[m.playerIndex].Descriptions == true then
+    if descriptions == true then
         djui_hud_print_text(CMDName, ((djui_hud_get_screen_width()/2) + 100), 85, 0.3)
         if Line1 ~= nil then djui_hud_print_text(Line1, ((djui_hud_get_screen_width()/2) + 100), 100, 0.3) end
         if Line2 ~= nil then djui_hud_print_text(Line2, ((djui_hud_get_screen_width()/2) + 100), 108, 0.3) end
@@ -188,7 +188,7 @@ function displaymenu()
         djui_hud_print_text("Server", ((djui_hud_get_screen_width()/2) - (djui_hud_measure_text("Server")* 0.3 / 2)), 50, 0.3)
 
         
-        if gPlayerSyncTable[m.playerIndex].Descriptions == true then
+        if descriptions == true then
             djui_hud_set_color(0, 0, 0, 170)
             djui_hud_render_rect(((djui_hud_get_screen_width()/2) + 91), ((djui_hud_get_screen_height()/2) - 42), 104, 104)
             djui_hud_set_color(0, 0, 0, 220)
@@ -249,13 +249,13 @@ function displaymenu()
             djui_hud_print_text("Lava Groundpound", ((djui_hud_get_screen_width()/2) - 70), 90, 0.3)
             if optionHover == 2 then
                 hud_print_description("Lava Groundpound:", "Ground-Pounding on lava will","give you a speed and height","boost, at the cost of health.")
-                hud_print_toggle_status(gPlayerSyncTable[m.playerIndex].LGP)
+                hud_print_toggle_status(LGP)
             end
             djui_hud_print_text("Anti-Quicksand", ((djui_hud_get_screen_width()/2) - 70), 100, 0.3)
             if optionHover == 3 then
                 hud_print_description("Anti-Quicksand:", "Makes instant quicksand act","like lava, preventing what","may seem like an unfair","deaths. (Does not include","Lava Groundpound functions)")
                 if gGlobalSyncTable.GlobalAQS == true then
-                    hud_print_toggle_status(gPlayerSyncTable[m.playerIndex].AQS)
+                    hud_print_toggle_status(AQS)
                 else
                     djui_hud_print_text("Forced Off", ((djui_hud_get_screen_width()/2)), 100, 0.3)
                 end
@@ -288,16 +288,16 @@ function displaymenu()
             end
             if optionHover == 1 then
                 hud_print_description("","","","","","Collectables Radar:", "Tells you how far away","Red coins and Secrets","are.")
-                hud_print_toggle_status(gPlayerSyncTable[m.playerIndex].radarToggle)
+                hud_print_toggle_status(radarToggle)
             end
             if optionHover == 2 then
                 hud_print_description("","","","","","Cap Timer:", "Tells you how many seconds","your cap has left until it","runs out.")
-                hud_print_toggle_status(gPlayerSyncTable[m.playerIndex].capTimerToggle)
+                hud_print_toggle_status(capTimerToggle)
             end
             djui_hud_print_text("Server Popups", ((djui_hud_get_screen_width()/2) - 70), 90, 0.3)
             if optionHover == 3 then
                 hud_print_description("Server Popups:", "Shows Tips/Hints about the","server every 3-5 minutes.","Recommended for if you're","new to the server.")
-                hud_print_toggle_status(gPlayerSyncTable[m.playerIndex].notif)
+                hud_print_toggle_status(notif)
             end
         elseif optionTab == 3 then
             if optionHover < 1 then
@@ -312,12 +312,12 @@ function displaymenu()
             djui_hud_print_text("Descriptions", ((djui_hud_get_screen_width()/2) - 70), 80, 0.3)
             if optionHover == 1 then
                 hud_print_description("Descriptions:", "Toggles these descriptions","you see on the right,","Recommended to turn Off if","you like a more minimalistic","menu.")
-                hud_print_toggle_status(gPlayerSyncTable[m.playerIndex].Descriptions)
+                hud_print_toggle_status(descriptions)
             end
             djui_hud_print_text("Star Spawn Cutscene", ((djui_hud_get_screen_width()/2) - 70), 90, 0.3)
             if optionHover == 2 then
                 hud_print_description("Star Spawn Cutscene:", "Toggles if Star Spawning","Cutscenes play, Recommended","if you don't know where a","star spawns.")
-                hud_print_toggle_status(gPlayerSyncTable[m.playerIndex].SSC)
+                hud_print_toggle_status(SSC)
             end
         elseif optionTab == 4 then
             if optionHover < 1 then
@@ -404,29 +404,29 @@ function before_update(m)
                         end
                     end
                 elseif optionHover == 2 then
-                    if gPlayerSyncTable[m.playerIndex].LGP == true then
+                    if LGP == true then
                         if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gPlayerSyncTable[m.playerIndex].LGP = false
+                            LGP = false
                             mod_storage_save("LGPSave", "false")
                             optionHoverTimer = 0
                         end
-                    elseif gPlayerSyncTable[m.playerIndex].LGP == false then
+                    elseif LGP == false then
                         if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gPlayerSyncTable[m.playerIndex].LGP = true
+                            LGP = true
                             mod_storage_save("LGPSave", "true")
                             optionHoverTimer = 0
                         end
                     end
                 elseif optionHover == 3 then
-                    if gPlayerSyncTable[m.playerIndex].AQS == true and gGlobalSyncTable.GlobalAQS then
+                    if AQS == true and gGlobalSyncTable.GlobalAQS then
                         if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gPlayerSyncTable[m.playerIndex].AQS = false
+                            AQS = false
                             mod_storage_save("AQSSave", "false")
                             optionHoverTimer = 0
                         end
-                    elseif gPlayerSyncTable[m.playerIndex].AQS == false and gGlobalSyncTable.GlobalAQS then
+                    elseif AQS == false and gGlobalSyncTable.GlobalAQS then
                         if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gPlayerSyncTable[m.playerIndex].AQS = true
+                            AQS = true
                             mod_storage_save("AQSSave", "true")
                             optionHoverTimer = 0
                         end
@@ -448,43 +448,43 @@ function before_update(m)
                 end
             elseif optionTab == 2 then
                 if optionHover == 1 then
-                    if gPlayerSyncTable[m.playerIndex].radarToggle == true then
+                    if radarToggle == true then
                         if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gPlayerSyncTable[m.playerIndex].radarToggle = false
+                            radarToggle = false
                             mod_storage_save("CRSave", "false")
                             optionHoverTimer = 0
                         end
-                    elseif gPlayerSyncTable[m.playerIndex].radarToggle == false then
+                    elseif radarToggle == false then
                         if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gPlayerSyncTable[m.playerIndex].radarToggle = true
+                            radarToggle = true
                             mod_storage_save("CRSave", "true")
                             optionHoverTimer = 0
                         end
                     end
                 elseif optionHover == 2 then
-                    if gPlayerSyncTable[m.playerIndex].capTimerToggle == true then
+                    if capTimerToggle == true then
                         if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gPlayerSyncTable[m.playerIndex].capTimerToggle = false
+                            capTimerToggle = false
                             mod_storage_save("CTSave", "false")
                             optionHoverTimer = 0
                         end
-                    elseif gPlayerSyncTable[m.playerIndex].capTimerToggle == false then
+                    elseif capTimerToggle == false then
                         if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gPlayerSyncTable[m.playerIndex].capTimerToggle = true
+                            capTimerToggle = true
                             mod_storage_save("CTSave", "true")
                             optionHoverTimer = 0
                         end
                     end
                 elseif optionHover == 3 then
-                    if gPlayerSyncTable[m.playerIndex].notif == true then
+                    if notif == true then
                         if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gPlayerSyncTable[m.playerIndex].notif = false
+                            notif = false
                             mod_storage_save("notifSave", "false")
                             optionHoverTimer = 0
                         end
-                    elseif gPlayerSyncTable[m.playerIndex].notif == false then
+                    elseif notif == false then
                         if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gPlayerSyncTable[m.playerIndex].notif = true
+                            notif = true
                             mod_storage_save("notifSave", "true")
                             optionHoverTimer = 0
                         end
@@ -492,29 +492,29 @@ function before_update(m)
                 end
             elseif optionTab == 3 then
                 if optionHover == 1 then
-                    if gPlayerSyncTable[m.playerIndex].Descriptions == true then
+                    if descriptions == true then
                         if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gPlayerSyncTable[m.playerIndex].Descriptions = false
+                            descriptions = false
                             mod_storage_save("DescSave", "false")
                             optionHoverTimer = 0
                         end
-                    elseif gPlayerSyncTable[m.playerIndex].Descriptions == false then
+                    elseif descriptions == false then
                         if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gPlayerSyncTable[m.playerIndex].Descriptions = true
+                            descriptions = true
                             mod_storage_save("DescSave", "true")
                             optionHoverTimer = 0
                         end
                     end
                 elseif optionHover == 2 then
-                    if gPlayerSyncTable[m.playerIndex].SSC == true then
+                    if SSC == true then
                         if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gPlayerSyncTable[m.playerIndex].SSC = false
+                            SSC = false
                             mod_storage_save("SSCSave", "false")
                             optionHoverTimer = 0
                         end
-                    elseif gPlayerSyncTable[m.playerIndex].SSC == false then
+                    elseif SSC == false then
                         if m.controller.buttonDown & A_BUTTON ~= 0 then
-                            gPlayerSyncTable[m.playerIndex].SSC = true
+                            SSC = true
                             mod_storage_save("SSCSave", "true")
                             optionHoverTimer = 0
                         end
@@ -686,11 +686,6 @@ if mod_storage_load("notifSave") == nil then
     mod_storage_save("notifSave", "true")
 end
 
-if mod_storage_load("CMDSave") == nil then
-    print("'Commands' not found in 'squishys-server.sav', set to default 'off'")
-    mod_storage_save("CMDSave", "false")
-end
-
 if mod_storage_load("DescSave") == nil then
     print("'Descriptions' not found in 'squishys-server.sav', set to default 'on'")
     mod_storage_save("DescSave", "true")
@@ -708,16 +703,16 @@ function on_player_connected(m)
     gPlayerSyncTable[m.playerIndex].moveset = tonumber(mod_storage_load("MoveSave"))
 
     if mod_storage_load("LGPSave") == "true" then
-        gPlayerSyncTable[m.playerIndex].LGP = true
+        LGP = true
     elseif mod_storage_load("LGPSave") == "false" then
-        gPlayerSyncTable[m.playerIndex].LGP = false
+        LGP = false
     end
 
     gGlobalSyncTable.GlobalAQS = true
     if mod_storage_load("AQSSave") == "true" then
-        gPlayerSyncTable[m.playerIndex].AQS = true
+        AQS = true
     elseif mod_storage_load("AQSSave") == "false" then
-        gPlayerSyncTable[m.playerIndex].AQS = false
+        AQS = false
     end
 
     if mod_storage_load("WKSave") == "true" then
@@ -727,41 +722,34 @@ function on_player_connected(m)
     end
 
     if mod_storage_load("CRSave") == "true" then
-        gPlayerSyncTable[m.playerIndex].radarToggle = true
-        gPlayerSyncTable[m.playerIndex].capTimerToggle = true
+        radarToggle = true
+
     elseif mod_storage_load("CRSave") == "false" then
-        gPlayerSyncTable[m.playerIndex].radarToggle = false
-        gPlayerSyncTable[m.playerIndex].capTimerToggle = false
-    elseif mod_storage_load("CRSave") == "cap" then
-        gPlayerSyncTable[m.playerIndex].radarToggle = false
-        gPlayerSyncTable[m.playerIndex].capTimerToggle = true
-    elseif mod_storage_load("CRSave") == "radar" then
-        gPlayerSyncTable[m.playerIndex].radarToggle = true
-        gPlayerSyncTable[m.playerIndex].capTimerToggle = false
+        radarToggle = false
+    end
+
+    if mod_storage_load("CTSave") == "true" then
+        capTimerToggle = false
+    elseif mod_storage_load("CTSave") == "false" then
+        capTimerToggle = false
     end
 
     if mod_storage_load("notifSave") == "true" then
-        gPlayerSyncTable[m.playerIndex].notif = true
+        notif = true
     elseif mod_storage_load("notifSave") == "false" then
-        gPlayerSyncTable[m.playerIndex].notif = false
-    end
-
-    if mod_storage_load("CMDSave") == "true" then
-        gPlayerSyncTable[m.playerIndex].CMDToggle = true
-    elseif mod_storage_load("CMDSave") == "false" then
-        gPlayerSyncTable[m.playerIndex].CMDToggle = false
+        notif = false
     end
 
     if mod_storage_load("DescSave") == "true" then
-        gPlayerSyncTable[m.playerIndex].Descriptions = true
+        descriptions = true
     elseif mod_storage_load("DescSave") == "false" then
-        gPlayerSyncTable[m.playerIndex].Descriptions = false
+        descriptions = false
     end
 
     if mod_storage_load("SSCSave") == "true" then
-        gPlayerSyncTable[m.playerIndex].SSC = true
+        SSC = true
     elseif mod_storage_load("SSCSave") == "false" then
-        gPlayerSyncTable[m.playerIndex].SSC = false
+        SSC = false
     end
 end
 

@@ -46,7 +46,7 @@ function display()
     local distNum = tonumber(string.format('%.0f', red_coin_distance))
     local textLength = djui_hud_measure_text(tostring(distNum))
     obj = obj_get_first_with_behavior_id(id_bhvRedCoin)
-    if (obj ~= nil) and gPlayerSyncTable[m.playerIndex].radarToggle == true then
+    if (obj ~= nil) and radarToggle == true then
         if is_game_paused() then
             djui_hud_set_color(255, 255, 255, 255)
             djui_hud_print_text(string.format("%.0f", red_coin_distance / 10), x + 107 - textLength, y - 55, scale)
@@ -73,7 +73,7 @@ function display()
     textLength = djui_hud_measure_text(tostring(distNum))
     obj = obj_get_first_with_behavior_id(id_bhvHiddenStarTrigger)
 
-    if (obj ~= nil) and gPlayerSyncTable[m.playerIndex].radarToggle == true then
+    if (obj ~= nil) and radarToggle == true then
         if is_game_paused() then
             djui_hud_set_color(255, 255, 255, 255)
             djui_hud_print_text(string.format("%.0f", secret_distance / 10), x + 107 - textLength, y - 75, scale)
@@ -109,7 +109,7 @@ function display()
     local m = gMarioStates[0]
     distNum = tonumber(string.format('%.0f', (math.ceil(m.capTimer/30))))
     textLength = djui_hud_measure_text(tostring(distNum))
-    if gPlayerSyncTable[m.playerIndex].capTimerToggle == true then
+    if capTimerToggle == true then
         if (m.flags & (MARIO_WING_CAP | MARIO_METAL_CAP | MARIO_VANISH_CAP)) ~= 0 then
             djui_hud_set_color(255, 255, 255, 255)
             djui_hud_print_text(".", 40, 167 + capboxmove, 1)
@@ -780,7 +780,7 @@ function on_set_mario_action(m)
     end
     --Lava Groundpound--
 
-    if gPlayerSyncTable[m.playerIndex].LGP == true then
+    if LGP == true then
         if m.prevAction == ACT_GROUND_POUND_LAND and m.action == ACT_LAVA_BOOST then
             m.vel.y = m.vel.y * 1.1
             m.forwardVel = 70
@@ -790,7 +790,7 @@ function on_set_mario_action(m)
     
     --Anti quicksand--
 
-    if gPlayerSyncTable[m.playerIndex].AQS == true and gGlobalSyncTable.GlobalAQS == true then
+    if AQS == true and gGlobalSyncTable.GlobalAQS == true then
         if m.action == ACT_QUICKSAND_DEATH then
             set_mario_action(m, ACT_LAVA_BOOST, 0)
             if m.flags & MARIO_METAL_CAP ~= 0 then
@@ -839,7 +839,7 @@ function update()
         return
     end
 
-    if (not gPlayerSyncTable[m.playerIndex].SSC) and ((c.cutscene == CUTSCENE_STAR_SPAWN) or (c.cutscene == CUTSCENE_RED_COIN_STAR_SPAWN)) then
+    if (not SSC) and ((c.cutscene == CUTSCENE_STAR_SPAWN) or (c.cutscene == CUTSCENE_RED_COIN_STAR_SPAWN)) then
         disable_time_stop_including_mario()
         m.freeze = 0
         c.cutscene = 0
