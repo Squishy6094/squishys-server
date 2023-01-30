@@ -716,14 +716,13 @@ function on_player_connected(m)
     end
 
     if mod_storage_load("WKSave") == "true" then
-        gPlayerSyncTable[m.playerIndex].wallSlide = true
+        gPlayerSyncTable[m.playerIndex].CWK = true
     elseif mod_storage_load("WKSave") == "false" then
-        gPlayerSyncTable[m.playerIndex].wallSlide = false
+        gPlayerSyncTable[m.playerIndex].CWK = false
     end
 
     if mod_storage_load("CRSave") == "true" then
         radarToggle = true
-
     elseif mod_storage_load("CRSave") == "false" then
         radarToggle = false
     end

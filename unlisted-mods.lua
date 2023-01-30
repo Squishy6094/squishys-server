@@ -653,7 +653,7 @@ end
 ACT_WALL_SLIDE = (0x0BF | ACT_FLAG_AIR | ACT_FLAG_MOVING | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)
 
 function act_wall_slide(m)
-    if not gPlayerSyncTable[m.playerIndex].wallSlide and mod_storage_load("Wallslide") == true then return end
+    if not gPlayerSyncTable[m.playerIndex].CWK and mod_storage_load("Wallslide") == true then return end
 
     if (m.input & INPUT_A_PRESSED) ~= 0 then
         local rc = set_mario_action(m, ACT_WALL_KICK_AIR, 0)
@@ -730,7 +730,7 @@ end
 ---@param m MarioState
 function wallkicks(m)
     if m.playerIndex ~= 0 then return end
-    if not gPlayerSyncTable[m.playerIndex].wallSlide then return end
+    if not gPlayerSyncTable[m.playerIndex].CWK then return end
     if m.wall ~= nil then
         if (m.wall.type == SURFACE_BURNING) then return end
 
@@ -805,7 +805,7 @@ function on_set_mario_action(m)
 
     --wallslide--
 
-    if m.action == ACT_SOFT_BONK and gPlayerSyncTable[m.playerIndex].wallSlide then
+    if m.action == ACT_SOFT_BONK and gPlayerSyncTable[m.playerIndex].CWK then
         m.faceAngle.y = m.faceAngle.y + 0x8000
         set_mario_action(m, ACT_WALL_SLIDE, 0)
     end
