@@ -231,18 +231,18 @@ function displaymenu()
             if optionHover == 1 then
                 hud_print_description("Movesets:", "Change small things about","how Mario moves to make","movement feel better")
                 if gGlobalSyncTable.GlobalMoveset then
-                    hud_print_unique_toggle_status(gPlayerSyncTable[m.playerIndex].moveset, "Default", "Character", "QOL", "Robot 64")
+                    hud_print_unique_toggle_status(gPlayerSyncTable[0].moveset, "Default", "Character", "QOL", "Robot 64")
                 else
                     djui_hud_print_text("Forced Default", ((djui_hud_get_screen_width()/2)), 80, 0.3)
                 end
                 
-                if gPlayerSyncTable[m.playerIndex].moveset == 0 then
+                if gPlayerSyncTable[0].moveset == 0 then
                     hud_print_description("","","","","","Default:","Just the good ol' SM64", "movement everyone knows","and loves!")
-                elseif gPlayerSyncTable[m.playerIndex].moveset == 1 then
+                elseif gPlayerSyncTable[0].moveset == 1 then
                     hud_print_description("","","","","","Character Moveset:","Changes your movement based", "on which Character you're","playing as.")
-                elseif gPlayerSyncTable[m.playerIndex].moveset == 2 then
+                elseif gPlayerSyncTable[0].moveset == 2 then
                     hud_print_description("","","","","","Quality of Life Moveset:","Adds QOL Moves like the", "The Groundpound Jump,","Groundpound Dive, Spin-Pound,", "Water-Pound, etc.")
-                elseif gPlayerSyncTable[m.playerIndex].moveset == 3 then
+                elseif gPlayerSyncTable[0].moveset == 3 then
                     hud_print_description("","","","","","Robot 64 Moveset:","Adds the Moves and physics", "from the SM64 inspired",'Roblox Game "Robot 64!"')
                 end
             end
@@ -377,27 +377,27 @@ function before_update(m)
     if menu and m.playerIndex == 0 and optionHoverTimer == -1 then
         if optionTab == 1 then
             if optionHover == 1 then
-                if gPlayerSyncTable[m.playerIndex].moveset == 0 and gGlobalSyncTable.GlobalMoveset then
+                if gPlayerSyncTable[0].moveset == 0 and gGlobalSyncTable.GlobalMoveset then
                     if m.controller.buttonDown & A_BUTTON ~= 0 then
-                        gPlayerSyncTable[m.playerIndex].moveset = 1
+                        gPlayerSyncTable[0].moveset = 1
                         mod_storage_save("MoveSave", "1")
                         optionHoverTimer = 0
                     end
-                elseif gPlayerSyncTable[m.playerIndex].moveset == 1 and gGlobalSyncTable.GlobalMoveset then
+                elseif gPlayerSyncTable[0].moveset == 1 and gGlobalSyncTable.GlobalMoveset then
                     if m.controller.buttonDown & A_BUTTON ~= 0 then
-                        gPlayerSyncTable[m.playerIndex].moveset = 2
+                        gPlayerSyncTable[0].moveset = 2
                         mod_storage_save("MoveSave", "2")
                         optionHoverTimer = 0
                     end
-                elseif gPlayerSyncTable[m.playerIndex].moveset == 2 and gGlobalSyncTable.GlobalMoveset then
+                elseif gPlayerSyncTable[0].moveset == 2 and gGlobalSyncTable.GlobalMoveset then
                     if m.controller.buttonDown & A_BUTTON ~= 0 then
-                        gPlayerSyncTable[m.playerIndex].moveset = 3
+                        gPlayerSyncTable[0].moveset = 3
                         mod_storage_save("MoveSave", "3")
                         optionHoverTimer = 0
                     end
-                elseif gPlayerSyncTable[m.playerIndex].moveset == 3 and gGlobalSyncTable.GlobalMoveset then
+                elseif gPlayerSyncTable[0].moveset == 3 and gGlobalSyncTable.GlobalMoveset then
                     if m.controller.buttonDown & A_BUTTON ~= 0 then
-                        gPlayerSyncTable[m.playerIndex].moveset = 0
+                        gPlayerSyncTable[0].moveset = 0
                         mod_storage_save("MoveSave", "0")
                         optionHoverTimer = 0
                     end
@@ -698,7 +698,7 @@ print("Saving configuration to 'squishys-server.sav'")
 
 function on_player_connected(m)
 
-    gPlayerSyncTable[m.playerIndex].moveset = tonumber(mod_storage_load("MoveSave"))
+    gPlayerSyncTable[0].moveset = tonumber(mod_storage_load("MoveSave"))
 
     if mod_storage_load("LGPSave") == "true" then
         LGP = true
