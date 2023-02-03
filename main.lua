@@ -442,7 +442,7 @@ function displayrules(m)
     -----------------------------------------
     -- Main code:
     m = gMarioStates[0]
-    if (switched  ) then
+    if (switched == true) then
         if (hasConfirmed == false) then
             set_mario_action(m, ACT_READING_AUTOMATIC_DIALOG, 0)
         end
@@ -634,7 +634,7 @@ function mario_update_msgtimer(m)
         end
         popupnum = math.random(1,11)
     end
-    if msgtimer >= math.random(72000,1080000) and notif   then
+    if msgtimer >= math.random(72000,1080000) and gPlayerSyncTable[m.playerIndex].notif == true then
         msgtimer = 0
         popupnum = math.random(1,11)
         if lastpopupnum == popupnum then
