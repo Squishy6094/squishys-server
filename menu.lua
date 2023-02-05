@@ -4,8 +4,6 @@ gGlobalSyncTable.RoomTimerF = 0
 gGlobalSyncTable.bubbleDeath = 2
 gGlobalSyncTable.playerInteractions = gServerSettings.playerInteractions
 gGlobalSyncTable.playerKnockbackStrength = gServerSettings.playerKnockbackStrength
-gGlobalSyncTable.shareLives = gServerSettings.shareLives
-gGlobalSyncTable.skipIntro = gServerSettings.skipIntro
 gGlobalSyncTable.stayInLevelAfterStar = gServerSettings.stayInLevelAfterStar
 gGlobalSyncTable.GlobalAQS = true
 gGlobalSyncTable.GlobalMoveset = true
@@ -77,8 +75,6 @@ function mario_update(m)
     end
     gServerSettings.playerInteractions = gGlobalSyncTable.playerInteractions
     gServerSettings.playerKnockbackStrength = gGlobalSyncTable.playerKnockbackStrength
-    gServerSettings.shareLives = gGlobalSyncTable.shareLives
-    gServerSettings.skipIntro = gGlobalSyncTable.skipIntro
     gServerSettings.stayInLevelAfterStar = gGlobalSyncTable.stayInLevelAfterStar
 end
 
@@ -336,28 +332,23 @@ function displaymenu()
                 hud_print_description("Player Knockback:", "Changes how far players get","knocked back after being hit","by another player.")
                 hud_print_unique_toggle_status(gGlobalSyncTable.playerKnockbackStrength,"Weak", "Normal", "Too Much", 10, 25, 60)
             end
-            djui_hud_print_text("Share Lives", ((djui_hud_get_screen_width()/2) - 70), 110, 0.3)
+            djui_hud_print_text("On Star Collection", ((djui_hud_get_screen_width()/2) - 70), 110, 0.3)
             if optionHover == 4 then
-                hud_print_description("Share Lives:", "Changes if players in the","same level share lives.")
-                hud_print_unique_toggle_status(gGlobalSyncTable.shareLives, "Off", "On")
-            end
-            djui_hud_print_text("On Star Collection", ((djui_hud_get_screen_width()/2) - 70), 120, 0.3)
-            if optionHover == 5 then
                 hud_print_description("On Star Collection:", "Determines what happens","after you collect a star.")
                 hud_print_unique_toggle_status(gGlobalSyncTable.stayInLevelAfterStar, "Leave Level", "Stay in Level", "Non-Stop")
             end
-            djui_hud_print_text("Global Movesets", ((djui_hud_get_screen_width()/2) - 70), 130, 0.3)
-            if optionHover == 6 then
+            djui_hud_print_text("Global Movesets", ((djui_hud_get_screen_width()/2) - 70), 120, 0.3)
+            if optionHover == 5 then
                 hud_print_description("Global Movesets:", "Determines if players can","locally change what moveset","they're using, Off forces","everyone to default.")
                 hud_print_toggle_status(gGlobalSyncTable.GlobalMoveset)
             end
-            djui_hud_print_text("Global Anti-Quicksand", ((djui_hud_get_screen_width()/2) - 70), 140, 0.3)
-            if optionHover == 7 then
+            djui_hud_print_text("Global Anti-Quicksand", ((djui_hud_get_screen_width()/2) - 70), 130, 0.3)
+            if optionHover == 6 then
                 hud_print_description("Global Anti-Quicksand:", "Determines if players can","locally change AQS or if","it's forced off.")
                 hud_print_toggle_status(gGlobalSyncTable.GlobalAQS)
             end
-            djui_hud_print_text("Door Bust Ex Levels", ((djui_hud_get_screen_width()/2) - 70), 150, 0.3)
-            if optionHover == 8 then
+            djui_hud_print_text("Door Bust Ex Levels", ((djui_hud_get_screen_width()/2) - 70), 140, 0.3)
+            if optionHover == 7 then
                 hud_print_description("Exclude Door Bust Levels:", "Toggle Excluding problematic","levels in Door Bust, such as","BBH or HMC.")
                 hud_print_toggle_status(gGlobalSyncTable.excludeLevels)
             end
@@ -476,12 +467,6 @@ function before_update(m)
                         gGlobalSyncTable.playerKnockbackStrength = 10
                     end
                 elseif optionHover == 4 then
-                    if gGlobalSyncTable.shareLives == 1 then
-                        gGlobalSyncTable.shareLives = 0
-                    elseif gGlobalSyncTable.shareLives == 0 then
-                        gGlobalSyncTable.shareLives = 1
-                    end
-                elseif optionHover == 5 then
                     if gGlobalSyncTable.stayInLevelAfterStar == 0 then
                         gGlobalSyncTable.stayInLevelAfterStar = 1
                     elseif gGlobalSyncTable.stayInLevelAfterStar == 1 then
@@ -489,19 +474,19 @@ function before_update(m)
                     elseif gGlobalSyncTable.stayInLevelAfterStar == 2 then
                         gGlobalSyncTable.stayInLevelAfterStar = 0
                     end
-                elseif optionHover == 6 then
+                elseif optionHover == 5 then
                     if gGlobalSyncTable.GlobalMoveset then
                         gGlobalSyncTable.GlobalMoveset = false
                     elseif gGlobalSyncTable.GlobalMoveset == false then
                         gGlobalSyncTable.GlobalMoveset = true
                     end
-                elseif optionHover == 7 then
+                elseif optionHover == 6 then
                     if gGlobalSyncTable.GlobalAQS then
                         gGlobalSyncTable.GlobalAQS = false
                     elseif gGlobalSyncTable.GlobalAQS == false then
                         gGlobalSyncTable.GlobalAQS = true
                     end
-                elseif optionHover == 8 then
+                elseif optionHover == 7 then
                     if gGlobalSyncTable.excludeLevels then
                         gGlobalSyncTable.excludeLevels = false
                     elseif gGlobalSyncTable.excludeLevels == false then
