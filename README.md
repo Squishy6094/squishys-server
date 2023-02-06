@@ -3,7 +3,9 @@
 
  This repo is a resource if you're curious about how something in the mod is coded, Want to make optimization Pull Requests, or just hate long loading times and just want to download it here.
 
-## Downloading to avoid loading times
+## Downloading to avoid loading times (No longer needed)
+
+### With the return of Discord Servers, *Downloading to avoid loading times* is no longer required!
 
  If you're here to download the latest version of the server mod, then follow these intructions:
 
