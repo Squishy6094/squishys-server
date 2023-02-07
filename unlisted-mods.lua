@@ -46,7 +46,7 @@ function display()
     local distNum = tonumber(string.format('%.0f', red_coin_distance))
     local textLength = djui_hud_measure_text(tostring(distNum))
     obj = obj_get_first_with_behavior_id(id_bhvRedCoin)
-    if (obj ~= nil) and radarToggle then
+    if (obj ~= nil) and radarRedToggle then
         if is_game_paused() then
             djui_hud_set_color(255, 255, 255, 255)
             djui_hud_print_text(string.format("%.0f", red_coin_distance / 10), x + 107 - textLength, y - 55, scale)
@@ -73,7 +73,7 @@ function display()
     textLength = djui_hud_measure_text(tostring(distNum))
     obj = obj_get_first_with_behavior_id(id_bhvHiddenStarTrigger)
 
-    if (obj ~= nil) and radarToggle then
+    if (obj ~= nil) and radarSecretToggle then
         if is_game_paused() then
             djui_hud_set_color(255, 255, 255, 255)
             djui_hud_print_text(string.format("%.0f", secret_distance / 10), x + 107 - textLength, y - 75, scale)

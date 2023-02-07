@@ -31,17 +31,17 @@ function hud_print_description(CMDName, Line1, Line2, Line3, Line4, Line5, Line6
 end
 
 function hud_print_toggle_status(SyncTable)
-    if optionTab == 2 and optionHover <= 2 then
+    if optionTab == 2 and optionHover <= 3 then
         if SyncTable then
             djui_hud_print_text("On", ((djui_hud_get_screen_width()/2) + 70), 70 + (optionHover * 10), 0.3)
         elseif not SyncTable then
             djui_hud_print_text("Off", ((djui_hud_get_screen_width()/2) + 70), 70 + (optionHover * 10), 0.3)
         end
-    elseif optionTab == 2 and optionHover == 3 then
+    elseif optionTab == 2 and optionHover == 4 then
         if SyncTable then
-            djui_hud_print_text("On", (djui_hud_get_screen_width()/2), 70 + (optionHover * 10 - 10), 0.3)
+            djui_hud_print_text("On", (djui_hud_get_screen_width()/2), 70 + (optionHover * 10 - 20), 0.3)
         elseif not SyncTable then
-            djui_hud_print_text("Off", (djui_hud_get_screen_width()/2), 70 + (optionHover * 10 - 10), 0.3)
+            djui_hud_print_text("Off", (djui_hud_get_screen_width()/2), 70 + (optionHover * 10 - 20), 0.3)
         end
     else
         if SyncTable then
@@ -255,35 +255,40 @@ function displaymenu()
             end
         elseif optionTab == 2 then
             if optionHover < 1 then
-                optionHover = 3
-            elseif  optionHover > 3 then
+                optionHover = 4
+            elseif  optionHover > 4 then
                 optionHover = 1
             end
             djui_hud_set_color(150, 150, 150, 255)
-            if (optionHover == 1 or optionHover == 2) then
+            if (optionHover >= 1 and optionHover <= 3) then
                 djui_hud_render_rect(((djui_hud_get_screen_width()/2) - 72), 80, 70, 9)
                 djui_hud_render_rect(((djui_hud_get_screen_width()/2) - 2), 110 + (optionHover * 10 - 40), 70, 9)
             else
-                djui_hud_render_rect(((djui_hud_get_screen_width()/2) - 72), 80 + (optionHover * 10 - 20), 70, 9)
+                djui_hud_render_rect(((djui_hud_get_screen_width()/2) - 72), 80 + (optionHover * 10 - 30), 70, 9)
             end
 
             djui_hud_set_color(255, 255, 255, 255)
             djui_hud_print_text("Extra HUD", ((djui_hud_get_screen_width()/2) - 70), 80, 0.3)
-            if optionHover == 1 or optionHover == 2 then
+            if optionHover >= 1 and optionHover <= 3 then
                 hud_print_description("Extra HUD:", "Adds Quality of Life HUD","Elements to tell extra","Information")
                 djui_hud_print_text("Red Coin Radar", ((djui_hud_get_screen_width()/2)), 80, 0.3)
-                djui_hud_print_text("Cap Timer", ((djui_hud_get_screen_width()/2)), 90, 0.3)
+                djui_hud_print_text("Secrets Radar", ((djui_hud_get_screen_width()/2)), 90, 0.3)
+                djui_hud_print_text("Cap Timer", ((djui_hud_get_screen_width()/2)), 100, 0.3)
             end
             if optionHover == 1 then
-                hud_print_description("","","","","","Collectables Radar:", "Tells you how far away","Red coins and Secrets","are.")
-                hud_print_toggle_status(radarToggle)
+                hud_print_description("","","","","","Red Coin Radar:", "Tells you how far away","Red Coins are.")
+                hud_print_toggle_status(radarRedToggle)
             end
             if optionHover == 2 then
+                hud_print_description("","","","","","Secret Radar:", "Tells you how far away","Secrets are.")
+                hud_print_toggle_status(radarSecretToggle)
+            end
+            if optionHover == 3 then
                 hud_print_description("","","","","","Cap Timer:", "Tells you how many seconds","your cap has left until it","runs out.")
                 hud_print_toggle_status(capTimerToggle)
             end
             djui_hud_print_text("Server Popups", ((djui_hud_get_screen_width()/2) - 70), 90, 0.3)
-            if optionHover == 3 then
+            if optionHover == 4 then
                 hud_print_description("Server Popups:", "Shows Tips/Hints about the","server every 3-5 minutes.","Recommended for if you're","new to the server.")
                 hud_print_toggle_status(notif)
             end
@@ -309,8 +314,8 @@ function displaymenu()
             end
         elseif optionTab == 4 then
             if optionHover < 1 then
-                optionHover = 8
-            elseif  optionHover > 8 then
+                optionHover = 7
+            elseif  optionHover > 7 then
                 optionHover = 1
             end
             djui_hud_set_color(150, 150, 150, 255)
@@ -399,14 +404,22 @@ function before_update(m)
                 end
             elseif optionTab == 2 then
                 if optionHover == 1 then
-                    if radarToggle then
-                        radarToggle = false
-                        mod_storage_save("CRSave", "false")
-                    elseif radarToggle == false then
-                        radarToggle = true
-                        mod_storage_save("CRSave", "true")
+                    if radarRedToggle then
+                        radarRedToggle = false
+                        mod_storage_save("CRRSave", "false")
+                    elseif radarRedToggle == false then
+                        radarRedToggle = true
+                        mod_storage_save("CRRSave", "true")
                     end
                 elseif optionHover == 2 then
+                    if radarSecretToggle then
+                        radarSecretToggle = false
+                        mod_storage_save("CRSSave", "false")
+                    elseif radarSecretToggle == false then
+                        radarSecretToggle = true
+                        mod_storage_save("CRSSave", "true")
+                    end
+                elseif optionHover == 3 then
                     if capTimerToggle then
                         capTimerToggle = false
                         mod_storage_save("CTSave", "false")
@@ -414,7 +427,7 @@ function before_update(m)
                         capTimerToggle = true
                         mod_storage_save("CTSave", "true")
                     end
-                elseif optionHover == 3 then
+                elseif optionHover == 4 then
                     if notif then
                         notif = false
                         mod_storage_save("notifSave", "false")
@@ -526,9 +539,14 @@ if mod_storage_load("WKSave") == nil then
     mod_storage_save("WKSave", "true")
 end
 
-if mod_storage_load("CRSave") == nil then
-    print("'Extra Hud' > 'Collectables Radar' not found in 'squishys-server.sav', set to default 'on'")
-    mod_storage_save("CRSave", "true")
+if mod_storage_load("CRRSave") == nil then
+    print("'Extra Hud' > 'Red Coin Radar' not found in 'squishys-server.sav', set to default 'on'")
+    mod_storage_save("CRRSave", "true")
+end
+
+if mod_storage_load("CRSSave") == nil then
+    print("'Extra Hud' > 'Red Coin Radar' not found in 'squishys-server.sav', set to default 'on'")
+    mod_storage_save("CRSSave", "true")
 end
 
 if mod_storage_load("CTSave") == nil then
@@ -581,17 +599,21 @@ function on_player_connected(m)
         gPlayerSyncTable[m.playerIndex].wallSlide = false
     end
 
-    if mod_storage_load("CRSave") == "true" then
-        radarToggle = true
+    if mod_storage_load("CRRSave") == "true" then
+        radarRedToggle = true
+    elseif mod_storage_load("CRRSave") == "false" then
+        radarRedToggle = false
+    end
+
+    if mod_storage_load("CRSSave") == "true" then
+        radarSecretToggle = true
+    elseif mod_storage_load("CRSSave") == "false" then
+        radarSecretToggle = false
+    end
+
+    if mod_storage_load("CTSave") == "true" then
         capTimerToggle = true
-    elseif mod_storage_load("CRSave") == "false" then
-        radarToggle = false
-        capTimerToggle = false
-    elseif mod_storage_load("CRSave") == "cap" then
-        radarToggle = false
-        capTimerToggle = true
-    elseif mod_storage_load("CRSave") == "radar" then
-        radarToggle = true
+    elseif mod_storage_load("CTSave") == "false" then
         capTimerToggle = false
     end
 
@@ -599,12 +621,6 @@ function on_player_connected(m)
         notif = true
     elseif mod_storage_load("notifSave") == "false" then
         notif = false
-    end
-
-    if mod_storage_load("CMDSave") == "true" then
-        gPlayerSyncTable[m.playerIndex].CMDToggle = true
-    elseif mod_storage_load("CMDSave") == "false" then
-        gPlayerSyncTable[m.playerIndex].CMDToggle = false
     end
 
     if mod_storage_load("DescSave") == "true" then
