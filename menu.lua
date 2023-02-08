@@ -81,6 +81,11 @@ end
 function displaymenu()
     local m = gMarioStates[0]
 
+    if menu then
+        djui_hud_set_color(0, 0, 0, 50)
+        djui_hud_render_rect(0, 0, 1000, 1000)
+    end
+
 
     --Room Timer--
 
