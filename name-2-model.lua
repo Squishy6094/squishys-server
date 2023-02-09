@@ -9,6 +9,7 @@ E_MODEL_BLOCKY = smlua_model_util_get_id("blocky_geo")
 E_MODEL_YOSHI = smlua_model_util_get_id("yoshi_player_geo")
 E_MODEL_NYA = smlua_model_util_get_id("nya_geo")
 E_MODEL_CROC = smlua_model_util_get_id("croc_geo")
+E_MODEL_NATSUKI = smlua_model_util_get_id("natsuki_geo")
 
 function name_without_hex(name)
     local nameTable = {}
@@ -61,6 +62,8 @@ function mario_update(m)
             gPlayerSyncTable[0].modelId = E_MODEL_NYA
         elseif name_without_hex(gNetworkPlayers[0].name):find("0x2480") then
             gPlayerSyncTable[0].modelId = E_MODEL_CROC
+        elseif name_without_hex(gNetworkPlayers[0].name):find("Average") then
+            gPlayerSyncTable[0].modelId = E_MODEL_NATSUKI
         else
             gPlayerSyncTable[0].modelId = nil
         end
