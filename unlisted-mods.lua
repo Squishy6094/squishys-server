@@ -636,18 +636,6 @@ function allow_interact(m, o)
     return true
 end
 
-
-function on_exclude_levels_command(msg)
-    if msg == "on" then
-        gGlobalSyncTable.excludeLevels = true
-        djui_chat_message_create("Exclude Levels status: \\00ff00\\ON")
-    else
-        gGlobalSyncTable.excludeLevels = false
-        djui_chat_message_create("Exclude Levels status: \\ff0000\\OFF")
-    end
-    return true
-end
-
 --Wallslide--
 
 ACT_WALL_SLIDE = (0x0BF | ACT_FLAG_AIR | ACT_FLAG_MOVING | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)
@@ -766,7 +754,7 @@ local quicksand_death_surfaces = {
 
 --- @param m MarioState
 function on_set_mario_action(m)
-    --Fixed Bubbleing
+    --Fixed Bubbling
     if m.prevAction == ACT_BUBBLED then
         local underWater = (m.pos.y < m.waterLevel);
         set_mario_action(m, ternary(underWater, ACT_WATER_IDLE, ACT_FREEFALL), 0);
@@ -1156,8 +1144,3 @@ hook_event(HOOK_ON_PLAYER_CONNECTED, on_player_connected)
 hook_event(HOOK_ON_PACKET_RECEIVE, on_packet_receive)
 hook_event(HOOK_ON_LEVEL_INIT, on_level_init)
 hook_event(HOOK_ON_PAUSE_EXIT, on_pause_exit)
-
-if network_is_server() or network_is_moderator() then
-    hook_chat_command("bust-ex-levels", "[on|off] Exclude problematic levels in Door Bust", on_exclude_levels_command)
-end
-    
