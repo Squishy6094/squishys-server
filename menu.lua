@@ -370,6 +370,7 @@ function before_update(m)
     if menu and m.playerIndex == 0 then
         if optionHoverTimer == -1 and m.controller.buttonDown & A_BUTTON ~= 0 then
             optionHoverTimer = 0
+            print("Saving configuration to 'squishys-server.sav'")
             if optionTab == 1 then
                 if optionHover == 1 then
                     if gPlayerSyncTable[m.playerIndex].moveset == 0 and gGlobalSyncTable.GlobalMoveset then
