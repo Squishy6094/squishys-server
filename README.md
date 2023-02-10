@@ -3,6 +3,18 @@
 
  This repo is a resource if you're curious about how something in the mod is coded, Want to make optimization Pull Requests, or just hate long loading times and just want to download it here.
 
+## Community Driven Project
+
+ This mod is only possible because of not only the modders of coop, but everyone who has supported me while making this!
+
+ Since this is a mod by the player, for the player, I want to make sure in can adapt to however *you* play! So please leave any suggestions you may have for features/additions, they make my hosts just that much better.
+
+### Optimization (Pull Requests)
+
+ As I'm not too good at Lua, most of the code isn't optimized as much as it could be.
+
+ I suggest if there is a problem optimization wise, you make a Pull Request! It helps the game not need to process as much and helps myself know how I can better code.
+
 ## Downloading to avoid loading times (No longer needed)
 
 ### With the return of Discord Servers, *Downloading to avoid loading times* is no longer required!
@@ -22,8 +34,3 @@ As this is an unreleased mod, You could also get in trouble for hosting this mod
 
 ###### *(Note: It is perfectly fine to host privately with this mod. Whether it's with a few friends or just to test something, I do not care what you do with this privately.)*
   
-## Optimization (Pull Requests)
-
- As I'm not too good at Lua, most of the code isn't optimized as much as it could be.
-
- I suggest if there is a problem optimization wise, you make a Pull Request! It helps the game not need to process as much and helps myself know how I can better code.
