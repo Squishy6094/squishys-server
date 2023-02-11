@@ -33,8 +33,11 @@ function name_without_hex(name)
     return table.concat(nameTable, "")
 end
 
+modelToggle = true
+
 --- @param m MarioState
 function mario_update(m)
+    if (m.playerIndex == 0 or m.playerIndex ~= 0) and not modelToggle then return end
     if m.playerIndex == 0 then
         if name_without_hex(gNetworkPlayers[0].name):find("Spoomples") then
             gPlayerSyncTable[0].modelId = E_MODEL_SPOOMPLES

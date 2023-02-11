@@ -299,8 +299,8 @@ function displaymenu()
             end
         elseif optionTab == 3 then
             if optionHover < 1 then
-                optionHover = 2
-            elseif  optionHover > 2 then
+                optionHover = 3
+            elseif  optionHover > 3 then
                 optionHover = 1
             end
             djui_hud_set_color(150, 150, 150, 255)
@@ -316,6 +316,11 @@ function displaymenu()
             if optionHover == 2 then
                 hud_print_description("Star Spawn Cutscene:", "Toggles if Star Spawning","Cutscenes play, Recommended","if you don't know where a","star spawns.")
                 hud_print_toggle_status(SSC)
+            end
+            djui_hud_print_text("Player-Specific Models", ((djui_hud_get_screen_width()/2) - 70), 100, 0.3)
+            if optionHover == 3 then
+                hud_print_description("Player-Specific Models:", "Toggles if Custom Player","Models Display locally,","Recommended if other people's","Custom models are getting","in the way.","","Contact The Host for more","information about","Custom Models and DynOS")
+                hud_print_toggle_status(modelToggle)
             end
         elseif optionTab == 4 then
             if optionHover < 1 then
@@ -459,6 +464,14 @@ function before_update(m)
                         SSC = true
                         mod_storage_save("SSCSave", "true")
                     end
+                elseif optionHover == 3 then
+                    if modelToggle then
+                        modelToggle = false
+                        mod_storage_save("PSMSave", "false")
+                    elseif modelToggle == false then
+                        modelToggle = true
+                        mod_storage_save("PSMSave", "true")
+                    end
                 end
             elseif optionTab == 4 then
                 if optionHover == 1 then
@@ -579,6 +592,11 @@ if mod_storage_load("SSCSave") == nil then
     print("'Star Spawn Cutscene' not found in 'squishys-server.sav', set to default 'on'")
     mod_storage_save("SSCSave", "true")
 end
+
+if mod_storage_load("PSMSave") == nil then
+    print("'Player-Specific Models' not found in 'squishys-server.sav', set to default 'on'")
+    mod_storage_save("PSMSave", "true")
+end
 print("Saving configuration to 'squishys-server.sav'")
 
 
@@ -639,6 +657,12 @@ function on_player_connected(m)
         SSC = true
     elseif mod_storage_load("SSCSave") == "false" then
         SSC = false
+    end
+
+    if mod_storage_load("PSMSave") == "true" then
+        modelToggle = true
+    elseif mod_storage_load("PSMSave") == "false" then
+        modelToggle = false
     end
 end
 
