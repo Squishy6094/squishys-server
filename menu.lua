@@ -372,158 +372,187 @@ function displaymenu()
 end
 
 function before_update(m)
-    if menu and m.playerIndex == 0 then
+    if menu then
+        if m.playerIndex ~= 0 then return end        
         if optionHoverTimer == -1 and m.controller.buttonDown & A_BUTTON ~= 0 then
             optionHoverTimer = 0
             print("Saving configuration to 'squishys-server.sav'")
-            if optionTab == 1 then
-                if optionHover == 1 then
-                    if gPlayerSyncTable[m.playerIndex].moveset == 0 and gGlobalSyncTable.GlobalMoveset then
-                        gPlayerSyncTable[m.playerIndex].moveset = 1
-                        mod_storage_save("MoveSave", "1")
-                    elseif gPlayerSyncTable[m.playerIndex].moveset == 1 and gGlobalSyncTable.GlobalMoveset then
-                        gPlayerSyncTable[m.playerIndex].moveset = 2
-                        mod_storage_save("MoveSave", "2")
-                    elseif gPlayerSyncTable[m.playerIndex].moveset == 2 and gGlobalSyncTable.GlobalMoveset then
-                        gPlayerSyncTable[m.playerIndex].moveset = 0
-                        mod_storage_save("MoveSave", "0")
-                    end
-                elseif optionHover == 2 then
-                    if LGP then
-                        LGP = false
-                        mod_storage_save("LGPSave", "false")
-                    elseif LGP == false then
-                        LGP = true
-                        mod_storage_save("LGPSave", "true")
-                    end
-                elseif optionHover == 3 then
-                    if AQS   and gGlobalSyncTable.GlobalAQS then
-                        AQS = false
-                        mod_storage_save("AQSSave", "false")
-                    elseif AQS == false and gGlobalSyncTable.GlobalAQS then
-                        AQS = true
-                        mod_storage_save("AQSSave", "true")
-                    end
-                elseif optionHover == 4 then
-                    if gPlayerSyncTable[0].wallSlide then
-                        gPlayerSyncTable[0].wallSlide = false
-                        mod_storage_save("WKSave", "false")
-                    elseif gPlayerSyncTable[0].wallSlide == false then
-                        gPlayerSyncTable[0].wallSlide = true
-                        mod_storage_save("WKSave", "true")
-                    end
+            if optionTab == 1 and optionHover == 1 then
+                if gPlayerSyncTable[m.playerIndex].moveset == 0 and gGlobalSyncTable.GlobalMoveset then
+                    gPlayerSyncTable[m.playerIndex].moveset = 1
+                    mod_storage_save("MoveSave", "1")
+                elseif gPlayerSyncTable[m.playerIndex].moveset == 1 and gGlobalSyncTable.GlobalMoveset then
+                    gPlayerSyncTable[m.playerIndex].moveset = 2
+                    mod_storage_save("MoveSave", "2")
+                elseif gPlayerSyncTable[m.playerIndex].moveset == 2 and gGlobalSyncTable.GlobalMoveset then
+                    gPlayerSyncTable[m.playerIndex].moveset = 0
+                    mod_storage_save("MoveSave", "0")
                 end
-            elseif optionTab == 2 then
-                if optionHover == 1 then
-                    if radarRedToggle then
-                        radarRedToggle = false
-                        mod_storage_save("CRRSave", "false")
-                    elseif radarRedToggle == false then
-                        radarRedToggle = true
-                        mod_storage_save("CRRSave", "true")
-                    end
-                elseif optionHover == 2 then
-                    if radarSecretToggle then
-                        radarSecretToggle = false
-                        mod_storage_save("CRSSave", "false")
-                    elseif radarSecretToggle == false then
-                        radarSecretToggle = true
-                        mod_storage_save("CRSSave", "true")
-                    end
-                elseif optionHover == 3 then
-                    if capTimerToggle then
-                        capTimerToggle = false
-                        mod_storage_save("CTSave", "false")
-                    elseif capTimerToggle == false then
-                        capTimerToggle = true
-                        mod_storage_save("CTSave", "true")
-                    end
-                elseif optionHover == 4 then
-                    if notif then
-                        notif = false
-                        mod_storage_save("notifSave", "false")
-                    elseif notif == false then
-                        notif = true
-                        mod_storage_save("notifSave", "true")
-                    end
+            end
+
+            if optionTab == 1 and optionHover == 2 then
+                if LGP then
+                    LGP = false
+                    mod_storage_save("LGPSave", "false")
+                elseif LGP == false then
+                    LGP = true
+                    mod_storage_save("LGPSave", "true")
                 end
-            elseif optionTab == 3 then
-                if optionHover == 1 then
-                    if descriptions then
-                        descriptions = false
-                        mod_storage_save("DescSave", "false")
-                    elseif descriptions == false then
-                        descriptions = true
-                        mod_storage_save("DescSave", "true")
-                    end
-                elseif optionHover == 2 then
-                    if SSC then
-                        SSC = false
-                        mod_storage_save("SSCSave", "false")
-                    elseif SSC == false then
-                        SSC = true
-                        mod_storage_save("SSCSave", "true")
-                    end
-                elseif optionHover == 3 then
-                    if modelToggle then
-                        modelToggle = false
-                        mod_storage_save("PSMSave", "false")
-                    elseif modelToggle == false then
-                        modelToggle = true
-                        mod_storage_save("PSMSave", "true")
-                    end
+            end
+
+            if optionTab == 1 and optionHover == 3 then
+                if AQS and gGlobalSyncTable.GlobalAQS then
+                    AQS = false
+                    mod_storage_save("AQSSave", "false")
+                    print("toggle false")
+                elseif AQS == false and gGlobalSyncTable.GlobalAQS then
+                    AQS = true
+                    mod_storage_save("AQSSave", "true")
+                    print("toggle true")
                 end
-            elseif optionTab == 4 then
-                if optionHover == 1 then
-                    if gGlobalSyncTable.bubbleDeath == 0 then
-                        gGlobalSyncTable.bubbleDeath = 1
-                    elseif gGlobalSyncTable.bubbleDeath == 1 then
-                        gGlobalSyncTable.bubbleDeath = 2
-                    elseif gGlobalSyncTable.bubbleDeath == 2 then
-                        gGlobalSyncTable.bubbleDeath = 0
-                    end
-                elseif optionHover == 2 then
-                    if gGlobalSyncTable.playerInteractions == 0 then
-                        gGlobalSyncTable.playerInteractions = 1
-                    elseif gGlobalSyncTable.playerInteractions == 1 then
-                        gGlobalSyncTable.playerInteractions = 2
-                    elseif gGlobalSyncTable.playerInteractions == 2 then
-                        gGlobalSyncTable.playerInteractions = 0
-                    end
-                elseif optionHover == 3 then
-                    if gGlobalSyncTable.playerKnockbackStrength == 10 then
-                        gGlobalSyncTable.playerKnockbackStrength = 25
-                    elseif gGlobalSyncTable.playerKnockbackStrength == 25 then
-                        gGlobalSyncTable.playerKnockbackStrength = 60
-                    elseif gGlobalSyncTable.playerKnockbackStrength == 60 then
-                        gGlobalSyncTable.playerKnockbackStrength = 10
-                    end
-                elseif optionHover == 4 then
-                    if gGlobalSyncTable.stayInLevelAfterStar == 0 then
-                        gGlobalSyncTable.stayInLevelAfterStar = 1
-                    elseif gGlobalSyncTable.stayInLevelAfterStar == 1 then
-                        gGlobalSyncTable.stayInLevelAfterStar = 2
-                    elseif gGlobalSyncTable.stayInLevelAfterStar == 2 then
-                        gGlobalSyncTable.stayInLevelAfterStar = 0
-                    end
-                elseif optionHover == 5 then
-                    if gGlobalSyncTable.GlobalMoveset then
-                        gGlobalSyncTable.GlobalMoveset = false
-                    elseif gGlobalSyncTable.GlobalMoveset == false then
-                        gGlobalSyncTable.GlobalMoveset = true
-                    end
-                elseif optionHover == 6 then
-                    if gGlobalSyncTable.GlobalAQS then
-                        gGlobalSyncTable.GlobalAQS = false
-                    elseif gGlobalSyncTable.GlobalAQS == false then
-                        gGlobalSyncTable.GlobalAQS = true
-                    end
-                elseif optionHover == 7 then
-                    if gGlobalSyncTable.excludeLevels then
-                        gGlobalSyncTable.excludeLevels = false
-                    elseif gGlobalSyncTable.excludeLevels == false then
-                        gGlobalSyncTable.excludeLevels = true
-                    end
+            end
+
+            if optionTab == 1 and optionHover == 4 then
+                if gPlayerSyncTable[0].wallSlide then
+                    gPlayerSyncTable[0].wallSlide = false
+                    mod_storage_save("WKSave", "false")
+                elseif gPlayerSyncTable[0].wallSlide == false then
+                    gPlayerSyncTable[0].wallSlide = true
+                    mod_storage_save("WKSave", "true")
+                end
+            end
+
+            if optionTab == 2 and optionHover == 1 then
+                if radarRedToggle then
+                    radarRedToggle = false
+                    mod_storage_save("CRRSave", "false")
+                elseif radarRedToggle == false then
+                    radarRedToggle = true
+                    mod_storage_save("CRRSave", "true")
+                end
+            end
+
+            if optionTab == 2 and optionHover == 2 then
+                if radarSecretToggle then
+                    radarSecretToggle = false
+                    mod_storage_save("CRSSave", "false")
+                elseif radarSecretToggle == false then
+                    radarSecretToggle = true
+                    mod_storage_save("CRSSave", "true")
+                end
+            end
+
+            if optionTab == 2 and optionHover == 3 then
+                if capTimerToggle then
+                    capTimerToggle = false
+                    mod_storage_save("CTSave", "false")
+                elseif capTimerToggle == false then
+                    capTimerToggle = true
+                    mod_storage_save("CTSave", "true")
+                end
+            end
+
+            if optionTab == 2 and optionHover == 4 then
+                if notif then
+                    notif = false
+                    mod_storage_save("notifSave", "false")
+                elseif notif == false then
+                    notif = true
+                    mod_storage_save("notifSave", "true")
+                end
+            end
+
+            if optionTab == 3 and optionHover == 1 then
+                if descriptions then
+                    descriptions = false
+                    mod_storage_save("DescSave", "false")
+                elseif descriptions == false then
+                    descriptions = true
+                    mod_storage_save("DescSave", "true")
+                end
+            end
+
+            if optionTab == 3 and optionHover == 2 then
+                if SSC then
+                    SSC = false
+                    mod_storage_save("SSCSave", "false")
+                elseif SSC == false then
+                    SSC = true
+                    mod_storage_save("SSCSave", "true")
+                end
+            end
+
+            if optionTab == 3 and optionHover == 3 then
+                if modelToggle then
+                    modelToggle = false
+                    mod_storage_save("PSMSave", "false")
+                elseif modelToggle == false then
+                    modelToggle = true
+                    mod_storage_save("PSMSave", "true")
+                end
+            end
+
+            if optionTab == 4 and optionHover == 1 then
+                if gGlobalSyncTable.bubbleDeath == 0 then
+                    gGlobalSyncTable.bubbleDeath = 1
+                elseif gGlobalSyncTable.bubbleDeath == 1 then
+                    gGlobalSyncTable.bubbleDeath = 2
+                elseif gGlobalSyncTable.bubbleDeath == 2 then
+                    gGlobalSyncTable.bubbleDeath = 0
+                end
+            end
+
+            if optionTab == 4 and optionHover == 2 then
+                if gGlobalSyncTable.playerInteractions == 0 then
+                    gGlobalSyncTable.playerInteractions = 1
+                elseif gGlobalSyncTable.playerInteractions == 1 then
+                    gGlobalSyncTable.playerInteractions = 2
+                elseif gGlobalSyncTable.playerInteractions == 2 then
+                    gGlobalSyncTable.playerInteractions = 0
+                end
+            end
+
+            if optionTab == 4 and optionHover == 3 then
+                if gGlobalSyncTable.playerKnockbackStrength == 10 then
+                    gGlobalSyncTable.playerKnockbackStrength = 25
+                elseif gGlobalSyncTable.playerKnockbackStrength == 25 then
+                    gGlobalSyncTable.playerKnockbackStrength = 60
+                elseif gGlobalSyncTable.playerKnockbackStrength == 60 then
+                    gGlobalSyncTable.playerKnockbackStrength = 10
+                end
+            end
+
+            if optionTab == 4 and optionHover == 4 then
+                if gGlobalSyncTable.stayInLevelAfterStar == 0 then
+                    gGlobalSyncTable.stayInLevelAfterStar = 1
+                elseif gGlobalSyncTable.stayInLevelAfterStar == 1 then
+                    gGlobalSyncTable.stayInLevelAfterStar = 2
+                elseif gGlobalSyncTable.stayInLevelAfterStar == 2 then
+                    gGlobalSyncTable.stayInLevelAfterStar = 0
+                end
+            end
+
+            if optionTab == 4 and optionHover == 5 then
+                if gGlobalSyncTable.GlobalMoveset then
+                    gGlobalSyncTable.GlobalMoveset = false
+                elseif gGlobalSyncTable.GlobalMoveset == false then
+                    gGlobalSyncTable.GlobalMoveset = true
+                end
+            end
+
+            if optionTab == 4 and optionHover == 6 then
+                if gGlobalSyncTable.GlobalAQS then
+                    gGlobalSyncTable.GlobalAQS = false
+                elseif gGlobalSyncTable.GlobalAQS == false then
+                    gGlobalSyncTable.GlobalAQS = true
+                end
+            end
+
+            if optionTab == 4 and optionHover == 7 then
+                if gGlobalSyncTable.excludeLevels then
+                    gGlobalSyncTable.excludeLevels = false
+                elseif gGlobalSyncTable.excludeLevels == false then
+                    gGlobalSyncTable.excludeLevels = true
                 end
             end
         end
@@ -599,74 +628,70 @@ if mod_storage_load("PSMSave") == nil then
 end
 print("Saving configuration to 'squishys-server.sav'")
 
+--Save to Variable--
+gPlayerSyncTable[0].moveset = tonumber(mod_storage_load("MoveSave"))
 
-function on_player_connected(m)
+if mod_storage_load("LGPSave") == "true" then
+    LGP = true
+elseif mod_storage_load("LGPSave") == "false" then
+    LGP = false
+end
 
-    gPlayerSyncTable[m.playerIndex].moveset = tonumber(mod_storage_load("MoveSave"))
+gGlobalSyncTable.GlobalAQS = true
+if mod_storage_load("AQSSave") == "true" then
+    AQS = true
+elseif mod_storage_load("AQSSave") == "false" then
+    AQS = false
+end
 
-    if mod_storage_load("LGPSave") == "true" then
-        LGP = true
-    elseif mod_storage_load("LGPSave") == "false" then
-        LGP = false
-    end
+if mod_storage_load("WKSave") == "true" then
+    gPlayerSyncTable[0].wallSlide = true
+elseif mod_storage_load("WKSave") == "false" then
+    gPlayerSyncTable[0].wallSlide = false
+end
 
-    gGlobalSyncTable.GlobalAQS = true
-    if mod_storage_load("AQSSave") == "true" then
-        AQS = true
-    elseif mod_storage_load("AQSSave") == "false" then
-        AQS = false
-    end
+if mod_storage_load("CRRSave") == "true" then
+    radarRedToggle = true
+elseif mod_storage_load("CRRSave") == "false" then
+    radarRedToggle = false
+end
 
-    if mod_storage_load("WKSave") == "true" then
-        gPlayerSyncTable[m.playerIndex].wallSlide = true
-    elseif mod_storage_load("WKSave") == "false" then
-        gPlayerSyncTable[m.playerIndex].wallSlide = false
-    end
+if mod_storage_load("CRSSave") == "true" then
+    radarSecretToggle = true
+elseif mod_storage_load("CRSSave") == "false" then
+    radarSecretToggle = false
+end
 
-    if mod_storage_load("CRRSave") == "true" then
-        radarRedToggle = true
-    elseif mod_storage_load("CRRSave") == "false" then
-        radarRedToggle = false
-    end
+if mod_storage_load("CTSave") == "true" then
+    capTimerToggle = true
+elseif mod_storage_load("CTSave") == "false" then
+    capTimerToggle = false
+end
 
-    if mod_storage_load("CRSSave") == "true" then
-        radarSecretToggle = true
-    elseif mod_storage_load("CRSSave") == "false" then
-        radarSecretToggle = false
-    end
+if mod_storage_load("notifSave") == "true" then
+    notif = true
+elseif mod_storage_load("notifSave") == "false" then
+    notif = false
+end
 
-    if mod_storage_load("CTSave") == "true" then
-        capTimerToggle = true
-    elseif mod_storage_load("CTSave") == "false" then
-        capTimerToggle = false
-    end
+if mod_storage_load("DescSave") == "true" then
+    descriptions = true
+elseif mod_storage_load("DescSave") == "false" then
+    descriptions = false
+end
 
-    if mod_storage_load("notifSave") == "true" then
-        notif = true
-    elseif mod_storage_load("notifSave") == "false" then
-        notif = false
-    end
+if mod_storage_load("SSCSave") == "true" then
+    SSC = true
+elseif mod_storage_load("SSCSave") == "false" then
+    SSC = false
+end
 
-    if mod_storage_load("DescSave") == "true" then
-        descriptions = true
-    elseif mod_storage_load("DescSave") == "false" then
-        descriptions = false
-    end
-
-    if mod_storage_load("SSCSave") == "true" then
-        SSC = true
-    elseif mod_storage_load("SSCSave") == "false" then
-        SSC = false
-    end
-
-    if mod_storage_load("PSMSave") == "true" then
-        modelToggle = true
-    elseif mod_storage_load("PSMSave") == "false" then
-        modelToggle = false
-    end
+if mod_storage_load("PSMSave") == "true" then
+    modelToggle = true
+elseif mod_storage_load("PSMSave") == "false" then
+    modelToggle = false
 end
 
 hook_event(HOOK_ON_HUD_RENDER, displaymenu)
 hook_event(HOOK_BEFORE_MARIO_UPDATE, before_update)
 hook_event(HOOK_MARIO_UPDATE, mario_update)
-hook_event(HOOK_ON_PLAYER_CONNECTED, on_player_connected)
