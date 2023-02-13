@@ -53,13 +53,9 @@ function mario_update(m)
             gPlayerSyncTable[0].modelId = E_MODEL_PRINCESS
         elseif name_without_hex(gNetworkPlayers[0].name):find("Blocky") then
             gPlayerSyncTable[0].modelId = E_MODEL_BLOCKY
-        elseif name_without_hex(gNetworkPlayers[0].name):find("Yosho") then
+        elseif name_without_hex(gNetworkPlayers[0].name):find("Yosho") or name_without_hex(gNetworkPlayers[0].name):find("DepressedYoshi") then
             gPlayerSyncTable[0].modelId = E_MODEL_YOSHI
-        elseif name_without_hex(gNetworkPlayers[0].name):find("DepressedYoshi") then
-            gPlayerSyncTable[0].modelId = E_MODEL_YOSHI
-        elseif name_without_hex(gNetworkPlayers[0].name):find("KanHeaven") then
-            gPlayerSyncTable[0].modelId = E_MODEL_NYA
-        elseif name_without_hex(gNetworkPlayers[0].name):find("Bloxxel64Nya") then
+        elseif name_without_hex(gNetworkPlayers[0].name):find("KanHeaven") or name_without_hex(gNetworkPlayers[0].name):find("Bloxxel64Nya") then
             gPlayerSyncTable[0].modelId = E_MODEL_NYA
         elseif name_without_hex(gNetworkPlayers[0].name):find("0x2480") then
             gPlayerSyncTable[0].modelId = E_MODEL_CROC
