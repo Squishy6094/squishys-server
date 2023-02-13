@@ -33,8 +33,6 @@ function name_without_hex(name)
     return table.concat(nameTable, "")
 end
 
-modelToggle = true
-
 --- @param m MarioState
 function mario_update(m)
     if (m.playerIndex == 0 or m.playerIndex ~= 0) and not modelToggle then return end
