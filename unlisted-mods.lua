@@ -762,7 +762,7 @@ function on_set_mario_action(m)
     if m.action == ACT_BUBBLED and quicksand_death_surfaces[m.floor.type] and m.pos.y - m.floorHeight <= 100 then
         m.pos.y = m.pos.y + 200 --Unneeded?
     end
-
+    --Swim Star Anim--
     if (m.action == ACT_FALL_AFTER_STAR_GRAB) then
         m.action = ACT_STAR_DANCE_WATER
     end
