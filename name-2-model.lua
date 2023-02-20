@@ -2,9 +2,7 @@ E_MODEL_WEEDCAT = smlua_model_util_get_id("cosmic_geo")
 E_MODEL_SPOOMPLES = smlua_model_util_get_id("pacman_geo")
 E_MODEL_TRASHCAM = smlua_model_util_get_id("trashcam_geo")
 E_MODEL_WOOPER = smlua_model_util_get_id("woop_geo")
-E_MODEL_EROS = smlua_model_util_get_id("eros_geo")
 E_MODEL_FREEMAN = smlua_model_util_get_id("gordon_geo")
-E_MODEL_PRINCESS = smlua_model_util_get_id("peach_player_geo")
 E_MODEL_BLOCKY = smlua_model_util_get_id("blocky_geo")
 E_MODEL_YOSHI = smlua_model_util_get_id("yoshi_player_geo")
 E_MODEL_NYA = smlua_model_util_get_id("nya_geo")
@@ -45,12 +43,8 @@ function mario_update(m)
             gPlayerSyncTable[0].modelId = E_MODEL_TRASHCAM
         elseif name_without_hex(gNetworkPlayers[0].name):find("Skeltan") then
             gPlayerSyncTable[0].modelId = E_MODEL_WOOPER
-        elseif name_without_hex(gNetworkPlayers[0].name):find("eros71") then
-            gPlayerSyncTable[0].modelId = E_MODEL_EROS
         elseif name_without_hex(gNetworkPlayers[0].name):find("AgentX") then
             gPlayerSyncTable[0].modelId = E_MODEL_FREEMAN
-        elseif name_without_hex(gNetworkPlayers[0].name):find("Peachy") then
-            gPlayerSyncTable[0].modelId = E_MODEL_PRINCESS
         elseif name_without_hex(gNetworkPlayers[0].name):find("Blocky") then
             gPlayerSyncTable[0].modelId = E_MODEL_BLOCKY
         elseif name_without_hex(gNetworkPlayers[0].name):find("Yosho") or name_without_hex(gNetworkPlayers[0].name):find("DepressedYoshi") then
