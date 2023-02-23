@@ -9,15 +9,27 @@
 
  Since this is a mod by the player, for the player, I want to make sure in can adapt to however *you* play! So please leave any suggestions you may have for features/additions, they make my hosts just that much better.
 
+### Links:
+
+[Repo](https://github.com/djoslin0/sm64ex-coop) - The original Repo for the game, made by **djoslin0**
+
+[Discord](https://discord.gg/G2zMwjbxdh) - The sm64ex-coop Discord, where you can get help/support
+
+[Mods Website](https://sm64ex-coopmods.com) - The sm64ex-coop Modding Website, where most coop mods are archived (Including the ones used in this mod)
+
 ### Optimization (Pull Requests)
 
  As I'm not too good at Lua, most of the code isn't optimized as much as it could be.
 
  I suggest if there is a problem optimization wise, you make a Pull Request! It helps the game not need to process as much and helps myself know how I can better code.
 
-## Downloading to avoid loading times (No longer needed)
+## Downloading to avoid loading times
 
-### With the return of Discord Servers, *Downloading to avoid loading times* is no longer required!
+### (No longer needed)
+
+With the return of Discord Servers, *Downloading to avoid loading times* is no longer required!
+
+### Instructions
 
  If you're here to download the latest version of the server mod, then follow these intructions:
 
