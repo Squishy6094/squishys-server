@@ -64,6 +64,8 @@ function mario_update(m)
         obj_set_model_extended(m.marioObj, gPlayerSyncTable[m.playerIndex].modelId)
         if name_without_hex(gNetworkPlayers[0].name):find("Cosmic") then
             gNetworkPlayers[m.playerIndex].overrideModelIndex = CT_WALUIGI
+        elseif name_without_hex(gNetworkPlayers[0].name):find("Spoomples") then
+            gNetworkPlayers[m.playerIndex].overrideModelIndex = CT_TOAD
         end
     end
 end
