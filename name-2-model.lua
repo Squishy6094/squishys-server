@@ -1,5 +1,5 @@
 E_MODEL_WEEDCAT = smlua_model_util_get_id("cosmic_geo")
-E_MODEL_SPOOMPLES = smlua_model_util_get_id("pacman_geo")
+E_MODEL_SPOOMPLES = smlua_model_util_get_id("ss_toad_player_geo")
 E_MODEL_TRASHCAM = smlua_model_util_get_id("trashcam_geo")
 E_MODEL_WOOPER = smlua_model_util_get_id("woop_geo")
 E_MODEL_FREEMAN = smlua_model_util_get_id("gordon_geo")
