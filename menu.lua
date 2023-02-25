@@ -214,8 +214,8 @@ function displaymenu()
         
         if optionTab == 1 then
             if optionHover < 1 then
-                optionHover = 4
-            elseif  optionHover > 4 then
+                optionHover = 5
+            elseif  optionHover > 5 then
                 optionHover = 1
             end
             djui_hud_set_color(150, 150, 150, 255)
@@ -257,6 +257,11 @@ function displaymenu()
             if optionHover == 4 then
                 hud_print_description("Modded Wallkick:", "Adds Wallsliding and more","lenient angles you can wall","kick at, best for a more","modern experience.")
                 hud_print_toggle_status(gPlayerSyncTable[0].wallSlide)
+            end
+            djui_hud_print_text("Strafing", ((djui_hud_get_screen_width()/2) - 70), 120, 0.3)
+            if optionHover == 5 then
+                hud_print_description("Strafing:", "Forces Mario to face the","direction the Camera is","facing, similar to Sonic Robo","Blast 2. Recommended if you","play with Mouse and Keyboard.")
+                hud_print_toggle_status(strafeToggle)
             end
         elseif optionTab == 2 then
             if optionHover < 1 then
@@ -419,6 +424,16 @@ function before_update(m)
                 elseif gPlayerSyncTable[0].wallSlide == false then
                     gPlayerSyncTable[0].wallSlide = true
                     mod_storage_save("WKSave", "true")
+                end
+            end
+
+            if optionTab == 1 and optionHover == 5 then
+                if strafeToggle then
+                    strafeToggle = false
+                    mod_storage_save("StrafeSave", "false")
+                elseif strafeToggle == false then
+                    strafeToggle = true
+                    mod_storage_save("StrafeSave", "true")
                 end
             end
 
@@ -587,6 +602,11 @@ if mod_storage_load("WKSave") == nil then
     mod_storage_save("WKSave", "true")
 end
 
+if mod_storage_load("StrafeSave") == nil then
+    print("'Strafe' not found in 'squishys-server.sav', set to default 'off'")
+    mod_storage_save("StrafeSave", "false")
+end
+
 if mod_storage_load("CRRSave") == nil then
     print("'Extra Hud' > 'Red Coin Radar' not found in 'squishys-server.sav', set to default 'on'")
     mod_storage_save("CRRSave", "true")
@@ -648,6 +668,12 @@ if mod_storage_load("WKSave") == "true" then
     gPlayerSyncTable[0].wallSlide = true
 elseif mod_storage_load("WKSave") == "false" then
     gPlayerSyncTable[0].wallSlide = false
+end
+
+if mod_storage_load("StrafeSave") == "true" then
+    strafeToggle = true
+elseif mod_storage_load("StrafeSave") == "false" then
+    strafeToggle = false
 end
 
 if mod_storage_load("CRRSave") == "true" then

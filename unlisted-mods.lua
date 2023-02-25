@@ -310,7 +310,6 @@ local function on_interact(interactor, interactee, interactType, interactValue)
         - interactor.health * HP_TO_HEAL_COUNTER_UNITS_FACTOR
 end
 
-local Idiot = audio_stream_load("Idiot.mp3")
 local once
 local TECH_KB = {
     [ACT_GROUND_BONK]             = ACT_BACKWARD_ROLLOUT,
@@ -407,9 +406,16 @@ id_bhvBrokenDoor = hook_behavior(nil, OBJ_LIST_GENACTOR, true, bhv_broken_door_i
 
 local visible = false
 extraVel = 0
+IdiotSound = audio_sample_load("Idiot.mp3")
 --- @param m MarioState
 function mario_update(m)
     if m.playerIndex ~= 0 then return end
+
+    --Disable PU's
+    if (m.pos.x > 57344) or (m.pos.x < -57344) or (m.pos.z > 57344) or (m.pos.z < -57344) then
+        warp_restart_level()
+        audio_sample_play(IdiotSound, m.pos, 1)
+    end
 
     local obj = obj_get_nearest_object_with_behavior_id(m.marioObj, id_bhvBlueCoinSwitch)
     if obj ~= nil then
@@ -459,6 +465,12 @@ function mario_update(m)
         else
             slopetimer = 0
         end
+    end
+
+    --Strafing--
+    if strafeToggle == true then
+        if m.playerIndex ~= 0 then return end
+        m.marioObj.header.gfx.angle.y = m.area.camera.yaw + 0x8000
     end
 
     --Door Bust--
@@ -627,6 +639,7 @@ function mario_update(m)
 
     local heart = obj_get_nearest_object_with_behavior_id(m.marioObj, id_bhvRecoveryHeart)
     if heart ~= nil and obj_check_if_collided_with_object(m.marioObj, heart) ~= 0 and gPlayerSyncTable[0].downHealth < 300 then undown(m) end
+
 end
 
 --- @param m MarioState
@@ -754,20 +767,12 @@ local quicksand_death_surfaces = {
 
 --- @param m MarioState
 function on_set_mario_action(m)
-    --Fixed Bubbling
-    if m.prevAction == ACT_BUBBLED then
-        local underWater = (m.pos.y < m.waterLevel);
-        set_mario_action(m, ternary(underWater, ACT_WATER_IDLE, ACT_FREEFALL), 0);
-    end
-    if m.action == ACT_BUBBLED and quicksand_death_surfaces[m.floor.type] and m.pos.y - m.floorHeight <= 100 then
-        m.pos.y = m.pos.y + 200 --Unneeded?
-    end
     --Swim Star Anim--
     if (m.action == ACT_FALL_AFTER_STAR_GRAB) then
         m.action = ACT_STAR_DANCE_WATER
     end
-    --Lava Groundpound--
 
+    --Lava Groundpound--
     if LGP then
         if m.prevAction == ACT_GROUND_POUND_LAND and m.action == ACT_LAVA_BOOST then
             m.vel.y = m.vel.y * 1.1
@@ -777,8 +782,7 @@ function on_set_mario_action(m)
     end
     
     --Anti quicksand--
-
-    if AQS   and gGlobalSyncTable.GlobalAQS then
+    if AQS and gGlobalSyncTable.GlobalAQS then
         if m.action == ACT_QUICKSAND_DEATH then
             set_mario_action(m, ACT_LAVA_BOOST, 0)
             if m.flags & MARIO_METAL_CAP ~= 0 then
@@ -792,13 +796,19 @@ function on_set_mario_action(m)
     end
 
     --wallslide--
-
     if m.action == ACT_SOFT_BONK and gPlayerSyncTable[m.playerIndex].wallSlide then
         m.faceAngle.y = m.faceAngle.y + 0x8000
         set_mario_action(m, ACT_WALL_SLIDE, 0)
     end
 
-    --Downing
+    --Strafing--
+    if strafeToggle == true then
+        if m.action == ACT_DIVE or m.action == ACT_THOK then
+            m.faceAngle.y = m.area.camera.yaw + 0x8000
+        end
+    end
+
+    --Downing--
     if gGlobalSyncTable.bubbleDeath ~= 2 then return end
     if m.playerIndex ~= 0 or player_alive_count() < DOWNING_MIN_PLAYERS then return end
 
@@ -807,17 +817,7 @@ function on_set_mario_action(m)
     end
 end
 
-coins = 0
 function update()
-    local hudCoins = hud_get_value(HUD_DISPLAY_COINS)
-    if coins ~= hudCoins then
-        if gServerSettings.stayInLevelAfterStar > 0 and hudCoins >= (gLevelValues.coinsRequiredForCoinStar/2) and hudCoins % (gLevelValues.coinsRequiredForCoinStar/2) == 0 and coins ~= hudCoins then
-            coins = hudCoins
-            gMarioStates[0].numLives = gMarioStates[0].numLives + 1
-            play_sound(SOUND_GENERAL_COLLECT_1UP, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-        end
-    end
-
     ---@type MarioState
     local m = gMarioStates[0]
     ---@type Camera

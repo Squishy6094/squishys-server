@@ -190,6 +190,14 @@ function displayrules(m)
             color
         },
         {
+            "Strafing",
+            -150,
+            190,
+            globalFont,
+            0.8,
+            color
+        },
+        {
             "60 Degree Wallkicks",
             150,
             210,
@@ -240,14 +248,6 @@ function displayrules(m)
         {
             "Remove SSC",
             -150,
-            250,
-            globalFont,
-            0.8,
-            color
-        },
-        {
-            "Game Over Savior",
-            0,
             250,
             globalFont,
             0.8,
