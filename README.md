@@ -45,4 +45,3 @@ With the return of Discord Servers, *Downloading to avoid loading times* is no l
 As this is an unreleased mod, You could also get in trouble for hosting this mod without permission (at least in the sm64ex-coop server).
 
 ###### *(Note: It is perfectly fine to host privately with this mod. Whether it's with a few friends or just to test something, I do not care what you do with this privately.)*
-  
