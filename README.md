@@ -15,6 +15,8 @@
 
 [Discord](https://discord.gg/G2zMwjbxdh) - The sm64ex-coop Discord, where you can get help/support
 
+[Unlisted Mods](./unlisted-mods-list.md) - A list of all the community supported mods on the server!
+
 [Mods Website](https://sm64ex-coopmods.com) - The sm64ex-coop Modding Website, where most coop mods are archived (Including the ones used in this mod)
 
 ### Optimization (Pull Requests)
