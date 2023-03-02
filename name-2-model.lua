@@ -1,5 +1,5 @@
 E_MODEL_WEEDCAT = smlua_model_util_get_id("cosmic_geo")
-E_MODEL_SPOOMPLES = smlua_model_util_get_id("ss_toad_player_geo")
+E_MODEL_SSTOAD = smlua_model_util_get_id("ss_toad_player_geo")
 E_MODEL_TRASHCAM = smlua_model_util_get_id("trashcam_geo")
 E_MODEL_WOOPER = smlua_model_util_get_id("woop_geo")
 E_MODEL_FREEMAN = smlua_model_util_get_id("gordon_geo")
@@ -9,35 +9,13 @@ E_MODEL_NYA = smlua_model_util_get_id("nya_geo")
 E_MODEL_CROC = smlua_model_util_get_id("croc_geo")
 E_MODEL_NATSUKI = smlua_model_util_get_id("natsuki_geo")
 
-function name_without_hex(name)
-    local nameTable = {}
-    name:gsub(".", function(c) table.insert(nameTable, c) end)
-
-    local removed = false
-    for k, v in pairs(nameTable) do
-        if v == "\\" and not removed then
-            removed = true
-            nameTable[k] = ""     -- \
-            nameTable[k + 1] = "" -- #
-            nameTable[k + 2] = "" -- f
-            nameTable[k + 3] = "" -- f
-            nameTable[k + 4] = "" -- f
-            nameTable[k + 5] = "" -- f
-            nameTable[k + 6] = "" -- f
-            nameTable[k + 7] = "" -- f
-            nameTable[k + 8] = "" -- \
-        end
-    end
-    return table.concat(nameTable, "")
-end
-
 --- @param m MarioState
 function mario_update(m)
     if (m.playerIndex == 0 or m.playerIndex ~= 0) and not modelToggle then return end
     if m.playerIndex == 0 then
         if network_discord_id_from_local_index(0) == "461771557531025409" --Spoomples
         or network_discord_id_from_local_index(0) == "901908732525559828" then --Nut
-            gPlayerSyncTable[0].modelId = E_MODEL_SPOOMPLES
+            gPlayerSyncTable[0].modelId = E_MODEL_SSTOAD
 
         elseif network_discord_id_from_local_index(0) == "767513529036832799" then --Cosmic
             gPlayerSyncTable[0].modelId = E_MODEL_WEEDCAT
