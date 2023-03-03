@@ -771,6 +771,11 @@ local noStrafeActs = {
     [ACT_STAR_DANCE_EXIT] = true,
     [ACT_STAR_DANCE_NO_EXIT] = true,
     [ACT_STAR_DANCE_WATER] = true,
+    [ACT_JUMP] = true,
+    [ACT_DOUBLE_JUMP] = true,
+    [ACT_TRIPLE_JUMP] = true,
+    [ACT_HOLD_JUMP] = true,
+    [ACT_WALKING] = true,
 }
 
 --- @param m MarioState
