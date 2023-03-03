@@ -765,6 +765,14 @@ local quicksand_death_surfaces = {
     [SURFACE_INSTANT_MOVING_QUICKSAND] = true
 }
 
+local noStrafeActs = {
+    [ACT_WALL_KICK_AIR] = true,
+    [ACT_WALL_SLIDE] = true,
+    [ACT_STAR_DANCE_EXIT] = true,
+    [ACT_STAR_DANCE_NO_EXIT] = true,
+    [ACT_STAR_DANCE_WATER] = true,
+}
+
 --- @param m MarioState
 function on_set_mario_action(m)
     --Swim Star Anim--
@@ -803,7 +811,7 @@ function on_set_mario_action(m)
 
     --Strafing--
     if strafeToggle == true then
-        if m.action == ACT_DIVE or m.action == ACT_THOK then
+        if not noStrafeActs[m.action] then
             m.faceAngle.y = m.area.camera.yaw + 0x8000
         end
     end

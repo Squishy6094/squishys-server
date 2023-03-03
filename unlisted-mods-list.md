@@ -44,6 +44,6 @@ Mods Labeled with "(Discord Link)" means that the mod is not avalible on the [sm
 
 [Cap Timer](https://sm64ex-coopmods.com/hud-cap-timer/) (Modified in Squishy's Server)
 
-[SRB2 Strafe](https://sm64ex-coopmods.com/srb2-strafe/)
+[SRB2 Strafe](https://sm64ex-coopmods.com/srb2-strafe/) (Modified in Squishy's Server)
 
 [Visible Lakitu](https://discordapp.com/channels/752682015614173235/755907254318006362/1080585559463960637) (Discord Link)
