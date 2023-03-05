@@ -304,8 +304,8 @@ function displaymenu()
             end
         elseif optionTab == 3 then
             if optionHover < 1 then
-                optionHover = 3
-            elseif  optionHover > 3 then
+                optionHover = 4
+            elseif  optionHover > 4 then
                 optionHover = 1
             end
             djui_hud_set_color(150, 150, 150, 255)
@@ -322,9 +322,18 @@ function displaymenu()
                 hud_print_description("Star Spawn Cutscene:", "Toggles if Star Spawning","Cutscenes play, Recommended","if you don't know where a","star spawns.")
                 hud_print_toggle_status(SSC)
             end
-            djui_hud_print_text("Player-Specific Models", ((djui_hud_get_screen_width()/2) - 70), 100, 0.3)
+            djui_hud_print_text("Personal Model", ((djui_hud_get_screen_width()/2) - 70), 100, 0.3)
             if optionHover == 3 then
-                hud_print_description("Player-Specific Models:", "Toggles if Custom Player","Models Display locally,","Recommended if other people's","Custom models are getting","in the way.","","Contact The Host for more","information about","Custom Models and DynOS")
+                hud_print_description("Personal Model:", "Toggles your own Custom","Player Model, Only avalible","for users with at least","one Custom Model.","","","Contact The Host for more","information about","Custom Models and DynOS")
+                if discordID ~= "0" then
+                    djui_hud_print_text(modelTable[discordID][currModel].modelName, (djui_hud_get_screen_width()/2), 70 + (optionHover * 10), 0.3)
+                else
+                    djui_hud_print_text("N/A", (djui_hud_get_screen_width()/2), 70 + (optionHover * 10), 0.3)
+                end
+            end
+            djui_hud_print_text("Locally Display Models", ((djui_hud_get_screen_width()/2) - 70), 110, 0.3)
+            if optionHover == 4 then
+                hud_print_description("Locally Display Models:", "Toggles if Custom Player","Models Display locally,","Recommended if other people's","Custom models are getting","in the way.","","Contact The Host for more","information about","Custom Models and DynOS")
                 hud_print_toggle_status(modelToggle)
             end
         elseif optionTab == 4 then
@@ -498,6 +507,13 @@ function before_update(m)
             end
 
             if optionTab == 3 and optionHover == 3 then
+                currModel = currModel + 1
+                if modelTable[discordID][currModel] == nil then
+                    currModel = 0
+                end
+            end
+
+            if optionTab == 3 and optionHover == 4 then
                 if modelToggle then
                     modelToggle = false
                     mod_storage_save("PSMSave", "false")
@@ -717,6 +733,8 @@ if mod_storage_load("PSMSave") == "true" then
 elseif mod_storage_load("PSMSave") == "false" then
     modelToggle = false
 end
+
+currModel = 1
 
 hook_event(HOOK_ON_HUD_RENDER, displaymenu)
 hook_event(HOOK_BEFORE_MARIO_UPDATE, before_update)
