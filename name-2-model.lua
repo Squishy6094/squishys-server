@@ -17,6 +17,7 @@ Vince = "282702284608110593"
 Average = "397219199375769620"
 Elby = "673582558507827221"
 Crispyman = "817821798363955251"
+Butter = "759464398946566165"
 
 modelTable = {
     [Default] = {
@@ -189,7 +190,16 @@ modelTable = {
             modelName = "HatKid",
         }
     },
-    
+    [Butter] = {
+        [0] = {
+            model = nil,
+            modelName = "Default"
+        },
+        [1] = {
+            model = smlua_model_util_get_id("nya_geo"),
+            modelName = "Hatsune Maiku",
+        }
+    },
 }
 
 --network_discord_id_from_local_index(0)
