@@ -67,6 +67,7 @@ modelTable = {
         [1] = {
             model = smlua_model_util_get_id("trashcam_geo"),
             modelName = "Trashcam",
+            forcePlayer = CT_MARIO
         }
     },
     [Skeltan] = {
@@ -77,6 +78,7 @@ modelTable = {
         [1] = {
             model = smlua_model_util_get_id("woop_geo"),
             modelName = "Wooper",
+            forcePlayer = CT_TOAD
         }
     },
     [AgentX] = {
@@ -137,6 +139,7 @@ modelTable = {
         [1] = {
             model = smlua_model_util_get_id("nya_geo"),
             modelName = "Hatsune Maiku",
+            forcePlayer = CT_MARIO
         }
     },
     [Bloxxel64Nya] = {
@@ -147,6 +150,7 @@ modelTable = {
         [1] = {
             model = smlua_model_util_get_id("nya_geo"),
             modelName = "Hatsune Maiku",
+            forcePlayer = CT_MARIO
         }
     },
     [Vince] = {
@@ -198,6 +202,7 @@ modelTable = {
         [1] = {
             model = smlua_model_util_get_id("nya_geo"),
             modelName = "Hatsune Maiku",
+            forcePlayer = CT_MARIO
         }
     },
 }
