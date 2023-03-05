@@ -775,7 +775,10 @@ local noStrafeActs = {
     [ACT_DOUBLE_JUMP] = true,
     [ACT_TRIPLE_JUMP] = true,
     [ACT_HOLD_JUMP] = true,
-    [ACT_WALKING] = true,
+    [ACT_DEATH_EXIT] = true,
+    [ACT_UNUSED_DEATH_EXIT] = true,
+    [ACT_FALLING_DEATH_EXIT] = true,
+    [ACT_SPECIAL_DEATH_EXIT] = true
 }
 
 --- @param m MarioState
