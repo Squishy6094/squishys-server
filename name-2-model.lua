@@ -8,6 +8,8 @@ E_MODEL_YOSHI = smlua_model_util_get_id("yoshi_player_geo")
 E_MODEL_NYA = smlua_model_util_get_id("nya_geo")
 E_MODEL_CROC = smlua_model_util_get_id("croc_geo")
 E_MODEL_NATSUKI = smlua_model_util_get_id("natsuki_geo")
+E_MODEL_PROTOGEN = smlua_model_util_get_id("protogen_geo")
+E_MODEL_HATKID = smlua_model_util_get_id("hat_kid_geo")
 
 --- @param m MarioState
 function mario_update(m)
@@ -46,6 +48,12 @@ function mario_update(m)
         elseif network_discord_id_from_local_index(0) == "397219199375769620" then --Average
             gPlayerSyncTable[0].modelId = E_MODEL_NATSUKI
 
+        elseif network_discord_id_from_local_index(0) == "673582558507827221" then --Elby (god why)
+            gPlayerSyncTable[0].modelId = E_MODEL_PROTOGEN
+
+        elseif network_discord_id_from_local_index(0) == "817821798363955251" then --Crispy
+            gPlayerSyncTable[0].modelId = E_MODEL_HATKID
+
         else
             gPlayerSyncTable[0].modelId = nil
         end
@@ -54,7 +62,8 @@ function mario_update(m)
     if gPlayerSyncTable[m.playerIndex].modelId ~= nil then
         obj_set_model_extended(m.marioObj, gPlayerSyncTable[m.playerIndex].modelId)
         if network_discord_id_from_local_index(0) == "461771557531025409" --Spoomples
-        or network_discord_id_from_local_index(0) == "901908732525559828" then --Nut
+        or network_discord_id_from_local_index(0) == "901908732525559828" --Nut
+        or network_discord_id_from_local_index(0) == "673582558507827221" then --Elby
             gNetworkPlayers[m.playerIndex].overrideModelIndex = CT_TOAD
         elseif network_discord_id_from_local_index(0) == "767513529036832799" then --Cosmic
             gNetworkPlayers[m.playerIndex].overrideModelIndex = CT_WALUIGI
