@@ -1,6 +1,7 @@
 
 -- Name = Discord ID
 Default = "0"
+Squishy = "678794043018182675"
 Spoomples = "461771557531025409"
 Nut = "901908732525559828"
 Cosmic = "767513529036832799"
@@ -22,6 +23,16 @@ Butter = "759464398946566165"
 modelTable = {
     [Default] = {
         [0] = {
+            model = nil,
+            modelName = "Default"
+        }
+    },
+    [Squishy] = {
+        [0] = {
+            model = nil,
+            modelName = "Default"
+        },
+        [1] = {
             model = nil,
             modelName = "Default"
         }
@@ -211,14 +222,14 @@ modelTable = {
 discordID = network_discord_id_from_local_index(0)
 if modelTable[discordID] == nil then
     discordID = "0"
+    print("Discord ID not found on Table, Setting to Default Table.")
 end
-print(discordID)
 
 --- @param m MarioState
 function mario_update(m)
     if not modelToggle then return end
     if m.playerIndex == 0 then
-        if discordID ~= "0" then
+        if discordID ~= "0" or discordID ~= "678794043018182675" then
             gPlayerSyncTable[0].modelId = modelTable[discordID][currModel].model
             if modelTable[discordID][currModel].forcePlayer ~= nil and gPlayerSyncTable[m.playerIndex].modelId ~= nil then
                 gNetworkPlayers[m.playerIndex].overrideModelIndex = modelTable[discordID][currModel].forcePlayer

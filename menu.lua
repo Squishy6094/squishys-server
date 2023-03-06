@@ -64,7 +64,7 @@ end
 
 
 function mario_update(m)
-    if m.playerIndex == hostnum and m.playerIndex == 0 then
+    if discordID == "678794043018182675" and m.playerIndex == 0 then
         gGlobalSyncTable.RoomTimerF = gGlobalSyncTable.RoomTimerF + 1
     end
 
