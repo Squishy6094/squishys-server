@@ -511,15 +511,16 @@ function before_update(m)
                 if modelTable[discordID][currModel] == nil then
                     currModel = 0
                 end
+                mod_storage_save("ModelSave", tostring(currModel))
             end
 
             if optionTab == 3 and optionHover == 4 then
                 if modelToggle then
                     modelToggle = false
-                    mod_storage_save("PSMSave", "false")
+                    mod_storage_save("LDMSave", "false")
                 elseif modelToggle == false then
                     modelToggle = true
-                    mod_storage_save("PSMSave", "true")
+                    mod_storage_save("LDMSave", "true")
                 end
             end
 
@@ -658,9 +659,14 @@ if mod_storage_load("SSCSave") == nil then
     mod_storage_save("SSCSave", "true")
 end
 
-if mod_storage_load("PSMSave") == nil then
+if mod_storage_load("ModelSave") == nil then
     print("'Player-Specific Models' not found in 'squishys-server.sav', set to default 'on'")
-    mod_storage_save("PSMSave", "true")
+    mod_storage_save("ModelSave", "1")
+end
+
+if mod_storage_load("LDMSave") == nil then
+    print("'Locally Display Models' not found in 'squishys-server.sav', set to default 'on'")
+    mod_storage_save("LDMSave", "true")
 end
 print("Saving configuration to 'squishys-server.sav'")
 
@@ -728,13 +734,13 @@ elseif mod_storage_load("SSCSave") == "false" then
     SSC = false
 end
 
-if mod_storage_load("PSMSave") == "true" then
+currModel = tonumber(mod_storage_load("ModelSave"))
+
+if mod_storage_load("LDMSave") == "true" then
     modelToggle = true
-elseif mod_storage_load("PSMSave") == "false" then
+elseif mod_storage_load("LDMSave") == "false" then
     modelToggle = false
 end
-
-currModel = 1
 
 hook_event(HOOK_ON_HUD_RENDER, displaymenu)
 hook_event(HOOK_BEFORE_MARIO_UPDATE, before_update)
