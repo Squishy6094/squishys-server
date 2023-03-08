@@ -1,9 +1,9 @@
 
 -- Name = Discord ID
 Default = "0"
-Squishy = "678794043018182675"
+Nut = "678794043018182675"
 Spoomples = "461771557531025409"
-Nut = "901908732525559828"
+Squishy = "901908732525559828"
 Cosmic = "767513529036832799"
 Trashcam = "827596624590012457"
 Skeltan = "489114867215630336"
@@ -54,6 +54,10 @@ modelTable = {
             modelName = "Default"
         },
         [1] = {
+            model = smlua_model_util_get_id("yoshi_player_geo"),
+            modelName = "Yoshi",
+        },
+        [2] = {
             model = smlua_model_util_get_id("ss_toad_player_geo"),
             modelName = "Super Show Toad",
             forcePlayer = CT_TOAD
