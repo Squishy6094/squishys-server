@@ -470,7 +470,7 @@ function mario_update(m)
     --Strafing--
     if strafeToggle == true then
         if m.playerIndex ~= 0 then return end
-        m.marioObj.header.gfx.angle.y = m.area.camera.yaw + 0x8000
+        m.marioObj.header.gfx.angle.y = m.area.camera.yaw + 32250
     end
 
     --Door Bust--
@@ -766,6 +766,10 @@ local quicksand_death_surfaces = {
 }
 
 local noStrafeActs = {
+    [ACT_WALKING] = true,
+    [ACT_BRAKING] = true,
+    [ACT_BRAKING_STOP] = true,
+    [ACT_SIDE_FLIP] = true,
     [ACT_WALL_KICK_AIR] = true,
     [ACT_WALL_SLIDE] = true,
     [ACT_STAR_DANCE_EXIT] = true,
@@ -778,7 +782,7 @@ local noStrafeActs = {
     [ACT_DEATH_EXIT] = true,
     [ACT_UNUSED_DEATH_EXIT] = true,
     [ACT_FALLING_DEATH_EXIT] = true,
-    [ACT_SPECIAL_DEATH_EXIT] = true
+    [ACT_SPECIAL_DEATH_EXIT] = true,
 }
 
 --- @param m MarioState
@@ -820,7 +824,7 @@ function on_set_mario_action(m)
     --Strafing--
     if strafeToggle == true then
         if not noStrafeActs[m.action] then
-            m.faceAngle.y = m.area.camera.yaw + 0x8000
+            m.faceAngle.y = m.area.camera.yaw + 32250
         end
     end
 
