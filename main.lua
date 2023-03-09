@@ -17,6 +17,7 @@ function displayrules(m)
         offsetX = offsetX*1.2
     end
 
+    if offsetX <= -200 and not showRules then return end
     djui_hud_set_resolution(RESOLUTION_N64)
     djui_hud_set_color(0, 0, 0, 200)
     djui_hud_render_rect(0 + offsetX, 0, 195, djui_hud_get_screen_height())
