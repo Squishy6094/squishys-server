@@ -64,7 +64,7 @@ end
 
 
 function mario_update(m)
-    if discordID == "678794043018182675" and m.playerIndex == 0 then
+    if network_is_server() and m.playerIndex == 0 then
         gGlobalSyncTable.RoomTimerF = gGlobalSyncTable.RoomTimerF + 1
     end
 
@@ -89,9 +89,9 @@ function displaymenu()
 
     --Room Timer--
 
-    local minutes = 0
-    local Seconds = 0
-    local Hours = 0
+    minutes = 0
+    Seconds = 0
+    Hours = 0
     if math.floor(gGlobalSyncTable.RoomTimerF/30/60) < 0 then
         Seconds = math.ceil(gGlobalSyncTable.speedrunTimer/30)
     else
@@ -100,7 +100,7 @@ function displaymenu()
         Seconds = math.floor(gGlobalSyncTable.RoomTimerF/30)%60
     end
 
-    local RoomTime = string.format("%s:%s:%s", string.format("%02d", Hours), string.format("%02d", minutes), string.format("%02d", Seconds))
+    RoomTime = string.format("%s:%s:%s", string.format("%02d", Hours), string.format("%02d", minutes), string.format("%02d", Seconds))
 
     if is_game_paused() then
         djui_hud_set_font(FONT_NORMAL)
