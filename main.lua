@@ -23,6 +23,22 @@ function displayrules(m)
     djui_hud_render_rect(0 + offsetX, 0, 195, djui_hud_get_screen_height())
     djui_hud_render_rect(3 + offsetX, 2, 190, djui_hud_get_screen_height() - 4)
 
+    djui_hud_set_font(FONT_NORMAL)
+    djui_hud_set_color(255, 255, 255, 50)
+    if discordID ~= nil and discordID ~= "0" then
+        djui_hud_print_text("Name-2-Model ID: ".. discordID, 190 - (djui_hud_measure_text("Name-2-Model ID: ".. discordID)*0.2) + offsetX, 5, 0.2)
+    else
+        djui_hud_print_text("Name-2-Model ID Not Found", 190 - (djui_hud_measure_text("Name-2-Model ID Not Found")*0.2) + offsetX, 5, 0.2)
+    end
+
+    if RoomTime ~= nil then
+        djui_hud_print_text("Room Time: ".. RoomTime, 190 - (djui_hud_measure_text("Room Time: 00:00:00")*0.2) + offsetX, 11, 0.2)
+    end
+
+    if network_is_server() or network_is_moderator() then
+        djui_hud_print_text("Moderator Access Granted", 190 - (djui_hud_measure_text("Moderator Access Granted")*0.2) + offsetX, 17, 0.2)
+    end
+
     djui_hud_set_font(FONT_MENU)
     djui_hud_set_color(255, 255, 255, 255)
     djui_hud_print_text("Welcome to", 12 + offsetX, 7, 0.25)
@@ -110,7 +126,7 @@ function mario_update_msgtimer(m)
         elseif popupnum == 4 then
             djui_popup_create('Custom Moves hindering your\ngameplay? You can turn them\noff under the Movesets tab\nin the Server Options!',4)
         elseif popupnum == 5 then
-            djui_popup_create('This game is brought to you by \nThe QOL Mod Creators!',3)
+            djui_popup_create('This game is brought to you by \nThe QOL Mod Creators!',1)
         elseif popupnum == 6 then
             djui_popup_create('These messages pop-up every 4-6 minutes, You can turn them off\nin the Server Options',3)
         elseif popupnum == 7 then
