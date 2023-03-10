@@ -33,9 +33,50 @@ modelTable = {
             modelName = "Default"
         },
         [1] = {
-            model = nil,
-            modelName = "Default"
-        }
+            model = smlua_model_util_get_id("ss_toad_player_geo"),
+            modelName = "Super Show Toad",
+            forcePlayer = CT_TOAD
+        },
+        [2] = {
+            model = smlua_model_util_get_id("yoshi_player_geo"),
+            modelName = "Yoshi",
+        },
+        [3] = {
+            model = smlua_model_util_get_id("cosmic_geo"),
+            modelName = "Weedcat",
+            forcePlayer = CT_WALUIGI
+        },
+        [4] = {
+            model = smlua_model_util_get_id("trashcam_geo"),
+            modelName = "Trashcam",
+            forcePlayer = CT_MARIO
+        },
+        [5] = {
+            model = smlua_model_util_get_id("woop_geo"),
+            modelName = "Wooper",
+            forcePlayer = CT_TOAD
+        },
+        [6] = {
+            model = smlua_model_util_get_id("gordon_geo"),
+            modelName = "Gordon Freeman",
+        },
+        [7] = {
+            model = smlua_model_util_get_id("blocky_geo"),
+            modelName = "Blocky",
+        },
+        [8] = {
+            model = smlua_model_util_get_id("nya_geo"),
+            modelName = "Hatsune Maiku",
+            forcePlayer = CT_MARIO
+        },
+        [9] = {
+            model = smlua_model_util_get_id("croc_geo"),
+            modelName = "Croc",
+        },
+        [10] = {
+            model = smlua_model_util_get_id("hat_kid_geo"),
+            modelName = "Hat Kid",
+        },
     },
     [Spoomples] = {
         [0] = {
@@ -197,6 +238,11 @@ modelTable = {
             model = smlua_model_util_get_id("protogen_geo"),
             modelName = "Protogen",
             forcePlayer = CT_TOAD
+        },
+        [2] = {
+            model = smlua_model_util_get_id("nya_geo"),
+            modelName = "Hatsune Maiku",
+            forcePlayer = CT_MARIO
         }
     },
     [Crispyman] = {
@@ -206,7 +252,7 @@ modelTable = {
         },
         [1] = {
             model = smlua_model_util_get_id("hat_kid_geo"),
-            modelName = "HatKid",
+            modelName = "Hat Kid",
         }
     },
     [Butter] = {
