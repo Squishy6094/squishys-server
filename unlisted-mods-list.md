@@ -4,11 +4,11 @@
 
 ### Link Notes
 
-Mods Labeled with "(Not publically avalible)" means that this mod was made personally for the server, these mods will instead link to the creator's profile on the [sm64ex-coop mods Website](https://sm64ex-coopmods.com/).
+Mods Labeled with "(Not publically avalible)" means that this mod was made personally for the server, these mods will instead link to the creator's profile on the Mods Website.
 
 Mods Labeled with "(Modified in Squishy's Server)" means that something about the code other than making it toggleable has been changed, and the original may not function the same as it does here.
 
-Mods Labeled with "(Discord Link)" means that the mod is not avalible on the [sm64ex-coop mods Website](https://sm64ex-coopmods.com/) and will instead link to it's discord counterpart, You must be in the [sm64ex-coop Discord Server](https://discord.gg/G2zMwjbxdh) to view these mods.
+Mods Labeled with "(Discord Link)" means that the mod is not avalible on the [Mods Website](https://sm64ex-coopmods.com/) and will instead link to it's discord counterpart, You must be in the [Discord Server](https://discord.gg/G2zMwjbxdh) to view these mods.
 
 ## Links
 
