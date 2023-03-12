@@ -410,6 +410,35 @@ IdiotSound = audio_sample_load("Idiot.mp3")
 function mario_update(m)
     if m.playerIndex ~= 0 then return end
 
+    --Ledge Parkor
+    if m.action == ACT_LEDGE_GRAB or m.action == ACT_LEDGE_CLIMB_FAST then
+		ledgeTimer = ledgeTimer + 1
+	else
+		ledgeTimer = 0
+		velStore = m.forwardVel
+	end
+
+	if ledgeTimer < 5 and velStore >= 15 then
+		--Rayman-esque Ledge Jump
+		if m.action == ACT_LEDGE_CLIMB_FAST and (m.controller.buttonPressed & A_BUTTON) ~= 0 then
+			set_mario_action(m, ACT_SIDE_FLIP, 0)
+			m.vel.y = 30 * velStore/50 + 20
+			m.forwardVel = velStore * 1.1
+		end
+
+		if m.action == ACT_LEDGE_GRAB and (m.controller.buttonPressed & B_BUTTON) ~= 0 then
+			set_mario_action(m, ACT_SLIDE_KICK, 0)
+			m.vel.y = 10 * velStore/50
+			m.forwardVel = velStore + 15
+		end
+	else
+		if m.action == ACT_LEDGE_CLIMB_FAST and (m.controller.buttonPressed & A_BUTTON) ~= 0 then
+			set_mario_action(m, ACT_FORWARD_ROLLOUT, 0)
+			m.vel.y = 10
+			m.forwardVel = 20
+		end
+	end
+
     --Disable PU's
     if (m.pos.x > 57344) or (m.pos.x < -57344) or (m.pos.z > 57344) or (m.pos.z < -57344) then
         warp_restart_level()
