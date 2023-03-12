@@ -338,8 +338,8 @@ function displaymenu()
             end
         elseif optionTab == 4 then
             if optionHover < 1 then
-                optionHover = 7
-            elseif  optionHover > 7 then
+                optionHover = 6
+            elseif  optionHover > 6 then
                 optionHover = 1
             end
             djui_hud_set_color(150, 150, 150, 255)
@@ -375,11 +375,6 @@ function displaymenu()
             if optionHover == 6 then
                 hud_print_description("Global Anti-Quicksand:", "Determines if players can","locally change AQS or if","it's forced off.")
                 hud_print_toggle_status(gGlobalSyncTable.GlobalAQS)
-            end
-            djui_hud_print_text("Door Bust Ex Levels", ((djui_hud_get_screen_width()/2) - 70), 140, 0.3)
-            if optionHover == 7 then
-                hud_print_description("Exclude Door Bust Levels:", "Toggle Excluding problematic","levels in Door Bust, such as","BBH or HMC.")
-                hud_print_toggle_status(gGlobalSyncTable.excludeLevels)
             end
         end
     end
@@ -577,14 +572,6 @@ function before_update(m)
                     gGlobalSyncTable.GlobalAQS = false
                 elseif gGlobalSyncTable.GlobalAQS == false then
                     gGlobalSyncTable.GlobalAQS = true
-                end
-            end
-
-            if optionTab == 4 and optionHover == 7 then
-                if gGlobalSyncTable.excludeLevels then
-                    gGlobalSyncTable.excludeLevels = false
-                elseif gGlobalSyncTable.excludeLevels == false then
-                    gGlobalSyncTable.excludeLevels = true
                 end
             end
         end

@@ -337,7 +337,6 @@ local function localtechaction(m)
 end
 
 --Door Bust Stuff--
-gGlobalSyncTable.excludeLevels = true
 
 define_custom_obj_fields({
     oDoorDespawnedTimer = 'u32',
@@ -474,7 +473,6 @@ function mario_update(m)
     end
 
     --Door Bust--
-    if gGlobalSyncTable.excludeLevels and (gNetworkPlayers[0].currLevelNum == LEVEL_BBH or gNetworkPlayers[0].currLevelNum == LEVEL_HMC) then return end
 
     local door = nil
     if m.playerIndex == 0 then
