@@ -5,7 +5,7 @@ local offsetX = -200
 local showRules = true
 local opacity = 255
 local msgtimer = -3000
-local lastpopupnum = 0
+local lastpopupNum = 0
 print("Connected to Server")
 
 function displayrules(m)
@@ -98,6 +98,46 @@ end
 -----------------
 --Message Timer--
 -----------------
+
+popupTable = {
+    [1] = {
+        text = "Thanks For Playing on\n\\#005500\\Squishy's Server\\#dcdcdc\\!",
+        lines = 2
+    },
+    [2] = {
+        text = '\nRemember to customize your\nsettings via the\n"Server Options" Menu,\n\n\\#8c8c8c\\This can be accessed by\nPressing L on the Pause Menu!',
+        lines = 5
+    },
+    [3] = {
+        text = '\nCustom Moves hindering your\ngameplay? You can turn them\noff under the "Movesets" Tab\nin the "Server Options" Menu,\n\n\\#8c8c8c\\This can be accessed by\nPressing L on the Pause Menu!',
+        lines = 6
+    },
+    [4] = {
+        text = '\nHate all the HUD clutter? You can toggle off Extra Hud Elements\nin the "Server Options" Menu,\n\n\\#8c8c8c\\This can be accessed by\nPressing L on the Pause Menu!',
+        lines = 5
+    },
+    [5] = {
+        text = '\nThese messages pop-up every 4-6 minutes, You can turn them off\nin the "Server Options" Menu\n\n\\#8c8c8c\\This can be accessed by\nPressing L on the Pause Menu!',
+        lines = 5
+    },
+    [6] = {
+        text = 'This game is brought to you by\nThe QOL Mod Creators on the\nsm64ex-coop Discord Server!',
+        lines = 3
+    },
+    [7] = {
+        text = "Remember to tip your hosts folks,\nThey won't get their pay\nany other way!",
+        lines = 3
+    },
+    [8] = {
+        text = "If you get knocked back, you can\npress Z when you hit the ground to\nTech and get right back up!",
+        lines = 3
+    },
+    [9] = {
+        text = "You can get though a door\nquicker if you kick it down!",
+        lines = 2
+    },
+}
+
 function mario_update_msgtimer(m)
     if msgtimer == -3000 then
         if network_is_server() then
@@ -109,37 +149,19 @@ function mario_update_msgtimer(m)
         else
             djui_popup_create("Thanks For Joining\n\\#005500\\Squishy's Server\\#dcdcdc\\,\nEnjoy your Stay!",3)
         end
-        popupnum = math.random(1,11)
+        popupNum = math.random(1,9)
     end
 
     msgtimer = msgtimer + 1
 
-    if msgtimer >= math.random(72000,1080000) and notif then
+    if msgtimer >= math.random(720,10800) and notif then
         msgtimer = 0
-        popupnum = math.random(1,11)
-        if lastpopupnum == popupnum then
-            popupnum = math.random(1,11)
+        popupNum = math.random(1,9)
+        if lastpopupNum == popupNum then
+            popupNum = math.random(1,9)
         end
-        lastpopupnum = popupnum
-        if popupnum >= 1 and popupnum <= 3 then
-            djui_popup_create("Thanks For Playing on\n\\#005500\\Squishy's Server\\#dcdcdc\\!",2)
-        elseif popupnum == 4 then
-            djui_popup_create('Custom Moves hindering your\ngameplay? You can turn them\noff under the Movesets tab\nin the Server Options!',4)
-        elseif popupnum == 5 then
-            djui_popup_create('This game is brought to you by \nThe QOL Mod Creators!',1)
-        elseif popupnum == 6 then
-            djui_popup_create('These messages pop-up every 4-6 minutes, You can turn them off\nin the Server Options',3)
-        elseif popupnum == 7 then
-            djui_popup_create("Remember to tip your hosts folks,\nThey won't get their pay\nany other way!",3)
-        elseif popupnum == 8 then
-            djui_popup_create("If you get knocked back, you can\npress Z when you hit the ground to\nTech and get right back up",3)
-        elseif popupnum == 9 then
-            djui_popup_create("Hate all the HUD clutter? You can toggle off Extra Hud Elements\nin the Server Options",3)
-        elseif popupnum == 10 then
-            djui_popup_create("Not seeing an added feature shown\nin the changelog? Delete your\nMod Cashe and Rejoin the Room!",3)
-        elseif popupnum == 11 then
-            djui_popup_create("You can get though a door\nquicker if you kick it down!",2)
-        end
+        lastpopupNum = popupNum
+        djui_popup_create(popupTable[popupNum].text, popupTable[popupNum].lines)
     end
 
     if showRules then
