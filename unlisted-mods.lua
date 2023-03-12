@@ -606,31 +606,6 @@ function mario_update(m)
 
     if m.playerIndex ~= 0 then return end
 
-    if gGlobalSyncTable.customFallDamage then
-        m.peakHeight = m.pos.y
-
-        if m.vel.y <= -75 then
-            extraVel = extraVel + 2.5
-            m.vel.y = m.vel.y - extraVel
-        end
-
-        if (m.prevAction & ACT_FLAG_AIR) ~= 0 and m.action ~= ACT_LEDGE_GRAB and m.prevAction ~= ACT_TWIRLING and m.prevAction ~= ACT_SHOT_FROM_CANNON and (m.action & ACT_FLAG_AIR) == 0 and m.vel.y <= -90 and m.floor.type ~= SURFACE_BURNING and m.floor.type ~= SURFACE_INSTANT_QUICKSAND then
-            local dmgMult = get_fall_damage_multiplier(math.abs(m.vel.y))
-            if dmgMult == 15 then
-                m.health = 383
-            else
-                local dmg = (m.vel.y * dmgMult)
-                m.health = m.health + dmg
-                m.health = clamp(m.health, 0xff, 0x880)
-            end
-            set_camera_shake_from_hit(SHAKE_FALL_DAMAGE)
-            m.squishTimer = 30
-            play_character_sound(m, CHAR_SOUND_ATTACKED)
-        end
-
-        if (m.action & ACT_FLAG_AIR) == 0 then extraVel = 0 end
-    end
-
     if player_alive_count() < DOWNING_MIN_PLAYERS then return end
 
     if (m.action & ACT_GROUP_MASK) ~= ACT_GROUP_CUTSCENE then gotUp = true end
@@ -858,9 +833,6 @@ _G.downHealth = {}
 for i = 0, (MAX_PLAYERS - 1) do
     downHealth[i] = 300
 end
-
-gGlobalSyncTable.downing = true
-gGlobalSyncTable.customFallDamage = false
 
 PACKET_REVIVE = 0
 PACKET_POPUP = 1
@@ -1124,12 +1096,6 @@ end
 
 function on_downhealth_changed(tag, oldVal, newVal)
     if oldVal == 300 and newVal ~= 300 then djui_popup_create(gNetworkPlayers[tag].name .. "\\#ffff00\\ is down!", 1) end
-end
-
-function on_custom_fall_damage_command()
-    gGlobalSyncTable.customFallDamage = not gGlobalSyncTable.customFallDamage
-    djui_chat_message_create("Custom fall damage status: " .. on_or_off(gGlobalSyncTable.customFallDamage))
-    return true
 end
 
 for i = 1, (MAX_PLAYERS - 1) do
