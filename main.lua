@@ -154,7 +154,7 @@ function mario_update_msgtimer(m)
 
     msgtimer = msgtimer + 1
 
-    if msgtimer >= math.random(720,10800) and notif then
+    if msgtimer >= math.random(72000,1080000) and notif then
         msgtimer = 0
         popupNum = math.random(1,9)
         if lastpopupNum == popupNum then
