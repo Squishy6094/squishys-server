@@ -136,6 +136,10 @@ popupTable = {
         text = "You can get though a door\nquicker if you kick it down!",
         lines = 2
     },
+    [10] = {
+        text = "If you're fast enough, you can\nPress A or B on a Ledge to\ntrick and keep your speed!",
+        lines = 3
+    }
 }
 
 function mario_update_msgtimer(m)
@@ -156,9 +160,9 @@ function mario_update_msgtimer(m)
 
     if msgtimer >= math.random(72000,1080000) and notif then
         msgtimer = 0
-        popupNum = math.random(1,9)
+        popupNum = math.random(1,10)
         if lastpopupNum == popupNum then
-            popupNum = math.random(1,9)
+            popupNum = math.random(1,10)
         end
         lastpopupNum = popupNum
         djui_popup_create(popupTable[popupNum].text, popupTable[popupNum].lines)

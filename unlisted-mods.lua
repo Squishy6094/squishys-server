@@ -411,15 +411,14 @@ function mario_update(m)
     if m.playerIndex ~= 0 then return end
 
     --Ledge Parkor
-    if m.action == ACT_LEDGE_GRAB or m.action == ACT_LEDGE_CLIMB_FAST then
+    if (m.action == ACT_LEDGE_GRAB or m.action == ACT_LEDGE_CLIMB_FAST) then
 		ledgeTimer = ledgeTimer + 1
 	else
 		ledgeTimer = 0
 		velStore = m.forwardVel
 	end
 
-	if ledgeTimer < 5 and velStore >= 15 then
-		--Rayman-esque Ledge Jump
+	if ledgeTimer <= 5 and velStore >= 15 then
 		if m.action == ACT_LEDGE_CLIMB_FAST and (m.controller.buttonPressed & A_BUTTON) ~= 0 then
 			set_mario_action(m, ACT_SIDE_FLIP, 0)
 			m.vel.y = 30 * velStore/50 + 20
