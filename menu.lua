@@ -37,7 +37,7 @@ function hud_print_toggle_status(SyncTable)
         elseif not SyncTable then
             djui_hud_print_text("Off", ((djui_hud_get_screen_width()/2) + 70), 70 + (optionHover * 10), 0.3)
         end
-    elseif optionTab == 2 and optionHover >= 4 and optionHover <= 5 then
+    elseif optionTab == 2 and optionHover >= 4 and optionHover <= 6 then
         if SyncTable then
             djui_hud_print_text("On", (djui_hud_get_screen_width()/2), 70 + (optionHover * 10 - 20), 0.3)
         elseif not SyncTable then
@@ -265,8 +265,8 @@ function displaymenu()
             end
         elseif optionTab == 2 then
             if optionHover < 1 then
-                optionHover = 5
-            elseif  optionHover > 5 then
+                optionHover = 6
+            elseif  optionHover > 6 then
                 optionHover = 1
             end
             djui_hud_set_color(150, 150, 150, 255)
@@ -306,6 +306,11 @@ function displaymenu()
             if optionHover == 5 then
                 hud_print_description("Server Popups:", "Shows Tips/Hints about the","server every 3-5 minutes.","Recommended for if you're","new to the server.")
                 hud_print_toggle_status(notif)
+            end
+            djui_hud_print_text("Show Rules", ((djui_hud_get_screen_width()/2) - 70), 110, 0.3)
+            if optionHover == 6 then
+                hud_print_description("Show Rules:", "Toggles if the Rules Screen","Displays upon joining.")
+                hud_print_toggle_status(showRules)
             end
         elseif optionTab == 3 then
             if optionHover < 1 then
@@ -486,6 +491,16 @@ function before_update(m)
                 end
             end
 
+            if optionTab == 2 and optionHover == 5 then
+                if showRules then
+                    showRules = false
+                    mod_storage_save("RulesSave", "false")
+                elseif showRules == false then
+                    showRules = true
+                    mod_storage_save("RulesSave", "true")
+                end
+            end
+
             if optionTab == 3 and optionHover == 1 then
                 if SSC then
                     SSC = false
@@ -636,6 +651,11 @@ if mod_storage_load("DescSave") == nil then
     mod_storage_save("DescSave", "true")
 end
 
+if mod_storage_load("RulesSave") == nil then
+    print("'Show Rules' not found in 'squishys-server.sav', set to default 'on'")
+    mod_storage_save("RulesSave", "true")
+end
+
 if mod_storage_load("SSCSave") == nil then
     print("'Star Spawn Cutscene' not found in 'squishys-server.sav', set to default 'on'")
     mod_storage_save("SSCSave", "true")
@@ -708,6 +728,12 @@ if mod_storage_load("DescSave") == "true" then
     descriptions = true
 elseif mod_storage_load("DescSave") == "false" then
     descriptions = false
+end
+
+if mod_storage_load("RulesSave") == "true" then
+    showRules = true
+elseif mod_storage_load("RulesSave") == "false" then
+    showRules = false
 end
 
 if mod_storage_load("SSCSave") == "true" then

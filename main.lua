@@ -2,22 +2,27 @@
 -- description: \\#008800\\~~~~~Squishy's Server Stuff~~~~~\n\n\\#dddddd\\Displays rules/welcome message to anyone who connects to your Squishy's Servers, Along with some quality of life features!\n\n\\#ff8800\\Do not host with this mod publicly, You could get in trouble as it's an unreleased mod you didn't make.\n\n\\#008800\\~~~~~~~~~~~~~~~~~~~~~~~~
 
 local offsetX = -200
-local showRules = true
 local opacity = 255
 local msgtimer = -3000
 local lastpopupNum = 0
 print("Connected to Server")
 
+if mod_storage_load("RulesSave") == nil or mod_storage_load("RulesSave") == "true" then
+    rules = true
+else
+    rules = false
+end
+
 function displayrules(m)
-    if showRules and offsetX < -1 then
+    if rules and offsetX < -1 then
         offsetX = offsetX/1.1
     end
 
-    if not showRules and offsetX > -200 then
+    if not rules and offsetX > -200 then
         offsetX = offsetX*1.2
     end
 
-    if offsetX <= -200 and not showRules then return end
+    if offsetX <= -200 and not rules then return end
     djui_hud_set_resolution(RESOLUTION_N64)
     djui_hud_set_color(0, 0, 0, 200)
     djui_hud_render_rect(0 + offsetX, 0, 195, djui_hud_get_screen_height())
@@ -168,11 +173,11 @@ function mario_update_msgtimer(m)
         djui_popup_create(popupTable[popupNum].text, popupTable[popupNum].lines)
     end
 
-    if showRules then
+    if rules then
         m.pos.y = m.floorHeight
         m.action = ACT_READING_NPC_DIALOG
         if msgtimer >= 0 and m.controller.buttonDown & A_BUTTON ~= 0 then
-            showRules = false
+            rules = false
         end
     end
     
