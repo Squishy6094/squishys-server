@@ -37,7 +37,7 @@ function hud_print_toggle_status(SyncTable)
         elseif not SyncTable then
             djui_hud_print_text("Off", ((djui_hud_get_screen_width()/2) + 70), 70 + (optionHover * 10), 0.3)
         end
-    elseif optionTab == 2 and optionHover == 4 then
+    elseif optionTab == 2 and optionHover >= 4 and optionHover <= 5 then
         if SyncTable then
             djui_hud_print_text("On", (djui_hud_get_screen_width()/2), 70 + (optionHover * 10 - 20), 0.3)
         elseif not SyncTable then
@@ -265,8 +265,8 @@ function displaymenu()
             end
         elseif optionTab == 2 then
             if optionHover < 1 then
-                optionHover = 4
-            elseif  optionHover > 4 then
+                optionHover = 5
+            elseif  optionHover > 5 then
                 optionHover = 1
             end
             djui_hud_set_color(150, 150, 150, 255)
@@ -297,33 +297,33 @@ function displaymenu()
                 hud_print_description("","","","","","Cap Timer:", "Tells you how many seconds","your cap has left until it","runs out.")
                 hud_print_toggle_status(capTimerToggle)
             end
-            djui_hud_print_text("Server Popups", ((djui_hud_get_screen_width()/2) - 70), 90, 0.3)
+            djui_hud_print_text("Descriptions", ((djui_hud_get_screen_width()/2) - 70), 90, 0.3)
             if optionHover == 4 then
+                hud_print_description("Descriptions:", "Toggles these descriptions","you see on the right,","Recommended to turn Off if","you like a more minimalistic","menu.")
+                hud_print_toggle_status(descriptions)
+            end
+            djui_hud_print_text("Server Popups", ((djui_hud_get_screen_width()/2) - 70), 100, 0.3)
+            if optionHover == 5 then
                 hud_print_description("Server Popups:", "Shows Tips/Hints about the","server every 3-5 minutes.","Recommended for if you're","new to the server.")
                 hud_print_toggle_status(notif)
             end
         elseif optionTab == 3 then
             if optionHover < 1 then
-                optionHover = 4
-            elseif  optionHover > 4 then
+                optionHover = 3
+            elseif  optionHover > 3 then
                 optionHover = 1
             end
             djui_hud_set_color(150, 150, 150, 255)
             djui_hud_render_rect(((djui_hud_get_screen_width()/2) - 72), 80 + (optionHover * 10 - 10), 70, 9)
 
             djui_hud_set_color(255, 255, 255, 255)
-            djui_hud_print_text("Descriptions", ((djui_hud_get_screen_width()/2) - 70), 80, 0.3)
+            djui_hud_print_text("Star Spawn Cutscene", ((djui_hud_get_screen_width()/2) - 70), 80, 0.3)
             if optionHover == 1 then
-                hud_print_description("Descriptions:", "Toggles these descriptions","you see on the right,","Recommended to turn Off if","you like a more minimalistic","menu.")
-                hud_print_toggle_status(descriptions)
-            end
-            djui_hud_print_text("Star Spawn Cutscene", ((djui_hud_get_screen_width()/2) - 70), 90, 0.3)
-            if optionHover == 2 then
                 hud_print_description("Star Spawn Cutscene:", "Toggles if Star Spawning","Cutscenes play, Recommended","if you don't know where a","star spawns.")
                 hud_print_toggle_status(SSC)
             end
-            djui_hud_print_text("Personal Model", ((djui_hud_get_screen_width()/2) - 70), 100, 0.3)
-            if optionHover == 3 then
+            djui_hud_print_text("Personal Model", ((djui_hud_get_screen_width()/2) - 70), 90, 0.3)
+            if optionHover == 2 then
                 hud_print_description("Personal Model:", "Toggles your own Custom","Player Model, Only avalible","for users with at least","one Custom Model.","","","Contact The Host for more","information about","Custom Models and DynOS")
                 if discordID ~= "0" then
                     djui_hud_print_text(modelTable[discordID][currModel].modelName, (djui_hud_get_screen_width()/2), 70 + (optionHover * 10), 0.3)
@@ -331,8 +331,8 @@ function displaymenu()
                     djui_hud_print_text("N/A", (djui_hud_get_screen_width()/2), 70 + (optionHover * 10), 0.3)
                 end
             end
-            djui_hud_print_text("Locally Display Models", ((djui_hud_get_screen_width()/2) - 70), 110, 0.3)
-            if optionHover == 4 then
+            djui_hud_print_text("Locally Display Models", ((djui_hud_get_screen_width()/2) - 70), 100, 0.3)
+            if optionHover == 3 then
                 hud_print_description("Locally Display Models:", "Toggles if Custom Player","Models Display locally,","Recommended if other people's","Custom models are getting","in the way.","","Contact The Host for more","information about","Custom Models and DynOS")
                 hud_print_toggle_status(modelToggle)
             end
@@ -387,16 +387,11 @@ function before_update(m)
             optionHoverTimer = 0
             print("Saving configuration to 'squishys-server.sav'")
             if optionTab == 1 and optionHover == 1 then
-                if gPlayerSyncTable[m.playerIndex].moveset == 0 and gGlobalSyncTable.GlobalMoveset then
-                    gPlayerSyncTable[m.playerIndex].moveset = 1
-                    mod_storage_save("MoveSave", "1")
-                elseif gPlayerSyncTable[m.playerIndex].moveset == 1 and gGlobalSyncTable.GlobalMoveset then
-                    gPlayerSyncTable[m.playerIndex].moveset = 2
-                    mod_storage_save("MoveSave", "2")
-                elseif gPlayerSyncTable[m.playerIndex].moveset == 2 and gGlobalSyncTable.GlobalMoveset then
+                gPlayerSyncTable[m.playerIndex].moveset = gPlayerSyncTable[m.playerIndex].moveset + 1
+                if gPlayerSyncTable[m.playerIndex].moveset == 3 then
                     gPlayerSyncTable[m.playerIndex].moveset = 0
-                    mod_storage_save("MoveSave", "0")
                 end
+                mod_storage_save("MoveSave", tostring(gPlayerSyncTable[m.playerIndex].moveset))
             end
 
             if optionTab == 1 and optionHover == 2 then
@@ -472,6 +467,16 @@ function before_update(m)
             end
 
             if optionTab == 2 and optionHover == 4 then
+                if descriptions then
+                    descriptions = false
+                    mod_storage_save("DescSave", "false")
+                elseif descriptions == false then
+                    descriptions = true
+                    mod_storage_save("DescSave", "true")
+                end
+            end
+
+            if optionTab == 2 and optionHover == 5 then
                 if notif then
                     notif = false
                     mod_storage_save("notifSave", "false")
@@ -482,16 +487,6 @@ function before_update(m)
             end
 
             if optionTab == 3 and optionHover == 1 then
-                if descriptions then
-                    descriptions = false
-                    mod_storage_save("DescSave", "false")
-                elseif descriptions == false then
-                    descriptions = true
-                    mod_storage_save("DescSave", "true")
-                end
-            end
-
-            if optionTab == 3 and optionHover == 2 then
                 if SSC then
                     SSC = false
                     mod_storage_save("SSCSave", "false")
@@ -501,7 +496,7 @@ function before_update(m)
                 end
             end
 
-            if optionTab == 3 and optionHover == 3 then
+            if optionTab == 3 and optionHover == 2 then
                 currModel = currModel + 1
                 if modelTable[discordID][currModel] == nil then
                     currModel = 0
@@ -509,7 +504,7 @@ function before_update(m)
                 mod_storage_save("ModelSave", tostring(currModel))
             end
 
-            if optionTab == 3 and optionHover == 4 then
+            if optionTab == 3 and optionHover == 3 then
                 if modelToggle then
                     modelToggle = false
                     mod_storage_save("LDMSave", "false")
