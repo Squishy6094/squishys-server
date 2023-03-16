@@ -309,7 +309,7 @@ function displaymenu()
             end
             djui_hud_print_text("Show Rules", ((djui_hud_get_screen_width()/2) - 70), 110, 0.3)
             if optionHover == 6 then
-                hud_print_description("Show Rules:", "Toggles if the Rules Screen","Displays upon joining.")
+                hud_print_description("Show Rules:", "Toggles if the Rules Screen","Displays upon joining. By","turning this option off,","You're confirming that you","have Read and Understand","the Rules.")
                 hud_print_toggle_status(showRules)
             end
         elseif optionTab == 3 then
@@ -491,7 +491,7 @@ function before_update(m)
                 end
             end
 
-            if optionTab == 2 and optionHover == 5 then
+            if optionTab == 2 and optionHover == 6 then
                 if showRules then
                     showRules = false
                     mod_storage_save("RulesSave", "false")
