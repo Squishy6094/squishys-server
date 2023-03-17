@@ -12,8 +12,8 @@ local hudTable = {
             colorO = 255,
             scale = 1,
             iconShow = true,
-            iconOffsetX = 0,
-            iconOffsetY = 0,
+            iconOffsetX = 21,
+            iconOffsetY = 15,
             xShow = true,
             xOffsetX = 37,
             xOffsetY = 15,
@@ -28,8 +28,8 @@ local hudTable = {
             colorO = 255,
             scale = 1,
             iconShow = true,
-            iconOffsetX = 0,
-            iconOffsetY = 0,
+            iconOffsetX = djui_hud_get_screen_width()/2 + 8,
+            iconOffsetY = 15,
             xShow = true,
             xOffsetX = djui_hud_get_screen_width()/2 + 24,
             xOffsetY = 15,
@@ -44,8 +44,8 @@ local hudTable = {
             colorO = 255,
             scale = 1,
             iconShow = true,
-            iconOffsetX = 0,
-            iconOffsetY = 0,
+            iconOffsetX = djui_hud_get_screen_width() - 77,
+            iconOffsetY = 15,
             xShow = true,
             xOffsetX = djui_hud_get_screen_width() - 61,
             xOffsetY = 15,
@@ -64,8 +64,8 @@ local hudTable = {
             colorO = 255,
             scale = 1,
             iconShow = true,
-            iconOffsetX = 0,
-            iconOffsetY = 0,
+            iconOffsetX = 21,
+            iconOffsetY = 15,
             xShow = true,
             xOffsetX = 37,
             xOffsetY = 15,
@@ -80,8 +80,8 @@ local hudTable = {
             colorO = 255,
             scale = 1,
             iconShow = true,
-            iconOffsetX = 0,
-            iconOffsetY = 0,
+            iconOffsetX = 21,
+            iconOffsetY = 33,
             xShow = true,
             xOffsetX = 37,
             xOffsetY = 33,
@@ -96,8 +96,8 @@ local hudTable = {
             colorO = 255,
             scale = 1,
             iconShow = true,
-            iconOffsetX = 0,
-            iconOffsetY = 0,
+            iconOffsetX = 21,
+            iconOffsetY = 51,
             xShow = true,
             xOffsetX = 37,
             xOffsetY = 51,
@@ -108,7 +108,7 @@ local hudTable = {
     }
 }
 
-currHUD = 0
+currHUD = 1
 
 function hud_render()
     
@@ -120,6 +120,9 @@ function hud_render()
     djui_hud_set_color(255, 255, 255, 255)
 
     djui_hud_set_color(hudTable[currHUD]["Lives"].colorR, hudTable[currHUD]["Lives"].colorG, hudTable[currHUD]["Lives"].colorB, hudTable[currHUD]["Lives"].colorO)
+    if hudTable[currHUD]["Lives"].iconShow then
+        djui_hud_render_texture(gTextures.mario_head, hudTable[currHUD]["Lives"].iconOffsetX, hudTable[currHUD]["Lives"].iconOffsetY, hudTable[currHUD]["Lives"].scale, hudTable[currHUD]["Lives"].scale)
+    end
     if hudTable[currHUD]["Lives"].xShow then
         djui_hud_print_text("x", hudTable[currHUD]["Lives"].xOffsetX, hudTable[currHUD]["Lives"].xOffsetY, hudTable[currHUD]["Lives"].scale)
     end
@@ -128,6 +131,9 @@ function hud_render()
     end
 
     djui_hud_set_color(hudTable[currHUD]["Coins"].colorR, hudTable[currHUD]["Coins"].colorG, hudTable[currHUD]["Coins"].colorB, hudTable[currHUD]["Coins"].colorO)
+    if hudTable[currHUD]["Coins"].iconShow then
+        djui_hud_render_texture(gTextures.coin, hudTable[currHUD]["Coins"].iconOffsetX, hudTable[currHUD]["Coins"].iconOffsetY, hudTable[currHUD]["Coins"].scale, hudTable[currHUD]["Coins"].scale)
+    end
     if hudTable[currHUD]["Coins"].xShow then
         djui_hud_print_text("x", hudTable[currHUD]["Coins"].xOffsetX, hudTable[currHUD]["Coins"].xOffsetY, hudTable[currHUD]["Coins"].scale)
     end
@@ -136,6 +142,9 @@ function hud_render()
     end
 
     djui_hud_set_color(hudTable[currHUD]["Stars"].colorR, hudTable[currHUD]["Stars"].colorG, hudTable[currHUD]["Stars"].colorB, hudTable[currHUD]["Stars"].colorO)
+    if hudTable[currHUD]["Stars"].iconShow then
+        djui_hud_render_texture(gTextures.star, hudTable[currHUD]["Stars"].iconOffsetX, hudTable[currHUD]["Stars"].iconOffsetY, hudTable[currHUD]["Stars"].scale, hudTable[currHUD]["Stars"].scale)
+    end
     if hudTable[currHUD]["Stars"].xShow then
         djui_hud_print_text("x", hudTable[currHUD]["Stars"].xOffsetX, hudTable[currHUD]["Stars"].xOffsetY, hudTable[currHUD]["Stars"].scale)
     end
