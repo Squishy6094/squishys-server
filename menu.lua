@@ -31,13 +31,13 @@ function hud_print_description(CMDName, Line1, Line2, Line3, Line4, Line5, Line6
 end
 
 function hud_print_toggle_status(SyncTable)
-    if optionTab == 2 and optionHover <= 3 then
+    if optionTab == 2 and optionHover >= 2 and optionHover <= 4 then
         if SyncTable then
             djui_hud_print_text("On", ((djui_hud_get_screen_width()/2) + 70), 70 + (optionHover * 10), 0.3)
         elseif not SyncTable then
             djui_hud_print_text("Off", ((djui_hud_get_screen_width()/2) + 70), 70 + (optionHover * 10), 0.3)
         end
-    elseif optionTab == 2 and optionHover >= 4 and optionHover <= 6 then
+    elseif optionTab == 2 and optionHover >= 4 and optionHover <= 7 then
         if SyncTable then
             djui_hud_print_text("On", (djui_hud_get_screen_width()/2), 70 + (optionHover * 10 - 20), 0.3)
         elseif not SyncTable then
@@ -265,50 +265,56 @@ function displaymenu()
             end
         elseif optionTab == 2 then
             if optionHover < 1 then
-                optionHover = 6
-            elseif  optionHover > 6 then
+                optionHover = 7
+            elseif  optionHover > 7 then
                 optionHover = 1
             end
             djui_hud_set_color(150, 150, 150, 255)
-            if (optionHover >= 1 and optionHover <= 3) then
-                djui_hud_render_rect(((djui_hud_get_screen_width()/2) - 72), 80, 70, 9)
+            if (optionHover >= 2 and optionHover <= 4) then
+                djui_hud_render_rect(((djui_hud_get_screen_width()/2) - 72), 90, 70, 9)
                 djui_hud_render_rect(((djui_hud_get_screen_width()/2) - 2), 110 + (optionHover * 10 - 40), 70, 9)
+            elseif optionHover < 2 then 
+                djui_hud_render_rect(((djui_hud_get_screen_width()/2) - 72), 70 + (optionHover * 10), 70, 9)
             else
                 djui_hud_render_rect(((djui_hud_get_screen_width()/2) - 72), 80 + (optionHover * 10 - 30), 70, 9)
             end
-
             djui_hud_set_color(255, 255, 255, 255)
-            djui_hud_print_text("Extra HUD", ((djui_hud_get_screen_width()/2) - 70), 80, 0.3)
-            if optionHover >= 1 and optionHover <= 3 then
-                hud_print_description("Extra HUD:", "Adds Quality of Life HUD","Elements to tell extra","Information")
-                djui_hud_print_text("Red Coin Radar", ((djui_hud_get_screen_width()/2)), 80, 0.3)
-                djui_hud_print_text("Secrets Radar", ((djui_hud_get_screen_width()/2)), 90, 0.3)
-                djui_hud_print_text("Cap Timer", ((djui_hud_get_screen_width()/2)), 100, 0.3)
-            end
+            djui_hud_print_text("HUD Type", ((djui_hud_get_screen_width()/2) - 70), 80, 0.3)
             if optionHover == 1 then
+                hud_print_description("HUD Type", "Changes which HUD the screen","displays! (WIP)")
+                djui_hud_print_text(hudTable[currHUD].name, (djui_hud_get_screen_width()/2), 70 + (optionHover * 10), 0.3)
+            end
+            djui_hud_print_text("Extra HUD", ((djui_hud_get_screen_width()/2) - 70), 90, 0.3)
+            if optionHover >= 2 and optionHover <= 4 then
+                hud_print_description("Extra HUD:", "Adds Quality of Life HUD","Elements to tell extra","Information")
+                djui_hud_print_text("Red Coin Radar", ((djui_hud_get_screen_width()/2)), 90, 0.3)
+                djui_hud_print_text("Secrets Radar", ((djui_hud_get_screen_width()/2)), 100, 0.3)
+                djui_hud_print_text("Cap Timer", ((djui_hud_get_screen_width()/2)), 110, 0.3)
+            end
+            if optionHover == 2 then
                 hud_print_description("","","","","","Red Coin Radar:", "Tells you how far away","Red Coins are.")
                 hud_print_toggle_status(radarRedToggle)
             end
-            if optionHover == 2 then
+            if optionHover == 3 then
                 hud_print_description("","","","","","Secret Radar:", "Tells you how far away","Secrets are.")
                 hud_print_toggle_status(radarSecretToggle)
             end
-            if optionHover == 3 then
+            if optionHover == 4 then
                 hud_print_description("","","","","","Cap Timer:", "Tells you how many seconds","your cap has left until it","runs out.")
                 hud_print_toggle_status(capTimerToggle)
             end
-            djui_hud_print_text("Descriptions", ((djui_hud_get_screen_width()/2) - 70), 90, 0.3)
-            if optionHover == 4 then
+            djui_hud_print_text("Descriptions", ((djui_hud_get_screen_width()/2) - 70), 100, 0.3)
+            if optionHover == 5 then
                 hud_print_description("Descriptions:", "Toggles these descriptions","you see on the right,","Recommended to turn Off if","you like a more minimalistic","menu.")
                 hud_print_toggle_status(descriptions)
             end
-            djui_hud_print_text("Server Popups", ((djui_hud_get_screen_width()/2) - 70), 100, 0.3)
-            if optionHover == 5 then
+            djui_hud_print_text("Server Popups", ((djui_hud_get_screen_width()/2) - 70), 110, 0.3)
+            if optionHover == 6 then
                 hud_print_description("Server Popups:", "Shows Tips/Hints about the","server every 3-5 minutes.","Recommended for if you're","new to the server.")
                 hud_print_toggle_status(notif)
             end
-            djui_hud_print_text("Show Rules", ((djui_hud_get_screen_width()/2) - 70), 110, 0.3)
-            if optionHover == 6 then
+            djui_hud_print_text("Show Rules", ((djui_hud_get_screen_width()/2) - 70), 120, 0.3)
+            if optionHover == 7 then
                 hud_print_description("Show Rules:", "Toggles if the Rules Screen","Displays upon joining. By","turning this option off,","You're confirming that you","have Read and Understand","the Rules.")
                 hud_print_toggle_status(showRules)
             end
@@ -442,6 +448,14 @@ function before_update(m)
             end
 
             if optionTab == 2 and optionHover == 1 then
+                currHUD = currHUD + 1
+                if hudTable[currHUD] == nil then
+                    currHUD = 0
+                end
+                mod_storage_save("HUDSave", tostring(currHUD))
+            end
+
+            if optionTab == 2 and optionHover == 2 then
                 if radarRedToggle then
                     radarRedToggle = false
                     mod_storage_save("CRRSave", "false")
@@ -451,7 +465,7 @@ function before_update(m)
                 end
             end
 
-            if optionTab == 2 and optionHover == 2 then
+            if optionTab == 2 and optionHover == 3 then
                 if radarSecretToggle then
                     radarSecretToggle = false
                     mod_storage_save("CRSSave", "false")
@@ -461,7 +475,7 @@ function before_update(m)
                 end
             end
 
-            if optionTab == 2 and optionHover == 3 then
+            if optionTab == 2 and optionHover == 4 then
                 if capTimerToggle then
                     capTimerToggle = false
                     mod_storage_save("CTSave", "false")
@@ -471,7 +485,7 @@ function before_update(m)
                 end
             end
 
-            if optionTab == 2 and optionHover == 4 then
+            if optionTab == 2 and optionHover == 5 then
                 if descriptions then
                     descriptions = false
                     mod_storage_save("DescSave", "false")
@@ -481,7 +495,7 @@ function before_update(m)
                 end
             end
 
-            if optionTab == 2 and optionHover == 5 then
+            if optionTab == 2 and optionHover == 6 then
                 if notif then
                     notif = false
                     mod_storage_save("notifSave", "false")
@@ -491,7 +505,7 @@ function before_update(m)
                 end
             end
 
-            if optionTab == 2 and optionHover == 6 then
+            if optionTab == 2 and optionHover == 7 then
                 if showRules then
                     showRules = false
                     mod_storage_save("RulesSave", "false")

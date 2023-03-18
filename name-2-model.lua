@@ -40,7 +40,7 @@ modelTable = {
             model = smlua_model_util_get_id("ss_toad_player_geo"),
             modelName = "Super Show Toad",
             forcePlayer = CT_TOAD,
-            icon = m.character.hudHeadTexture
+            icon = gTextures.toad_head
         },
         [2] = {
             model = smlua_model_util_get_id("yoshi_player_geo"),
@@ -93,7 +93,7 @@ modelTable = {
             model = smlua_model_util_get_id("ss_toad_player_geo"),
             modelName = "Super Show Toad",
             forcePlayer = CT_TOAD,
-            icon = m.character.hudHeadTexture
+            icon = gTextures.toad_head
         }
     },
     [Nut] = {
@@ -110,7 +110,7 @@ modelTable = {
             model = smlua_model_util_get_id("ss_toad_player_geo"),
             modelName = "Super Show Toad",
             forcePlayer = CT_TOAD,
-            icon = m.character.hudHeadTexture
+            icon = gTextures.toad_head
         }
     },
     [Cosmic] = {

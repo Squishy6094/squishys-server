@@ -14,6 +14,8 @@ local function get_closest_object(id_bhv)
     return nil
 end
 
+local capboxtex = get_texture_info("capbox")
+
 function display()
     local m = gMarioStates[0]
 
@@ -211,7 +213,7 @@ function display()
                 djui_hud_render_rect(21, 167 + capboxmove, 16, 16)
             end 
             djui_hud_set_color(255, 255, 255, 255)
-            djui_hud_render_texture(get_texture_info("capbox"), 21, 167 + capboxmove, 1, 1)
+            djui_hud_render_texture(capboxtex, 21, 167 + capboxmove, 1, 1)
         end
     end
 
