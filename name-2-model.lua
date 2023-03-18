@@ -20,22 +20,27 @@ Elby = "673582558507827221"
 Crispyman = "817821798363955251"
 Butter = "759464398946566165"
 
+local m = gMarioStates[0]
+
 modelTable = {
     [Default] = {
         [0] = {
             model = nil,
-            modelName = "Default"
+            modelName = "Default",
+            icon = m.character.hudHeadTexture
         }
     },
     [Squishy] = {
         [0] = {
             model = nil,
-            modelName = "Default"
+            modelName = "Default",
+            icon = m.character.hudHeadTexture
         },
         [1] = {
             model = smlua_model_util_get_id("ss_toad_player_geo"),
             modelName = "Super Show Toad",
-            forcePlayer = CT_TOAD
+            forcePlayer = CT_TOAD,
+            icon = m.character.hudHeadTexture
         },
         [2] = {
             model = smlua_model_util_get_id("yoshi_player_geo"),
@@ -81,18 +86,21 @@ modelTable = {
     [Spoomples] = {
         [0] = {
             model = nil,
-            modelName = "Default"
+            modelName = "Default",
+            icon = m.character.hudHeadTexture
         },
         [1] = {
             model = smlua_model_util_get_id("ss_toad_player_geo"),
             modelName = "Super Show Toad",
-            forcePlayer = CT_TOAD
+            forcePlayer = CT_TOAD,
+            icon = m.character.hudHeadTexture
         }
     },
     [Nut] = {
         [0] = {
             model = nil,
-            modelName = "Default"
+            modelName = "Default",
+            icon = m.character.hudHeadTexture
         },
         [1] = {
             model = smlua_model_util_get_id("yoshi_player_geo"),
@@ -101,13 +109,15 @@ modelTable = {
         [2] = {
             model = smlua_model_util_get_id("ss_toad_player_geo"),
             modelName = "Super Show Toad",
-            forcePlayer = CT_TOAD
+            forcePlayer = CT_TOAD,
+            icon = m.character.hudHeadTexture
         }
     },
     [Cosmic] = {
         [0] = {
             model = nil,
-            modelName = "Default"
+            modelName = "Default",
+            icon = m.character.hudHeadTexture
         },
         [1] = {
             model = smlua_model_util_get_id("cosmic_geo"),
@@ -118,7 +128,8 @@ modelTable = {
     [Trashcam] = {
         [0] = {
             model = nil,
-            modelName = "Default"
+            modelName = "Default",
+            icon = m.character.hudHeadTexture
         },
         [1] = {
             model = smlua_model_util_get_id("trashcam_geo"),
@@ -129,7 +140,8 @@ modelTable = {
     [Skeltan] = {
         [0] = {
             model = nil,
-            modelName = "Default"
+            modelName = "Default",
+            icon = m.character.hudHeadTexture
         },
         [1] = {
             model = smlua_model_util_get_id("woop_geo"),
@@ -140,7 +152,8 @@ modelTable = {
     [AgentX] = {
         [0] = {
             model = nil,
-            modelName = "Default"
+            modelName = "Default",
+            icon = m.character.hudHeadTexture
         },
         [1] = {
             model = smlua_model_util_get_id("gordon_geo"),
@@ -150,7 +163,8 @@ modelTable = {
     [Blocky] = {
         [0] = {
             model = nil,
-            modelName = "Default"
+            modelName = "Default",
+            icon = m.character.hudHeadTexture
         },
         [1] = {
             model = smlua_model_util_get_id("blocky_geo"),
@@ -160,7 +174,8 @@ modelTable = {
     [DepressedYoshi] = {
         [0] = {
             model = nil,
-            modelName = "Default"
+            modelName = "Default",
+            icon = m.character.hudHeadTexture
         },
         [1] = {
             model = smlua_model_util_get_id("yoshi_player_geo"),
@@ -170,7 +185,8 @@ modelTable = {
     [Yosho] = {
         [0] = {
             model = nil,
-            modelName = "Default"
+            modelName = "Default",
+            icon = m.character.hudHeadTexture
         },
         [1] = {
             model = smlua_model_util_get_id("yoshi_player_geo"),
@@ -180,7 +196,8 @@ modelTable = {
     [YoshoAlt] = {
         [0] = {
             model = nil,
-            modelName = "Default"
+            modelName = "Default",
+            icon = m.character.hudHeadTexture
         },
         [1] = {
             model = smlua_model_util_get_id("yoshi_player_geo"),
@@ -190,29 +207,34 @@ modelTable = {
     [KanHeaven] = {
         [0] = {
             model = nil,
-            modelName = "Default"
+            modelName = "Default",
+            icon = m.character.hudHeadTexture
         },
         [1] = {
             model = smlua_model_util_get_id("nya_geo"),
             modelName = "Hatsune Maiku",
-            forcePlayer = CT_MARIO
+            forcePlayer = CT_MARIO,
+            icon = m.character.hudHeadTexture
         }
     },
     [Bloxxel64Nya] = {
         [0] = {
             model = nil,
-            modelName = "Default"
+            modelName = "Default",
+            icon = m.character.hudHeadTexture
         },
         [1] = {
             model = smlua_model_util_get_id("nya_geo"),
             modelName = "Hatsune Maiku",
-            forcePlayer = CT_MARIO
+            forcePlayer = CT_MARIO,
+            icon = m.character.hudHeadTexture
         }
     },
     [Vince] = {
         [0] = {
             model = nil,
-            modelName = "Default"
+            modelName = "Default",
+            icon = m.character.hudHeadTexture
         },
         [1] = {
             model = smlua_model_util_get_id("croc_geo"),
@@ -222,7 +244,8 @@ modelTable = {
     [Average] = {
         [0] = {
             model = nil,
-            modelName = "Default"
+            modelName = "Default",
+            icon = m.character.hudHeadTexture
         },
         [1] = {
             model = smlua_model_util_get_id("natsuki_geo"),
@@ -232,7 +255,8 @@ modelTable = {
     [Elby] = {
         [0] = {
             model = nil,
-            modelName = "Default"
+            modelName = "Default",
+            icon = m.character.hudHeadTexture
         },
         [1] = {
             model = smlua_model_util_get_id("protogen_geo"),
@@ -242,13 +266,15 @@ modelTable = {
         [2] = {
             model = smlua_model_util_get_id("nya_geo"),
             modelName = "Hatsune Maiku",
-            forcePlayer = CT_MARIO
+            forcePlayer = CT_MARIO,
+            icon = m.character.hudHeadTexture
         }
     },
     [Crispyman] = {
         [0] = {
             model = nil,
-            modelName = "Default"
+            modelName = "Default",
+            icon = m.character.hudHeadTexture
         },
         [1] = {
             model = smlua_model_util_get_id("hat_kid_geo"),
@@ -258,7 +284,8 @@ modelTable = {
     [Butter] = {
         [0] = {
             model = nil,
-            modelName = "Default"
+            modelName = "Default",
+            icon = m.character.hudHeadTexture
         },
         [1] = {
             model = smlua_model_util_get_id("nya_geo"),

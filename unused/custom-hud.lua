@@ -53,6 +53,16 @@ local hudTable = {
             numOffsetX = djui_hud_get_screen_width() - 47,
             numOffsetY = 15,
         },
+        ["Health"] = {
+            colorR = 255,
+            colorG = 255,
+            colorB = 255,
+            colorO = 255,
+            scale = 64,
+            meterShow = true,
+            meterOffsetX = djui_hud_get_screen_width()/2 - 52,
+            meterOffsetY = 8,
+        }
     },
     [Compact] = {
         res = RESOLUTION_N64,
@@ -65,13 +75,13 @@ local hudTable = {
             scale = 1,
             iconShow = true,
             iconOffsetX = 21,
-            iconOffsetY = 15,
+            iconOffsetY = 60,
             xShow = true,
             xOffsetX = 37,
-            xOffsetY = 15,
+            xOffsetY = 60,
             numShow = true,
             numOffsetX = 54,
-            numOffsetY = 15,
+            numOffsetY = 60,
         },
         ["Coins"] = {
             colorR = 0,
@@ -81,13 +91,13 @@ local hudTable = {
             scale = 1,
             iconShow = true,
             iconOffsetX = 21,
-            iconOffsetY = 33,
+            iconOffsetY = 78,
             xShow = true,
             xOffsetX = 37,
-            xOffsetY = 33,
+            xOffsetY = 78,
             numShow = true,
             numOffsetX = 54,
-            numOffsetY = 33,
+            numOffsetY = 78,
         },
         ["Stars"] = {
             colorR = 0,
@@ -97,14 +107,24 @@ local hudTable = {
             scale = 1,
             iconShow = true,
             iconOffsetX = 21,
-            iconOffsetY = 51,
+            iconOffsetY = 96,
             xShow = true,
             xOffsetX = 37,
-            xOffsetY = 51,
+            xOffsetY = 96,
             numShow = true,
             numOffsetX = 54,
-            numOffsetY = 51,
+            numOffsetY = 96,
         },
+        ["Health"] = {
+            colorR = 255,
+            colorG = 255,
+            colorB = 255,
+            colorO = 255,
+            scale = 64,
+            meterShow = true,
+            meterOffsetX = 15,
+            meterOffsetY = 8,
+        }
     }
 }
 
@@ -119,9 +139,18 @@ function hud_render()
     djui_hud_set_font(hudTable[currHUD].font)
     djui_hud_set_color(255, 255, 255, 255)
 
+    djui_hud_set_color(hudTable[currHUD]["Health"].colorR, hudTable[currHUD]["Health"].colorG, hudTable[currHUD]["Health"].colorB, hudTable[currHUD]["Health"].colorO)
+    if hudTable[currHUD]["Health"].meterShow then
+        hud_render_power_meter(gMarioStates[0].health, hudTable[currHUD]["Health"].meterOffsetX, hudTable[currHUD]["Health"].meterOffsetY, hudTable[currHUD]["Health"].scale, hudTable[currHUD]["Health"].scale)
+    end
+
     djui_hud_set_color(hudTable[currHUD]["Lives"].colorR, hudTable[currHUD]["Lives"].colorG, hudTable[currHUD]["Lives"].colorB, hudTable[currHUD]["Lives"].colorO)
     if hudTable[currHUD]["Lives"].iconShow then
-        djui_hud_render_texture(gTextures.mario_head, hudTable[currHUD]["Lives"].iconOffsetX, hudTable[currHUD]["Lives"].iconOffsetY, hudTable[currHUD]["Lives"].scale, hudTable[currHUD]["Lives"].scale)
+        if modelTable[discordID][currModel].icon ~= nil then
+            djui_hud_render_texture(modelTable[discordID][currModel].icon, hudTable[currHUD]["Lives"].iconOffsetX, hudTable[currHUD]["Lives"].iconOffsetY, hudTable[currHUD]["Lives"].scale, hudTable[currHUD]["Lives"].scale)
+        else
+            djui_hud_render_texture(get_texture_info("icon-nil"), hudTable[currHUD]["Lives"].iconOffsetX, hudTable[currHUD]["Lives"].iconOffsetY, hudTable[currHUD]["Lives"].scale, hudTable[currHUD]["Lives"].scale)
+        end
     end
     if hudTable[currHUD]["Lives"].xShow then
         djui_hud_print_text("x", hudTable[currHUD]["Lives"].xOffsetX, hudTable[currHUD]["Lives"].xOffsetY, hudTable[currHUD]["Lives"].scale)
