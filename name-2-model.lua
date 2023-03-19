@@ -49,7 +49,8 @@ modelTable = {
         [3] = {
             model = smlua_model_util_get_id("cosmic_geo"),
             modelName = "Weedcat",
-            forcePlayer = CT_WALUIGI
+            forcePlayer = CT_WALUIGI,
+            icon = get_texture_info("icon-weedcat")
         },
         [4] = {
             model = smlua_model_util_get_id("trashcam_geo"),
@@ -69,6 +70,7 @@ modelTable = {
         [7] = {
             model = smlua_model_util_get_id("blocky_geo"),
             modelName = "Blocky",
+            icon = get_texture_info("icon-blocky")
         },
         [8] = {
             model = smlua_model_util_get_id("nya_geo"),
@@ -124,7 +126,8 @@ modelTable = {
         [1] = {
             model = smlua_model_util_get_id("cosmic_geo"),
             modelName = "Weedcat",
-            forcePlayer = CT_WALUIGI
+            forcePlayer = CT_WALUIGI,
+            icon = get_texture_info("icon-weedcat")
         }
     },
     [Trashcam] = {
@@ -172,6 +175,7 @@ modelTable = {
         [1] = {
             model = smlua_model_util_get_id("blocky_geo"),
             modelName = "Blocky",
+            icon = get_texture_info("icon-blocky")
         }
     },
     [DepressedYoshi] = {
