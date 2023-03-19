@@ -27,20 +27,20 @@ modelTable = {
         [0] = {
             model = nil,
             modelName = "Default",
-            icon = m.character.hudHeadTexture
+            icon = "Default",
         }
     },
     [Squishy] = {
         [0] = {
             model = nil,
             modelName = "Default",
-            icon = m.character.hudHeadTexture
+            icon = "Default"
         },
         [1] = {
             model = smlua_model_util_get_id("ss_toad_player_geo"),
             modelName = "Super Show Toad",
             forcePlayer = CT_TOAD,
-            icon = gTextures.toad_head
+            icon = "Default",
         },
         [2] = {
             model = smlua_model_util_get_id("yoshi_player_geo"),
@@ -54,7 +54,8 @@ modelTable = {
         [4] = {
             model = smlua_model_util_get_id("trashcam_geo"),
             modelName = "Trashcam",
-            forcePlayer = CT_MARIO
+            forcePlayer = CT_MARIO,
+            icon = get_texture_info("icon-trashcam")
         },
         [5] = {
             model = smlua_model_util_get_id("woop_geo"),
@@ -77,6 +78,7 @@ modelTable = {
         [9] = {
             model = smlua_model_util_get_id("croc_geo"),
             modelName = "Croc",
+            icon = get_texture_info("icon-croc")
         },
         [10] = {
             model = smlua_model_util_get_id("hat_kid_geo"),
@@ -93,7 +95,7 @@ modelTable = {
             model = smlua_model_util_get_id("ss_toad_player_geo"),
             modelName = "Super Show Toad",
             forcePlayer = CT_TOAD,
-            icon = gTextures.toad_head
+            icon = "Default",
         }
     },
     [Nut] = {
@@ -110,7 +112,7 @@ modelTable = {
             model = smlua_model_util_get_id("ss_toad_player_geo"),
             modelName = "Super Show Toad",
             forcePlayer = CT_TOAD,
-            icon = gTextures.toad_head
+            icon = "Default",
         }
     },
     [Cosmic] = {
@@ -134,7 +136,8 @@ modelTable = {
         [1] = {
             model = smlua_model_util_get_id("trashcam_geo"),
             modelName = "Trashcam",
-            forcePlayer = CT_MARIO
+            forcePlayer = CT_MARIO,
+            icon = get_texture_info("icon-trashcam")
         }
     },
     [Skeltan] = {
@@ -239,6 +242,7 @@ modelTable = {
         [1] = {
             model = smlua_model_util_get_id("croc_geo"),
             modelName = "Croc",
+            icon = get_texture_info("icon-croc")
         }
     },
     [Average] = {
@@ -304,9 +308,9 @@ end
 
 --- @param m MarioState
 function mario_update(m)
-    if not modelToggle then return end
+    if not modelToggle or network_discord_id_from_local_index(0) == nil then return end
     if m.playerIndex == 0 then
-        if discordID ~= "0" or discordID ~= "678794043018182675" then
+        if discordID ~= "0" or discordID ~= "678794043018182675" or discordID ~= nil then
             gPlayerSyncTable[0].modelId = modelTable[discordID][currModel].model
             if modelTable[discordID][currModel].forcePlayer ~= nil and gPlayerSyncTable[m.playerIndex].modelId ~= nil then
                 gNetworkPlayers[m.playerIndex].overrideModelIndex = modelTable[discordID][currModel].forcePlayer

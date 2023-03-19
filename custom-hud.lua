@@ -62,6 +62,25 @@ hudTable = {
             numOffsetX = -46.8,
             numOffsetY = 15,
         },
+        ["PersonalStars"] = {
+            colorR = 255,
+            colorG = 50,
+            colorB = 50,
+            colorO = 255,
+            scale = 1,
+            xAlignment = 2,
+            yAlignment = 0,
+            iconShow = true,
+            iconOffsetX = -77,
+            iconOffsetY = 15,
+            xShow = true,
+            hideOnTriple = true,
+            xOffsetX = -61,
+            xOffsetY = 15,
+            numShow = true,
+            numOffsetX = -46.8,
+            numOffsetY = 15,
+        },
         ["Health"] = {
             colorR = 255,
             colorG = 255,
@@ -222,6 +241,7 @@ hudTable = {
 }
 
 currHUD = 0
+StarCounter = StarCounter
 
 function hud_render()
     
@@ -273,10 +293,18 @@ function hud_render()
         djui_hud_set_color(r, g, b, o)
     end
     if hudTable[currHUD]["Lives"].iconShow then
-        if modelTable[discordID][currModel].icon ~= nil then
-            djui_hud_render_texture(modelTable[discordID][currModel].icon, iconX, iconY, scale, scale)
+        if network_discord_id_from_local_index(0) ~= nil then
+            if modelTable[discordID][currModel].icon ~= nil then
+                if modelTable[discordID][currModel].icon == "Default" then
+                    djui_hud_render_texture(m.character.hudHeadTexture, iconX, iconY, scale, scale)
+                else
+                    djui_hud_render_texture(modelTable[discordID][currModel].icon, iconX, iconY, scale, scale)
+                end
+            else
+                djui_hud_render_texture(get_texture_info("icon-nil"), iconX, iconY, scale, scale)
+            end
         else
-            djui_hud_render_texture(get_texture_info("icon-nil"), iconX, iconY, scale, scale)
+            djui_hud_render_texture(m.character.hudHeadTexture, iconX, iconY, scale, scale)
         end
     end
     if hudTable[currHUD]["Lives"].xShow then
@@ -340,9 +368,9 @@ function hud_render()
     end
     if hudTable[currHUD]["Stars"].numShow then
         if m.numStars >= 100 and hudTable[currHUD]["Stars"].hideOnTriple then
-            djui_hud_print_text(""..m.numStars, xX, xY, scale)
+            djui_hud_print_text(tostring(m.numStars), xX, xY, scale)
         else
-            djui_hud_print_text(""..m.numStars, numX, numY, scale)
+            djui_hud_print_text(tostring(m.numStars), numX, numY, scale)
         end
     end
 end
