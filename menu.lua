@@ -1,7 +1,7 @@
 
 gGlobalSyncTable.RoomTimerF = 0
 
-gGlobalSyncTable.bubbleDeath = 2
+gGlobalSyncTable.bubbleDeath = 0
 gGlobalSyncTable.playerInteractions = gServerSettings.playerInteractions
 gGlobalSyncTable.playerKnockbackStrength = gServerSettings.playerKnockbackStrength
 gGlobalSyncTable.stayInLevelAfterStar = gServerSettings.stayInLevelAfterStar
