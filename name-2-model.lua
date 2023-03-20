@@ -19,6 +19,7 @@ Average = "397219199375769620"
 Elby = "673582558507827221"
 Crispyman = "817821798363955251"
 Butter = "759464398946566165"
+Mathew = "468134163493421076"
 
 local m = gMarioStates[0]
 
@@ -85,7 +86,7 @@ modelTable = {
         [10] = {
             model = smlua_model_util_get_id("hat_kid_geo"),
             modelName = "Hat Kid",
-        },
+        }
     },
     [Spoomples] = {
         [0] = {
@@ -299,6 +300,18 @@ modelTable = {
             model = smlua_model_util_get_id("nya_geo"),
             modelName = "Hatsune Maiku",
             forcePlayer = CT_MARIO
+        }
+    },
+    [Mathew] = {
+        [0] = {
+            model = nil,
+            modelName = "Default",
+            icon = m.character.hudHeadTexture
+        },
+        [1] = {
+            model = smlua_model_util_get_id("mathew_geo"),
+            modelName = "Mathew",
+            icon = get_texture_info("icon-mathew")
         }
     },
 }
