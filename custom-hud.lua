@@ -72,7 +72,7 @@ hudTable = {
             yAlignment = 0,
             iconShow = true,
             iconOffsetX = -77,
-            iconOffsetY = 15,
+            iconOffsetY = 30,
             xShow = true,
             hideOnTriple = true,
             xOffsetX = -61,
@@ -241,10 +241,49 @@ hudTable = {
 }
 
 currHUD = 0
-StarCounter = StarCounter
+
+function djui_hud_render_element(element, number, icon)
+    local m = gMarioStates[0]
+
+    if hudTable[currHUD][element].xAlignment ~= nil then hudTable[currHUD][element].xAlignment = 0 end
+    if hudTable[currHUD][element].yAlignment ~= nil then hudTable[currHUD][element].yAlignment = 0 end
+    local xAlign = djui_hud_get_screen_width()/2 * hudTable[currHUD][element].xAlignment
+    local yAlign = djui_hud_get_screen_height()/2 * hudTable[currHUD][element].yAlignment
+
+    local r = hudTable[currHUD][element].colorR
+    local g = hudTable[currHUD][element].colorG
+    local b = hudTable[currHUD][element].colorB
+    local o = hudTable[currHUD][element].colorO
+
+    local iconX = hudTable[currHUD][element].iconOffsetX + xAlign
+    local iconY = hudTable[currHUD][element].iconOffsetY + yAlign
+    local xX = hudTable[currHUD][element].xOffsetX + xAlign
+    local xY = hudTable[currHUD][element].xOffsetY + yAlign
+    local numX = hudTable[currHUD][element].numOffsetX + xAlign
+    local numY = hudTable[currHUD][element].numOffsetY + yAlign
+    local scale = hudTable[currHUD][element].scale
+
+    if is_game_paused() then
+        djui_hud_set_color(r/2, g/2, b/2, o)
+    else
+        djui_hud_set_color(r, g, b, o)
+    end
+    if hudTable[currHUD][element].iconShow then
+        djui_hud_render_texture(icon, iconX, iconY, scale, scale)
+    end
+    if hudTable[currHUD][element].xShow and not (number >= 100 and hudTable[currHUD][element].hideOnTriple) then
+        djui_hud_print_text("x", xX, xY, scale)
+    end
+    if hudTable[currHUD][element].numShow then
+        if number >= 100 and hudTable[currHUD][element].hideOnTriple then
+            djui_hud_print_text(tostring(number), xX, xY, scale)
+        else
+            djui_hud_print_text(tostring(number), numX, numY, scale)
+        end
+    end
+end
 
 function hud_render()
-    
     local m = gMarioStates[0]
 
     hud_hide()
@@ -274,105 +313,22 @@ function hud_render()
         hud_render_power_meter(gMarioStates[0].health, x, y, scale, scale)
     end
 
-    local r = hudTable[currHUD]["Lives"].colorR
-    local g = hudTable[currHUD]["Lives"].colorG
-    local b = hudTable[currHUD]["Lives"].colorB
-    local o = hudTable[currHUD]["Lives"].colorO
-
-    local iconX = hudTable[currHUD]["Lives"].iconOffsetX + djui_hud_get_screen_width()/2 * hudTable[currHUD]["Lives"].xAlignment
-    local iconY = hudTable[currHUD]["Lives"].iconOffsetY + djui_hud_get_screen_height()/2 * hudTable[currHUD]["Lives"].yAlignment
-    local xX = hudTable[currHUD]["Lives"].xOffsetX + djui_hud_get_screen_width()/2 * hudTable[currHUD]["Lives"].xAlignment
-    local xY = hudTable[currHUD]["Lives"].xOffsetY + djui_hud_get_screen_height()/2 * hudTable[currHUD]["Lives"].yAlignment
-    local numX = hudTable[currHUD]["Lives"].numOffsetX + djui_hud_get_screen_width()/2 * hudTable[currHUD]["Lives"].xAlignment
-    local numY = hudTable[currHUD]["Lives"].numOffsetY + djui_hud_get_screen_height()/2 * hudTable[currHUD]["Lives"].yAlignment
-    local scale = hudTable[currHUD]["Lives"].scale
-
-    if is_game_paused() then
-        djui_hud_set_color(r/2, g/2, b/2, o)
-    else
-        djui_hud_set_color(r, g, b, o)
-    end
-    if hudTable[currHUD]["Lives"].iconShow then
-        if network_discord_id_from_local_index(0) ~= nil then
-            if modelTable[discordID][currModel].icon ~= nil then
-                if modelTable[discordID][currModel].icon == "Default" then
-                    djui_hud_render_texture(m.character.hudHeadTexture, iconX, iconY, scale, scale)
-                else
-                    djui_hud_render_texture(modelTable[discordID][currModel].icon, iconX, iconY, scale, scale)
-                end
-            else
-                djui_hud_render_texture(get_texture_info("icon-nil"), iconX, iconY, scale, scale)
-            end
+    if modelTable[discordID][currModel].icon ~= nil then
+        if modelTable[discordID][currModel].icon == "Default" then
+            lifeIcon = m.character.hudHeadTexture
         else
-            djui_hud_render_texture(m.character.hudHeadTexture, iconX, iconY, scale, scale)
+            lifeIcon = modelTable[discordID][currModel].icon
         end
-    end
-    if hudTable[currHUD]["Lives"].xShow then
-        djui_hud_print_text("x", xX, xY, scale)
-    end
-    if hudTable[currHUD]["Lives"].numShow then
-        djui_hud_print_text(""..m.numLives, numX, numY, scale)
-    end
-
-    local r = hudTable[currHUD]["Coins"].colorR
-    local g = hudTable[currHUD]["Coins"].colorG
-    local b = hudTable[currHUD]["Coins"].colorB
-    local o = hudTable[currHUD]["Coins"].colorO
-
-    local iconX = hudTable[currHUD]["Coins"].iconOffsetX + djui_hud_get_screen_width()/2 * hudTable[currHUD]["Coins"].xAlignment
-    local iconY = hudTable[currHUD]["Coins"].iconOffsetY + djui_hud_get_screen_height()/2 * hudTable[currHUD]["Coins"].yAlignment
-    local xX = hudTable[currHUD]["Coins"].xOffsetX + djui_hud_get_screen_width()/2 * hudTable[currHUD]["Coins"].xAlignment
-    local xY = hudTable[currHUD]["Coins"].xOffsetY + djui_hud_get_screen_height()/2 * hudTable[currHUD]["Coins"].yAlignment
-    local numX = hudTable[currHUD]["Coins"].numOffsetX + djui_hud_get_screen_width()/2 * hudTable[currHUD]["Coins"].xAlignment
-    local numY = hudTable[currHUD]["Coins"].numOffsetY + djui_hud_get_screen_height()/2 * hudTable[currHUD]["Coins"].yAlignment
-    local scale = hudTable[currHUD]["Coins"].scale
-
-    if is_game_paused() then
-        djui_hud_set_color(r/2, g/2, b/2, o)
     else
-        djui_hud_set_color(r, g, b, o)
-    end
-    if hudTable[currHUD]["Coins"].iconShow then
-        djui_hud_render_texture(gTextures.coin, iconX, iconY, scale, scale)
-    end
-    if hudTable[currHUD]["Coins"].xShow then
-        djui_hud_print_text("x", xX, xY, scale)
-    end
-    if hudTable[currHUD]["Coins"].numShow then
-        djui_hud_print_text(""..m.numCoins, numX, numY, scale)
+        lifeIcon = get_texture_info("icon-nil")
     end
 
-    local r = hudTable[currHUD]["Stars"].colorR
-    local g = hudTable[currHUD]["Stars"].colorG
-    local b = hudTable[currHUD]["Stars"].colorB
-    local o = hudTable[currHUD]["Stars"].colorO
+    redStars = _G.sharedRedStars
 
-    local iconX = hudTable[currHUD]["Stars"].iconOffsetX + djui_hud_get_screen_width()/2 * hudTable[currHUD]["Stars"].xAlignment
-    local iconY = hudTable[currHUD]["Stars"].iconOffsetY + djui_hud_get_screen_height()/2 * hudTable[currHUD]["Stars"].yAlignment
-    local xX = hudTable[currHUD]["Stars"].xOffsetX + djui_hud_get_screen_width()/2 * hudTable[currHUD]["Stars"].xAlignment
-    local xY = hudTable[currHUD]["Stars"].xOffsetY + djui_hud_get_screen_height()/2 * hudTable[currHUD]["Stars"].yAlignment
-    local numX = hudTable[currHUD]["Stars"].numOffsetX + djui_hud_get_screen_width()/2 * hudTable[currHUD]["Stars"].xAlignment
-    local numY = hudTable[currHUD]["Stars"].numOffsetY + djui_hud_get_screen_height()/2 * hudTable[currHUD]["Stars"].yAlignment
-    local scale = hudTable[currHUD]["Stars"].scale
-
-    if is_game_paused() then
-        djui_hud_set_color(r/2, g/2, b/2, o)
-    else
-        djui_hud_set_color(r, g, b, o)
-    end
-    if hudTable[currHUD]["Stars"].iconShow then
-        djui_hud_render_texture(gTextures.star, iconX, iconY, scale, scale)
-    end
-    if hudTable[currHUD]["Stars"].xShow and (m.numStars < 100 or not hudTable[currHUD]["Stars"].hideOnTriple) then
-        djui_hud_print_text("x", xX, xY, scale)
-    end
-    if hudTable[currHUD]["Stars"].numShow then
-        if m.numStars >= 100 and hudTable[currHUD]["Stars"].hideOnTriple then
-            djui_hud_print_text(tostring(m.numStars), xX, xY, scale)
-        else
-            djui_hud_print_text(tostring(m.numStars), numX, numY, scale)
-        end
-    end
+    djui_hud_render_element("Lives", m.numLives, lifeIcon)
+    djui_hud_render_element("Coins", m.numCoins, gTextures.coin)
+    djui_hud_render_element("Stars", m.numStars, gTextures.star)
+    djui_hud_render_element("RedStars", redStars, gTextures.star)
 end
 
 hook_event(HOOK_ON_HUD_RENDER, hud_render)
