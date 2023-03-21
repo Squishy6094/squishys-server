@@ -130,20 +130,6 @@ function displaymenu()
     end
 
     if menu then
-        if network_is_server() or network_is_moderator() then
-            if optionTab < 1 then
-                optionTab = 4
-            elseif  optionTab > 4 then
-                optionTab = 1
-            end
-        else
-            if optionTab < 1 then
-                optionTab = 3
-            elseif  optionTab > 3 then
-                optionTab = 1
-            end
-        end
-
         if optionHoverTimer >= 8 then
             optionHoverTimer = -1
         end
@@ -163,11 +149,23 @@ function displaymenu()
 
         if (m.controller.stickX < -10 or (m.controller.buttonDown & L_JPAD ~= 0)) and optionHoverTimer == -1 then
             play_sound(SOUND_MENU_MESSAGE_NEXT_PAGE, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-            optionTab = optionTab - 1
+            if optionTab == 1 and not (network_is_server() or network_is_moderator()) then
+                optionTab = 3
+            elseif optionTab == 1 and (network_is_server() or network_is_moderator()) then
+                optionTab = 4
+            else
+                optionTab = optionTab - 1
+            end
             optionHoverTimer = 0
         elseif (m.controller.stickX > 10 or (m.controller.buttonDown & R_JPAD ~= 0)) and optionHoverTimer == -1 then
             play_sound(SOUND_MENU_MESSAGE_NEXT_PAGE, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-            optionTab = optionTab + 1
+            if optionTab == 3 and not (network_is_server() or network_is_moderator()) then
+                optionTab = 1
+            elseif optionTab == 4 and (network_is_server() or network_is_moderator()) then
+                optionTab = 1
+            else
+                optionTab = optionTab + 1
+            end
             optionHoverTimer = 0
         end
 
@@ -214,8 +212,8 @@ function displaymenu()
         
         if optionTab == 1 then
             if optionHover < 1 then
-                optionHover = 5
-            elseif  optionHover > 5 then
+                optionHover = 6
+            elseif  optionHover > 6 then
                 optionHover = 1
             end
             djui_hud_set_color(150, 150, 150, 255)
@@ -262,6 +260,11 @@ function displaymenu()
             if optionHover == 5 then
                 hud_print_description("Strafing:", "Forces Mario to face the","direction the Camera is","facing, similar to Sonic Robo","Blast 2. Recommended if you","play with Mouse and Keyboard.")
                 hud_print_toggle_status(strafeToggle)
+            end
+            djui_hud_print_text("Ledge Parkour", ((djui_hud_get_screen_width()/2) - 70), 130, 0.3)
+            if optionHover == 6 then
+                hud_print_description("Ledge Parkour:", "Toggles the ability to press","A or B while moving fast onto","a ledge to trick off of it!","Recommended if you want","to retain your speed going","off a ledge.")
+                hud_print_toggle_status(LedgeToggle)
             end
         elseif optionTab == 2 then
             if optionHover < 1 then
@@ -444,6 +447,16 @@ function before_update(m)
                 elseif strafeToggle == false then
                     strafeToggle = true
                     mod_storage_save("StrafeSave", "true")
+                end
+            end
+
+            if optionTab == 1 and optionHover == 6 then
+                if LedgeToggle then
+                    LedgeToggle = false
+                    mod_storage_save("LedgeSave", "false")
+                elseif LedgeToggle == false then
+                    LedgeToggle = true
+                    mod_storage_save("LedgeSave", "true")
                 end
             end
 
@@ -635,6 +648,11 @@ if mod_storage_load("StrafeSave") == nil then
     mod_storage_save("StrafeSave", "false")
 end
 
+if mod_storage_load("LedgeSave") == nil then
+    print("'Ledge Parkour' not found in 'squishys-server.sav', set to default 'on'")
+    mod_storage_save("LedgeSave", "true")
+end
+
 if mod_storage_load("CRRSave") == nil then
     print("'Extra Hud' > 'Red Coin Radar' not found in 'squishys-server.sav', set to default 'on'")
     mod_storage_save("CRRSave", "true")
@@ -712,6 +730,12 @@ if mod_storage_load("StrafeSave") == "true" then
     strafeToggle = true
 elseif mod_storage_load("StrafeSave") == "false" then
     strafeToggle = false
+end
+
+if mod_storage_load("LedgeSave") == "true" then
+    LedgeToggle = true
+elseif mod_storage_load("LedgeSave") == "false" then
+    LedgeToggle = false
 end
 
 if mod_storage_load("CRRSave") == "true" then
