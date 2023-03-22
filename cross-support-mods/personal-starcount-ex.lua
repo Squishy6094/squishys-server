@@ -1,5 +1,5 @@
 -- name: Personal Star Counter EX+
--- description: See how many stars you collect!\nIdea by Mr.Needlemouse, created by Sunk\n\nModified by Demnyx.
+-- description: See how many stars you collect!\nIdea by Mr.Needlemouse, created by Sunk\nModified by Demnyx.\n\n\\#005500\\This is a Modified Version Used for Squishy's Server, and may not function\nwithout the server mod on.
 if mod_storage_load("StarCounter") == nil then
 	mod_storage_save("StarCounter", "0")
 end
@@ -86,19 +86,7 @@ function displayStarCounter()
 	end
 
 	--Normal personal star counter
-	if StarCounter >= 100 then
-		djui_hud_set_adjusted_color(255, 255, 255, a)
-		djui_hud_print_text(tostring(StarCounter), screenWidth - 61 - timerX, screenHeight - 208 - timerY, 1)
-		djui_hud_set_adjusted_color(232, 17, 35, a)
-		djui_hud_render_texture(gTextures.star, screenWidth - 77 - timerX, screenHeight - 208 - timerY, 1, 1)
-	else
-		djui_hud_set_adjusted_color(246, 246, 246, a)
-		djui_hud_print_text(tostring("X"), screenWidth - 61 - timerX, screenHeight - 208 - timerY, 1)
-		djui_hud_set_adjusted_color(255, 255, 255, a)
-		djui_hud_print_text(tostring(StarCounter), screenWidth - 46.8 - timerX, screenHeight - 208 - timerY, 1)
-		djui_hud_set_adjusted_color(232, 17, 35, a)
-		djui_hud_render_texture(gTextures.star, screenWidth - 77 - timerX, screenHeight - 208 - timerY, 1, 1)
-    end
+
 
 	--Total star counter
 	if timerValFrames ~= 0 then
@@ -116,27 +104,7 @@ function displayStarCounter()
 	_G.sharedRedStars = milestone_counter
 	_G.sharedGreenStars = perceived_total_counter
 
-	if perceived_total_counter >= 100 then
-		djui_hud_set_adjusted_color(255, 255, 255, a)
-		djui_hud_print_text(tostring(perceived_total_counter), screenWidth - 61 - timerX, screenHeight - 190 - timerY, 1)
-		djui_hud_set_adjusted_color(50, 176, 40, a)
-		djui_hud_render_texture(gTextures.star, screenWidth - 77 - timerX, screenHeight - 190 - timerY, 1, 1)
-		if milestone_counter ~= 0 then
-			djui_hud_set_adjusted_color(255, 255, 255, a)
-			djui_hud_print_text(string.format("x%d", milestone_counter), screenWidth - 77 - timerX, screenHeight - 174 - timerY, 0.5)
-		end
-	else
-		djui_hud_set_adjusted_color(246, 246, 246, a)
-		djui_hud_print_text(tostring("X"), screenWidth - 61 - timerX, screenHeight - 190 - timerY, 1)
-		djui_hud_set_adjusted_color(255, 255, 255, a)
-		djui_hud_print_text(tostring(perceived_total_counter), screenWidth - 46.8 - timerX, screenHeight - 190 - timerY, 1)
-		djui_hud_set_adjusted_color(50, 176, 40, a)
-		djui_hud_render_texture(gTextures.star, screenWidth - 77 - timerX, screenHeight - 190 - timerY, 1, 1)
-		if milestone_counter ~= 0 then
-			djui_hud_set_adjusted_color(255, 255, 255, a)
-			djui_hud_print_text(string.format("x%d", milestone_counter), screenWidth - 77 - timerX, screenHeight - 174 - timerY, 0.5)
-		end
-    end
+
 	--StarCounter = 120
 end
 

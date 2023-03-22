@@ -62,7 +62,7 @@ hudTable = {
             numOffsetX = -46.8,
             numOffsetY = 15,
         },
-        ["PersonalStars"] = {
+        ["RedStars"] = {
             colorR = 255,
             colorG = 50,
             colorB = 50,
@@ -72,14 +72,33 @@ hudTable = {
             yAlignment = 0,
             iconShow = true,
             iconOffsetX = -77,
-            iconOffsetY = 30,
+            iconOffsetY = 33,
             xShow = true,
             hideOnTriple = true,
             xOffsetX = -61,
-            xOffsetY = 15,
+            xOffsetY = 33,
             numShow = true,
             numOffsetX = -46.8,
-            numOffsetY = 15,
+            numOffsetY = 33,
+        },
+        ["GreenStars"] = {
+            colorR = 50,
+            colorG = 255,
+            colorB = 50,
+            colorO = 255,
+            scale = 1,
+            xAlignment = 2,
+            yAlignment = 0,
+            iconShow = true,
+            iconOffsetX = -77,
+            iconOffsetY = 51,
+            xShow = true,
+            hideOnTriple = true,
+            xOffsetX = -61,
+            xOffsetY = 51,
+            numShow = true,
+            numOffsetX = -46.8,
+            numOffsetY = 51,
         },
         ["Health"] = {
             colorR = 255,
@@ -153,6 +172,44 @@ hudTable = {
             numOffsetX = 112.2,
             numOffsetY = 15,
         },
+        ["RedStars"] = {
+            colorR = 255,
+            colorG = 50,
+            colorB = 50,
+            colorO = 255,
+            scale = 1,
+            xAlignment = 1,
+            yAlignment = 0,
+            iconShow = true,
+            iconOffsetX = 82,
+            iconOffsetY = 33,
+            xShow = true,
+            hideOnTriple = true,
+            xOffsetX = 98,
+            xOffsetY = 33,
+            numShow = true,
+            numOffsetX = 112.2,
+            numOffsetY = 33,
+        },
+        ["GreenStars"] = {
+            colorR = 50,
+            colorG = 255,
+            colorB = 50,
+            colorO = 255,
+            scale = 1,
+            xAlignment = 1,
+            yAlignment = 0,
+            iconShow = true,
+            iconOffsetX = 82,
+            iconOffsetY = 51,
+            xShow = true,
+            hideOnTriple = true,
+            xOffsetX = 98,
+            xOffsetY = 51,
+            numShow = true,
+            numOffsetX = 112.2,
+            numOffsetY = 51,
+        },
         ["Health"] = {
             colorR = 255,
             colorG = 255,
@@ -225,6 +282,44 @@ hudTable = {
             numOffsetX = 40,
             numOffsetY = 96,
         },
+        ["RedStars"] = {
+            colorR = 255,
+            colorG = 50,
+            colorB = 50,
+            colorO = 255,
+            scale = 1,
+            xAlignment = 0,
+            yAlignment = 0,
+            iconShow = true,
+            iconOffsetX = 21,
+            iconOffsetY = 114,
+            xShow = false,
+            hideOnTriple = false,
+            xOffsetX = 0,
+            xOffsetY = 0,
+            numShow = true,
+            numOffsetX = 40,
+            numOffsetY = 114,
+        },
+        ["GreenStars"] = {
+            colorR = 50,
+            colorG = 255,
+            colorB = 50,
+            colorO = 255,
+            scale = 1,
+            xAlignment = 0,
+            yAlignment = 0,
+            iconShow = true,
+            iconOffsetX = 21,
+            iconOffsetY = 132,
+            xShow = false,
+            hideOnTriple = false,
+            xOffsetX = 0,
+            xOffsetY = 0,
+            numShow = true,
+            numOffsetX = 40,
+            numOffsetY = 132,
+        },
         ["Health"] = {
             colorR = 255,
             colorG = 255,
@@ -245,8 +340,6 @@ currHUD = 0
 function djui_hud_render_element(element, number, icon)
     local m = gMarioStates[0]
 
-    if hudTable[currHUD][element].xAlignment ~= nil then hudTable[currHUD][element].xAlignment = 0 end
-    if hudTable[currHUD][element].yAlignment ~= nil then hudTable[currHUD][element].yAlignment = 0 end
     local xAlign = djui_hud_get_screen_width()/2 * hudTable[currHUD][element].xAlignment
     local yAlign = djui_hud_get_screen_height()/2 * hudTable[currHUD][element].yAlignment
 
@@ -323,12 +416,15 @@ function hud_render()
         lifeIcon = get_texture_info("icon-nil")
     end
 
-    redStars = _G.sharedRedStars
-
     djui_hud_render_element("Lives", m.numLives, lifeIcon)
     djui_hud_render_element("Coins", m.numCoins, gTextures.coin)
     djui_hud_render_element("Stars", m.numStars, gTextures.star)
-    djui_hud_render_element("RedStars", redStars, gTextures.star)
+    if _G.sharedRedStars ~= nil then
+        djui_hud_render_element("RedStars", _G.sharedRedStars, gTextures.star)
+    end
+    if _G.sharedGreenStars ~= nil then
+        djui_hud_render_element("GreenStars", _G.sharedGreenStars, gTextures.star)
+    end
 end
 
 hook_event(HOOK_ON_HUD_RENDER, hud_render)
