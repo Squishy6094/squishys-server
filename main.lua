@@ -1,5 +1,5 @@
 -- name: -Squishy's Server-
--- description: \\#008800\\~~~~~Squishy's Server Stuff~~~~~\n\n\\#dddddd\\Displays rules/welcome message to anyone who connects to your Squishy's Servers, Along with some quality of life features!\n\n\\#ff8800\\Do not host with this mod publicly, You could get in trouble as it's an unreleased mod you didn't make.\n\n\\#008800\\~~~~~~~~~~~~~~~~~~~~~~~~
+-- description: \\#008800\\Squishy's Server\n\n\\#dcdcdc\\A Server Mod filled with a bunch of Quality of Life Mods and Customizability made to suit anyones play style!\n\n\\#AAAAFF\\Github - github.com/SQUISHY6094/squishys-server\n\n\\#FF0000\\This mod is not intended for public hosting by anyone other than Squishy! Please only use this mod privatly!
 
 local offsetX = -200
 local opacity = 255
