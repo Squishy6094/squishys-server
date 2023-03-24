@@ -8,11 +8,6 @@ hudTable = {
         res = RESOLUTION_N64,
         font = FONT_HUD,
         ["Lives"] = {
-            colorR = 255,
-            colorG = 255,
-            colorB = 255,
-            colorO = 255,
-            scale = 1,
             xAlignment = 0,
             yAlignment = 0,
             iconShow = true,
@@ -26,11 +21,6 @@ hudTable = {
             numOffsetY = 15,
         },
         ["Coins"] = {
-            colorR = 255,
-            colorG = 255,
-            colorB = 255,
-            colorO = 255,
-            scale = 1,
             xAlignment = 1,
             yAlignment = 0,
             iconShow = true,
@@ -44,11 +34,6 @@ hudTable = {
             numOffsetY = 15,
         },
         ["Stars"] = {
-            colorR = 255,
-            colorG = 255,
-            colorB = 255,
-            colorO = 255,
-            scale = 1,
             xAlignment = 2,
             yAlignment = 0,
             iconShow = true,
@@ -63,14 +48,13 @@ hudTable = {
             numOffsetY = 15,
         },
         ["RedStars"] = {
-            colorR = 255,
-            colorG = 50,
-            colorB = 50,
-            colorO = 255,
-            scale = 1,
             xAlignment = 2,
             yAlignment = 0,
             iconShow = true,
+            iconColorR = 255,
+            iconColorG = 0,
+            iconColorB = 0,
+            iconColorO = 255,
             iconOffsetX = -77,
             iconOffsetY = 33,
             xShow = true,
@@ -82,14 +66,13 @@ hudTable = {
             numOffsetY = 33,
         },
         ["GreenStars"] = {
-            colorR = 50,
-            colorG = 255,
-            colorB = 50,
-            colorO = 255,
-            scale = 1,
             xAlignment = 2,
             yAlignment = 0,
             iconShow = true,
+            iconColorR = 0,
+            iconColorG = 255,
+            iconColorB = 0,
+            iconColorO = 255,
             iconOffsetX = -77,
             iconOffsetY = 51,
             xShow = true,
@@ -118,11 +101,6 @@ hudTable = {
         res = RESOLUTION_N64,
         font = FONT_HUD,
         ["Lives"] = {
-            colorR = 255,
-            colorG = 255,
-            colorB = 255,
-            colorO = 255,
-            scale = 1,
             xAlignment = 1,
             yAlignment = 0,
             iconShow = true,
@@ -136,11 +114,6 @@ hudTable = {
             numOffsetY = 15,
         },
         ["Coins"] = {
-            colorR = 255,
-            colorG = 255,
-            colorB = 255,
-            colorO = 255,
-            scale = 1,
             xAlignment = 1,
             yAlignment = 0,
             iconShow = true,
@@ -154,11 +127,6 @@ hudTable = {
             numOffsetY = 15,
         },
         ["Stars"] = {
-            colorR = 255,
-            colorG = 255,
-            colorB = 255,
-            colorO = 255,
-            scale = 1,
             xAlignment = 1,
             yAlignment = 0,
             iconShow = true,
@@ -173,14 +141,13 @@ hudTable = {
             numOffsetY = 15,
         },
         ["RedStars"] = {
-            colorR = 255,
-            colorG = 50,
-            colorB = 50,
-            colorO = 255,
-            scale = 1,
             xAlignment = 1,
             yAlignment = 0,
             iconShow = true,
+            iconColorR = 255,
+            iconColorG = 0,
+            iconColorB = 0,
+            iconColorO = 255,
             iconOffsetX = 82,
             iconOffsetY = 33,
             xShow = true,
@@ -192,14 +159,13 @@ hudTable = {
             numOffsetY = 33,
         },
         ["GreenStars"] = {
-            colorR = 50,
-            colorG = 255,
-            colorB = 50,
-            colorO = 255,
-            scale = 1,
             xAlignment = 1,
             yAlignment = 0,
             iconShow = true,
+            iconColorR = 0,
+            iconColorG = 255,
+            iconColorB = 0,
+            iconColorO = 255,
             iconOffsetX = 82,
             iconOffsetY = 51,
             xShow = true,
@@ -211,10 +177,6 @@ hudTable = {
             numOffsetY = 51,
         },
         ["Health"] = {
-            colorR = 255,
-            colorG = 255,
-            colorB = 255,
-            colorO = 255,
             scale = 64,
             xAlignment = 1,
             yAlignment = 0,
@@ -228,11 +190,6 @@ hudTable = {
         res = RESOLUTION_N64,
         font = FONT_HUD,
         ["Lives"] = {
-            colorR = 255,
-            colorG = 255,
-            colorB = 255,
-            colorO = 255,
-            scale = 1,
             xAlignment = 0,
             yAlignment = 0,
             iconShow = true,
@@ -246,11 +203,6 @@ hudTable = {
             numOffsetY = 60,
         },
         ["Coins"] = {
-            colorR = 255,
-            colorG = 255,
-            colorB = 255,
-            colorO = 255,
-            scale = 1,
             xAlignment = 0,
             yAlignment = 0,
             iconShow = true,
@@ -264,11 +216,6 @@ hudTable = {
             numOffsetY = 78,
         },
         ["Stars"] = {
-            colorR = 255,
-            colorG = 255,
-            colorB = 255,
-            colorO = 255,
-            scale = 1,
             xAlignment = 0,
             yAlignment = 0,
             iconShow = true,
@@ -283,14 +230,13 @@ hudTable = {
             numOffsetY = 96,
         },
         ["RedStars"] = {
-            colorR = 255,
-            colorG = 50,
-            colorB = 50,
-            colorO = 255,
-            scale = 1,
             xAlignment = 0,
             yAlignment = 0,
             iconShow = true,
+            iconColorR = 255,
+            iconColorG = 0,
+            iconColorB = 0,
+            iconColorO = 255,
             iconOffsetX = 21,
             iconOffsetY = 114,
             xShow = false,
@@ -302,14 +248,13 @@ hudTable = {
             numOffsetY = 114,
         },
         ["GreenStars"] = {
-            colorR = 50,
-            colorG = 255,
-            colorB = 50,
-            colorO = 255,
-            scale = 1,
             xAlignment = 0,
             yAlignment = 0,
             iconShow = true,
+            iconColorR = 0,
+            iconColorG = 255,
+            iconColorB = 0,
+            iconColorO = 255,
             iconOffsetX = 21,
             iconOffsetY = 132,
             xShow = false,
@@ -321,10 +266,6 @@ hudTable = {
             numOffsetY = 132,
         },
         ["Health"] = {
-            colorR = 255,
-            colorG = 255,
-            colorB = 255,
-            colorO = 255,
             scale = 64,
             xAlignment = 0,
             yAlignment = 0,
@@ -340,13 +281,59 @@ currHUD = 0
 function djui_hud_render_element(element, number, icon)
     local m = gMarioStates[0]
 
+    local r = 255
+    local g = 255
+    local b = 255
+    local o = 255
+    local iconR = 255
+    local iconG = 255
+    local iconB = 255
+    local iconO = 255
+    local scale = 1
+
     local xAlign = djui_hud_get_screen_width()/2 * hudTable[currHUD][element].xAlignment
     local yAlign = djui_hud_get_screen_height()/2 * hudTable[currHUD][element].yAlignment
 
-    local r = hudTable[currHUD][element].colorR
-    local g = hudTable[currHUD][element].colorG
-    local b = hudTable[currHUD][element].colorB
-    local o = hudTable[currHUD][element].colorO
+    --Checks for Base Color
+    if hudTable[currHUD][element].colorR ~= nil then
+        r = hudTable[currHUD][element].colorR
+    end
+    if hudTable[currHUD][element].colorG ~= nil then
+        g = hudTable[currHUD][element].colorG
+    end
+    if hudTable[currHUD][element].colorB ~= nil then
+        b = hudTable[currHUD][element].colorB
+    end
+    if hudTable[currHUD][element].colorO ~= nil then
+        o = hudTable[currHUD][element].colorO
+    end
+
+    --Checks for Icon Colors
+    if hudTable[currHUD][element].iconColorR ~= nil then
+        iconR = hudTable[currHUD][element].iconColorR
+    else
+        iconR = r
+    end
+    if hudTable[currHUD][element].iconColorG ~= nil then
+        iconG = hudTable[currHUD][element].iconColorG
+    else
+        iconG = g
+    end
+    if hudTable[currHUD][element].iconColorB ~= nil then
+        iconB = hudTable[currHUD][element].iconColorB
+    else
+        iconB = b
+    end
+    if hudTable[currHUD][element].iconColorO ~= nil then
+        iconO = hudTable[currHUD][element].iconColorO
+    else
+        iconO = o
+    end
+
+    --Checks for Scale 
+    if hudTable[currHUD][element].scale ~= nil then
+        scale = hudTable[currHUD][element].scale
+    end
 
     local iconX = hudTable[currHUD][element].iconOffsetX + xAlign
     local iconY = hudTable[currHUD][element].iconOffsetY + yAlign
@@ -354,15 +341,20 @@ function djui_hud_render_element(element, number, icon)
     local xY = hudTable[currHUD][element].xOffsetY + yAlign
     local numX = hudTable[currHUD][element].numOffsetX + xAlign
     local numY = hudTable[currHUD][element].numOffsetY + yAlign
-    local scale = hudTable[currHUD][element].scale
 
+
+    if is_game_paused() then
+        djui_hud_set_color(iconR/2, iconG/2, iconB/2, iconO)
+    else
+        djui_hud_set_color(iconR, iconG, iconB, iconO)
+    end
+    if hudTable[currHUD][element].iconShow then
+        djui_hud_render_texture(icon, iconX, iconY, scale, scale)
+    end
     if is_game_paused() then
         djui_hud_set_color(r/2, g/2, b/2, o)
     else
         djui_hud_set_color(r, g, b, o)
-    end
-    if hudTable[currHUD][element].iconShow then
-        djui_hud_render_texture(icon, iconX, iconY, scale, scale)
     end
     if hudTable[currHUD][element].xShow and not (number >= 100 and hudTable[currHUD][element].hideOnTriple) then
         djui_hud_print_text("x", xX, xY, scale)
@@ -388,10 +380,23 @@ function hud_render()
     djui_hud_set_font(hudTable[currHUD].font)
     djui_hud_set_color(255, 255, 255, 255)
 
-    local r = hudTable[currHUD]["Health"].colorR
-    local g = hudTable[currHUD]["Health"].colorG
-    local b = hudTable[currHUD]["Health"].colorB
-    local o = hudTable[currHUD]["Health"].colorO
+    local r = 255
+    local g = 255
+    local b = 255
+    local o = 255
+
+    if hudTable[currHUD]["Health"].colorR ~= nil then
+        r = hudTable[currHUD]["Health"].colorR
+    end
+    if hudTable[currHUD]["Health"].colorG ~= nil then
+        g = hudTable[currHUD]["Health"].colorG
+    end
+    if hudTable[currHUD]["Health"].colorB ~= nil then
+        b = hudTable[currHUD]["Health"].colorB
+    end
+    if hudTable[currHUD]["Health"].colorO ~= nil then
+        o = hudTable[currHUD]["Health"].colorO
+    end
 
     local x = hudTable[currHUD]["Health"].meterOffsetX + djui_hud_get_screen_width()/2 * hudTable[currHUD]["Health"].xAlignment
     local y = hudTable[currHUD]["Health"].meterOffsetY + djui_hud_get_screen_height()/2 * hudTable[currHUD]["Health"].yAlignment
