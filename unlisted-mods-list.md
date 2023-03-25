@@ -32,8 +32,6 @@ Mods Labeled with "(Discord Link)" means that the mod is not avalible on the [Mo
 
 [Wall Slide](https://sm64ex-coopmods.com/wallslide/) (Modified in Squishy's Server)
 
-[Downing](https://sm64ex-coopmods.com/downing/)
-
 [Anti Quicksand](https://sm64ex-coopmods.com/anti-quicksand/) (Modified in Squishy's Server)
 
 [Instant Slope Jump](https://sm64ex-coopmods.com/instant-slope-jumps/)

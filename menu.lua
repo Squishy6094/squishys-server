@@ -363,7 +363,7 @@ function displaymenu()
             djui_hud_print_text("Death Type", ((djui_hud_get_screen_width()/2) - 70), 80, 0.3)
             if optionHover == 1 then
                 hud_print_description("Death Type:", "Chenges how players die","and respawn after death.")
-                hud_print_unique_toggle_status(gGlobalSyncTable.bubbleDeath,"Normal", "Bubble", "Downing")
+                hud_print_unique_toggle_status(gGlobalSyncTable.bubbleDeath,"Normal", "Bubble")
             end
             djui_hud_print_text("Player Interactions", ((djui_hud_get_screen_width()/2) - 70), 90, 0.3)
             if optionHover == 2 then
@@ -557,11 +557,8 @@ function before_update(m)
             end
 
             if optionTab == 4 and optionHover == 1 then
-                if gGlobalSyncTable.bubbleDeath == 0 then
-                    gGlobalSyncTable.bubbleDeath = 1
-                elseif gGlobalSyncTable.bubbleDeath == 1 then
-                    gGlobalSyncTable.bubbleDeath = 2
-                elseif gGlobalSyncTable.bubbleDeath == 2 then
+                gGlobalSyncTable.bubbleDeath = gGlobalSyncTable.bubbleDeath + 1
+                if gGlobalSyncTable.bubbleDeath > 1 then
                     gGlobalSyncTable.bubbleDeath = 0
                 end
             end
