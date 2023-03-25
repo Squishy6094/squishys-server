@@ -148,7 +148,7 @@ popupTable = {
 }
 
 function mario_update_msgtimer(m)
-    if msgtimer == -3000 then
+    if msgtimer == -2990 then
         if network_is_server() then
             if discordID == "678794043018182675" then
                 djui_popup_create("You are now hosting\n\\#005500\\Squishy's Server\\#dcdcdc\\,\nCheck your mods list and\nsend an Invite!",4)

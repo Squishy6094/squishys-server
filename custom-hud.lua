@@ -368,9 +368,14 @@ function djui_hud_render_element(element, number, icon)
     end
 end
 
+local scriptStallTimer = 0
+
 function hud_render()
     local m = gMarioStates[0]
-
+    if scriptStallTimer < 10 then
+        scriptStallTimer = scriptStallTimer + 1
+        return
+    end
     hud_hide()
 	if obj_get_first_with_behavior_id(id_bhvActSelector) ~= nil
 	or (m.action == ACT_END_PEACH_CUTSCENE
@@ -409,16 +414,6 @@ function hud_render()
     end
     if hudTable[currHUD]["Health"].meterShow then
         hud_render_power_meter(gMarioStates[0].health, x, y, scale, scale)
-    end
-
-    if modelTable[discordID][currModel].icon ~= nil then
-        if modelTable[discordID][currModel].icon == "Default" then
-            lifeIcon = m.character.hudHeadTexture
-        else
-            lifeIcon = modelTable[discordID][currModel].icon
-        end
-    else
-        lifeIcon = get_texture_info("icon-nil")
     end
 
     djui_hud_render_element("Lives", m.numLives, lifeIcon)

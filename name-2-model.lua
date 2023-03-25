@@ -316,16 +316,25 @@ modelTable = {
     },
 }
 
---network_discord_id_from_local_index(0)
-discordID = network_discord_id_from_local_index(0)
-if modelTable[discordID] == nil then
-    discordID = "0"
-    print("Discord ID not found on Table, Setting to Default Table.")
-end
-
 --- @param m MarioState
 function mario_update(m)
-    if not modelToggle or network_discord_id_from_local_index(0) == nil then return end
+    discordID = network_discord_id_from_local_index(0)
+    if modelTable[discordID] == nil then
+        discordID = "0"
+        currModel = 0
+    end
+
+    if modelTable[discordID][currModel].icon ~= nil then
+        if modelTable[discordID][currModel].icon == "Default" then
+            lifeIcon = m.character.hudHeadTexture
+        else
+            lifeIcon = modelTable[discordID][currModel].icon
+        end
+    else
+        lifeIcon = get_texture_info("icon-nil")
+    end
+
+    if not modelToggle or network_discord_id_from_local_index(0) == nil or discordID == "0" then return end
     if m.playerIndex == 0 then
         if discordID ~= "0" or discordID ~= "678794043018182675" or discordID ~= nil then
             gPlayerSyncTable[0].modelId = modelTable[discordID][currModel].model
@@ -347,4 +356,3 @@ function on_player_connected(m)
 end
 
 hook_event(HOOK_MARIO_UPDATE, mario_update)
-hook_event(HOOK_ON_PLAYER_CONNECTED, on_player_connected)
