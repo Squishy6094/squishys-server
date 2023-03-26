@@ -1,6 +1,7 @@
 Default = 0
 FourThreeLock = 1
 Compact = 2
+Off = 3
 
 hudTable = {
     [Default] = {
@@ -273,7 +274,100 @@ hudTable = {
             meterOffsetX = 15,
             meterOffsetY = 8,
         }
-    }
+    },
+    [Off] = {
+        name = "Disabled",
+        res = RESOLUTION_N64,
+        font = FONT_HUD,
+        ["Lives"] = {
+            xAlignment = 0,
+            yAlignment = 0,
+            iconShow = false,
+            iconOffsetX = 21,
+            iconOffsetY = 15,
+            xShow = false,
+            xOffsetX = 37,
+            xOffsetY = 15,
+            numShow = false,
+            numOffsetX = 54,
+            numOffsetY = 15,
+        },
+        ["Coins"] = {
+            xAlignment = 1,
+            yAlignment = 0,
+            iconShow = false,
+            iconOffsetX = 8,
+            iconOffsetY = 15,
+            xShow = false,
+            xOffsetX = 24,
+            xOffsetY = 15,
+            numShow = false,
+            numOffsetX = 38,
+            numOffsetY = 15,
+        },
+        ["Stars"] = {
+            xAlignment = 2,
+            yAlignment = 0,
+            iconShow = false,
+            iconOffsetX = -77,
+            iconOffsetY = 15,
+            xShow = false,
+            hideOnTriple = false,
+            xOffsetX = -61,
+            xOffsetY = 15,
+            numShow = false,
+            numOffsetX = -46.8,
+            numOffsetY = 15,
+        },
+        ["RedStars"] = {
+            xAlignment = 2,
+            yAlignment = 0,
+            iconShow = false,
+            iconColorR = 255,
+            iconColorG = 0,
+            iconColorB = 0,
+            iconColorO = 255,
+            iconOffsetX = -77,
+            iconOffsetY = 33,
+            xShow = false,
+            hideOnTriple = false,
+            xOffsetX = -61,
+            xOffsetY = 33,
+            numShow = false,
+            numOffsetX = -46.8,
+            numOffsetY = 33,
+        },
+        ["GreenStars"] = {
+            xAlignment = 2,
+            yAlignment = 0,
+            iconShow = false,
+            iconColorR = 0,
+            iconColorG = 255,
+            iconColorB = 0,
+            iconColorO = 255,
+            iconOffsetX = -77,
+            iconOffsetY = 51,
+            xShow = false,
+            hideOnTriple = false,
+            xOffsetX = -61,
+            xOffsetY = 51,
+            numShow = false,
+            numOffsetX = -46.8,
+            numOffsetY = 51,
+        },
+        ["Health"] = {
+            colorR = 255,
+            colorG = 255,
+            colorB = 255,
+            colorO = 255,
+            scale = 64,
+            xAlignment = 1,
+            yAlignment = 0,
+            meterShow = false,
+            meterOffsetX = -52,
+            meterOffsetY = 8,
+        }
+    },
 }
 
 currHUD = 0
