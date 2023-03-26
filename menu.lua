@@ -564,11 +564,8 @@ function before_update(m)
             end
 
             if optionTab == 4 and optionHover == 2 then
-                if gGlobalSyncTable.playerInteractions == 0 then
-                    gGlobalSyncTable.playerInteractions = 1
-                elseif gGlobalSyncTable.playerInteractions == 1 then
-                    gGlobalSyncTable.playerInteractions = 2
-                elseif gGlobalSyncTable.playerInteractions == 2 then
+                gGlobalSyncTable.playerInteractions = gGlobalSyncTable.playerInteractions + 1
+                if gGlobalSyncTable.playerInteractions > 2 then
                     gGlobalSyncTable.playerInteractions = 0
                 end
             end
@@ -584,11 +581,8 @@ function before_update(m)
             end
 
             if optionTab == 4 and optionHover == 4 then
-                if gGlobalSyncTable.stayInLevelAfterStar == 0 then
-                    gGlobalSyncTable.stayInLevelAfterStar = 1
-                elseif gGlobalSyncTable.stayInLevelAfterStar == 1 then
-                    gGlobalSyncTable.stayInLevelAfterStar = 2
-                elseif gGlobalSyncTable.stayInLevelAfterStar == 2 then
+                gGlobalSyncTable.stayInLevelAfterStar = gGlobalSyncTable.stayInLevelAfterStar + 1
+                if gGlobalSyncTable.stayInLevelAfterStar > 2 then
                     gGlobalSyncTable.stayInLevelAfterStar = 0
                 end
             end

@@ -342,7 +342,6 @@ function djui_hud_render_element(element, number, icon)
     local numX = hudTable[currHUD][element].numOffsetX + xAlign
     local numY = hudTable[currHUD][element].numOffsetY + yAlign
 
-
     if is_game_paused() then
         djui_hud_set_color(iconR/2, iconG/2, iconB/2, iconO)
     else
@@ -356,6 +355,7 @@ function djui_hud_render_element(element, number, icon)
     else
         djui_hud_set_color(r, g, b, o)
     end
+
     if hudTable[currHUD][element].xShow and not (number >= 100 and hudTable[currHUD][element].hideOnTriple) then
         djui_hud_print_text("x", xX, xY, scale)
     end
@@ -389,6 +389,8 @@ function hud_render()
     local g = 255
     local b = 255
     local o = 255
+
+    if get_dialog_id() ~= -1 then return end
 
     if hudTable[currHUD]["Health"].colorR ~= nil then
         r = hudTable[currHUD]["Health"].colorR
