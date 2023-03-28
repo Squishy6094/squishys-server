@@ -2,9 +2,6 @@
 --Mods are bundled here to prevent lag and clutter--
 --Credits go to all their original mod creators--
 
-function display()
-    local m = gMarioStates[0]
-end
 --Star Heal--
 
 local HP_TO_HEAL_COUNTER_UNITS_FACTOR = 1 / 0x40
@@ -393,6 +390,12 @@ function act_wall_slide(m)
 
     -- gravity
     m.vel.y = m.vel.y + 3.5
+    if m.vel.y < -20 then
+        m.vel.y = -20
+    end
+    if m.vel.y > 10 then
+        m.vel.y = 10
+    end
 
     return 0
 end
@@ -527,6 +530,13 @@ function on_set_mario_action(m)
     if strafeToggle == true then
         if not noStrafeActs[m.action] then
             m.faceAngle.y = m.area.camera.yaw + 32250
+        end
+    end
+
+    --Sideflip anywhere
+    if (m.input & INPUT_A_PRESSED) ~= 0 then -- checks if marmite is going to do a steep jump and if a button is pressed
+        if m.prevAction == ACT_TURNING_AROUND or m.prevAction == ACT_FINISH_TURNING_AROUND then -- checks if maio was turning around
+            set_mario_action(m, ACT_SIDE_FLIP, 0) -- if all conditions are met set martin's action to sideflip
         end
     end
 end
@@ -687,7 +697,6 @@ hook_behavior(id_bhvHiddenBlueCoin, OBJ_LIST_LEVEL, false, nil, bhv_custom_hidde
 hook_event(HOOK_MARIO_UPDATE, mario_update)
 hook_event(HOOK_ON_SET_MARIO_ACTION, localtechaction)
 hook_event(HOOK_ON_SET_MARIO_ACTION, on_set_mario_action)
-hook_event(HOOK_ON_HUD_RENDER, display)
 hook_event(HOOK_ON_INTERACT, on_interact)
 hook_event(HOOK_UPDATE, update)
 hook_event(HOOK_ALLOW_INTERACT, allow_interact)
