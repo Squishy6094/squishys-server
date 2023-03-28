@@ -416,9 +416,6 @@ local actions_able_to_wallkick =
     [ACT_FREEFALL] = ACT_FREEFALL
 }
 
---This is in degrees
-gGlobalSyncTable.limit = 61
-
 --Thanks Djoslin
 function convert_s16(num)
     local min = -32768
@@ -442,8 +439,8 @@ function wallkicks(m)
 
         local wallDYaw = (atan2s(m.wall.normal.z, m.wall.normal.x) - (m.faceAngle.y))
         --I don't really understand this however I do know the lower `limit` becomes, the more possible wallkick degrees.
-        local limitNegative = (-((180 - gGlobalSyncTable.limit) * (8192/45))) + 1
-        local limitPositive = ((180 - gGlobalSyncTable.limit) * (8192/45)) - 1
+        local limitNegative = (-((180 - 61) * (8192/45))) + 1
+        local limitPositive = ((180 - 61) * (8192/45)) - 1
         --wallDYaw is s16, so I converted it
         wallDYaw = convert_s16(wallDYaw)
 
