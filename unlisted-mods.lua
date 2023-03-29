@@ -690,6 +690,14 @@ local function update_lakitu()
     end)
 end
 
+--Player Colored Stars
+--- @param o Object
+local function bhv_star_init(o)
+    o.globalPlayerIndex = gNetworkPlayers[0].globalIndex
+end
+id_bhvStar = hook_behavior(id_bhvStar, OBJ_LIST_LEVEL, false, bhv_star_init, nil)
+
+--All Hooks
 hook_behavior(id_bhvHiddenBlueCoin, OBJ_LIST_LEVEL, false, nil, bhv_custom_hidden_blue_coin_loop)
 hook_event(HOOK_MARIO_UPDATE, mario_update)
 hook_event(HOOK_ON_SET_MARIO_ACTION, localtechaction)
