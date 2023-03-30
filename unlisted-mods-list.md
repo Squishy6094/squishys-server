@@ -47,3 +47,5 @@ Mods Labeled with "(Discord Link)" means that the mod is not avalible on the [Mo
 [Visible Lakitu](https://discordapp.com/channels/752682015614173235/755907254318006362/1080585559463960637) (Discord Link)
 
 [Sideflip Anywhere](https://discordapp.com/channels/752682015614173235/755907254318006362/1089928388568961154) (Discord Link)
+
+[Recolorable Stars](https://discord.com/channels/752682015614173235/755907254318006362/1090443211903868980) (Discord Link)
