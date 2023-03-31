@@ -17,37 +17,37 @@ local optionHoverTimer = -1
 function hud_print_description(CMDName, Line1, Line2, Line3, Line4, Line5, Line6, Line7, Line8, Line9)
     local m = gMarioStates[0]
     if descriptions then
-        djui_hud_print_text(CMDName, ((djui_hud_get_screen_width()/2) + 100), 85, 0.3)
-        if Line1 ~= nil then djui_hud_print_text(Line1, ((djui_hud_get_screen_width()/2) + 100), 100, 0.3) end
-        if Line2 ~= nil then djui_hud_print_text(Line2, ((djui_hud_get_screen_width()/2) + 100), 108, 0.3) end
-        if Line3 ~= nil then djui_hud_print_text(Line3, ((djui_hud_get_screen_width()/2) + 100), 116, 0.3) end
-        if Line4 ~= nil then djui_hud_print_text(Line4, ((djui_hud_get_screen_width()/2) + 100), 124, 0.3) end
-        if Line5 ~= nil then djui_hud_print_text(Line5, ((djui_hud_get_screen_width()/2) + 100), 132, 0.3) end
-        if Line6 ~= nil then djui_hud_print_text(Line6, ((djui_hud_get_screen_width()/2) + 100), 140, 0.3) end
-        if Line7 ~= nil then djui_hud_print_text(Line7, ((djui_hud_get_screen_width()/2) + 100), 148, 0.3) end
-        if Line8 ~= nil then djui_hud_print_text(Line8, ((djui_hud_get_screen_width()/2) + 100), 156, 0.3) end
-        if Line9 ~= nil then djui_hud_print_text(Line9, ((djui_hud_get_screen_width()/2) + 100), 164, 0.3) end
+        djui_hud_print_text(CMDName, (halfScreenWidth + 100), 85, 0.3)
+        if Line1 ~= nil then djui_hud_print_text(Line1, (halfScreenWidth + 100), 100, 0.3) end
+        if Line2 ~= nil then djui_hud_print_text(Line2, (halfScreenWidth + 100), 108, 0.3) end
+        if Line3 ~= nil then djui_hud_print_text(Line3, (halfScreenWidth + 100), 116, 0.3) end
+        if Line4 ~= nil then djui_hud_print_text(Line4, (halfScreenWidth + 100), 124, 0.3) end
+        if Line5 ~= nil then djui_hud_print_text(Line5, (halfScreenWidth + 100), 132, 0.3) end
+        if Line6 ~= nil then djui_hud_print_text(Line6, (halfScreenWidth + 100), 140, 0.3) end
+        if Line7 ~= nil then djui_hud_print_text(Line7, (halfScreenWidth + 100), 148, 0.3) end
+        if Line8 ~= nil then djui_hud_print_text(Line8, (halfScreenWidth + 100), 156, 0.3) end
+        if Line9 ~= nil then djui_hud_print_text(Line9, (halfScreenWidth + 100), 164, 0.3) end
     end
 end
 
 function hud_print_toggle_status(SyncTable)
     if optionTab == 2 and optionHover >= 2 and optionHover <= 4 then
         if SyncTable then
-            djui_hud_print_text("On", ((djui_hud_get_screen_width()/2) + 70), 70 + (optionHover * 10), 0.3)
+            djui_hud_print_text("On", (halfScreenWidth + 70), 70 + (optionHover * 10), 0.3)
         elseif not SyncTable then
-            djui_hud_print_text("Off", ((djui_hud_get_screen_width()/2) + 70), 70 + (optionHover * 10), 0.3)
+            djui_hud_print_text("Off", (halfScreenWidth + 70), 70 + (optionHover * 10), 0.3)
         end
     elseif optionTab == 2 and optionHover >= 4 and optionHover <= 7 then
         if SyncTable then
-            djui_hud_print_text("On", (djui_hud_get_screen_width()/2), 70 + (optionHover * 10 - 20), 0.3)
+            djui_hud_print_text("On", halfScreenWidth, 70 + (optionHover * 10 - 20), 0.3)
         elseif not SyncTable then
-            djui_hud_print_text("Off", (djui_hud_get_screen_width()/2), 70 + (optionHover * 10 - 20), 0.3)
+            djui_hud_print_text("Off", halfScreenWidth, 70 + (optionHover * 10 - 20), 0.3)
         end
     else
         if SyncTable then
-            djui_hud_print_text("On", ((djui_hud_get_screen_width()/2)), 70 + (optionHover * 10), 0.3)
+            djui_hud_print_text("On", (halfScreenWidth), 70 + (optionHover * 10), 0.3)
         elseif not SyncTable then
-            djui_hud_print_text("Off", ((djui_hud_get_screen_width()/2)), 70 + (optionHover * 10), 0.3)
+            djui_hud_print_text("Off", (halfScreenWidth), 70 + (optionHover * 10), 0.3)
         end
     end
 end
@@ -57,9 +57,9 @@ function hud_print_unique_toggle_status(SyncTable, ToggleText1, ToggleText2, Tog
     if ToggleRequirement2 == nil then ToggleRequirement2 = 1 end
     if ToggleRequirement3 == nil then ToggleRequirement3 = 2 end
 
-    if SyncTable == ToggleRequirement1 then djui_hud_print_text(ToggleText1, ((djui_hud_get_screen_width()/2)), 70 + (optionHover * 10), 0.3) end
-    if SyncTable == ToggleRequirement2 then djui_hud_print_text(ToggleText2, ((djui_hud_get_screen_width()/2)), 70 + (optionHover * 10), 0.3) end
-    if SyncTable == ToggleRequirement3 then djui_hud_print_text(ToggleText3, ((djui_hud_get_screen_width()/2)), 70 + (optionHover * 10), 0.3) end
+    if SyncTable == ToggleRequirement1 then djui_hud_print_text(ToggleText1, (halfScreenWidth), 70 + (optionHover * 10), 0.3) end
+    if SyncTable == ToggleRequirement2 then djui_hud_print_text(ToggleText2, (halfScreenWidth), 70 + (optionHover * 10), 0.3) end
+    if SyncTable == ToggleRequirement3 then djui_hud_print_text(ToggleText3, (halfScreenWidth), 70 + (optionHover * 10), 0.3) end
 end
 
 
@@ -80,6 +80,8 @@ end
 
 function displaymenu()
     local m = gMarioStates[0]
+
+    halfScreenWidth = djui_hud_get_screen_width()*0.5
 
     if menu then
         djui_hud_set_color(0, 0, 0, 50)
@@ -112,19 +114,19 @@ function displaymenu()
             end
             djui_hud_set_resolution(RESOLUTION_DJUI)
             djui_hud_set_color(0, 0, 0, 255)
-            djui_hud_print_text("L Button - Server Options", ((djui_hud_get_screen_width()/2) - ((djui_hud_measure_text("L Button - Server Options")* 1 / 2)) + 1), 43, 1)
+            djui_hud_print_text("L Button - Server Options", (djui_hud_get_screen_width()*0.5 - (djui_hud_measure_text("L Button - Server Options")*0.5)) + 1, 43, 1)
             djui_hud_set_color(255, 255, 255, 255)
-            djui_hud_print_text("L Button - Server Options", ((djui_hud_get_screen_width()/2) - (djui_hud_measure_text("L Button - Server Options")* 1 / 2)), 42, 1)
+            djui_hud_print_text("L Button - Server Options", (djui_hud_get_screen_width()*0.5 - (djui_hud_measure_text("L Button - Server Options")*0.5)), 42, 1)
         end
         djui_hud_set_resolution(RESOLUTION_N64)
         if m.action == ACT_EXIT_LAND_SAVE_DIALOG then
             djui_hud_set_color(0, 0, 0, 255)
-            djui_hud_print_text("Room has been Open for:", ((djui_hud_get_screen_width()/2) - 33), 31, 0.3)
-            djui_hud_print_text(RoomTime, ((djui_hud_get_screen_width()/2) - 32.5), 42, 0.7)
+            djui_hud_print_text("Room has been Open for:", (halfScreenWidth - 33), 31, 0.3)
+            djui_hud_print_text(RoomTime, (halfScreenWidth - 32.5), 42, 0.7)
         end
         djui_hud_set_color(255, 255, 255, 255)
-        djui_hud_print_text("Room has been Open for:", ((djui_hud_get_screen_width()/2) - 35), 30, 0.3)
-        djui_hud_print_text(RoomTime, ((djui_hud_get_screen_width()/2) - 35), 40, 0.7)
+        djui_hud_print_text("Room has been Open for:", (halfScreenWidth - 35), 30, 0.3)
+        djui_hud_print_text(RoomTime, (halfScreenWidth - 35), 40, 0.7)
     else 
         menu = false
     end
@@ -172,20 +174,20 @@ function displaymenu()
         djui_hud_set_font(FONT_MENU)
         djui_hud_set_resolution(RESOLUTION_N64)
         djui_hud_set_color(0, 0, 0, 170)
-        djui_hud_render_rect(((djui_hud_get_screen_width()/2) - 87), ((djui_hud_get_screen_height()/2) - 92), 174, 204)
+        djui_hud_render_rect((halfScreenWidth - 87), ((djui_hud_get_screen_height()/2) - 92), 174, 204)
         djui_hud_set_color(0, 0, 0, 220)
-        djui_hud_render_rect(((djui_hud_get_screen_width()/2) - 85), ((djui_hud_get_screen_height()/2) - 90), 170, 200)
+        djui_hud_render_rect((halfScreenWidth - 85), ((djui_hud_get_screen_height()/2) - 90), 170, 200)
         djui_hud_set_color(0, 150, 0, 255)
-        djui_hud_print_text("Squishys", ((djui_hud_get_screen_width()/2) - (djui_hud_measure_text("Squishys")* 0.3 / 2)), 35, 0.3)
-        djui_hud_print_text("'", ((djui_hud_get_screen_width()/2) + 24), 35, 0.3)
-        djui_hud_print_text("Server", ((djui_hud_get_screen_width()/2) - (djui_hud_measure_text("Server")* 0.3 / 2)), 50, 0.3)
+        djui_hud_print_text("Squishys", (halfScreenWidth - (djui_hud_measure_text("Squishys")* 0.3 / 2)), 35, 0.3)
+        djui_hud_print_text("'", (halfScreenWidth + 24), 35, 0.3)
+        djui_hud_print_text("Server", (halfScreenWidth - (djui_hud_measure_text("Server")* 0.3 / 2)), 50, 0.3)
 
         
         if descriptions then
             djui_hud_set_color(0, 0, 0, 170)
-            djui_hud_render_rect(((djui_hud_get_screen_width()/2) + 91), ((djui_hud_get_screen_height()/2) - 42), 104, 104)
+            djui_hud_render_rect((halfScreenWidth + 91), ((djui_hud_get_screen_height()/2) - 42), 104, 104)
             djui_hud_set_color(0, 0, 0, 220)
-            djui_hud_render_rect(((djui_hud_get_screen_width()/2) + 93), ((djui_hud_get_screen_height()/2) - 40), 100, 100)
+            djui_hud_render_rect((halfScreenWidth + 93), ((djui_hud_get_screen_height()/2) - 40), 100, 100)
             djui_hud_set_color(0, 150, 0, 255)
         end
 
@@ -194,19 +196,19 @@ function displaymenu()
         djui_hud_set_resolution(RESOLUTION_N64)
         if network_is_server() or network_is_moderator() then
             djui_hud_set_color(150, 150, 150, 255)
-            djui_hud_render_rect(((djui_hud_get_screen_width()/2) - 60 + (optionTab * 30 - 30)), 70, 30, 9)
+            djui_hud_render_rect((halfScreenWidth - 60 + (optionTab * 30 - 30)), 70, 30, 9)
             djui_hud_set_color(255, 255, 255, 255)
-            djui_hud_print_text("Movement", ((djui_hud_get_screen_width()/2) - (djui_hud_measure_text("Movement")* 0.3 / 2) - 45), 70, 0.3)
-            djui_hud_print_text("HUD", ((djui_hud_get_screen_width()/2) - (djui_hud_measure_text("HUD")* 0.3 / 2) - 15), 70, 0.3)
-            djui_hud_print_text("Other", ((djui_hud_get_screen_width()/2) - (djui_hud_measure_text("Other")* 0.3 / 2) + 15), 70, 0.3)
-            djui_hud_print_text("Server", ((djui_hud_get_screen_width()/2) - (djui_hud_measure_text("Server")* 0.3 / 2) + 45), 70, 0.3)
+            djui_hud_print_text("Movement", (halfScreenWidth - (djui_hud_measure_text("Movement")* 0.3 / 2) - 45), 70, 0.3)
+            djui_hud_print_text("HUD", (halfScreenWidth - (djui_hud_measure_text("HUD")* 0.3 / 2) - 15), 70, 0.3)
+            djui_hud_print_text("Other", (halfScreenWidth - (djui_hud_measure_text("Other")* 0.3 / 2) + 15), 70, 0.3)
+            djui_hud_print_text("Server", (halfScreenWidth - (djui_hud_measure_text("Server")* 0.3 / 2) + 45), 70, 0.3)
         else
             djui_hud_set_color(150, 150, 150, 255)
-            djui_hud_render_rect(((djui_hud_get_screen_width()/2) - 60 + (optionTab * 30 - 30) + 15), 70, 30, 9)
+            djui_hud_render_rect((halfScreenWidth - 60 + (optionTab * 30 - 30) + 15), 70, 30, 9)
             djui_hud_set_color(255, 255, 255, 255)
-            djui_hud_print_text("Movement", ((djui_hud_get_screen_width()/2) - (djui_hud_measure_text("Movement")* 0.3 / 2) - 30), 70, 0.3)
-            djui_hud_print_text("HUD", ((djui_hud_get_screen_width()/2) - (djui_hud_measure_text("HUD")* 0.3 / 2)), 70, 0.3)
-            djui_hud_print_text("Other", ((djui_hud_get_screen_width()/2) - (djui_hud_measure_text("Other")* 0.3 / 2) + 30), 70, 0.3)
+            djui_hud_print_text("Movement", (halfScreenWidth - (djui_hud_measure_text("Movement")* 0.3 / 2) - 30), 70, 0.3)
+            djui_hud_print_text("HUD", (halfScreenWidth - (djui_hud_measure_text("HUD")* 0.3 / 2)), 70, 0.3)
+            djui_hud_print_text("Other", (halfScreenWidth - (djui_hud_measure_text("Other")* 0.3 / 2) + 30), 70, 0.3)
         end
 
         
@@ -217,16 +219,16 @@ function displaymenu()
                 optionHover = 1
             end
             djui_hud_set_color(150, 150, 150, 255)
-            djui_hud_render_rect(((djui_hud_get_screen_width()/2) - 72), 80 + (optionHover * 10 - 10), 70, 9)
+            djui_hud_render_rect((halfScreenWidth - 72), 80 + (optionHover * 10 - 10), 70, 9)
 
             djui_hud_set_color(255, 255, 255, 255)
-            djui_hud_print_text("Moveset", ((djui_hud_get_screen_width()/2) - 70), 80, 0.3)
+            djui_hud_print_text("Moveset", (halfScreenWidth - 70), 80, 0.3)
             if optionHover == 1 then
                 hud_print_description("Movesets:", "Change small things about","how Mario moves to make","movement feel better")
                 if gGlobalSyncTable.GlobalMoveset then
                     hud_print_unique_toggle_status(gPlayerSyncTable[m.playerIndex].moveset, "Default", "Character", "QOL")
                 else
-                    djui_hud_print_text("Forced Default", ((djui_hud_get_screen_width()/2)), 80, 0.3)
+                    djui_hud_print_text("Forced Default", (halfScreenWidth), 80, 0.3)
                 end
                 
                 if gPlayerSyncTable[m.playerIndex].moveset == 0 then
@@ -237,31 +239,31 @@ function displaymenu()
                     hud_print_description("","","","","","Quality of Life Moveset:","Adds QOL Moves like the", "The Groundpound Jump,","Groundpound Dive, Spin-Pound,", "Water-Pound, etc.")
                 end
             end
-            djui_hud_print_text("Lava Groundpound", ((djui_hud_get_screen_width()/2) - 70), 90, 0.3)
+            djui_hud_print_text("Lava Groundpound", (halfScreenWidth - 70), 90, 0.3)
             if optionHover == 2 then
                 hud_print_description("Lava Groundpound:", "Ground-Pounding on lava will","give you a speed and height","boost, at the cost of health.")
                 hud_print_toggle_status(LGP)
             end
-            djui_hud_print_text("Anti-Quicksand", ((djui_hud_get_screen_width()/2) - 70), 100, 0.3)
+            djui_hud_print_text("Anti-Quicksand", (halfScreenWidth - 70), 100, 0.3)
             if optionHover == 3 then
                 hud_print_description("Anti-Quicksand:", "Makes instant quicksand act","like lava, preventing what","may seem like an unfair","deaths. (Does not include","Lava Groundpound functions)")
                 if gGlobalSyncTable.GlobalAQS then
                     hud_print_toggle_status(AQS)
                 else
-                    djui_hud_print_text("Forced Off", ((djui_hud_get_screen_width()/2)), 100, 0.3)
+                    djui_hud_print_text("Forced Off", (halfScreenWidth), 100, 0.3)
                 end
             end
-            djui_hud_print_text("Modded Wallkick", ((djui_hud_get_screen_width()/2) - 70), 110, 0.3)
+            djui_hud_print_text("Modded Wallkick", (halfScreenWidth - 70), 110, 0.3)
             if optionHover == 4 then
                 hud_print_description("Modded Wallkick:", "Adds Wallsliding and more","lenient angles you can wall","kick at, best for a more","modern experience.")
                 hud_print_toggle_status(gPlayerSyncTable[0].wallSlide)
             end
-            djui_hud_print_text("Strafing", ((djui_hud_get_screen_width()/2) - 70), 120, 0.3)
+            djui_hud_print_text("Strafing", (halfScreenWidth - 70), 120, 0.3)
             if optionHover == 5 then
                 hud_print_description("Strafing:", "Forces Mario to face the","direction the Camera is","facing, similar to Sonic Robo","Blast 2. Recommended if you","play with Mouse and Keyboard.")
                 hud_print_toggle_status(strafeToggle)
             end
-            djui_hud_print_text("Ledge Parkour", ((djui_hud_get_screen_width()/2) - 70), 130, 0.3)
+            djui_hud_print_text("Ledge Parkour", (halfScreenWidth - 70), 130, 0.3)
             if optionHover == 6 then
                 hud_print_description("Ledge Parkour:", "Toggles the ability to press","A or B while moving fast onto","a ledge to trick off of it!","Recommended if you want","to retain your speed going","off a ledge.")
                 hud_print_toggle_status(LedgeToggle)
@@ -274,25 +276,25 @@ function displaymenu()
             end
             djui_hud_set_color(150, 150, 150, 255)
             if (optionHover >= 2 and optionHover <= 4) then
-                djui_hud_render_rect(((djui_hud_get_screen_width()/2) - 72), 90, 70, 9)
-                djui_hud_render_rect(((djui_hud_get_screen_width()/2) - 2), 110 + (optionHover * 10 - 40), 70, 9)
+                djui_hud_render_rect((halfScreenWidth - 72), 90, 70, 9)
+                djui_hud_render_rect((halfScreenWidth - 2), 110 + (optionHover * 10 - 40), 70, 9)
             elseif optionHover < 2 then 
-                djui_hud_render_rect(((djui_hud_get_screen_width()/2) - 72), 70 + (optionHover * 10), 70, 9)
+                djui_hud_render_rect((halfScreenWidth - 72), 70 + (optionHover * 10), 70, 9)
             else
-                djui_hud_render_rect(((djui_hud_get_screen_width()/2) - 72), 80 + (optionHover * 10 - 30), 70, 9)
+                djui_hud_render_rect((halfScreenWidth - 72), 80 + (optionHover * 10 - 30), 70, 9)
             end
             djui_hud_set_color(255, 255, 255, 255)
-            djui_hud_print_text("HUD Type", ((djui_hud_get_screen_width()/2) - 70), 80, 0.3)
+            djui_hud_print_text("HUD Type", (halfScreenWidth - 70), 80, 0.3)
             if optionHover == 1 then
                 hud_print_description("HUD Type", "Changes which HUD the screen","displays! (WIP)")
-                djui_hud_print_text(hudTable[currHUD].name, (djui_hud_get_screen_width()/2), 70 + (optionHover * 10), 0.3)
+                djui_hud_print_text(hudTable[currHUD].name, halfScreenWidth, 70 + (optionHover * 10), 0.3)
             end
-            djui_hud_print_text("Extra HUD", ((djui_hud_get_screen_width()/2) - 70), 90, 0.3)
+            djui_hud_print_text("Extra HUD", (halfScreenWidth - 70), 90, 0.3)
             if optionHover >= 2 and optionHover <= 4 then
                 hud_print_description("Extra HUD:", "Adds Quality of Life HUD","Elements to tell extra","Information")
-                djui_hud_print_text("Red Coin Radar", ((djui_hud_get_screen_width()/2)), 90, 0.3)
-                djui_hud_print_text("Secrets Radar", ((djui_hud_get_screen_width()/2)), 100, 0.3)
-                djui_hud_print_text("Cap Timer", ((djui_hud_get_screen_width()/2)), 110, 0.3)
+                djui_hud_print_text("Red Coin Radar", (halfScreenWidth), 90, 0.3)
+                djui_hud_print_text("Secrets Radar", (halfScreenWidth), 100, 0.3)
+                djui_hud_print_text("Cap Timer", (halfScreenWidth), 110, 0.3)
             end
             if optionHover == 2 then
                 hud_print_description("","","","","","Red Coin Radar:", "Tells you how far away","Red Coins are.")
@@ -306,17 +308,17 @@ function displaymenu()
                 hud_print_description("","","","","","Cap Timer:", "Tells you how many seconds","your cap has left until it","runs out.")
                 hud_print_toggle_status(capTimerToggle)
             end
-            djui_hud_print_text("Descriptions", ((djui_hud_get_screen_width()/2) - 70), 100, 0.3)
+            djui_hud_print_text("Descriptions", (halfScreenWidth - 70), 100, 0.3)
             if optionHover == 5 then
                 hud_print_description("Descriptions:", "Toggles these descriptions","you see on the right,","Recommended to turn Off if","you like a more minimalistic","menu.")
                 hud_print_toggle_status(descriptions)
             end
-            djui_hud_print_text("Server Popups", ((djui_hud_get_screen_width()/2) - 70), 110, 0.3)
+            djui_hud_print_text("Server Popups", (halfScreenWidth - 70), 110, 0.3)
             if optionHover == 6 then
                 hud_print_description("Server Popups:", "Shows Tips/Hints about the","server every 3-5 minutes.","Recommended for if you're","new to the server.")
                 hud_print_toggle_status(notif)
             end
-            djui_hud_print_text("Show Rules", ((djui_hud_get_screen_width()/2) - 70), 120, 0.3)
+            djui_hud_print_text("Show Rules", (halfScreenWidth - 70), 120, 0.3)
             if optionHover == 7 then
                 hud_print_description("Show Rules:", "Toggles if the Rules Screen","Displays upon joining. By","turning this option off,","You're confirming that you","have Read and Understand","the Rules.")
                 hud_print_toggle_status(showRules)
@@ -328,24 +330,24 @@ function displaymenu()
                 optionHover = 1
             end
             djui_hud_set_color(150, 150, 150, 255)
-            djui_hud_render_rect(((djui_hud_get_screen_width()/2) - 72), 80 + (optionHover * 10 - 10), 70, 9)
+            djui_hud_render_rect((halfScreenWidth - 72), 80 + (optionHover * 10 - 10), 70, 9)
 
             djui_hud_set_color(255, 255, 255, 255)
-            djui_hud_print_text("Star Spawn Cutscene", ((djui_hud_get_screen_width()/2) - 70), 80, 0.3)
+            djui_hud_print_text("Star Spawn Cutscene", (halfScreenWidth - 70), 80, 0.3)
             if optionHover == 1 then
                 hud_print_description("Star Spawn Cutscene:", "Toggles if Star Spawning","Cutscenes play, Recommended","if you don't know where a","star spawns.")
                 hud_print_toggle_status(SSC)
             end
-            djui_hud_print_text("Personal Model", ((djui_hud_get_screen_width()/2) - 70), 90, 0.3)
+            djui_hud_print_text("Personal Model", (halfScreenWidth - 70), 90, 0.3)
             if optionHover == 2 then
                 hud_print_description("Personal Model:", "Toggles your own Custom","Player Model, Only avalible","for users with at least","one Custom Model.","","","Contact The Host for more","information about","Custom Models and DynOS")
                 if discordID ~= "0" then
-                    djui_hud_print_text(modelTable[discordID][currModel].modelName, (djui_hud_get_screen_width()/2), 70 + (optionHover * 10), 0.3)
+                    djui_hud_print_text(modelTable[discordID][currModel].modelName, halfScreenWidth, 70 + (optionHover * 10), 0.3)
                 else
-                    djui_hud_print_text("N/A", (djui_hud_get_screen_width()/2), 70 + (optionHover * 10), 0.3)
+                    djui_hud_print_text("N/A", halfScreenWidth, 70 + (optionHover * 10), 0.3)
                 end
             end
-            djui_hud_print_text("Locally Display Models", ((djui_hud_get_screen_width()/2) - 70), 100, 0.3)
+            djui_hud_print_text("Locally Display Models", (halfScreenWidth - 70), 100, 0.3)
             if optionHover == 3 then
                 hud_print_description("Locally Display Models:", "Toggles if Custom Player","Models Display locally,","Recommended if other people's","Custom models are getting","in the way.","","Contact The Host for more","information about","Custom Models and DynOS")
                 hud_print_toggle_status(modelToggle)
@@ -357,35 +359,35 @@ function displaymenu()
                 optionHover = 1
             end
             djui_hud_set_color(150, 150, 150, 255)
-            djui_hud_render_rect(((djui_hud_get_screen_width()/2) - 72), 80 + (optionHover * 10 - 10), 70, 9)
+            djui_hud_render_rect((halfScreenWidth - 72), 80 + (optionHover * 10 - 10), 70, 9)
 
             djui_hud_set_color(255, 255, 255, 255)
-            djui_hud_print_text("Death Type", ((djui_hud_get_screen_width()/2) - 70), 80, 0.3)
+            djui_hud_print_text("Death Type", (halfScreenWidth - 70), 80, 0.3)
             if optionHover == 1 then
                 hud_print_description("Death Type:", "Chenges how players die","and respawn after death.")
                 hud_print_unique_toggle_status(gGlobalSyncTable.bubbleDeath,"Normal", "Bubble")
             end
-            djui_hud_print_text("Player Interactions", ((djui_hud_get_screen_width()/2) - 70), 90, 0.3)
+            djui_hud_print_text("Player Interactions", (halfScreenWidth - 70), 90, 0.3)
             if optionHover == 2 then
                 hud_print_description("Player Interactions:", "Changes if and how players","interact with each other.")
                 hud_print_unique_toggle_status(gGlobalSyncTable.playerInteractions,"Non-Solid", "Solid", "Friendly Fire")
             end
-            djui_hud_print_text("Player Knockback", ((djui_hud_get_screen_width()/2) - 70), 100, 0.3)
+            djui_hud_print_text("Player Knockback", (halfScreenWidth - 70), 100, 0.3)
             if optionHover == 3 then
                 hud_print_description("Player Knockback:", "Changes how far players get","knocked back after being hit","by another player.")
                 hud_print_unique_toggle_status(gGlobalSyncTable.playerKnockbackStrength,"Weak", "Normal", "Too Much", 10, 25, 60)
             end
-            djui_hud_print_text("On Star Collection", ((djui_hud_get_screen_width()/2) - 70), 110, 0.3)
+            djui_hud_print_text("On Star Collection", (halfScreenWidth - 70), 110, 0.3)
             if optionHover == 4 then
                 hud_print_description("On Star Collection:", "Determines what happens","after you collect a star.")
                 hud_print_unique_toggle_status(gGlobalSyncTable.stayInLevelAfterStar, "Leave Level", "Stay in Level", "Non-Stop")
             end
-            djui_hud_print_text("Global Movesets", ((djui_hud_get_screen_width()/2) - 70), 120, 0.3)
+            djui_hud_print_text("Global Movesets", (halfScreenWidth - 70), 120, 0.3)
             if optionHover == 5 then
                 hud_print_description("Global Movesets:", "Determines if players can","locally change what moveset","they're using, Off forces","everyone to default.")
                 hud_print_toggle_status(gGlobalSyncTable.GlobalMoveset)
             end
-            djui_hud_print_text("Global Anti-Quicksand", ((djui_hud_get_screen_width()/2) - 70), 130, 0.3)
+            djui_hud_print_text("Global Anti-Quicksand", (halfScreenWidth - 70), 130, 0.3)
             if optionHover == 6 then
                 hud_print_description("Global Anti-Quicksand:", "Determines if players can","locally change AQS or if","it's forced off.")
                 hud_print_toggle_status(gGlobalSyncTable.GlobalAQS)
