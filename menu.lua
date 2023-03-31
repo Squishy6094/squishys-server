@@ -174,9 +174,9 @@ function displaymenu()
         djui_hud_set_font(FONT_MENU)
         djui_hud_set_resolution(RESOLUTION_N64)
         djui_hud_set_color(0, 0, 0, 170)
-        djui_hud_render_rect((halfScreenWidth - 87), ((djui_hud_get_screen_height()/2) - 92), 174, 204)
+        djui_hud_render_rect((halfScreenWidth - 87), ((djui_hud_get_screen_height()*0.5) - 92), 174, 204)
         djui_hud_set_color(0, 0, 0, 220)
-        djui_hud_render_rect((halfScreenWidth - 85), ((djui_hud_get_screen_height()/2) - 90), 170, 200)
+        djui_hud_render_rect((halfScreenWidth - 85), ((djui_hud_get_screen_height()*0.5) - 90), 170, 200)
         djui_hud_set_color(0, 150, 0, 255)
         djui_hud_print_text("Squishys", (halfScreenWidth - (djui_hud_measure_text("Squishys")* 0.3 / 2)), 35, 0.3)
         djui_hud_print_text("'", (halfScreenWidth + 24), 35, 0.3)
@@ -185,9 +185,9 @@ function displaymenu()
         
         if descriptions then
             djui_hud_set_color(0, 0, 0, 170)
-            djui_hud_render_rect((halfScreenWidth + 91), ((djui_hud_get_screen_height()/2) - 42), 104, 104)
+            djui_hud_render_rect((halfScreenWidth + 91), ((djui_hud_get_screen_height()*0.5) - 42), 104, 104)
             djui_hud_set_color(0, 0, 0, 220)
-            djui_hud_render_rect((halfScreenWidth + 93), ((djui_hud_get_screen_height()/2) - 40), 100, 100)
+            djui_hud_render_rect((halfScreenWidth + 93), ((djui_hud_get_screen_height()*0.5) - 40), 100, 100)
             djui_hud_set_color(0, 150, 0, 255)
         end
 

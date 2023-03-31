@@ -385,8 +385,8 @@ function djui_hud_render_element(element, number, icon)
     local iconO = 255
     local scale = 1
 
-    local xAlign = djui_hud_get_screen_width()/2 * hudTable[currHUD][element].xAlignment
-    local yAlign = djui_hud_get_screen_height()/2 * hudTable[currHUD][element].yAlignment
+    local xAlign = djui_hud_get_screen_width()*0.5 * hudTable[currHUD][element].xAlignment
+    local yAlign = djui_hud_get_screen_height()*0.5 * hudTable[currHUD][element].yAlignment
 
     --Checks for Base Color
     if hudTable[currHUD][element].colorR ~= nil then
@@ -437,7 +437,7 @@ function djui_hud_render_element(element, number, icon)
     local numY = hudTable[currHUD][element].numOffsetY + yAlign
 
     if is_game_paused() then
-        djui_hud_set_color(iconR/2, iconG/2, iconB/2, iconO)
+        djui_hud_set_color(iconR*0.5, iconG*0.5, iconB*0.5, iconO)
     else
         djui_hud_set_color(iconR, iconG, iconB, iconO)
     end
@@ -445,7 +445,7 @@ function djui_hud_render_element(element, number, icon)
         djui_hud_render_texture(icon, iconX, iconY, scale, scale)
     end
     if is_game_paused() then
-        djui_hud_set_color(r/2, g/2, b/2, o)
+        djui_hud_set_color(r*0.5, g*0.5, b*0.5, o)
     else
         djui_hud_set_color(r, g, b, o)
     end
@@ -499,12 +499,12 @@ function hud_render()
         o = hudTable[currHUD]["Health"].colorO
     end
 
-    local x = hudTable[currHUD]["Health"].meterOffsetX + djui_hud_get_screen_width()/2 * hudTable[currHUD]["Health"].xAlignment
-    local y = hudTable[currHUD]["Health"].meterOffsetY + djui_hud_get_screen_height()/2 * hudTable[currHUD]["Health"].yAlignment
+    local x = hudTable[currHUD]["Health"].meterOffsetX + djui_hud_get_screen_width()*0.5 * hudTable[currHUD]["Health"].xAlignment
+    local y = hudTable[currHUD]["Health"].meterOffsetY + djui_hud_get_screen_height()*0.5 * hudTable[currHUD]["Health"].yAlignment
     local scale = hudTable[currHUD]["Health"].scale
 
     if is_game_paused() then
-        djui_hud_set_color(r/2, g/2, b/2, o)
+        djui_hud_set_color(r*0.5, g*0.5, b*0.5, o)
     else
         djui_hud_set_color(r, g, b, o)
     end

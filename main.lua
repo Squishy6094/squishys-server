@@ -96,7 +96,7 @@ function displayrules(m)
         end
         djui_hud_set_font(FONT_MENU)
         djui_hud_set_color(255, 255, 255, 255 - opacity)
-        djui_hud_print_text("Press A to continue", 100 + offsetX - (djui_hud_measure_text("Press A to continue")/2*0.2), djui_hud_get_screen_height() - 17, 0.2)
+        djui_hud_print_text("Press A to continue", 100 + offsetX - (djui_hud_measure_text("Press A to continue")*0.5*0.2), djui_hud_get_screen_height() - 17, 0.2)
     end
 end
 
