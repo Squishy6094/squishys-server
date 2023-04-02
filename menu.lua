@@ -31,24 +31,10 @@ function hud_print_description(CMDName, Line1, Line2, Line3, Line4, Line5, Line6
 end
 
 function hud_print_toggle_status(SyncTable)
-    if optionTab == 2 and optionHover >= 2 and optionHover <= 4 then
-        if SyncTable then
-            djui_hud_print_text("On", (halfScreenWidth + 70), 70 + (optionHover * 10), 0.3)
-        elseif not SyncTable then
-            djui_hud_print_text("Off", (halfScreenWidth + 70), 70 + (optionHover * 10), 0.3)
-        end
-    elseif optionTab == 2 and optionHover >= 4 and optionHover <= 7 then
-        if SyncTable then
-            djui_hud_print_text("On", halfScreenWidth, 70 + (optionHover * 10 - 20), 0.3)
-        elseif not SyncTable then
-            djui_hud_print_text("Off", halfScreenWidth, 70 + (optionHover * 10 - 20), 0.3)
-        end
-    else
-        if SyncTable then
-            djui_hud_print_text("On", (halfScreenWidth), 70 + (optionHover * 10), 0.3)
-        elseif not SyncTable then
-            djui_hud_print_text("Off", (halfScreenWidth), 70 + (optionHover * 10), 0.3)
-        end
+    if SyncTable then
+        djui_hud_print_text("On", (halfScreenWidth), 70 + (optionHover * 10), 0.3)
+    elseif not SyncTable then
+        djui_hud_print_text("Off", (halfScreenWidth), 70 + (optionHover * 10), 0.3)
     end
 end
 
@@ -78,6 +64,80 @@ function mario_update(m)
     gServerSettings.stayInLevelAfterStar = gGlobalSyncTable.stayInLevelAfterStar
 end
 
+
+
+menuTable = {
+    [1] = {
+        name = "Movement",
+        tabMax = 6,
+        [1] = {
+            name = "Moveset",
+            status = tonumber(mod_storage_load("MoveSave")),
+            statusMax = 2,
+            statusDefault = 0,
+            --Description
+            Line1 = "Change small things about",
+            Line2 = "how Mario moves to make",
+            Line3 = "movement feel better"
+        },
+        [2] = {
+            name = "Lava Groundpound",
+            status = tonumber(mod_storage_load("LGPSave")),
+            statusMax = 1,
+            --Description
+            Line1 = "Ground-Pounding on lava will",
+            Line2 = "give you a speed and height",
+            Line3 = "boost, at the cost of health."
+        },
+        [3] = {
+            name = "Anti-Quicksand",
+            status = tonumber(mod_storage_load("AQSSave")),
+            statusMax = 1,
+            restriction = true,
+            --Description
+            Line1 = "Makes instant quicksand act",
+            Line2 = "like lava, preventing what",
+            Line3 = "may seem like an unfair",
+            Line4 = "deaths. (Does not include",
+            Line5 = "Lava Groundpound functions)"
+        },
+        [4] = {
+            name = "Modded Wallkick",
+            status = tonumber(mod_storage_load("WKSave")),
+            statusMax = 1,
+            --Description
+            Line1 = "Adds Wallsliding and more",
+            Line2 = "lenient angles you can wall",
+            Line3 = "kick at, best for a more",
+            Line4 = "modern experience."
+        },
+        [5] = {
+            name = "Strafing",
+            status = tonumber(mod_storage_load("StrafeSave")),
+            statusMax = 1,
+            statusDefault = 0,
+            --Description
+            Line1 = "Forces Mario to face the",
+            Line2 = "direction the Camera is",
+            Line3 = "facing, similar to Sonic Robo",
+            Line4 = "Blast 2. Recommended if you",
+            Line5 = "play with Mouse and Keyboard."
+        },
+        [6] = {
+            name = "Ledge Parkour",
+            status = tonumber(mod_storage_load("LedgeToggle")),
+            statusMax = 1,
+            --Description
+            Line1 = "Toggles the ability to press",
+            Line2 = "A or B while moving fast onto",
+            Line3 = "a ledge to trick off of it!",
+            Line4 = "Recommended if you want",
+            Line5 = "to retain your speed going",
+            Line6 = "off a ledge."
+        },
+    }
+}
+
 function displaymenu()
     local m = gMarioStates[0]
 
@@ -105,7 +165,7 @@ function displaymenu()
 
     RoomTime = string.format("%s:%s:%s", string.format("%02d", Hours), string.format("%02d", minutes), string.format("%02d", Seconds))
 
-    if is_game_paused() then
+    if is_game_paused() and not djui_hud_is_pause_menu_created() then
         djui_hud_set_font(FONT_NORMAL)
         if m.action ~= ACT_EXIT_LAND_SAVE_DIALOG then
             if (m.controller.buttonPressed & L_TRIG) ~= 0 and menu == false then
@@ -212,64 +272,37 @@ function displaymenu()
             djui_hud_print_text("Other", (halfScreenWidth - (djui_hud_measure_text("Other")* 0.3 / 2) + 30), 70, 0.3)
         end
 
-        
-        if optionTab == 1 then
-            if optionHover < 1 then
-                optionHover = 6
-            elseif  optionHover > 6 then
-                optionHover = 1
+        djui_hud_set_color(150, 150, 150, 255)
+        djui_hud_render_rect((halfScreenWidth - 72), 80 + (optionHover * 10 - 10), 70, 9)
+        if menuTable[optionTab][1].name ~= nil then
+            djui_hud_print_text(menuTable[optionTab][1].name, (halfScreenWidth - 70), 80, 0.3)
+        end
+        if menuTable[optionTab][2].name ~= nil then
+            djui_hud_print_text(menuTable[optionTab][2].name, (halfScreenWidth - 70), 90, 0.3)
+        end
+        if menuTable[optionTab][3].name ~= nil then
+            djui_hud_print_text(menuTable[optionTab][3].name, (halfScreenWidth - 70), 100, 0.3)
+        end
+        if menuTable[optionTab][4].name ~= nil then
+            djui_hud_print_text(menuTable[optionTab][4].name, (halfScreenWidth - 70), 110, 0.3)
+        end
+        if menuTable[optionTab][5].name ~= nil then
+            djui_hud_print_text(menuTable[optionTab][5].name, (halfScreenWidth - 70), 120, 0.3)
+        end
+        if menuTable[optionTab][6].name ~= nil then
+            djui_hud_print_text(menuTable[optionTab][6].name, (halfScreenWidth - 70), 130, 0.3)
+        end
+        if menuTable[optionTab][optionHover].status ~= nil then
+            djui_hud_print_text(menuTable[optionTab][optionHover].status, (halfScreenWidth), 70 + (optionHover * 10), 0.3)
+        else
+            if menuTable[optionTab][optionHover].statusDefault then
+                menuTable[optionTab][optionHover].status = menuTable[optionTab][optionHover].statusDefault
+            else
+                menuTable[optionTab][optionHover].status = 1
             end
-            djui_hud_set_color(150, 150, 150, 255)
-            djui_hud_render_rect((halfScreenWidth - 72), 80 + (optionHover * 10 - 10), 70, 9)
+        end
 
-            djui_hud_set_color(255, 255, 255, 255)
-            djui_hud_print_text("Moveset", (halfScreenWidth - 70), 80, 0.3)
-            if optionHover == 1 then
-                hud_print_description("Movesets:", "Change small things about","how Mario moves to make","movement feel better")
-                if gGlobalSyncTable.GlobalMoveset then
-                    hud_print_unique_toggle_status(gPlayerSyncTable[m.playerIndex].moveset, "Default", "Character", "QOL")
-                else
-                    djui_hud_print_text("Forced Default", (halfScreenWidth), 80, 0.3)
-                end
-                
-                if gPlayerSyncTable[m.playerIndex].moveset == 0 then
-                    hud_print_description("","","","","","Default:","Just the good ol' SM64", "movement everyone knows","and loves!")
-                elseif gPlayerSyncTable[m.playerIndex].moveset == 1 then
-                    hud_print_description("","","","","","Character Moveset:","Changes your movement based", "on which Character you're","playing as.")
-                elseif gPlayerSyncTable[m.playerIndex].moveset == 2 then
-                    hud_print_description("","","","","","Quality of Life Moveset:","Adds QOL Moves like the", "The Groundpound Jump,","Groundpound Dive, Spin-Pound,", "Water-Pound, etc.")
-                end
-            end
-            djui_hud_print_text("Lava Groundpound", (halfScreenWidth - 70), 90, 0.3)
-            if optionHover == 2 then
-                hud_print_description("Lava Groundpound:", "Ground-Pounding on lava will","give you a speed and height","boost, at the cost of health.")
-                hud_print_toggle_status(LGP)
-            end
-            djui_hud_print_text("Anti-Quicksand", (halfScreenWidth - 70), 100, 0.3)
-            if optionHover == 3 then
-                hud_print_description("Anti-Quicksand:", "Makes instant quicksand act","like lava, preventing what","may seem like an unfair","deaths. (Does not include","Lava Groundpound functions)")
-                if gGlobalSyncTable.GlobalAQS then
-                    hud_print_toggle_status(AQS)
-                else
-                    djui_hud_print_text("Forced Off", (halfScreenWidth), 100, 0.3)
-                end
-            end
-            djui_hud_print_text("Modded Wallkick", (halfScreenWidth - 70), 110, 0.3)
-            if optionHover == 4 then
-                hud_print_description("Modded Wallkick:", "Adds Wallsliding and more","lenient angles you can wall","kick at, best for a more","modern experience.")
-                hud_print_toggle_status(gPlayerSyncTable[0].wallSlide)
-            end
-            djui_hud_print_text("Strafing", (halfScreenWidth - 70), 120, 0.3)
-            if optionHover == 5 then
-                hud_print_description("Strafing:", "Forces Mario to face the","direction the Camera is","facing, similar to Sonic Robo","Blast 2. Recommended if you","play with Mouse and Keyboard.")
-                hud_print_toggle_status(strafeToggle)
-            end
-            djui_hud_print_text("Ledge Parkour", (halfScreenWidth - 70), 130, 0.3)
-            if optionHover == 6 then
-                hud_print_description("Ledge Parkour:", "Toggles the ability to press","A or B while moving fast onto","a ledge to trick off of it!","Recommended if you want","to retain your speed going","off a ledge.")
-                hud_print_toggle_status(LedgeToggle)
-            end
-        elseif optionTab == 2 then
+        if optionTab == 2 then
             if optionHover < 1 then
                 optionHover = 7
             elseif  optionHover > 7 then
@@ -289,25 +322,6 @@ function displaymenu()
             if optionHover == 1 then
                 hud_print_description("HUD Type", "Changes which HUD the screen","displays! (WIP)")
                 djui_hud_print_text(hudTable[currHUD].name, halfScreenWidth, 70 + (optionHover * 10), 0.3)
-            end
-            djui_hud_print_text("Extra HUD", (halfScreenWidth - 70), 90, 0.3)
-            if optionHover >= 2 and optionHover <= 4 then
-                hud_print_description("Extra HUD:", "Adds Quality of Life HUD","Elements to tell extra","Information")
-                djui_hud_print_text("Red Coin Radar", (halfScreenWidth), 90, 0.3)
-                djui_hud_print_text("Secrets Radar", (halfScreenWidth), 100, 0.3)
-                djui_hud_print_text("Cap Timer", (halfScreenWidth), 110, 0.3)
-            end
-            if optionHover == 2 then
-                hud_print_description("","","","","","Red Coin Radar:", "Tells you how far away","Red Coins are.")
-                hud_print_toggle_status(radarRedToggle)
-            end
-            if optionHover == 3 then
-                hud_print_description("","","","","","Secret Radar:", "Tells you how far away","Secrets are.")
-                hud_print_toggle_status(radarSecretToggle)
-            end
-            if optionHover == 4 then
-                hud_print_description("","","","","","Cap Timer:", "Tells you how many seconds","your cap has left until it","runs out.")
-                hud_print_toggle_status(capTimerToggle)
             end
             djui_hud_print_text("Descriptions", (halfScreenWidth - 70), 100, 0.3)
             if optionHover == 5 then
