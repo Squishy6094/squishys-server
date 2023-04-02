@@ -25,6 +25,7 @@ local m = gMarioStates[0]
 
 modelTable = {
     [Default] = {
+        modelLimit = 0,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -32,6 +33,7 @@ modelTable = {
         }
     },
     [Squishy] = {
+        modelLimit = 10,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -89,6 +91,7 @@ modelTable = {
         }
     },
     [Spoomples] = {
+        modelLimit = 1,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -102,6 +105,7 @@ modelTable = {
         }
     },
     [Nut] = {
+        modelLimit = 2,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -119,6 +123,7 @@ modelTable = {
         }
     },
     [Cosmic] = {
+        modelLimit = 1,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -132,6 +137,7 @@ modelTable = {
         }
     },
     [Trashcam] = {
+        modelLimit = 1,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -145,6 +151,7 @@ modelTable = {
         }
     },
     [Skeltan] = {
+        modelLimit = 1,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -157,6 +164,7 @@ modelTable = {
         }
     },
     [AgentX] = {
+        modelLimit = 1,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -168,6 +176,7 @@ modelTable = {
         }
     },
     [Blocky] = {
+        modelLimit = 1,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -180,6 +189,7 @@ modelTable = {
         }
     },
     [DepressedYoshi] = {
+        modelLimit = 1,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -191,6 +201,7 @@ modelTable = {
         }
     },
     [Yosho] = {
+        modelLimit = 1,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -202,6 +213,7 @@ modelTable = {
         }
     },
     [YoshoAlt] = {
+        modelLimit = 1,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -213,6 +225,7 @@ modelTable = {
         }
     },
     [KanHeaven] = {
+        modelLimit = 1,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -226,6 +239,7 @@ modelTable = {
         }
     },
     [Bloxxel64Nya] = {
+        modelLimit = 1,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -239,6 +253,7 @@ modelTable = {
         }
     },
     [Vince] = {
+        modelLimit = 1,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -251,6 +266,7 @@ modelTable = {
         }
     },
     [Average] = {
+        modelLimit = 1,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -262,6 +278,7 @@ modelTable = {
         }
     },
     [Elby] = {
+        modelLimit = 2,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -280,6 +297,7 @@ modelTable = {
         }
     },
     [Crispyman] = {
+        modelLimit = 1,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -291,6 +309,7 @@ modelTable = {
         }
     },
     [Butter] = {
+        modelLimit = 1,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -303,6 +322,7 @@ modelTable = {
         }
     },
     [Mathew] = {
+        modelLimit = 1,
         [0] = {
             model = nil,
             modelName = "Default",
