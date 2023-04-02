@@ -88,6 +88,7 @@ function displaymenu()
         djui_hud_render_rect(0, 0, 1000, 1000)
     end
 
+    djui_hud_set_render_behind_hud(false)
 
     --Room Timer--
 

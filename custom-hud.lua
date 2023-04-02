@@ -478,6 +478,7 @@ function hud_render()
     djui_hud_set_resolution(hudTable[currHUD].res)
     djui_hud_set_font(hudTable[currHUD].font)
     djui_hud_set_color(255, 255, 255, 255)
+    djui_hud_set_render_behind_hud(true)
 
     local r = 255
     local g = 255
