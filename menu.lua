@@ -75,6 +75,10 @@ menuTable = {
             status = tonumber(mod_storage_load("MoveSave")),
             statusMax = 2,
             statusDefault = 0,
+            --Status Toggle Names
+            [0] = "Default",
+            [1] = "Character",
+            [2] = "Quality of Life",
             --Description
             Line1 = "Change small things about",
             Line2 = "how Mario moves to make",
@@ -125,7 +129,7 @@ menuTable = {
         },
         [6] = {
             name = "Ledge Parkour",
-            status = tonumber(mod_storage_load("LedgeToggle")),
+            status = tonumber(mod_storage_load("LedgeSave")),
             statusMax = 1,
             --Description
             Line1 = "Toggles the ability to press",
@@ -134,6 +138,81 @@ menuTable = {
             Line4 = "Recommended if you want",
             Line5 = "to retain your speed going",
             Line6 = "off a ledge."
+        },
+    },
+    [2] = {
+        name = "HUD",
+        tabMax = 4,
+        [1] = {
+            name = "HUD Type",
+            status = tonumber(mod_storage_load("HUDSave")),
+            statusMax = 4,
+            statusDefault = 1,
+            --Description
+            Line1 = "Changes which HUD the screen",
+            Line2 = "displays! (WIP)"
+        },
+        [2] = {
+            name = "Descriptions",
+            status = tonumber(mod_storage_load("DescSave")),
+            statusMax = 1,
+            statusDefault = 1,
+            --Description
+            Line1 = "Toggles these descriptions",
+            Line2 = "you see on the right,",
+            Line3 = "Recommended to turn Off if",
+            Line4 = "you like a more minimalistic",
+            Line5 = "menu."
+        },
+        [3] = {
+            name = "Server Popups",
+            status = tonumber(mod_storage_load("notifSave")),
+            statusMax = 1,
+            statusDefault = 1,
+            --Description
+            Line1 = "Shows Tips/Hints about the",
+            Line2 = "server every 3-5 minutes.",
+            Line3 = "Recommended for if you're",
+            Line4 = "new to the server."
+        },
+        [4] = {
+            name = "Show Rules",
+            status = tonumber(mod_storage_load("RulesSave")),
+            statusMax = 1,
+            statusDefault = 1,
+            --Description
+            Line1 = "Toggles if the Rules Screen",
+            Line2 = "Displays upon joining. By",
+            Line3 = "turning this option off,",
+            Line4 = "You're confirming that you",
+            Line5 = "have Read and Understand",
+            Line6 = "the Rules."
+        },
+    },
+    [3] = {
+        name = "HUD",
+        tabMax = 4,
+        [1] = {
+            name = "Star Spawn Cutscene",
+            status = tonumber(mod_storage_load("SSCSave")),
+            statusMax = 1,
+            statusDefault = 1,
+            --Description
+            Line1 = "Toggles if Star Spawning",
+            Line2 = "Cutscenes play, Recommended",
+            Line3 = "if you don't know where a",
+            Line4 = "star spawns."
+        },
+        [2] = {
+            name = "Personal Model",
+            status = tonumber(mod_storage_load("ModelSave")),
+            statusMax = 1,
+            statusDefault = 1,
+            --Description
+            Line1 = "Toggles if Star Spawning",
+            Line2 = "Cutscenes play, Recommended",
+            Line3 = "if you don't know where a",
+            Line4 = "star spawns."
         },
     }
 }
@@ -274,26 +353,38 @@ function displaymenu()
 
         djui_hud_set_color(150, 150, 150, 255)
         djui_hud_render_rect((halfScreenWidth - 72), 80 + (optionHover * 10 - 10), 70, 9)
-        if menuTable[optionTab][1].name ~= nil then
-            djui_hud_print_text(menuTable[optionTab][1].name, (halfScreenWidth - 70), 80, 0.3)
+        djui_hud_set_color(255, 255, 255, 255)
+        
+        if optionHover < 1 then
+            optionHover = menuTable[optionTab].tabMax
+        elseif  optionHover > menuTable[optionTab].tabMax then
+            optionHover = 1
         end
-        if menuTable[optionTab][2].name ~= nil then
-            djui_hud_print_text(menuTable[optionTab][2].name, (halfScreenWidth - 70), 90, 0.3)
-        end
-        if menuTable[optionTab][3].name ~= nil then
-            djui_hud_print_text(menuTable[optionTab][3].name, (halfScreenWidth - 70), 100, 0.3)
-        end
-        if menuTable[optionTab][4].name ~= nil then
-            djui_hud_print_text(menuTable[optionTab][4].name, (halfScreenWidth - 70), 110, 0.3)
-        end
-        if menuTable[optionTab][5].name ~= nil then
-            djui_hud_print_text(menuTable[optionTab][5].name, (halfScreenWidth - 70), 120, 0.3)
-        end
-        if menuTable[optionTab][6].name ~= nil then
-            djui_hud_print_text(menuTable[optionTab][6].name, (halfScreenWidth - 70), 130, 0.3)
-        end
+        local hoverLimit = 0
+        if menuTable[optionTab] ~= nil then
+            if menuTable[optionTab].tabMax < 1 then return end
+                djui_hud_print_text(menuTable[optionTab][1].name, (halfScreenWidth - 70), 80, 0.3)
+            if menuTable[optionTab].tabMax < 2 then return end
+                djui_hud_print_text(menuTable[optionTab][2].name, (halfScreenWidth - 70), 90, 0.3)
+            if menuTable[optionTab].tabMax < 3 then return end
+                djui_hud_print_text(menuTable[optionTab][3].name, (halfScreenWidth - 70), 100, 0.3)
+            if menuTable[optionTab].tabMax < 4 then return end
+                djui_hud_print_text(menuTable[optionTab][4].name, (halfScreenWidth - 70), 110, 0.3)
+            if menuTable[optionTab].tabMax < 5 then return end
+                djui_hud_print_text(menuTable[optionTab][5].name, (halfScreenWidth - 70), 120, 0.3)
+            if menuTable[optionTab].tabMax < 6 then return end
+                djui_hud_print_text(menuTable[optionTab][6].name, (halfScreenWidth - 70), 130, 0.3)
+            end
         if menuTable[optionTab][optionHover].status ~= nil then
-            djui_hud_print_text(menuTable[optionTab][optionHover].status, (halfScreenWidth), 70 + (optionHover * 10), 0.3)
+            if menuTable[optionTab][optionHover][menuTable[optionTab][optionHover].status] ~= nil then
+                djui_hud_print_text(menuTable[optionTab][optionHover][menuTable[optionTab][optionHover].status], (halfScreenWidth), 70 + (optionHover * 10), 0.3)
+            else
+                if menuTable[optionTab][optionHover].status > 0 then
+                    djui_hud_print_text("On", (halfScreenWidth), 70 + (optionHover * 10), 0.3)
+                else
+                    djui_hud_print_text("Off", (halfScreenWidth), 70 + (optionHover * 10), 0.3)
+                end
+            end
         else
             if menuTable[optionTab][optionHover].statusDefault then
                 menuTable[optionTab][optionHover].status = menuTable[optionTab][optionHover].statusDefault
@@ -302,43 +393,7 @@ function displaymenu()
             end
         end
 
-        if optionTab == 2 then
-            if optionHover < 1 then
-                optionHover = 7
-            elseif  optionHover > 7 then
-                optionHover = 1
-            end
-            djui_hud_set_color(150, 150, 150, 255)
-            if (optionHover >= 2 and optionHover <= 4) then
-                djui_hud_render_rect((halfScreenWidth - 72), 90, 70, 9)
-                djui_hud_render_rect((halfScreenWidth - 2), 110 + (optionHover * 10 - 40), 70, 9)
-            elseif optionHover < 2 then 
-                djui_hud_render_rect((halfScreenWidth - 72), 70 + (optionHover * 10), 70, 9)
-            else
-                djui_hud_render_rect((halfScreenWidth - 72), 80 + (optionHover * 10 - 30), 70, 9)
-            end
-            djui_hud_set_color(255, 255, 255, 255)
-            djui_hud_print_text("HUD Type", (halfScreenWidth - 70), 80, 0.3)
-            if optionHover == 1 then
-                hud_print_description("HUD Type", "Changes which HUD the screen","displays! (WIP)")
-                djui_hud_print_text(hudTable[currHUD].name, halfScreenWidth, 70 + (optionHover * 10), 0.3)
-            end
-            djui_hud_print_text("Descriptions", (halfScreenWidth - 70), 100, 0.3)
-            if optionHover == 5 then
-                hud_print_description("Descriptions:", "Toggles these descriptions","you see on the right,","Recommended to turn Off if","you like a more minimalistic","menu.")
-                hud_print_toggle_status(descriptions)
-            end
-            djui_hud_print_text("Server Popups", (halfScreenWidth - 70), 110, 0.3)
-            if optionHover == 6 then
-                hud_print_description("Server Popups:", "Shows Tips/Hints about the","server every 3-5 minutes.","Recommended for if you're","new to the server.")
-                hud_print_toggle_status(notif)
-            end
-            djui_hud_print_text("Show Rules", (halfScreenWidth - 70), 120, 0.3)
-            if optionHover == 7 then
-                hud_print_description("Show Rules:", "Toggles if the Rules Screen","Displays upon joining. By","turning this option off,","You're confirming that you","have Read and Understand","the Rules.")
-                hud_print_toggle_status(showRules)
-            end
-        elseif optionTab == 3 then
+        if optionTab == 3 then
             if optionHover < 1 then
                 optionHover = 3
             elseif  optionHover > 3 then
@@ -416,134 +471,11 @@ function before_update(m)
         if m.playerIndex ~= 0 then return end        
         if optionHoverTimer == -1 and m.controller.buttonDown & A_BUTTON ~= 0 then
             optionHoverTimer = 0
+            menuTable[optionTab][optionHover].status = menuTable[optionTab][optionHover].status + 1
+            if menuTable[optionTab][optionHover].status > menuTable[optionTab][optionHover].statusMax then
+                menuTable[optionTab][optionHover].status = 0
+            end
             print("Saving configuration to 'squishys-server.sav'")
-            if optionTab == 1 and optionHover == 1 then
-                gPlayerSyncTable[m.playerIndex].moveset = gPlayerSyncTable[m.playerIndex].moveset + 1
-                if gPlayerSyncTable[m.playerIndex].moveset == 3 then
-                    gPlayerSyncTable[m.playerIndex].moveset = 0
-                end
-                mod_storage_save("MoveSave", tostring(gPlayerSyncTable[m.playerIndex].moveset))
-            end
-
-            if optionTab == 1 and optionHover == 2 then
-                if LGP then
-                    LGP = false
-                    mod_storage_save("LGPSave", "false")
-                elseif LGP == false then
-                    LGP = true
-                    mod_storage_save("LGPSave", "true")
-                end
-            end
-
-            if optionTab == 1 and optionHover == 3 then
-                if AQS and gGlobalSyncTable.GlobalAQS then
-                    AQS = false
-                    mod_storage_save("AQSSave", "false")
-                    print("toggle false")
-                elseif AQS == false and gGlobalSyncTable.GlobalAQS then
-                    AQS = true
-                    mod_storage_save("AQSSave", "true")
-                    print("toggle true")
-                end
-            end
-
-            if optionTab == 1 and optionHover == 4 then
-                if gPlayerSyncTable[0].wallSlide then
-                    gPlayerSyncTable[0].wallSlide = false
-                    mod_storage_save("WKSave", "false")
-                elseif gPlayerSyncTable[0].wallSlide == false then
-                    gPlayerSyncTable[0].wallSlide = true
-                    mod_storage_save("WKSave", "true")
-                end
-            end
-
-            if optionTab == 1 and optionHover == 5 then
-                if strafeToggle then
-                    strafeToggle = false
-                    mod_storage_save("StrafeSave", "false")
-                elseif strafeToggle == false then
-                    strafeToggle = true
-                    mod_storage_save("StrafeSave", "true")
-                end
-            end
-
-            if optionTab == 1 and optionHover == 6 then
-                if LedgeToggle then
-                    LedgeToggle = false
-                    mod_storage_save("LedgeSave", "false")
-                elseif LedgeToggle == false then
-                    LedgeToggle = true
-                    mod_storage_save("LedgeSave", "true")
-                end
-            end
-
-            if optionTab == 2 and optionHover == 1 then
-                currHUD = currHUD + 1
-                if hudTable[currHUD] == nil then
-                    currHUD = 0
-                end
-                mod_storage_save("HUDSave", tostring(currHUD))
-            end
-
-            if optionTab == 2 and optionHover == 2 then
-                if radarRedToggle then
-                    radarRedToggle = false
-                    mod_storage_save("CRRSave", "false")
-                elseif radarRedToggle == false then
-                    radarRedToggle = true
-                    mod_storage_save("CRRSave", "true")
-                end
-            end
-
-            if optionTab == 2 and optionHover == 3 then
-                if radarSecretToggle then
-                    radarSecretToggle = false
-                    mod_storage_save("CRSSave", "false")
-                elseif radarSecretToggle == false then
-                    radarSecretToggle = true
-                    mod_storage_save("CRSSave", "true")
-                end
-            end
-
-            if optionTab == 2 and optionHover == 4 then
-                if capTimerToggle then
-                    capTimerToggle = false
-                    mod_storage_save("CTSave", "false")
-                elseif capTimerToggle == false then
-                    capTimerToggle = true
-                    mod_storage_save("CTSave", "true")
-                end
-            end
-
-            if optionTab == 2 and optionHover == 5 then
-                if descriptions then
-                    descriptions = false
-                    mod_storage_save("DescSave", "false")
-                elseif descriptions == false then
-                    descriptions = true
-                    mod_storage_save("DescSave", "true")
-                end
-            end
-
-            if optionTab == 2 and optionHover == 6 then
-                if notif then
-                    notif = false
-                    mod_storage_save("notifSave", "false")
-                elseif notif == false then
-                    notif = true
-                    mod_storage_save("notifSave", "true")
-                end
-            end
-
-            if optionTab == 2 and optionHover == 7 then
-                if showRules then
-                    showRules = false
-                    mod_storage_save("RulesSave", "false")
-                elseif showRules == false then
-                    showRules = true
-                    mod_storage_save("RulesSave", "true")
-                end
-            end
 
             if optionTab == 3 and optionHover == 1 then
                 if SSC then
@@ -638,67 +570,67 @@ end
 
 if mod_storage_load("LGPSave") == nil then
     print("'Lava Groundpound' not found in 'squishys-server.sav', set to default 'on'")
-    mod_storage_save("LGPSave", "true")
+    mod_storage_save("LGPSave", "1")
 end
 
 if mod_storage_load("AQSSave") == nil then
     print("'Anti-Quicksand' not found in 'squishys-server.sav', set to default 'on'")
-    mod_storage_save("AQSSave", "true")
+    mod_storage_save("AQSSave", "1")
 end
 
 if mod_storage_load("WKSave") == nil then
     print("'Modded Wallkick' not found in 'squishys-server.sav', set to default 'on'")
-    mod_storage_save("WKSave", "true")
+    mod_storage_save("WKSave", "1")
 end
 
 if mod_storage_load("StrafeSave") == nil then
     print("'Strafe' not found in 'squishys-server.sav', set to default 'off'")
-    mod_storage_save("StrafeSave", "false")
+    mod_storage_save("StrafeSave", "0")
 end
 
 if mod_storage_load("LedgeSave") == nil then
     print("'Ledge Parkour' not found in 'squishys-server.sav', set to default 'on'")
-    mod_storage_save("LedgeSave", "true")
+    mod_storage_save("LedgeSave", "1")
 end
 
 if mod_storage_load("CRRSave") == nil then
     print("'Extra Hud' > 'Red Coin Radar' not found in 'squishys-server.sav', set to default 'on'")
-    mod_storage_save("CRRSave", "true")
+    mod_storage_save("CRRSave", "1")
 end
 
 if mod_storage_load("CRSSave") == nil then
     print("'Extra Hud' > 'Red Coin Radar' not found in 'squishys-server.sav', set to default 'on'")
-    mod_storage_save("CRSSave", "true")
+    mod_storage_save("CRSSave", "1")
 end
 
 if mod_storage_load("CTSave") == nil then
     print("'Extra Hud' > 'Cap Timer' not found in 'squishys-server.sav', set to default 'on'")
-    mod_storage_save("CTSave", "true")
+    mod_storage_save("CTSave", "1")
 end
 
 if mod_storage_load("notifSave") == nil then
     print("'Server Popups' not found in 'squishys-server.sav', set to default 'on'")
-    mod_storage_save("notifSave", "true")
+    mod_storage_save("notifSave", "1")
 end
 
 if mod_storage_load("CMDSave") == nil then
     print("'Commands' not found in 'squishys-server.sav', set to default 'off'")
-    mod_storage_save("CMDSave", "false")
+    mod_storage_save("CMDSave", "0")
 end
 
 if mod_storage_load("DescSave") == nil then
     print("'Descriptions' not found in 'squishys-server.sav', set to default 'on'")
-    mod_storage_save("DescSave", "true")
+    mod_storage_save("DescSave", "1")
 end
 
 if mod_storage_load("RulesSave") == nil then
     print("'Show Rules' not found in 'squishys-server.sav', set to default 'on'")
-    mod_storage_save("RulesSave", "true")
+    mod_storage_save("RulesSave", "1")
 end
 
 if mod_storage_load("SSCSave") == nil then
     print("'Star Spawn Cutscene' not found in 'squishys-server.sav', set to default 'on'")
-    mod_storage_save("SSCSave", "true")
+    mod_storage_save("SSCSave", "1")
 end
 
 if mod_storage_load("ModelSave") == nil then
@@ -708,93 +640,23 @@ end
 
 if mod_storage_load("LDMSave") == nil then
     print("'Locally Display Models' not found in 'squishys-server.sav', set to default 'on'")
-    mod_storage_save("LDMSave", "true")
+    mod_storage_save("LDMSave", "1")
 end
 print("Saving configuration to 'squishys-server.sav'")
 
 --Save to Variable--
 gPlayerSyncTable[0].moveset = tonumber(mod_storage_load("MoveSave"))
-
-if mod_storage_load("LGPSave") == "true" then
-    LGP = true
-elseif mod_storage_load("LGPSave") == "false" then
-    LGP = false
-end
-
-gGlobalSyncTable.GlobalAQS = true
-if mod_storage_load("AQSSave") == "true" then
-    AQS = true
-elseif mod_storage_load("AQSSave") == "false" then
-    AQS = false
-end
-
-if mod_storage_load("WKSave") == "true" then
-    gPlayerSyncTable[0].wallSlide = true
-elseif mod_storage_load("WKSave") == "false" then
-    gPlayerSyncTable[0].wallSlide = false
-end
-
-if mod_storage_load("StrafeSave") == "true" then
-    strafeToggle = true
-elseif mod_storage_load("StrafeSave") == "false" then
-    strafeToggle = false
-end
-
-if mod_storage_load("LedgeSave") == "true" then
-    LedgeToggle = true
-elseif mod_storage_load("LedgeSave") == "false" then
-    LedgeToggle = false
-end
-
-if mod_storage_load("CRRSave") == "true" then
-    radarRedToggle = true
-elseif mod_storage_load("CRRSave") == "false" then
-    radarRedToggle = false
-end
-
-if mod_storage_load("CRSSave") == "true" then
-    radarSecretToggle = true
-elseif mod_storage_load("CRSSave") == "false" then
-    radarSecretToggle = false
-end
-
-if mod_storage_load("CTSave") == "true" then
-    capTimerToggle = true
-elseif mod_storage_load("CTSave") == "false" then
-    capTimerToggle = false
-end
-
-if mod_storage_load("notifSave") == "true" then
-    notif = true
-elseif mod_storage_load("notifSave") == "false" then
-    notif = false
-end
-
-if mod_storage_load("DescSave") == "true" then
-    descriptions = true
-elseif mod_storage_load("DescSave") == "false" then
-    descriptions = false
-end
-
-if mod_storage_load("RulesSave") == "true" then
-    showRules = true
-elseif mod_storage_load("RulesSave") == "false" then
-    showRules = false
-end
-
-if mod_storage_load("SSCSave") == "true" then
-    SSC = true
-elseif mod_storage_load("SSCSave") == "false" then
-    SSC = false
-end
-
+LGP = tonumber(mod_storage_load("LGPSave"))
+AQS = tonumber(mod_storage_load("AQSSave"))
+gPlayerSyncTable[0].wallSlide = tonumber(mod_storage_load("WKSave"))
+strafeToggle = tonumber(mod_storage_load("StrafeSave"))
+LedgeToggle = tonumber(mod_storage_load("LedgeSave"))
+notif = tonumber(mod_storage_load("notifSave"))
+descriptions = tonumber(mod_storage_load("DescSave"))
+showRules = tonumber(mod_storage_load("RulesSave"))
+SSC = tonumber(mod_storage_load("SSCSave"))
 currModel = tonumber(mod_storage_load("ModelSave"))
-
-if mod_storage_load("LDMSave") == "true" then
-    modelToggle = true
-elseif mod_storage_load("LDMSave") == "false" then
-    modelToggle = false
-end
+modelToggle = tonumber(mod_storage_load("LDMSave"))
 
 hook_event(HOOK_ON_HUD_RENDER, displaymenu)
 hook_event(HOOK_BEFORE_MARIO_UPDATE, before_update)
