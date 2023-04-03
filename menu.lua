@@ -54,11 +54,7 @@ function mario_update(m)
         gGlobalSyncTable.RoomTimerF = gGlobalSyncTable.RoomTimerF + 1
     end
 
-    if gGlobalSyncTable.bubbleDeath ~= 2 then
-        gServerSettings.bubbleDeath = gGlobalSyncTable.bubbleDeath
-    else 
-        gServerSettings.bubbleDeath = 0
-    end
+    gServerSettings.bubbleDeath = gGlobalSyncTable.bubbleDeath
     gServerSettings.playerInteractions = gGlobalSyncTable.playerInteractions
     gServerSettings.playerKnockbackStrength = gGlobalSyncTable.playerKnockbackStrength
     gServerSettings.stayInLevelAfterStar = gGlobalSyncTable.stayInLevelAfterStar
@@ -72,6 +68,7 @@ menuTable = {
         tabMax = 6,
         [1] = {
             name = "Moveset",
+            nameSave = "MoveSave",
             status = tonumber(mod_storage_load("MoveSave")),
             statusMax = 2,
             statusDefault = 0,
@@ -86,6 +83,7 @@ menuTable = {
         },
         [2] = {
             name = "Lava Groundpound",
+            nameSave = "LGPSave",
             status = tonumber(mod_storage_load("LGPSave")),
             statusMax = 1,
             --Description
@@ -95,6 +93,7 @@ menuTable = {
         },
         [3] = {
             name = "Anti-Quicksand",
+            nameSave = "AQSSave",
             status = tonumber(mod_storage_load("AQSSave")),
             statusMax = 1,
             restriction = true,
@@ -107,6 +106,7 @@ menuTable = {
         },
         [4] = {
             name = "Modded Wallkick",
+            nameSave = "WKSave",
             status = tonumber(mod_storage_load("WKSave")),
             statusMax = 1,
             --Description
@@ -117,6 +117,7 @@ menuTable = {
         },
         [5] = {
             name = "Strafing",
+            nameSave = "StrafeSave",
             status = tonumber(mod_storage_load("StrafeSave")),
             statusMax = 1,
             statusDefault = 0,
@@ -129,6 +130,7 @@ menuTable = {
         },
         [6] = {
             name = "Ledge Parkour",
+            nameSave = "LedgeSave",
             status = tonumber(mod_storage_load("LedgeSave")),
             statusMax = 1,
             --Description
@@ -145,15 +147,22 @@ menuTable = {
         tabMax = 4,
         [1] = {
             name = "HUD Type",
+            nameSave = "HUDSave",
             status = tonumber(mod_storage_load("HUDSave")),
-            statusMax = 4,
+            statusMax = 3,
             statusDefault = 1,
+            --Status Toggle Names
+            [0] = "Default",
+            [1] = "4:3 Locked",
+            [2] = "Compact",
+            [3] = "Disabled",
             --Description
             Line1 = "Changes which HUD the screen",
             Line2 = "displays! (WIP)"
         },
         [2] = {
             name = "Descriptions",
+            nameSave = "DescSave",
             status = tonumber(mod_storage_load("DescSave")),
             statusMax = 1,
             statusDefault = 1,
@@ -166,6 +175,7 @@ menuTable = {
         },
         [3] = {
             name = "Server Popups",
+            nameSave = "notifSave",
             status = tonumber(mod_storage_load("notifSave")),
             statusMax = 1,
             statusDefault = 1,
@@ -177,6 +187,7 @@ menuTable = {
         },
         [4] = {
             name = "Show Rules",
+            nameSave = "RulesSave",
             status = tonumber(mod_storage_load("RulesSave")),
             statusMax = 1,
             statusDefault = 1,
@@ -190,10 +201,11 @@ menuTable = {
         },
     },
     [3] = {
-        name = "HUD",
-        tabMax = 4,
+        name = "Misc.",
+        tabMax = 3,
         [1] = {
             name = "Star Spawn Cutscene",
+            nameSave = "SSCSave",
             status = tonumber(mod_storage_load("SSCSave")),
             statusMax = 1,
             statusDefault = 1,
@@ -205,14 +217,114 @@ menuTable = {
         },
         [2] = {
             name = "Personal Model",
+            nameSave = "ModelSave",
+            status = tonumber(mod_storage_load("ModelSave")),
+            statusMax = nil,
+            statusDefault = 1,
+            --Description
+            Line1 = "Toggles your own Custom",
+            Line2 = "Player Model, Only avalible",
+            Line3 = "for users with at least",
+            Line4 = "one Custom Model.",
+            Line5 = "",
+            Line6 = "",
+            Line7 = "Contact The Host for more",
+            Line8 = "information about",
+            Line9 = "Custom Models and DynOS"
+        },
+        [3] = {
+            name = "Locally Display Models",
+            nameSave = "ModelSave",
             status = tonumber(mod_storage_load("ModelSave")),
             statusMax = 1,
             statusDefault = 1,
             --Description
-            Line1 = "Toggles if Star Spawning",
-            Line2 = "Cutscenes play, Recommended",
-            Line3 = "if you don't know where a",
-            Line4 = "star spawns."
+            Line1 = "Toggles if Custom Player",
+            Line2 = "Models Display locally,",
+            Line3 = "Recommended if other people's",
+            Line4 = "Custom models are getting",
+            Line5 = "in the way.",
+            Line6 = "",
+            Line7 = "Contact The Host for more",
+            Line8 = "information about",
+            Line9 = "Custom Models and DynOS"
+        }
+    },
+    [4] = {
+        name = "Misc.",
+        tabMax = 6,
+        [1] = {
+            name = "Death Type",
+            status = gServerSettings.bubbleDeath,
+            statusMax = 1,
+            statusDefault = 1,
+            --Status Toggle Names
+            [0] = "Default",
+            [1] = "Bubble",
+            --Description
+            Line1 = "Chenges how players die",
+            Line2 = "and respawn after death."
+        },
+        [2] = {
+            name = "Player Interactions",
+            status = gServerSettings.playerInteractions,
+            statusMax = 2,
+            statusDefault = 2,
+            --Status Toggle Names
+            [0] = "Non-Solid",
+            [1] = "Solid",
+            [2] = "Friendly Fire",
+            --Description
+            Line1 = "Changes if and how players",
+            Line2 = "interact with each other."
+        },
+        [3] = {
+            name = "Player Knockback",
+            status = gServerSettings.playerKnockbackStrength,
+            statusMax = 2,
+            statusDefault = 1,
+            --Status Toggle Names
+            [0] = "Weak",
+            [1] = "Normal",
+            [2] = "Too Much",
+            --Description
+            Line1 = "Changes how far players get",
+            Line2 = "knocked back after being hit",
+            Line3 = "by another player."
+        },
+        [4] = {
+            name = "On Star Collection",
+            status = gServerSettings.stayInLevelAfterStar,
+            statusMax = 2,
+            statusDefault = 1,
+            --Status Toggle Names
+            [0] = "Leave Level",
+            [1] = "Stay in Level",
+            [2] = "Non-Stop",
+            --Description
+            Line1 = "Determines what happens",
+            Line2 = "after you collect a star."
+        },
+        [5] = {
+            name = "Global Movesets",
+            status = 1,
+            statusMax = 1,
+            statusDefault = 0,
+            --Description
+            Line1 = "Determines if players can",
+            Line2 = "locally change what moveset",
+            Line3 = "they're using, Off forces",
+            Line4 = "everyone to default."
+        },
+        [6] = {
+            name = "Global Anti-Quicksand",
+            status = 0,
+            statusMax = 1,
+            statusDefault = 0,
+            --Description
+            Line1 = "Determines if players can",
+            Line2 = "locally change AQS or if",
+            Line3 = "it's forced off."
         },
     }
 }
@@ -360,29 +472,22 @@ function displaymenu()
         elseif  optionHover > menuTable[optionTab].tabMax then
             optionHover = 1
         end
-        local hoverLimit = 0
-        if menuTable[optionTab] ~= nil then
-            if menuTable[optionTab].tabMax < 1 then return end
-                djui_hud_print_text(menuTable[optionTab][1].name, (halfScreenWidth - 70), 80, 0.3)
-            if menuTable[optionTab].tabMax < 2 then return end
-                djui_hud_print_text(menuTable[optionTab][2].name, (halfScreenWidth - 70), 90, 0.3)
-            if menuTable[optionTab].tabMax < 3 then return end
-                djui_hud_print_text(menuTable[optionTab][3].name, (halfScreenWidth - 70), 100, 0.3)
-            if menuTable[optionTab].tabMax < 4 then return end
-                djui_hud_print_text(menuTable[optionTab][4].name, (halfScreenWidth - 70), 110, 0.3)
-            if menuTable[optionTab].tabMax < 5 then return end
-                djui_hud_print_text(menuTable[optionTab][5].name, (halfScreenWidth - 70), 120, 0.3)
-            if menuTable[optionTab].tabMax < 6 then return end
-                djui_hud_print_text(menuTable[optionTab][6].name, (halfScreenWidth - 70), 130, 0.3)
-            end
+
         if menuTable[optionTab][optionHover].status ~= nil then
             if menuTable[optionTab][optionHover][menuTable[optionTab][optionHover].status] ~= nil then
                 djui_hud_print_text(menuTable[optionTab][optionHover][menuTable[optionTab][optionHover].status], (halfScreenWidth), 70 + (optionHover * 10), 0.3)
             else
-                if menuTable[optionTab][optionHover].status > 0 then
-                    djui_hud_print_text("On", (halfScreenWidth), 70 + (optionHover * 10), 0.3)
+                if optionTab == 3 and optionHover == 2 then
+                    djui_hud_print_text(modelTable[discordID][menuTable[3][2].status].modelName, (halfScreenWidth), 70 + (optionHover * 10), 0.3)
+                    if menuTable[3][2].statusMax == nil then
+                        menuTable[3][2].statusMax = maxModelNum
+                    end
                 else
-                    djui_hud_print_text("Off", (halfScreenWidth), 70 + (optionHover * 10), 0.3)
+                    if menuTable[optionTab][optionHover].status > 0 then
+                        djui_hud_print_text("On", (halfScreenWidth), 70 + (optionHover * 10), 0.3)
+                    else
+                        djui_hud_print_text("Off", (halfScreenWidth), 70 + (optionHover * 10), 0.3)
+                    end
                 end
             end
         else
@@ -391,77 +496,39 @@ function displaymenu()
             else
                 menuTable[optionTab][optionHover].status = 1
             end
+            djui_hud_print_text("Making Save Data...", (halfScreenWidth), 70 + (optionHover * 10), 0.3)
+        end
+        
+        if menuTable[optionTab].tabMax >= 1 then
+            djui_hud_print_text(menuTable[optionTab][1].name, (halfScreenWidth - 70), 80, 0.3)
+        end
+        if menuTable[optionTab].tabMax >= 2 then
+            djui_hud_print_text(menuTable[optionTab][2].name, (halfScreenWidth - 70), 90, 0.3)
+        end
+        if menuTable[optionTab].tabMax >= 3 then
+            djui_hud_print_text(menuTable[optionTab][3].name, (halfScreenWidth - 70), 100, 0.3)
+        end
+        if menuTable[optionTab].tabMax >= 4 then
+            djui_hud_print_text(menuTable[optionTab][4].name, (halfScreenWidth - 70), 110, 0.3)
+        end
+        if menuTable[optionTab].tabMax >= 5 then
+            djui_hud_print_text(menuTable[optionTab][5].name, (halfScreenWidth - 70), 120, 0.3)
+        end
+        if menuTable[optionTab].tabMax >= 6 then
+            djui_hud_print_text(menuTable[optionTab][6].name, (halfScreenWidth - 70), 130, 0.3)
         end
 
-        if optionTab == 3 then
-            if optionHover < 1 then
-                optionHover = 3
-            elseif  optionHover > 3 then
-                optionHover = 1
-            end
-            djui_hud_set_color(150, 150, 150, 255)
-            djui_hud_render_rect((halfScreenWidth - 72), 80 + (optionHover * 10 - 10), 70, 9)
-
-            djui_hud_set_color(255, 255, 255, 255)
-            djui_hud_print_text("Star Spawn Cutscene", (halfScreenWidth - 70), 80, 0.3)
-            if optionHover == 1 then
-                hud_print_description("Star Spawn Cutscene:", "Toggles if Star Spawning","Cutscenes play, Recommended","if you don't know where a","star spawns.")
-                hud_print_toggle_status(SSC)
-            end
-            djui_hud_print_text("Personal Model", (halfScreenWidth - 70), 90, 0.3)
-            if optionHover == 2 then
-                hud_print_description("Personal Model:", "Toggles your own Custom","Player Model, Only avalible","for users with at least","one Custom Model.","","","Contact The Host for more","information about","Custom Models and DynOS")
-                if discordID ~= "0" then
-                    djui_hud_print_text(modelTable[discordID][currModel].modelName, halfScreenWidth, 70 + (optionHover * 10), 0.3)
-                else
-                    djui_hud_print_text("N/A", halfScreenWidth, 70 + (optionHover * 10), 0.3)
-                end
-            end
-            djui_hud_print_text("Locally Display Models", (halfScreenWidth - 70), 100, 0.3)
-            if optionHover == 3 then
-                hud_print_description("Locally Display Models:", "Toggles if Custom Player","Models Display locally,","Recommended if other people's","Custom models are getting","in the way.","","Contact The Host for more","information about","Custom Models and DynOS")
-                hud_print_toggle_status(modelToggle)
-            end
-        elseif optionTab == 4 then
-            if optionHover < 1 then
-                optionHover = 6
-            elseif  optionHover > 6 then
-                optionHover = 1
-            end
-            djui_hud_set_color(150, 150, 150, 255)
-            djui_hud_render_rect((halfScreenWidth - 72), 80 + (optionHover * 10 - 10), 70, 9)
-
-            djui_hud_set_color(255, 255, 255, 255)
-            djui_hud_print_text("Death Type", (halfScreenWidth - 70), 80, 0.3)
-            if optionHover == 1 then
-                hud_print_description("Death Type:", "Chenges how players die","and respawn after death.")
-                hud_print_unique_toggle_status(gGlobalSyncTable.bubbleDeath,"Normal", "Bubble")
-            end
-            djui_hud_print_text("Player Interactions", (halfScreenWidth - 70), 90, 0.3)
-            if optionHover == 2 then
-                hud_print_description("Player Interactions:", "Changes if and how players","interact with each other.")
-                hud_print_unique_toggle_status(gGlobalSyncTable.playerInteractions,"Non-Solid", "Solid", "Friendly Fire")
-            end
-            djui_hud_print_text("Player Knockback", (halfScreenWidth - 70), 100, 0.3)
-            if optionHover == 3 then
-                hud_print_description("Player Knockback:", "Changes how far players get","knocked back after being hit","by another player.")
-                hud_print_unique_toggle_status(gGlobalSyncTable.playerKnockbackStrength,"Weak", "Normal", "Too Much", 10, 25, 60)
-            end
-            djui_hud_print_text("On Star Collection", (halfScreenWidth - 70), 110, 0.3)
-            if optionHover == 4 then
-                hud_print_description("On Star Collection:", "Determines what happens","after you collect a star.")
-                hud_print_unique_toggle_status(gGlobalSyncTable.stayInLevelAfterStar, "Leave Level", "Stay in Level", "Non-Stop")
-            end
-            djui_hud_print_text("Global Movesets", (halfScreenWidth - 70), 120, 0.3)
-            if optionHover == 5 then
-                hud_print_description("Global Movesets:", "Determines if players can","locally change what moveset","they're using, Off forces","everyone to default.")
-                hud_print_toggle_status(gGlobalSyncTable.GlobalMoveset)
-            end
-            djui_hud_print_text("Global Anti-Quicksand", (halfScreenWidth - 70), 130, 0.3)
-            if optionHover == 6 then
-                hud_print_description("Global Anti-Quicksand:", "Determines if players can","locally change AQS or if","it's forced off.")
-                hud_print_toggle_status(gGlobalSyncTable.GlobalAQS)
-            end
+        if menuTable[2][2].status == 1 then
+            djui_hud_print_text(menuTable[optionTab][optionHover].name, (halfScreenWidth + 100), 85, 0.3)
+            if menuTable[optionTab][optionHover].Line1 ~= nil then djui_hud_print_text(menuTable[optionTab][optionHover].Line1, (halfScreenWidth + 100), 100, 0.3) end
+            if menuTable[optionTab][optionHover].Line2 ~= nil then djui_hud_print_text(menuTable[optionTab][optionHover].Line2, (halfScreenWidth + 100), 108, 0.3) end
+            if menuTable[optionTab][optionHover].Line3 ~= nil then djui_hud_print_text(menuTable[optionTab][optionHover].Line3, (halfScreenWidth + 100), 116, 0.3) end
+            if menuTable[optionTab][optionHover].Line4 ~= nil then djui_hud_print_text(menuTable[optionTab][optionHover].Line4, (halfScreenWidth + 100), 124, 0.3) end
+            if menuTable[optionTab][optionHover].Line5 ~= nil then djui_hud_print_text(menuTable[optionTab][optionHover].Line5, (halfScreenWidth + 100), 132, 0.3) end
+            if menuTable[optionTab][optionHover].Line6 ~= nil then djui_hud_print_text(menuTable[optionTab][optionHover].Line6, (halfScreenWidth + 100), 140, 0.3) end
+            if menuTable[optionTab][optionHover].Line7 ~= nil then djui_hud_print_text(menuTable[optionTab][optionHover].Line7, (halfScreenWidth + 100), 148, 0.3) end
+            if menuTable[optionTab][optionHover].Line8 ~= nil then djui_hud_print_text(menuTable[optionTab][optionHover].Line8, (halfScreenWidth + 100), 156, 0.3) end
+            if menuTable[optionTab][optionHover].Line9 ~= nil then djui_hud_print_text(menuTable[optionTab][optionHover].Line9, (halfScreenWidth + 100), 164, 0.3) end
         end
     end
 end
@@ -475,82 +542,10 @@ function before_update(m)
             if menuTable[optionTab][optionHover].status > menuTable[optionTab][optionHover].statusMax then
                 menuTable[optionTab][optionHover].status = 0
             end
+            if menuTable[optionTab][optionHover].nameSave ~= nil then
+                mod_storage_save(menuTable[optionTab][optionHover].nameSave, tostring(menuTable[optionTab][optionHover].status))
+            end
             print("Saving configuration to 'squishys-server.sav'")
-
-            if optionTab == 3 and optionHover == 1 then
-                if SSC then
-                    SSC = false
-                    mod_storage_save("SSCSave", "false")
-                elseif SSC == false then
-                    SSC = true
-                    mod_storage_save("SSCSave", "true")
-                end
-            end
-
-            if optionTab == 3 and optionHover == 2 then
-                currModel = currModel + 1
-                if modelTable[discordID][currModel] == nil then
-                    currModel = 0
-                end
-                mod_storage_save("ModelSave", tostring(currModel))
-            end
-
-            if optionTab == 3 and optionHover == 3 then
-                if modelToggle then
-                    modelToggle = false
-                    mod_storage_save("LDMSave", "false")
-                elseif modelToggle == false then
-                    modelToggle = true
-                    mod_storage_save("LDMSave", "true")
-                end
-            end
-
-            if optionTab == 4 and optionHover == 1 then
-                gGlobalSyncTable.bubbleDeath = gGlobalSyncTable.bubbleDeath + 1
-                if gGlobalSyncTable.bubbleDeath > 1 then
-                    gGlobalSyncTable.bubbleDeath = 0
-                end
-            end
-
-            if optionTab == 4 and optionHover == 2 then
-                gGlobalSyncTable.playerInteractions = gGlobalSyncTable.playerInteractions + 1
-                if gGlobalSyncTable.playerInteractions > 2 then
-                    gGlobalSyncTable.playerInteractions = 0
-                end
-            end
-
-            if optionTab == 4 and optionHover == 3 then
-                if gGlobalSyncTable.playerKnockbackStrength == 10 then
-                    gGlobalSyncTable.playerKnockbackStrength = 25
-                elseif gGlobalSyncTable.playerKnockbackStrength == 25 then
-                    gGlobalSyncTable.playerKnockbackStrength = 60
-                elseif gGlobalSyncTable.playerKnockbackStrength == 60 then
-                    gGlobalSyncTable.playerKnockbackStrength = 10
-                end
-            end
-
-            if optionTab == 4 and optionHover == 4 then
-                gGlobalSyncTable.stayInLevelAfterStar = gGlobalSyncTable.stayInLevelAfterStar + 1
-                if gGlobalSyncTable.stayInLevelAfterStar > 2 then
-                    gGlobalSyncTable.stayInLevelAfterStar = 0
-                end
-            end
-
-            if optionTab == 4 and optionHover == 5 then
-                if gGlobalSyncTable.GlobalMoveset then
-                    gGlobalSyncTable.GlobalMoveset = false
-                elseif gGlobalSyncTable.GlobalMoveset == false then
-                    gGlobalSyncTable.GlobalMoveset = true
-                end
-            end
-
-            if optionTab == 4 and optionHover == 6 then
-                if gGlobalSyncTable.GlobalAQS then
-                    gGlobalSyncTable.GlobalAQS = false
-                elseif gGlobalSyncTable.GlobalAQS == false then
-                    gGlobalSyncTable.GlobalAQS = true
-                end
-            end
         end
         m.controller.rawStickY = 0
         m.controller.rawStickX = 0
@@ -561,88 +556,6 @@ function before_update(m)
         m.controller.buttonDown = m.controller.buttonDown & ~A_BUTTON
     end
 end
-
--- Toggle Saves --
-if mod_storage_load("MoveSave") == nil then
-    print("'Moveset' not found in 'squishys-server.sav', set to default 'default'")
-    mod_storage_save("MoveSave", "0")
-end
-
-if mod_storage_load("LGPSave") == nil then
-    print("'Lava Groundpound' not found in 'squishys-server.sav', set to default 'on'")
-    mod_storage_save("LGPSave", "1")
-end
-
-if mod_storage_load("AQSSave") == nil then
-    print("'Anti-Quicksand' not found in 'squishys-server.sav', set to default 'on'")
-    mod_storage_save("AQSSave", "1")
-end
-
-if mod_storage_load("WKSave") == nil then
-    print("'Modded Wallkick' not found in 'squishys-server.sav', set to default 'on'")
-    mod_storage_save("WKSave", "1")
-end
-
-if mod_storage_load("StrafeSave") == nil then
-    print("'Strafe' not found in 'squishys-server.sav', set to default 'off'")
-    mod_storage_save("StrafeSave", "0")
-end
-
-if mod_storage_load("LedgeSave") == nil then
-    print("'Ledge Parkour' not found in 'squishys-server.sav', set to default 'on'")
-    mod_storage_save("LedgeSave", "1")
-end
-
-if mod_storage_load("CRRSave") == nil then
-    print("'Extra Hud' > 'Red Coin Radar' not found in 'squishys-server.sav', set to default 'on'")
-    mod_storage_save("CRRSave", "1")
-end
-
-if mod_storage_load("CRSSave") == nil then
-    print("'Extra Hud' > 'Red Coin Radar' not found in 'squishys-server.sav', set to default 'on'")
-    mod_storage_save("CRSSave", "1")
-end
-
-if mod_storage_load("CTSave") == nil then
-    print("'Extra Hud' > 'Cap Timer' not found in 'squishys-server.sav', set to default 'on'")
-    mod_storage_save("CTSave", "1")
-end
-
-if mod_storage_load("notifSave") == nil then
-    print("'Server Popups' not found in 'squishys-server.sav', set to default 'on'")
-    mod_storage_save("notifSave", "1")
-end
-
-if mod_storage_load("CMDSave") == nil then
-    print("'Commands' not found in 'squishys-server.sav', set to default 'off'")
-    mod_storage_save("CMDSave", "0")
-end
-
-if mod_storage_load("DescSave") == nil then
-    print("'Descriptions' not found in 'squishys-server.sav', set to default 'on'")
-    mod_storage_save("DescSave", "1")
-end
-
-if mod_storage_load("RulesSave") == nil then
-    print("'Show Rules' not found in 'squishys-server.sav', set to default 'on'")
-    mod_storage_save("RulesSave", "1")
-end
-
-if mod_storage_load("SSCSave") == nil then
-    print("'Star Spawn Cutscene' not found in 'squishys-server.sav', set to default 'on'")
-    mod_storage_save("SSCSave", "1")
-end
-
-if mod_storage_load("ModelSave") == nil then
-    print("'Player-Specific Models' not found in 'squishys-server.sav', set to default 'on'")
-    mod_storage_save("ModelSave", "1")
-end
-
-if mod_storage_load("LDMSave") == nil then
-    print("'Locally Display Models' not found in 'squishys-server.sav', set to default 'on'")
-    mod_storage_save("LDMSave", "1")
-end
-print("Saving configuration to 'squishys-server.sav'")
 
 --Save to Variable--
 gPlayerSyncTable[0].moveset = tonumber(mod_storage_load("MoveSave"))
@@ -655,7 +568,7 @@ notif = tonumber(mod_storage_load("notifSave"))
 descriptions = tonumber(mod_storage_load("DescSave"))
 showRules = tonumber(mod_storage_load("RulesSave"))
 SSC = tonumber(mod_storage_load("SSCSave"))
-currModel = tonumber(mod_storage_load("ModelSave"))
+menuTable[3][2].status = tonumber(mod_storage_load("ModelSave"))
 modelToggle = tonumber(mod_storage_load("LDMSave"))
 
 hook_event(HOOK_ON_HUD_RENDER, displaymenu)
