@@ -121,8 +121,11 @@ IdiotSound = audio_sample_load("Idiot.mp3")
 function mario_update(m)
     if m.playerIndex ~= 0 then return end
 
+    --Wallslide
+    gPlayerSyncTable[m.playerIndex].wallSlide = menuTable[1][4].status
+
     --Ledge Parkour
-    if LedgeToggle then
+    if menuTable[1][6].status == 1 then
         if (m.action == ACT_LEDGE_GRAB or m.action == ACT_LEDGE_CLIMB_FAST) then
             ledgeTimer = ledgeTimer + 1
         else
@@ -214,7 +217,7 @@ function mario_update(m)
     end
 
     --Strafing--
-    if strafeToggle == true then
+    if menuTable[1][5].status == 1 then
         if m.playerIndex ~= 0 then return end
         m.marioObj.header.gfx.angle.y = m.area.camera.yaw + 32250
     end
@@ -495,7 +498,7 @@ function on_set_mario_action(m)
     end
 
     --Lava Groundpound--
-    if LGP then
+    if menuTable[1][2].status == 1 then
         if m.prevAction == ACT_GROUND_POUND_LAND and m.action == ACT_LAVA_BOOST then
             m.vel.y = m.vel.y * 1.1
             m.forwardVel = 70
@@ -504,7 +507,7 @@ function on_set_mario_action(m)
     end
     
     --Anti quicksand--
-    if AQS and gGlobalSyncTable.GlobalAQS then
+    if menuTable[1][3].status == 1 and gGlobalSyncTable.GlobalAQS then
         if m.action == ACT_QUICKSAND_DEATH then
             set_mario_action(m, ACT_LAVA_BOOST, 0)
             if m.flags & MARIO_METAL_CAP ~= 0 then
@@ -524,7 +527,7 @@ function on_set_mario_action(m)
     end
 
     --Strafing--
-    if strafeToggle == true then
+    if menuTable[1][5].status == 1 then
         if not noStrafeActs[m.action] then
             m.faceAngle.y = m.area.camera.yaw + 32250
         end

@@ -14,54 +14,6 @@ local optionTab = 1
 local optionHover = 1
 local optionHoverTimer = -1
 
-function hud_print_description(CMDName, Line1, Line2, Line3, Line4, Line5, Line6, Line7, Line8, Line9)
-    local m = gMarioStates[0]
-    if descriptions then
-        djui_hud_print_text(CMDName, (halfScreenWidth + 100), 85, 0.3)
-        if Line1 ~= nil then djui_hud_print_text(Line1, (halfScreenWidth + 100), 100, 0.3) end
-        if Line2 ~= nil then djui_hud_print_text(Line2, (halfScreenWidth + 100), 108, 0.3) end
-        if Line3 ~= nil then djui_hud_print_text(Line3, (halfScreenWidth + 100), 116, 0.3) end
-        if Line4 ~= nil then djui_hud_print_text(Line4, (halfScreenWidth + 100), 124, 0.3) end
-        if Line5 ~= nil then djui_hud_print_text(Line5, (halfScreenWidth + 100), 132, 0.3) end
-        if Line6 ~= nil then djui_hud_print_text(Line6, (halfScreenWidth + 100), 140, 0.3) end
-        if Line7 ~= nil then djui_hud_print_text(Line7, (halfScreenWidth + 100), 148, 0.3) end
-        if Line8 ~= nil then djui_hud_print_text(Line8, (halfScreenWidth + 100), 156, 0.3) end
-        if Line9 ~= nil then djui_hud_print_text(Line9, (halfScreenWidth + 100), 164, 0.3) end
-    end
-end
-
-function hud_print_toggle_status(SyncTable)
-    if SyncTable then
-        djui_hud_print_text("On", (halfScreenWidth), 70 + (optionHover * 10), 0.3)
-    elseif not SyncTable then
-        djui_hud_print_text("Off", (halfScreenWidth), 70 + (optionHover * 10), 0.3)
-    end
-end
-
-function hud_print_unique_toggle_status(SyncTable, ToggleText1, ToggleText2, ToggleText3, ToggleRequirement1, ToggleRequirement2, ToggleRequirement3)
-    if ToggleRequirement1 == nil then ToggleRequirement1 = 0 end
-    if ToggleRequirement2 == nil then ToggleRequirement2 = 1 end
-    if ToggleRequirement3 == nil then ToggleRequirement3 = 2 end
-
-    if SyncTable == ToggleRequirement1 then djui_hud_print_text(ToggleText1, (halfScreenWidth), 70 + (optionHover * 10), 0.3) end
-    if SyncTable == ToggleRequirement2 then djui_hud_print_text(ToggleText2, (halfScreenWidth), 70 + (optionHover * 10), 0.3) end
-    if SyncTable == ToggleRequirement3 then djui_hud_print_text(ToggleText3, (halfScreenWidth), 70 + (optionHover * 10), 0.3) end
-end
-
-
-function mario_update(m)
-    if network_is_server() and m.playerIndex == 0 then
-        gGlobalSyncTable.RoomTimerF = gGlobalSyncTable.RoomTimerF + 1
-    end
-
-    gServerSettings.bubbleDeath = gGlobalSyncTable.bubbleDeath
-    gServerSettings.playerInteractions = gGlobalSyncTable.playerInteractions
-    gServerSettings.playerKnockbackStrength = gGlobalSyncTable.playerKnockbackStrength
-    gServerSettings.stayInLevelAfterStar = gGlobalSyncTable.stayInLevelAfterStar
-end
-
-
-
 menuTable = {
     [1] = {
         name = "Movement",
@@ -434,15 +386,6 @@ function displaymenu()
         djui_hud_print_text("'", (halfScreenWidth + 24), 35, 0.3)
         djui_hud_print_text("Server", (halfScreenWidth - (djui_hud_measure_text("Server")* 0.3 / 2)), 50, 0.3)
 
-        
-        if descriptions then
-            djui_hud_set_color(0, 0, 0, 170)
-            djui_hud_render_rect((halfScreenWidth + 91), ((djui_hud_get_screen_height()*0.5) - 42), 104, 104)
-            djui_hud_set_color(0, 0, 0, 220)
-            djui_hud_render_rect((halfScreenWidth + 93), ((djui_hud_get_screen_height()*0.5) - 40), 100, 100)
-            djui_hud_set_color(0, 150, 0, 255)
-        end
-
         --Toggles--
         djui_hud_set_font(FONT_NORMAL)
         djui_hud_set_resolution(RESOLUTION_N64)
@@ -519,7 +462,13 @@ function displaymenu()
         end
 
         if menuTable[2][2].status == 1 then
-            djui_hud_print_text(menuTable[optionTab][optionHover].name, (halfScreenWidth + 100), 85, 0.3)
+            djui_hud_set_color(0, 0, 0, 170)
+            djui_hud_render_rect((halfScreenWidth + 91), ((djui_hud_get_screen_height()*0.5) - 42), 104, 104)
+            djui_hud_set_color(0, 0, 0, 220)
+            djui_hud_render_rect((halfScreenWidth + 93), ((djui_hud_get_screen_height()*0.5) - 40), 100, 100)
+            djui_hud_set_color(0, 150, 0, 255)
+            djui_hud_print_text(menuTable[optionTab][optionHover].name, (halfScreenWidth + 100), 85, 0.35)
+            djui_hud_set_color(255, 255, 255, 255)
             if menuTable[optionTab][optionHover].Line1 ~= nil then djui_hud_print_text(menuTable[optionTab][optionHover].Line1, (halfScreenWidth + 100), 100, 0.3) end
             if menuTable[optionTab][optionHover].Line2 ~= nil then djui_hud_print_text(menuTable[optionTab][optionHover].Line2, (halfScreenWidth + 100), 108, 0.3) end
             if menuTable[optionTab][optionHover].Line3 ~= nil then djui_hud_print_text(menuTable[optionTab][optionHover].Line3, (halfScreenWidth + 100), 116, 0.3) end
@@ -573,4 +522,3 @@ modelToggle = tonumber(mod_storage_load("LDMSave"))
 
 hook_event(HOOK_ON_HUD_RENDER, displaymenu)
 hook_event(HOOK_BEFORE_MARIO_UPDATE, before_update)
-hook_event(HOOK_MARIO_UPDATE, mario_update)
