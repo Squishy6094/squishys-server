@@ -470,6 +470,7 @@ function hud_render()
         scriptStallTimer = scriptStallTimer + 1
         return
     end
+    currHUD = menuTable[2][1].status
     hud_hide()
 	if obj_get_first_with_behavior_id(id_bhvActSelector) ~= nil
 	or (m.action == ACT_END_PEACH_CUTSCENE

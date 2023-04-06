@@ -336,25 +336,19 @@ modelTable = {
     },
 }
 
+local stallScriptTimer = 0
+
 --- @param m MarioState
 function mario_update(m)
+    if stallScriptTimer < 5 then
+        stallScriptTimer = stallScriptTimer + 1
+        return
+    end
     discordID = network_discord_id_from_local_index(0)
     if modelTable[discordID] == nil then
         discordID = "0"
         menuTable[3][2].status = 0
-    end
-
-    if modelTable[discordID][menuTable[3][2].status].icon ~= nil then
-        if modelTable[discordID][menuTable[3][2].status].icon == "Default" then
-            lifeIcon = m.character.hudHeadTexture
-        else
-            lifeIcon = modelTable[discordID][menuTable[3][2].status].icon
-        end
-    else
-        lifeIcon = get_texture_info("icon-nil")
-    end
-    if maxModelNum == nil then
-        maxModelNum = modelTable[discordID].maxNum
+        mod_storage_save(menuTable[3][2].nameSave, "0")
     end
 
     if not menuTable[3][3].status or network_discord_id_from_local_index(0) == nil or discordID == "0" then return end

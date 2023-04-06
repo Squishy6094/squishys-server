@@ -102,7 +102,7 @@ menuTable = {
             nameSave = "HUDSave",
             status = tonumber(mod_storage_load("HUDSave")),
             statusMax = 3,
-            statusDefault = 1,
+            statusDefault = 0,
             --Status Toggle Names
             [0] = "Default",
             [1] = "4:3 Locked",
@@ -281,6 +281,42 @@ menuTable = {
     }
 }
 
+if mod_storage_load("SaveData") ~= "true" then
+    print("Save Data not found for 'squishys-server.sav,' Creating Save Data...")
+
+    mod_storage_save(menuTable[1][1].nameSave, "0")
+    menuTable[1][1].status = 0
+    mod_storage_save(menuTable[1][2].nameSave, "1")
+    menuTable[1][2].status = 1
+    mod_storage_save(menuTable[1][3].nameSave, "1")
+    menuTable[1][3].status = 1
+    mod_storage_save(menuTable[1][4].nameSave, "1")
+    menuTable[1][4].status = 1
+    mod_storage_save(menuTable[1][5].nameSave, "0")
+    menuTable[1][5].status = 0
+    mod_storage_save(menuTable[1][6].nameSave, "1")
+    menuTable[1][6].status = 1
+
+    mod_storage_save(menuTable[2][1].nameSave, "0")
+    menuTable[2][1].status = 0
+    mod_storage_save(menuTable[2][2].nameSave, "1")
+    menuTable[2][2].status = 1
+    mod_storage_save(menuTable[2][3].nameSave, "1")
+    menuTable[2][3].status = 1
+    mod_storage_save(menuTable[2][4].nameSave, "1")
+    menuTable[2][4].status = 1
+    
+    mod_storage_save(menuTable[3][1].nameSave, "1")
+    menuTable[3][1].status = 1
+    mod_storage_save(menuTable[3][2].nameSave, "1")
+    menuTable[3][2].status = 1
+    mod_storage_save(menuTable[3][3].nameSave, "1")
+    menuTable[3][3].status = 1
+
+    print("Save Data made successfully!")
+    mod_storage_save("SaveData", "true")
+end
+
 function displaymenu()
     local m = gMarioStates[0]
 
@@ -441,6 +477,7 @@ function displaymenu()
             end
             djui_hud_print_text("Making Save Data...", (halfScreenWidth), 70 + (optionHover * 10), 0.3)
             mod_storage_save(menuTable[optionTab][optionHover].nameSave, tostring(menuTable[optionTab][optionHover].status))
+            print("Autofilled Toggle for '" ..menuTable[optionTab][optionHover].nameSave "' created.")
         end
         
         if menuTable[optionTab].tabMax >= 1 then
