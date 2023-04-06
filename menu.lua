@@ -440,6 +440,7 @@ function displaymenu()
                 menuTable[optionTab][optionHover].status = 1
             end
             djui_hud_print_text("Making Save Data...", (halfScreenWidth), 70 + (optionHover * 10), 0.3)
+            mod_storage_save(menuTable[optionTab][optionHover].nameSave, tostring(menuTable[optionTab][optionHover].status))
         end
         
         if menuTable[optionTab].tabMax >= 1 then
@@ -505,20 +506,6 @@ function before_update(m)
         m.controller.buttonDown = m.controller.buttonDown & ~A_BUTTON
     end
 end
-
---Save to Variable--
-gPlayerSyncTable[0].moveset = tonumber(mod_storage_load("MoveSave"))
-LGP = tonumber(mod_storage_load("LGPSave"))
-AQS = tonumber(mod_storage_load("AQSSave"))
-gPlayerSyncTable[0].wallSlide = tonumber(mod_storage_load("WKSave"))
-strafeToggle = tonumber(mod_storage_load("StrafeSave"))
-LedgeToggle = tonumber(mod_storage_load("LedgeSave"))
-notif = tonumber(mod_storage_load("notifSave"))
-descriptions = tonumber(mod_storage_load("DescSave"))
-showRules = tonumber(mod_storage_load("RulesSave"))
-SSC = tonumber(mod_storage_load("SSCSave"))
-menuTable[3][2].status = tonumber(mod_storage_load("ModelSave"))
-modelToggle = tonumber(mod_storage_load("LDMSave"))
 
 hook_event(HOOK_ON_HUD_RENDER, displaymenu)
 hook_event(HOOK_BEFORE_MARIO_UPDATE, before_update)

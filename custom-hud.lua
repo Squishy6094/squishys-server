@@ -370,7 +370,7 @@ hudTable = {
     },
 }
 
-currHUD = 0
+local currHUD = 0
 
 function djui_hud_render_element(element, number, icon)
     local m = gMarioStates[0]

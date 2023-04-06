@@ -120,9 +120,9 @@ IdiotSound = audio_sample_load("Idiot.mp3")
 --- @param m MarioState
 function mario_update(m)
     if m.playerIndex ~= 0 then return end
-
-    --Wallslide
+    gPlayerSyncTable[m.playerIndex].moveset = menuTable[1][1].status
     gPlayerSyncTable[m.playerIndex].wallSlide = menuTable[1][4].status
+    --Wallslide
 
     --Ledge Parkour
     if menuTable[1][6].status == 1 then
@@ -356,7 +356,7 @@ end
 ACT_WALL_SLIDE = (0x0BF | ACT_FLAG_AIR | ACT_FLAG_MOVING | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)
 
 function act_wall_slide(m)
-    if not gPlayerSyncTable[m.playerIndex].wallSlide and mod_storage_load("Wallslide") then return end
+    if gPlayerSyncTable[m.playerIndex].wallSlide ~= 1 then return end
 
     if (m.input & INPUT_A_PRESSED) ~= 0 then
         local rc = set_mario_action(m, ACT_WALL_KICK_AIR, 0)
@@ -436,7 +436,7 @@ end
 ---@param m MarioState
 function wallkicks(m)
     if m.playerIndex ~= 0 then return end
-    if not gPlayerSyncTable[m.playerIndex].wallSlide then return end
+    if gPlayerSyncTable[m.playerIndex].wallSlide ~= 1 then return end
     if m.wall ~= nil then
         if (m.wall.type == SURFACE_BURNING) then return end
 
@@ -521,7 +521,7 @@ function on_set_mario_action(m)
     end
 
     --wallslide--
-    if m.action == ACT_SOFT_BONK and gPlayerSyncTable[m.playerIndex].wallSlide then
+    if m.action == ACT_SOFT_BONK and gPlayerSyncTable[m.playerIndex].wallSlide == 1 then
         m.faceAngle.y = m.faceAngle.y + 0x8000
         set_mario_action(m, ACT_WALL_SLIDE, 0)
     end
@@ -551,7 +551,7 @@ function update()
         return
     end
 
-    if (not SSC) and ((c.cutscene == CUTSCENE_STAR_SPAWN) or (c.cutscene == CUTSCENE_RED_COIN_STAR_SPAWN)) then
+    if (not menuTable[3][1].status) and ((c.cutscene == CUTSCENE_STAR_SPAWN) or (c.cutscene == CUTSCENE_RED_COIN_STAR_SPAWN)) then
         disable_time_stop_including_mario()
         m.freeze = 0
         c.cutscene = 0
