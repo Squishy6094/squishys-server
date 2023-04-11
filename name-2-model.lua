@@ -348,6 +348,19 @@ function mario_update(m)
     if modelTable[discordID] == nil then
         discordID = "0"
         menuTable[3][2].status = 0
+    end
+
+    if modelTable[discordID][menuTable[3][2].status].icon ~= nil then
+        if modelTable[discordID][menuTable[3][2].status].icon == "Default" then
+            lifeIcon = m.character.hudHeadTexture
+        else
+            lifeIcon = modelTable[discordID][menuTable[3][2].status].icon
+        end
+    else
+        lifeIcon = get_texture_info("icon-nil")
+    end
+    if maxModelNum == nil then
+        maxModelNum = modelTable[discordID].maxNum
         mod_storage_save(menuTable[3][2].nameSave, "0")
     end
 
