@@ -290,25 +290,22 @@ end
 if mod_storage_load("SaveData") ~= "true" then
     print("Save Data not found for 'squishys-server.sav,' Creating Save Data...")
 
-    -- Loop through menuTable 1 and set status and save to mod storage
     for i = 1, #menuTable[1] do
-        if i == 1 or i == 5 then -- Special cases for index 1 and 5
+        if i == 1 or i == 5 then
             set_status_and_save(menuTable[1], i, 0)
         else
             set_status_and_save(menuTable[1], i, 1)
         end
     end
 
-    -- Loop through menuTable 2 and set status and save to mod storage
     for i = 1, #menuTable[2] do
-        if i == 1 then -- Special case for index 1
+        if i == 1 then
             set_status_and_save(menuTable[2], i, 0)
         else
             set_status_and_save(menuTable[2], i, 1)
         end
     end
 
-    -- Loop through menuTable 3 and set status and save to mod storage
     for i = 1, #menuTable[3] do
         set_status_and_save(menuTable[3], i, 1)
     end
