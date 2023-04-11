@@ -281,37 +281,37 @@ menuTable = {
     }
 }
 
+-- Optimized by ChatGPT
+local function set_status_and_save(table, index, status)
+    table[index].status = status
+    mod_storage_save(table[index].nameSave, tostring(status))
+end
+
 if mod_storage_load("SaveData") ~= "true" then
     print("Save Data not found for 'squishys-server.sav,' Creating Save Data...")
 
-    mod_storage_save(menuTable[1][1].nameSave, "0")
-    menuTable[1][1].status = 0
-    mod_storage_save(menuTable[1][2].nameSave, "1")
-    menuTable[1][2].status = 1
-    mod_storage_save(menuTable[1][3].nameSave, "1")
-    menuTable[1][3].status = 1
-    mod_storage_save(menuTable[1][4].nameSave, "1")
-    menuTable[1][4].status = 1
-    mod_storage_save(menuTable[1][5].nameSave, "0")
-    menuTable[1][5].status = 0
-    mod_storage_save(menuTable[1][6].nameSave, "1")
-    menuTable[1][6].status = 1
+    -- Loop through menuTable 1 and set status and save to mod storage
+    for i = 1, #menuTable[1] do
+        if i == 1 or i == 5 then -- Special cases for index 1 and 5
+            set_status_and_save(menuTable[1], i, 0)
+        else
+            set_status_and_save(menuTable[1], i, 1)
+        end
+    end
 
-    mod_storage_save(menuTable[2][1].nameSave, "0")
-    menuTable[2][1].status = 0
-    mod_storage_save(menuTable[2][2].nameSave, "1")
-    menuTable[2][2].status = 1
-    mod_storage_save(menuTable[2][3].nameSave, "1")
-    menuTable[2][3].status = 1
-    mod_storage_save(menuTable[2][4].nameSave, "1")
-    menuTable[2][4].status = 1
-    
-    mod_storage_save(menuTable[3][1].nameSave, "1")
-    menuTable[3][1].status = 1
-    mod_storage_save(menuTable[3][2].nameSave, "1")
-    menuTable[3][2].status = 1
-    mod_storage_save(menuTable[3][3].nameSave, "1")
-    menuTable[3][3].status = 1
+    -- Loop through menuTable 2 and set status and save to mod storage
+    for i = 1, #menuTable[2] do
+        if i == 1 then -- Special case for index 1
+            set_status_and_save(menuTable[2], i, 0)
+        else
+            set_status_and_save(menuTable[2], i, 1)
+        end
+    end
+
+    -- Loop through menuTable 3 and set status and save to mod storage
+    for i = 1, #menuTable[3] do
+        set_status_and_save(menuTable[3], i, 1)
+    end
 
     print("Save Data made successfully!")
     mod_storage_save("SaveData", "true")
@@ -328,6 +328,18 @@ function displaymenu()
     end
 
     djui_hud_set_render_behind_hud(false)
+
+    --Sync Moderator Data
+    gGlobalSyncTable.bubbleDeath = menuTable[4][1].status
+    gServerSettings.bubbleDeath = gGlobalSyncTable.bubbleDeath
+    menuTable[4][1].status = gServerSettings.bubbleDeath
+
+    gGlobalSyncTable.bubbleDeath = menuTable[4][1].status
+    gGlobalSyncTable.playerInteractions = menuTable[4][2].status
+    gGlobalSyncTable.playerKnockbackStrength = menuTable[4][3].status
+    gGlobalSyncTable.stayInLevelAfterStar = menuTable[4][4].status
+    gGlobalSyncTable.GlobalAQS = menuTable[4][5].status
+    gGlobalSyncTable.GlobalMoveset = menuTable[4][6].status
 
     --Room Timer--
 
