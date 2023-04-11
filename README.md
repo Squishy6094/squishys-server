@@ -25,17 +25,21 @@
 
  I suggest if there is a problem optimization wise, you make a Pull Request! It helps the game not need to process as much and helps myself know how I can better code.
 
-## Downloading to avoid loading times
+## Installing to avoid loading times
 
-### (No longer needed)
+### (No longer required)
 
-With the return of Discord Servers, *Downloading to avoid loading times* is no longer required!
+With the return of Discord's Game Servers, *Downloading to avoid loading times* is no longer required!
 
 ### Instructions
 
  If you're here to download the latest version of the server mod, then follow these intructions:
 
- Under *"Code"* press **"Download ZIP"**. Take the folder *"squishys-server-main"* within the zip and place it under **"mods"** in your game's AppData (Like you would any other mod). Once the folder is moved, rename it from **"squishys-server-main"** to **"squishys-server"** *(Just removing "-main")*. Relaunch the game and attempt to join me, if done successfully you should join instantly!
+ 1. Under *"Code"* press **"Download ZIP"**.
+ 2. Drag the .zip onto sm64ex-coop's game window
+ 3. Go into sm64ex-coop's appdata and under mods 
+ 4. Rename the folder from **"squishys-server-main"** to **"squishys-server"** *(Just removing "-main")*.
+ 5. Relaunch the game and attempt to join me, if done successfully you should join instantly!
 
  If that doesn't work, clear/delete your **"mod.cashe,"** relaunch the game, and try again.
 
