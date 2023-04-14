@@ -317,6 +317,10 @@ end
 function displaymenu()
     local m = gMarioStates[0]
 
+    if otherBubbleVar ~= gGlobalSyncTable.bubbleDeath then
+        menuTable[4][1].status = gGlobalSyncTable.bubbleDeath
+    end
+
     halfScreenWidth = djui_hud_get_screen_width()*0.5
 
     if menu then
@@ -325,18 +329,6 @@ function displaymenu()
     end
 
     djui_hud_set_render_behind_hud(false)
-
-    --Sync Moderator Data
-    gGlobalSyncTable.bubbleDeath = menuTable[4][1].status
-    gServerSettings.bubbleDeath = gGlobalSyncTable.bubbleDeath
-    menuTable[4][1].status = gServerSettings.bubbleDeath
-
-    gGlobalSyncTable.bubbleDeath = menuTable[4][1].status
-    gGlobalSyncTable.playerInteractions = menuTable[4][2].status
-    gGlobalSyncTable.playerKnockbackStrength = menuTable[4][3].status
-    gGlobalSyncTable.stayInLevelAfterStar = menuTable[4][4].status
-    gGlobalSyncTable.GlobalAQS = menuTable[4][5].status
-    gGlobalSyncTable.GlobalMoveset = menuTable[4][6].status
 
     --Room Timer--
 
@@ -542,6 +534,19 @@ function before_update(m)
                 mod_storage_save(menuTable[optionTab][optionHover].nameSave, tostring(menuTable[optionTab][optionHover].status))
             end
             print("Saving configuration to 'squishys-server.sav'")
+
+            --Sync Moderator Data
+            gGlobalSyncTable.bubbleDeath = menuTable[4][1].status
+            gServerSettings.bubbleDeath = gGlobalSyncTable.bubbleDeath
+            if menuTable[4][1].status ~= gServerSettings.bubbleDeath then
+                menuTable[4][1].status = gServerSettings.bubbleDeath
+            end
+            
+            gGlobalSyncTable.playerInteractions = menuTable[4][2].status
+            gGlobalSyncTable.playerKnockbackStrength = menuTable[4][3].status
+            gGlobalSyncTable.stayInLevelAfterStar = menuTable[4][4].status
+            gGlobalSyncTable.GlobalAQS = menuTable[4][5].status
+            gGlobalSyncTable.GlobalMoveset = menuTable[4][6].status
         end
         m.controller.rawStickY = 0
         m.controller.rawStickX = 0
