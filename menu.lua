@@ -471,6 +471,7 @@ function displaymenu()
                 end
             end
         else
+            if optionTab = 4 then return end
             if menuTable[optionTab][optionHover].statusDefault then
                 menuTable[optionTab][optionHover].status = menuTable[optionTab][optionHover].statusDefault
             else
@@ -534,19 +535,6 @@ function before_update(m)
                 mod_storage_save(menuTable[optionTab][optionHover].nameSave, tostring(menuTable[optionTab][optionHover].status))
             end
             print("Saving configuration to 'squishys-server.sav'")
-
-            --Sync Moderator Data
-            gGlobalSyncTable.bubbleDeath = menuTable[4][1].status
-            gServerSettings.bubbleDeath = gGlobalSyncTable.bubbleDeath
-            if menuTable[4][1].status ~= gServerSettings.bubbleDeath then
-                menuTable[4][1].status = gServerSettings.bubbleDeath
-            end
-            
-            gGlobalSyncTable.playerInteractions = menuTable[4][2].status
-            gGlobalSyncTable.playerKnockbackStrength = menuTable[4][3].status
-            gGlobalSyncTable.stayInLevelAfterStar = menuTable[4][4].status
-            gGlobalSyncTable.GlobalAQS = menuTable[4][5].status
-            gGlobalSyncTable.GlobalMoveset = menuTable[4][6].status
         end
         m.controller.rawStickY = 0
         m.controller.rawStickX = 0
