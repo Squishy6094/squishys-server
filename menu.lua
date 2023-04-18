@@ -317,10 +317,6 @@ end
 function displaymenu()
     local m = gMarioStates[0]
 
-    if otherBubbleVar ~= gGlobalSyncTable.bubbleDeath then
-        menuTable[4][1].status = gGlobalSyncTable.bubbleDeath
-    end
-
     halfScreenWidth = djui_hud_get_screen_width()*0.5
 
     if menu then
@@ -329,6 +325,18 @@ function displaymenu()
     end
 
     djui_hud_set_render_behind_hud(false)
+
+    --Sync Moderator Data
+    gGlobalSyncTable.bubbleDeath = menuTable[4][1].status
+    gServerSettings.bubbleDeath = gGlobalSyncTable.bubbleDeath
+    menuTable[4][1].status = gServerSettings.bubbleDeath
+
+    gGlobalSyncTable.bubbleDeath = menuTable[4][1].status
+    gGlobalSyncTable.playerInteractions = menuTable[4][2].status
+    gGlobalSyncTable.playerKnockbackStrength = menuTable[4][3].status
+    gGlobalSyncTable.stayInLevelAfterStar = menuTable[4][4].status
+    gGlobalSyncTable.GlobalAQS = menuTable[4][5].status
+    gGlobalSyncTable.GlobalMoveset = menuTable[4][6].status
 
     --Room Timer--
 
@@ -471,7 +479,6 @@ function displaymenu()
                 end
             end
         else
-            if optionTab = 4 then return end
             if menuTable[optionTab][optionHover].statusDefault then
                 menuTable[optionTab][optionHover].status = menuTable[optionTab][optionHover].statusDefault
             else
