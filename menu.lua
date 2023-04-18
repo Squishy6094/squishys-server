@@ -1,5 +1,6 @@
-
-gGlobalSyncTable.RoomTimerF = 0
+if network_is_server() then
+    gGlobalSyncTable.RoomStart = get_time()
+end
 
 gGlobalSyncTable.bubbleDeath = 0
 gGlobalSyncTable.playerInteractions = gServerSettings.playerInteractions
@@ -314,44 +315,16 @@ if mod_storage_load("SaveData") ~= "true" then
     mod_storage_save("SaveData", "true")
 end
 
+
+local RoomStart = gGlobalSyncTable.RoomStart
 function displaymenu()
     local m = gMarioStates[0]
 
     halfScreenWidth = djui_hud_get_screen_width()*0.5
 
-    if menu then
-        djui_hud_set_color(0, 0, 0, 50)
-        djui_hud_render_rect(0, 0, 1000, 1000)
-    end
-
     djui_hud_set_render_behind_hud(false)
 
-    --Sync Moderator Data
-    gGlobalSyncTable.bubbleDeath = menuTable[4][1].status
-    gServerSettings.bubbleDeath = gGlobalSyncTable.bubbleDeath
-    menuTable[4][1].status = gServerSettings.bubbleDeath
-
-    gGlobalSyncTable.bubbleDeath = menuTable[4][1].status
-    gGlobalSyncTable.playerInteractions = menuTable[4][2].status
-    gGlobalSyncTable.playerKnockbackStrength = menuTable[4][3].status
-    gGlobalSyncTable.stayInLevelAfterStar = menuTable[4][4].status
-    gGlobalSyncTable.GlobalAQS = menuTable[4][5].status
-    gGlobalSyncTable.GlobalMoveset = menuTable[4][6].status
-
-    --Room Timer--
-
-    minutes = 0
-    Seconds = 0
-    Hours = 0
-    if math.floor(gGlobalSyncTable.RoomTimerF/30/60) < 0 then
-        Seconds = math.ceil(gGlobalSyncTable.speedrunTimer/30)
-    else
-        Hours = math.floor(gGlobalSyncTable.RoomTimerF/30/60/60)
-        minutes = math.floor(gGlobalSyncTable.RoomTimerF/30/60%60)
-        Seconds = math.floor(gGlobalSyncTable.RoomTimerF/30)%60
-    end
-
-    RoomTime = string.format("%s:%s:%s", string.format("%02d", Hours), string.format("%02d", minutes), string.format("%02d", Seconds))
+    RoomTime = string.format("%s:%s:%s", string.format("%02d", math.floor((get_time() - RoomStart)/60/60)), string.format("%02d", math.floor((get_time() - RoomStart)/60)%60), string.format("%02d", math.floor(get_time() - RoomStart)%60))
 
     if is_game_paused() and not djui_hud_is_pause_menu_created() then
         djui_hud_set_font(FONT_NORMAL)
