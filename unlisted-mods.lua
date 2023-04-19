@@ -166,15 +166,6 @@ function mario_update(m)
         audio_sample_play(IdiotSound, m.pos, 1)
     end
 
-    local obj = obj_get_nearest_object_with_behavior_id(m.marioObj, id_bhvBlueCoinSwitch)
-    if obj ~= nil then
-        if m.marioObj.platform == obj or obj.oAction == 1 or obj.oAction == 2 then
-            visible = true
-        else
-            visible = false
-        end
-    end
-
     --Teching + New Spam Burnout--
     if m.playerIndex == 0 then
         if TECH_KB[m.action] and m.health > 255 then
@@ -558,15 +549,6 @@ function update()
     end
 end
 
---For blue coin preview
-function bhv_custom_hidden_blue_coin_loop(obj)
-    if visible then
-        cur_obj_enable_rendering()
-    else
-        cur_obj_disable_rendering()
-    end
-end
-
 --Visable Lakitu--
 -- define our variables to hold the global id of each Lakitu's owner, and its blink timer
 define_custom_obj_fields({ oLakituOwner = 'u32', oLakituBlinkTimer = 's32' })
@@ -701,7 +683,6 @@ end
 id_bhvStar = hook_behavior(id_bhvStar, OBJ_LIST_LEVEL, false, bhv_star_init, nil)
 
 --All Hooks
-hook_behavior(id_bhvHiddenBlueCoin, OBJ_LIST_LEVEL, false, nil, bhv_custom_hidden_blue_coin_loop)
 hook_event(HOOK_MARIO_UPDATE, mario_update)
 hook_event(HOOK_ON_SET_MARIO_ACTION, localtechaction)
 hook_event(HOOK_ON_SET_MARIO_ACTION, on_set_mario_action)
