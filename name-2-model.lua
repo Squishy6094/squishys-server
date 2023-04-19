@@ -92,7 +92,8 @@ modelTable = {
         [11] = {
             model = smlua_model_util_get_id("peppino_geo"),
             modelName = "Peppino",
-            forcePlayer = CT_WARIO
+            forcePlayer = CT_WARIO,
+            icon = get_texture_info("icon-peppino")
         },
         [12] = {
             model = smlua_model_util_get_id("n64_goomba_player_geo"),
@@ -167,7 +168,8 @@ modelTable = {
         [3] = {
             model = smlua_model_util_get_id("peppino_geo"),
             modelName = "Peppino",
-            forcePlayer = CT_WARIO
+            forcePlayer = CT_WARIO,
+            icon = get_texture_info("icon-peppino")
         },
     },
     [Skeltan] = {
@@ -330,7 +332,8 @@ modelTable = {
         [2] = {
             model = smlua_model_util_get_id("peppino_geo"),
             modelName = "Peppino",
-            forcePlayer = CT_WARIO
+            forcePlayer = CT_WARIO,
+            icon = get_texture_info("icon-peppino")
         },
     },
     [Butter] = {
