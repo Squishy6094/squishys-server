@@ -33,7 +33,7 @@ modelTable = {
         }
     },
     [Squishy] = {
-        maxNum = 10,
+        maxNum = 12,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -88,6 +88,16 @@ modelTable = {
         [10] = {
             model = smlua_model_util_get_id("hat_kid_geo"),
             modelName = "Hat Kid",
+        },
+        [11] = {
+            model = smlua_model_util_get_id("peppino_geo"),
+            modelName = "Peppino",
+            forcePlayer = CT_WARIO
+        },
+        [12] = {
+            model = smlua_model_util_get_id("n64_goomba_player_geo"),
+            modelName = "N64 Goomba",
+            forcePlayer = CT_TOAD
         }
     },
     [Spoomples] = {
@@ -105,17 +115,22 @@ modelTable = {
         }
     },
     [Nut] = {
-        maxNum = 2,
+        maxNum = 3,
         [0] = {
             model = nil,
             modelName = "Default",
             icon = m.character.hudHeadTexture
         },
         [1] = {
+            model = smlua_model_util_get_id("n64_goomba_player_geo"),
+            modelName = "N64 Goomba",
+            forcePlayer = CT_TOAD
+        },
+        [2] = {
             model = smlua_model_util_get_id("yoshi_player_geo"),
             modelName = "Yoshi",
         },
-        [2] = {
+        [3] = {
             model = smlua_model_util_get_id("ss_toad_player_geo"),
             modelName = "Super Show Toad",
             forcePlayer = CT_TOAD,
@@ -137,7 +152,7 @@ modelTable = {
         }
     },
     [Trashcam] = {
-        maxNum = 1,
+        maxNum = 2,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -148,7 +163,12 @@ modelTable = {
             modelName = "Trashcam",
             forcePlayer = CT_MARIO,
             icon = get_texture_info("icon-trashcam")
-        }
+        },
+        [3] = {
+            model = smlua_model_util_get_id("peppino_geo"),
+            modelName = "Peppino",
+            forcePlayer = CT_WARIO
+        },
     },
     [Skeltan] = {
         maxNum = 1,
@@ -297,7 +317,7 @@ modelTable = {
         }
     },
     [Crispyman] = {
-        maxNum = 1,
+        maxNum = 2,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -306,7 +326,12 @@ modelTable = {
         [1] = {
             model = smlua_model_util_get_id("hat_kid_geo"),
             modelName = "Hat Kid",
-        }
+        },
+        [2] = {
+            model = smlua_model_util_get_id("peppino_geo"),
+            modelName = "Peppino",
+            forcePlayer = CT_WARIO
+        },
     },
     [Butter] = {
         maxNum = 1,
