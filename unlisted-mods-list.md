@@ -24,8 +24,6 @@ Mods Labeled with "(Discord Link)" means that the mod is not avalible on the [Mo
 
 [Teching V2](https://sm64ex-coopmods.com/teching/) (Modified in Squishy's Server)
 
-[Preview Blue Coins](https://sm64ex-coopmods.com/preview-blue-coins/)
-
 [Disable PU's](https://sm64ex-coopmods.com/disable-parallel-universes/) (Modified in Squishy's Server)
 
 [Remove Star Spawn Cutscene](https://sm64ex-coopmods.com/remove-star-spawn-cutscene/)
