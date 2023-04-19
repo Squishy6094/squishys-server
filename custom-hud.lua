@@ -370,7 +370,7 @@ hudTable = {
     },
 }
 
-currHUD = 0
+local currHUD = 0
 
 function djui_hud_render_element(element, number, icon)
     local m = gMarioStates[0]
@@ -388,41 +388,26 @@ function djui_hud_render_element(element, number, icon)
     local xAlign = djui_hud_get_screen_width()*0.5 * hudTable[currHUD][element].xAlignment
     local yAlign = djui_hud_get_screen_height()*0.5 * hudTable[currHUD][element].yAlignment
 
-    --Checks for Base Color
-    if hudTable[currHUD][element].colorR ~= nil then
-        r = hudTable[currHUD][element].colorR
-    end
-    if hudTable[currHUD][element].colorG ~= nil then
-        g = hudTable[currHUD][element].colorG
-    end
-    if hudTable[currHUD][element].colorB ~= nil then
-        b = hudTable[currHUD][element].colorB
-    end
-    if hudTable[currHUD][element].colorO ~= nil then
-        o = hudTable[currHUD][element].colorO
+    -- Optimized by ChatGPT
+    -- Base color
+    local function getColorOrDefault(value, defaultValue)
+        if value ~= nil then
+            return value
+        else
+            return defaultValue
+        end
     end
 
-    --Checks for Icon Colors
-    if hudTable[currHUD][element].iconColorR ~= nil then
-        iconR = hudTable[currHUD][element].iconColorR
-    else
-        iconR = r
-    end
-    if hudTable[currHUD][element].iconColorG ~= nil then
-        iconG = hudTable[currHUD][element].iconColorG
-    else
-        iconG = g
-    end
-    if hudTable[currHUD][element].iconColorB ~= nil then
-        iconB = hudTable[currHUD][element].iconColorB
-    else
-        iconB = b
-    end
-    if hudTable[currHUD][element].iconColorO ~= nil then
-        iconO = hudTable[currHUD][element].iconColorO
-    else
-        iconO = o
-    end
+    r = getColorOrDefault(hudTable[currHUD][element].colorR, r)
+    g = getColorOrDefault(hudTable[currHUD][element].colorG, g)
+    b = getColorOrDefault(hudTable[currHUD][element].colorB, b)
+    o = getColorOrDefault(hudTable[currHUD][element].colorO, o)
+
+    -- Icon color
+    iconR = getColorOrDefault(hudTable[currHUD][element].iconColorR, r)
+    iconG = getColorOrDefault(hudTable[currHUD][element].iconColorG, g)
+    iconB = getColorOrDefault(hudTable[currHUD][element].iconColorB, b)
+    iconO = getColorOrDefault(hudTable[currHUD][element].iconColorO, o)
 
     --Checks for Scale 
     if hudTable[currHUD][element].scale ~= nil then
@@ -470,6 +455,7 @@ function hud_render()
         scriptStallTimer = scriptStallTimer + 1
         return
     end
+    currHUD = menuTable[2][1].status
     hud_hide()
 	if obj_get_first_with_behavior_id(id_bhvActSelector) ~= nil
 	or (m.action == ACT_END_PEACH_CUTSCENE

@@ -25,13 +25,15 @@ local m = gMarioStates[0]
 
 modelTable = {
     [Default] = {
+        maxNum = 0,
         [0] = {
             model = nil,
-            modelName = "Default",
+            modelName = "N/A",
             icon = "Default",
         }
     },
     [Squishy] = {
+        maxNum = 10,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -89,6 +91,7 @@ modelTable = {
         }
     },
     [Spoomples] = {
+        maxNum = 1,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -102,6 +105,7 @@ modelTable = {
         }
     },
     [Nut] = {
+        maxNum = 2,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -119,6 +123,7 @@ modelTable = {
         }
     },
     [Cosmic] = {
+        maxNum = 1,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -132,6 +137,7 @@ modelTable = {
         }
     },
     [Trashcam] = {
+        maxNum = 1,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -145,6 +151,7 @@ modelTable = {
         }
     },
     [Skeltan] = {
+        maxNum = 1,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -157,6 +164,7 @@ modelTable = {
         }
     },
     [AgentX] = {
+        maxNum = 1,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -168,6 +176,7 @@ modelTable = {
         }
     },
     [Blocky] = {
+        maxNum = 1,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -180,6 +189,7 @@ modelTable = {
         }
     },
     [DepressedYoshi] = {
+        maxNum = 1,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -191,6 +201,7 @@ modelTable = {
         }
     },
     [Yosho] = {
+        maxNum = 1,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -202,6 +213,7 @@ modelTable = {
         }
     },
     [YoshoAlt] = {
+        maxNum = 1,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -213,6 +225,7 @@ modelTable = {
         }
     },
     [KanHeaven] = {
+        maxNum = 1,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -226,6 +239,7 @@ modelTable = {
         }
     },
     [Bloxxel64Nya] = {
+        maxNum = 1,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -239,6 +253,7 @@ modelTable = {
         }
     },
     [Vince] = {
+        maxNum = 1,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -251,6 +266,7 @@ modelTable = {
         }
     },
     [Average] = {
+        maxNum = 1,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -262,6 +278,7 @@ modelTable = {
         }
     },
     [Elby] = {
+        maxNum = 1,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -280,6 +297,7 @@ modelTable = {
         }
     },
     [Crispyman] = {
+        maxNum = 1,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -291,6 +309,7 @@ modelTable = {
         }
     },
     [Butter] = {
+        maxNum = 1,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -303,6 +322,7 @@ modelTable = {
         }
     },
     [Mathew] = {
+        maxNum = 1,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -316,30 +336,40 @@ modelTable = {
     },
 }
 
+local stallScriptTimer = 0
+
 --- @param m MarioState
 function mario_update(m)
+    if stallScriptTimer < 5 then
+        stallScriptTimer = stallScriptTimer + 1
+        return
+    end
     discordID = network_discord_id_from_local_index(0)
     if modelTable[discordID] == nil then
         discordID = "0"
-        currModel = 0
+        menuTable[3][2].status = 0
     end
 
-    if modelTable[discordID][currModel].icon ~= nil then
-        if modelTable[discordID][currModel].icon == "Default" then
+    if modelTable[discordID][menuTable[3][2].status].icon ~= nil then
+        if modelTable[discordID][menuTable[3][2].status].icon == "Default" then
             lifeIcon = m.character.hudHeadTexture
         else
-            lifeIcon = modelTable[discordID][currModel].icon
+            lifeIcon = modelTable[discordID][menuTable[3][2].status].icon
         end
     else
         lifeIcon = get_texture_info("icon-nil")
     end
+    if maxModelNum == nil then
+        maxModelNum = modelTable[discordID].maxNum
+        mod_storage_save(menuTable[3][2].nameSave, "0")
+    end
 
-    if not modelToggle or network_discord_id_from_local_index(0) == nil or discordID == "0" then return end
+    if not menuTable[3][3].status or network_discord_id_from_local_index(0) == nil or discordID == "0" then return end
     if m.playerIndex == 0 then
         if discordID ~= "0" or discordID ~= "678794043018182675" or discordID ~= nil then
-            gPlayerSyncTable[0].modelId = modelTable[discordID][currModel].model
-            if modelTable[discordID][currModel].forcePlayer ~= nil and gPlayerSyncTable[m.playerIndex].modelId ~= nil then
-                gNetworkPlayers[m.playerIndex].overrideModelIndex = modelTable[discordID][currModel].forcePlayer
+            gPlayerSyncTable[0].modelId = modelTable[discordID][menuTable[3][2].status].model
+            if modelTable[discordID][menuTable[3][2].status].forcePlayer ~= nil and gPlayerSyncTable[m.playerIndex].modelId ~= nil then
+                gNetworkPlayers[m.playerIndex].overrideModelIndex = modelTable[discordID][menuTable[3][2].status].forcePlayer
             end
         else
             gPlayerSyncTable[0].modelId = nil
