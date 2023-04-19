@@ -102,7 +102,7 @@ modelTable = {
         }
     },
     [Spoomples] = {
-        maxNum = 1,
+        maxNum = 3,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -113,7 +113,18 @@ modelTable = {
             modelName = "Super Show Toad",
             forcePlayer = CT_TOAD,
             icon = "Default",
-        }
+        },
+        [2] = {
+            model = smlua_model_util_get_id("pacman_geo"),
+            modelName = "Pac-Man",
+            forcePlayer = CT_MARIO
+        },
+        [3] = {
+            model = smlua_model_util_get_id("peppino_geo"),
+            modelName = "Peppino",
+            forcePlayer = CT_WARIO,
+            icon = get_texture_info("icon-peppino")
+        },
     },
     [Nut] = {
         maxNum = 3,
