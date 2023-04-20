@@ -8,6 +8,20 @@ _G.TotalStarCounter = tonumber(mod_storage_load("StarCounter"))
 _G.StarCounter = 0
 local prevNumStars = 0
 
+--Gives the Room an ID
+if network_is_server() then
+    gGlobalSyncTable.RoomID = math.random(0,9999999)
+end
+
+--Looks for if the saved ID matches. If it does not, then the Red Star Counter is Reset.
+if tonumber(mod_storage_load("prevRoomID")) ~= gGlobalSyncTable.RoomID then
+    mod_storage_save("prevRoomID", tostring(gGlobalSyncTable.RoomID))
+    mod_storage_save("MilestoneCounter", "0")
+else
+    _G.StarCounter = tonumber(mod_storage_load("MilestoneCounter"))
+end
+--This is implemented to account for a user rejoining a room they were already in.
+
 ---@param m MarioState
 --Increments an independent counter if a star is collected.
 function localStarCounter(m, o, type)
@@ -19,6 +33,7 @@ function localStarCounter(m, o, type)
                 _G.StarCounter = _G.StarCounter + 1
 				_G.TotalStarCounter = _G.TotalStarCounter + 1
 				mod_storage_save("StarCounter", tostring(TotalStarCounter))
+				mod_storage_save("MilestoneCounter", tostring(StarCounter))
             end
         end
     end
