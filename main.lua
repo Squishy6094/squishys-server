@@ -153,7 +153,7 @@ function mario_update_msgtimer(m)
             if discordID == "678794043018182675" then
                 djui_popup_create("You are now hosting\n\\#005500\\Squishy's Server\\#dcdcdc\\,\nCheck your mods list and\nsend an Invite!",4)
             else
-                djui_popup_create("\n\\#990000\\Error: Discord ID Mismatch\n\\#dcdcdc\\You are hosting via Discord without being Squishy, Don't host publicly\nwith this mod on!\n\n\\#8c8c8c\\(This error will not effect the performence of Squishy's Server\nor sm64ex-coop)",8)
+                djui_popup_create("\n\\#FF8888\\Error: Discord ID Mismatch\n\\#dcdcdc\\You are hosting via Discord without\nbeing Squishy, Don't host\npublicly with this mod on!\n\n\\#8c8c8c\\(This error will not effect\nthe performence of\nSquishy's Server or sm64ex-coop)",8)
             end
         else
             djui_popup_create("Thanks For Joining\n\\#005500\\Squishy's Server\\#dcdcdc\\,\nEnjoy your Stay!",3)
