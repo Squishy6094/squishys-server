@@ -118,7 +118,7 @@ popupTable = {
         lines = 6
     },
     [4] = {
-        text = '\nHate all the HUD clutter? You can toggle off Extra Hud Elements\nin the "Server Options" Menu,\n\n\\#8c8c8c\\This can be accessed by\nPressing L on the Pause Menu!',
+        text = '\nHate all the HUD clutter?\nYou can toggle off Extra Hud Elements\nin the "Server Options" Menu\n\n\\#8c8c8c\\This can be accessed by\nPressing L on the Pause Menu!',
         lines = 5
     },
     [5] = {
@@ -144,6 +144,10 @@ popupTable = {
     [10] = {
         text = "If you're fast enough, you can\nPress A or B on a Ledge to\ntrick and keep your speed!",
         lines = 3
+    },
+    [11] = {
+        text = "\nPersonal Model not added?\nDM me with the models you want\nand I'll add them as soon as\npossible!",
+        lines = 4
     }
 }
 
@@ -158,16 +162,16 @@ function mario_update_msgtimer(m)
         else
             djui_popup_create("Thanks For Joining\n\\#005500\\Squishy's Server\\#dcdcdc\\,\nEnjoy your Stay!",3)
         end
-        popupNum = math.random(1,9)
+        popupNum = math.random(1,11)
     end
 
     msgtimer = msgtimer + 1
 
-    if msgtimer >= math.random(72000,1080000) and menuTable[2][3].status then
+    if msgtimer >= math.random(720,10800) and menuTable[2][3].status then
         msgtimer = 0
-        popupNum = math.random(1,10)
+        popupNum = math.random(1,11)
         if lastpopupNum == popupNum then
-            popupNum = math.random(1,10)
+            popupNum = math.random(1,11)
         end
         lastpopupNum = popupNum
         djui_popup_create(popupTable[popupNum].text, popupTable[popupNum].lines)
