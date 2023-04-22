@@ -315,8 +315,6 @@ if mod_storage_load("SaveData") ~= "true" then
     mod_storage_save("SaveData", "true")
 end
 
-
-local RoomStart = gGlobalSyncTable.RoomStart
 function displaymenu()
     local m = gMarioStates[0]
 
@@ -324,9 +322,8 @@ function displaymenu()
 
     djui_hud_set_render_behind_hud(false)
 
-    RoomTime = string.format("%s:%s:%s", string.format("%02d", math.floor((get_time() - RoomStart)/60/60)), string.format("%02d", math.floor((get_time() - RoomStart)/60)%60), string.format("%02d", math.floor(get_time() - RoomStart)%60))
-
     if is_game_paused() and not djui_hud_is_pause_menu_created() then
+        RoomTime = string.format("%s:%s:%s", string.format("%02d", math.floor((get_time() - gGlobalSyncTable.RoomStart)/60/60)), string.format("%02d", math.floor((get_time() - gGlobalSyncTable.RoomStart)/60)%60), string.format("%02d", math.floor(get_time() - gGlobalSyncTable.RoomStart)%60))
         djui_hud_set_font(FONT_NORMAL)
         if m.action ~= ACT_EXIT_LAND_SAVE_DIALOG then
             if (m.controller.buttonPressed & L_TRIG) ~= 0 and menu == false then
