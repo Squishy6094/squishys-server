@@ -123,7 +123,7 @@ modelTable = {
             forcePlayer = CT_MARIO,
             icon = get_texture_info("icon-trashcam")
         },
-        [3] = {
+        [2] = {
             model = smlua_model_util_get_id("peppino_geo"),
             modelName = "Peppino",
             forcePlayer = CT_WARIO,
