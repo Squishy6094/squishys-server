@@ -187,8 +187,8 @@ menuTable = {
         },
         [3] = {
             name = "Locally Display Models",
-            nameSave = "ModelSave",
-            status = tonumber(mod_storage_load("ModelSave")),
+            nameSave = "ModelDisplaySave",
+            status = tonumber(mod_storage_load("ModelDisplaySave")),
             statusMax = 1,
             statusDefault = 1,
             --Description
@@ -323,7 +323,7 @@ function displaymenu()
     djui_hud_set_render_behind_hud(false)
 
     if is_game_paused() or rules then
-        RoomTime = string.format("%s:%s:%s", string.format("%02d", math.floor((get_time() - gGlobalSyncTable.RoomStart)*0.01666666666*0.01666666666)), string.format("%02d", math.floor((get_time() - gGlobalSyncTable.RoomStart)*0.01666666666)%60), string.format("%02d", math.floor(get_time() - gGlobalSyncTable.RoomStart)%60))
+        RoomTime = string.format("%s:%s:%s", string.format("%02d", math.floor((get_time() - gGlobalSyncTable.RoomStart)/60/60)), string.format("%02d", math.floor((get_time() - gGlobalSyncTable.RoomStart)/60)%60), string.format("%02d", math.floor(get_time() - gGlobalSyncTable.RoomStart)%60))
     end
 
     if is_game_paused() and not djui_hud_is_pause_menu_created() then
