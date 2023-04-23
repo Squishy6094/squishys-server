@@ -7,7 +7,7 @@ local msgtimer = -3000
 local lastpopupNum = 0
 print("Connected to Server")
 
-if mod_storage_load("RulesSave") == nil or mod_storage_load("RulesSave") == "true" then
+if mod_storage_load("RulesSave") == nil or mod_storage_load("RulesSave") == "1" then
     rules = true
 else
     rules = false
