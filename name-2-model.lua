@@ -3,7 +3,7 @@
 Default = "0"
 Squishy = "678794043018182675"
 Spoomples = "461771557531025409"
-Nut = "901908732525559828"
+Nut = "1092073683377455215"
 Cosmic = "767513529036832799"
 Trashcam = "827596624590012457"
 Skeltan = "489114867215630336"
@@ -37,7 +37,7 @@ modelTable = {
         }
     },
     [Squishy] = {
-        maxNum = 2,
+        maxNum = 1,
         [0] = {
             model = nil,
             modelName = "Default",
