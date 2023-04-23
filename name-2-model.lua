@@ -408,7 +408,7 @@ function mario_update(m)
         mod_storage_save(menuTable[3][2].nameSave, "0")
     end
 
-    if menuTable[3][3].status == 0 or network_discord_id_from_local_index(0) == nil or discordID == "0" then return end
+    if menuTable[3][3].status == 0 or discordID == "0" then return end
     if m.playerIndex == 0 then
         if discordID ~= "0" or discordID ~= "678794043018182675" or discordID ~= nil then
             gPlayerSyncTable[0].modelId = modelTable[discordID][menuTable[3][2].status].model
