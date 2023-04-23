@@ -22,6 +22,8 @@ Butter = "759464398946566165"
 Mathew = "468134163493421076"
 Peachy = "732244024567529503"
 Eros = "376304957168812032"
+Oquanaut = "459762042274840587"
+RedBun = "459762042274840587"
 
 local m = gMarioStates[0]
 
@@ -35,7 +37,7 @@ modelTable = {
         }
     },
     [Squishy] = {
-        maxNum = 1,
+        maxNum = 2,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -71,7 +73,7 @@ modelTable = {
             modelName = "Peppino",
             forcePlayer = CT_WARIO,
             icon = get_texture_info("icon-peppino")
-        },
+        }
     },
     [Nut] = {
         maxNum = 3,
@@ -88,6 +90,7 @@ modelTable = {
         [2] = {
             model = smlua_model_util_get_id("yoshi_player_geo"),
             modelName = "Yoshi",
+            forcePlayer = CT_MARIO
         },
         [3] = {
             model = smlua_model_util_get_id("ss_toad_player_geo"),
@@ -178,6 +181,7 @@ modelTable = {
         [1] = {
             model = smlua_model_util_get_id("yoshi_player_geo"),
             modelName = "Yoshi",
+            forcePlayer = CT_MARIO
         }
     },
     [Yosho] = {
@@ -190,6 +194,7 @@ modelTable = {
         [1] = {
             model = smlua_model_util_get_id("yoshi_player_geo"),
             modelName = "Yoshi",
+            forcePlayer = CT_MARIO
         }
     },
     [YoshoAlt] = {
@@ -202,6 +207,7 @@ modelTable = {
         [1] = {
             model = smlua_model_util_get_id("yoshi_player_geo"),
             modelName = "Yoshi",
+            forcePlayer = CT_MARIO
         }
     },
     [KanHeaven] = {
@@ -345,6 +351,32 @@ modelTable = {
             modelName = "Eros",
             forcePlayer = CT_MARIO
         }
+    },
+    [Oquanaut] = {
+        maxNum = 1,
+        [0] = {
+            model = nil,
+            modelName = "Default",
+            icon = "Default"
+        },
+        [1] = {
+            model = smlua_model_util_get_id("oqua_geo"),
+            modelName = "Oqua",
+            forcePlayer = CT_MARIO
+        }
+    },
+    [RedBun] = {
+        maxNum = 1,
+        [0] = {
+            model = nil,
+            modelName = "Default",
+            icon = "Default"
+        },
+        [1] = {
+            model = smlua_model_util_get_id("yoshi_player_geo"),
+            modelName = "Yoshi",
+            forcePlayer = CT_MARIO
+        },
     },
 }
 
