@@ -322,8 +322,11 @@ function displaymenu()
 
     djui_hud_set_render_behind_hud(false)
 
+    if is_game_paused() or rules then
+        RoomTime = string.format("%s:%s:%s", string.format("%02d", math.floor((get_time() - gGlobalSyncTable.RoomStart)*0.01666666666*0.01666666666)), string.format("%02d", math.floor((get_time() - gGlobalSyncTable.RoomStart)*0.01666666666)%60), string.format("%02d", math.floor(get_time() - gGlobalSyncTable.RoomStart)%60))
+    end
+
     if is_game_paused() and not djui_hud_is_pause_menu_created() then
-        RoomTime = string.format("%s:%s:%s", string.format("%02d", math.floor((get_time() - gGlobalSyncTable.RoomStart)/60/60)), string.format("%02d", math.floor((get_time() - gGlobalSyncTable.RoomStart)/60)%60), string.format("%02d", math.floor(get_time() - gGlobalSyncTable.RoomStart)%60))
         djui_hud_set_font(FONT_NORMAL)
         if m.action ~= ACT_EXIT_LAND_SAVE_DIALOG then
             if (m.controller.buttonPressed & L_TRIG) ~= 0 and menu == false then
@@ -410,7 +413,7 @@ function displaymenu()
             djui_hud_set_color(255, 255, 255, 255)
             djui_hud_print_text("Movement", (halfScreenWidth - (djui_hud_measure_text("Movement")* 0.3 / 2) - 45), 70, 0.3)
             djui_hud_print_text("HUD", (halfScreenWidth - (djui_hud_measure_text("HUD")* 0.3 / 2) - 15), 70, 0.3)
-            djui_hud_print_text("Other", (halfScreenWidth - (djui_hud_measure_text("Other")* 0.3 / 2) + 15), 70, 0.3)
+            djui_hud_print_text("Misc.", (halfScreenWidth - (djui_hud_measure_text("Misc.")* 0.3 / 2) + 15), 70, 0.3)
             djui_hud_print_text("Server", (halfScreenWidth - (djui_hud_measure_text("Server")* 0.3 / 2) + 45), 70, 0.3)
         else
             djui_hud_set_color(150, 150, 150, 255)
@@ -418,7 +421,7 @@ function displaymenu()
             djui_hud_set_color(255, 255, 255, 255)
             djui_hud_print_text("Movement", (halfScreenWidth - (djui_hud_measure_text("Movement")* 0.3 / 2) - 30), 70, 0.3)
             djui_hud_print_text("HUD", (halfScreenWidth - (djui_hud_measure_text("HUD")* 0.3 / 2)), 70, 0.3)
-            djui_hud_print_text("Other", (halfScreenWidth - (djui_hud_measure_text("Other")* 0.3 / 2) + 30), 70, 0.3)
+            djui_hud_print_text("Misc.", (halfScreenWidth - (djui_hud_measure_text("Misc.")* 0.3 / 2) + 30), 70, 0.3)
         end
 
         djui_hud_set_color(150, 150, 150, 255)
