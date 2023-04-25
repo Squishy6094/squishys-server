@@ -2,26 +2,14 @@
 --Mods are bundled here to prevent lag and clutter--
 --Credits go to all their original mod creators--
 
---Star Heal--
+--Level Values
+gLevelValues.starHeal = true
+gLevelValues.floatingStarDance = true
+gLevelValues.mushroom1UpHeal = true
+gLevelValues.previewBlueCoins = true
+gLevelValues.respawnBlueCoinsSwitch = true
+gLevelValues.visibleSecrets = true
 
-local HP_TO_HEAL_COUNTER_UNITS_FACTOR = 1 / 0x40
-local MAX_HP_IN_HEAL_COUNTER_UNITS = 0x880 * HP_TO_HEAL_COUNTER_UNITS_FACTOR
-
-local function on_interact(interactor, interactee, interactType, interactValue)
-    --FUTURE: add back original condition when it's fixed in source
-    --if not interactValue or interactType ~= INTERACT_STAR_OR_KEY then
-    if interactType ~= INTERACT_STAR_OR_KEY or interactor.playerIndex ~= 0 then
-        return
-    end
-    
-    --FUTURE: exclude stuff that's already collected when source makes it possible
-    
-    interactor.hurtCounter = 0
-    interactor.healCounter = MAX_HP_IN_HEAL_COUNTER_UNITS
-        - interactor.health * HP_TO_HEAL_COUNTER_UNITS_FACTOR
-end
-
-local once
 local TECH_KB = {
     [ACT_GROUND_BONK]             = ACT_BACKWARD_ROLLOUT,
     [ACT_BACKWARD_GROUND_KB]      = ACT_BACKWARD_ROLLOUT,
@@ -448,18 +436,6 @@ function wallkicks(m)
         end
     end
 end
-
-local function ternary(condition, ifTrue, ifFalse)
-    if condition then
-        return ifTrue
-    end
-    return ifFalse
-end
-
-local quicksand_death_surfaces = {
-    [SURFACE_INSTANT_QUICKSAND] = true,
-    [SURFACE_INSTANT_MOVING_QUICKSAND] = true
-}
 
 local noStrafeActs = {
     [ACT_WALKING] = true,
