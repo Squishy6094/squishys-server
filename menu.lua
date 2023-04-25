@@ -9,6 +9,8 @@ gGlobalSyncTable.stayInLevelAfterStar = gServerSettings.stayInLevelAfterStar
 gGlobalSyncTable.GlobalAQS = true
 gGlobalSyncTable.GlobalMoveset = true
 
+gLevelValues.extendedPauseDisplay = true
+
 local menu = false
 local optionType = 0
 local optionTab = 1
