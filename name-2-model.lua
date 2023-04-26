@@ -88,9 +88,9 @@ modelTable = {
             forcePlayer = CT_TOAD
         },
         [2] = {
-            model = smlua_model_util_get_id("yoshi_player_geo"),
-            modelName = "Yoshi",
-            forcePlayer = CT_MARIO
+            model = smlua_model_util_get_id("pizzelle_geo"),
+            modelName = "Pizzelle",
+            forcePlayer = CT_TOAD
         },
         [3] = {
             model = smlua_model_util_get_id("ss_toad_player_geo"),
@@ -182,7 +182,12 @@ modelTable = {
             model = smlua_model_util_get_id("yoshi_player_geo"),
             modelName = "Yoshi",
             forcePlayer = CT_MARIO
-        }
+        },
+        [2] = {
+            model = smlua_model_util_get_id("pizzelle_geo"),
+            modelName = "Pizzelle",
+            forcePlayer = CT_TOAD
+        },
     },
     [Yosho] = {
         maxNum = 1,
