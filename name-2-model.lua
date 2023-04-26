@@ -156,6 +156,7 @@ modelTable = {
         [1] = {
             model = smlua_model_util_get_id("gordon_geo"),
             modelName = "Gordon Freeman",
+            forcePlayer = CT_MARIO,
         }
     },
     [Blocky] = {
@@ -253,6 +254,7 @@ modelTable = {
         [1] = {
             model = smlua_model_util_get_id("croc_geo"),
             modelName = "Croc",
+            forcePlayer = CT_LUIGI,
             icon = get_texture_info("icon-croc")
         }
     },
@@ -266,6 +268,7 @@ modelTable = {
         [1] = {
             model = smlua_model_util_get_id("natsuki_geo"),
             modelName = "Natsuki",
+            forcePlayer = CT_MARIO,
         }
     },
     [Elby] = {
@@ -297,6 +300,7 @@ modelTable = {
         [1] = {
             model = smlua_model_util_get_id("hat_kid_geo"),
             modelName = "Hat Kid",
+            forcePlayer = CT_MARIO
         },
         [2] = {
             model = smlua_model_util_get_id("peppino_geo"),
@@ -367,7 +371,7 @@ modelTable = {
         [1] = {
             model = smlua_model_util_get_id("oqua_geo"),
             modelName = "Oqua",
-            forcePlayer = CT_MARIO
+            forcePlayer = CT_TOAD
         }
     },
     [RedBun] = {
