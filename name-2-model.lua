@@ -147,7 +147,7 @@ modelTable = {
         }
     },
     [AgentX] = {
-        maxNum = 1,
+        maxNum = 2,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -157,7 +157,13 @@ modelTable = {
             model = smlua_model_util_get_id("gordon_geo"),
             modelName = "Gordon Freeman",
             forcePlayer = CT_MARIO,
+        },
+        [2] = {
+            model = smlua_model_util_get_id("nya_geo"),
+            modelName = "Hatsune Maiku",
+            forcePlayer = CT_MARIO
         }
+
     },
     [Blocky] = {
         maxNum = 1,
