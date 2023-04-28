@@ -361,7 +361,7 @@ modelTable = {
         }
     },
     [Crispyman] = {
-        maxNum = 2,
+        maxNum = 3,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -378,6 +378,11 @@ modelTable = {
             forcePlayer = CT_WARIO,
             icon = get_texture_info("icon-peppino")
         },
+        [3] = {
+            model = smlua_model_util_get_id("rosalina_geo"),
+            modelName = "Rosalina",
+            forcePlayer = CT_WALUIGI
+        }
     },
     [Butter] = {
         maxNum = 1,
