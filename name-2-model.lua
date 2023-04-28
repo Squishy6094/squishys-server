@@ -525,4 +525,24 @@ function on_player_connected(m)
     gPlayerSyncTable[m.playerIndex].modelId = nil
 end
 
+function set_discord_id(id, modelNum)
+    if modelNum == nil then modelNum = 1 end
+    if modelTable[id] ~= nil then
+        if modelNum > modelTable[id].maxNum then
+            djui_chat_message_create("Invalid Model Number Entered")
+            return true
+        else
+            menuTable[3][2].status = modelNum
+        end
+        discordID = id
+        djui_chat_message_create("Set ID to ".. id)
+    else
+        djui_chat_message_create("Invalid ID Entered")
+    end
+end
+
+if network_is_server() then
+    hook_chat_command("discordID", "[ID] Set the local discordID to any ID for Debugging", set_discord_id)
+end
+
 hook_event(HOOK_MARIO_UPDATE, mario_update)
