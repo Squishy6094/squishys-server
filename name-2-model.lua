@@ -56,7 +56,7 @@ modelTable = {
         }
     },
     [Spoomples] = {
-        maxNum = 3,
+        maxNum = 4,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -78,6 +78,12 @@ modelTable = {
             modelName = "Peppino",
             forcePlayer = CT_WARIO,
             icon = get_texture_info("icon-peppino")
+        },
+        [4] = {
+            model = smlua_model_util_get_id("bestie_geo"),
+            modelName = "Bestie Badge",
+            forcePlayer = CT_MARIO,
+            icon = "Default"
         }
     },
     [Nut] = {
@@ -105,7 +111,7 @@ modelTable = {
         }
     },
     [Cosmic] = {
-        maxNum = 1,
+        maxNum = 2,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -116,10 +122,16 @@ modelTable = {
             modelName = "Weedcat",
             forcePlayer = CT_WALUIGI,
             icon = get_texture_info("icon-weedcat")
+        },
+        [2] = {
+            model = smlua_model_util_get_id("bestie_geo"),
+            modelName = "Bestie Badge",
+            forcePlayer = CT_MARIO,
+            icon = "Default"
         }
     },
     [Trashcam] = {
-        maxNum = 2,
+        maxNum = 3,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -137,9 +149,15 @@ modelTable = {
             forcePlayer = CT_WARIO,
             icon = get_texture_info("icon-peppino")
         },
+        [3] = {
+            model = smlua_model_util_get_id("bestie_geo"),
+            modelName = "Bestie Badge",
+            forcePlayer = CT_MARIO,
+            icon = "Default"
+        }
     },
     [Skeltan] = {
-        maxNum = 1,
+        maxNum = 2,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -149,10 +167,16 @@ modelTable = {
             model = smlua_model_util_get_id("woop_geo"),
             modelName = "Wooper",
             forcePlayer = CT_TOAD
+        },
+        [2] = {
+            model = smlua_model_util_get_id("bestie_geo"),
+            modelName = "Bestie Badge",
+            forcePlayer = CT_MARIO,
+            icon = "Default"
         }
     },
     [AgentX] = {
-        maxNum = 2,
+        maxNum = 3,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -167,11 +191,17 @@ modelTable = {
             model = smlua_model_util_get_id("nya_geo"),
             modelName = "Hatsune Maiku",
             forcePlayer = CT_MARIO
+        },
+        [3] = {
+            model = smlua_model_util_get_id("bestie_geo"),
+            modelName = "Bestie Badge",
+            forcePlayer = CT_MARIO,
+            icon = "Default"
         }
 
     },
     [Blocky] = {
-        maxNum = 1,
+        maxNum = 2,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -181,6 +211,12 @@ modelTable = {
             model = smlua_model_util_get_id("blocky_geo"),
             modelName = "Blocky",
             icon = get_texture_info("icon-blocky")
+        },
+        [2] = {
+            model = smlua_model_util_get_id("bestie_geo"),
+            modelName = "Bestie Badge",
+            forcePlayer = CT_MARIO,
+            icon = "Default"
         }
     },
     [DepressedYoshi] = {
@@ -242,7 +278,7 @@ modelTable = {
         }
     },
     [Bloxxel64Nya] = {
-        maxNum = 1,
+        maxNum = 2,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -253,10 +289,16 @@ modelTable = {
             modelName = "Hatsune Maiku",
             forcePlayer = CT_MARIO,
             icon = "Default"
+        },
+        [2] = {
+            model = smlua_model_util_get_id("bestie_geo"),
+            modelName = "Bestie Badge",
+            forcePlayer = CT_MARIO,
+            icon = "Default"
         }
     },
     [Vince] = {
-        maxNum = 1,
+        maxNum = 2,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -267,6 +309,12 @@ modelTable = {
             modelName = "Croc",
             forcePlayer = CT_LUIGI,
             icon = get_texture_info("icon-croc")
+        },
+        [2] = {
+            model = smlua_model_util_get_id("bestie_geo"),
+            modelName = "Bestie Badge",
+            forcePlayer = CT_MARIO,
+            icon = "Default"
         }
     },
     [Average] = {
@@ -358,7 +406,7 @@ modelTable = {
         }
     },
     [Peachy] = {
-        maxNum = 1,
+        maxNum = 2,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -368,10 +416,16 @@ modelTable = {
             model = smlua_model_util_get_id("peach_player_geo"),
             modelName = "Princess Peach",
             forcePlayer = CT_LUIGI
+        },
+        [2] = {
+            model = smlua_model_util_get_id("bestie_geo"),
+            modelName = "Bestie Badge",
+            forcePlayer = CT_MARIO,
+            icon = "Default"
         }
     },
     [Eros] = {
-        maxNum = 1,
+        maxNum = 2,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -381,6 +435,12 @@ modelTable = {
             model = smlua_model_util_get_id("eros_geo"),
             modelName = "Eros",
             forcePlayer = CT_MARIO
+        },
+        [2] = {
+            model = smlua_model_util_get_id("bestie_geo"),
+            modelName = "Bestie Badge",
+            forcePlayer = CT_MARIO,
+            icon = "Default"
         }
     },
     [Oquanaut] = {
