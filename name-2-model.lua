@@ -270,7 +270,7 @@ modelTable = {
         }
     },
     [Average] = {
-        maxNum = 1,
+        maxNum = 3,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -280,10 +280,21 @@ modelTable = {
             model = smlua_model_util_get_id("natsuki_geo"),
             modelName = "Natsuki",
             forcePlayer = CT_MARIO,
+        },
+        [2] = {
+            model = smlua_model_util_get_id("paper_mario_geo"),
+            modelName = "Paper Mario",
+            forcePlayer = CT_MARIO,
+            icon = "Default"
+        },
+        [3] = {
+            model = smlua_model_util_get_id("rosalina_geo"),
+            modelName = "Rosalina",
+            forcePlayer = CT_WALUIGI
         }
     },
     [Elby] = {
-        maxNum = 1,
+        maxNum = 2,
         [0] = {
             model = nil,
             modelName = "Default",
