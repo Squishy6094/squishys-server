@@ -37,13 +37,18 @@ modelTable = {
         }
     },
     [Squishy] = {
-        maxNum = 1,
+        maxNum = 2,
         [0] = {
             model = nil,
             modelName = "Default",
             icon = "Default"
         },
         [1] = {
+            model = smlua_model_util_get_id("ski_geo"),
+            modelName = "Ski",
+            forcePlayer = CT_TOAD
+        },
+        [2] = {
             model = smlua_model_util_get_id("bestie_geo"),
             modelName = "Bestie Badge",
             forcePlayer = CT_MARIO,
