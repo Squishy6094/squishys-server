@@ -536,7 +536,6 @@ id_bhvStar = hook_behavior(id_bhvStar, OBJ_LIST_LEVEL, false, bhv_star_init, nil
 hook_event(HOOK_MARIO_UPDATE, mario_update)
 hook_event(HOOK_ON_SET_MARIO_ACTION, localtechaction)
 hook_event(HOOK_ON_SET_MARIO_ACTION, on_set_mario_action)
-hook_event(HOOK_ON_INTERACT, on_interact)
 hook_event(HOOK_UPDATE, update)
 hook_event(HOOK_ALLOW_INTERACT, allow_interact)
 hook_mario_action(ACT_WALL_SLIDE, act_wall_slide)
