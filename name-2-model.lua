@@ -476,6 +476,7 @@ modelTable = {
     },
 }
 
+discordID = 0
 local stallScriptTimer = 0
 
 --- @param m MarioState
@@ -525,20 +526,14 @@ function on_player_connected(m)
     gPlayerSyncTable[m.playerIndex].modelId = nil
 end
 
-function set_discord_id(id, modelNum)
-    if modelNum == nil then modelNum = 1 end
-    if modelTable[id] ~= nil then
-        if modelNum > modelTable[id].maxNum then
-            djui_chat_message_create("Invalid Model Number Entered")
-            return true
-        else
-            menuTable[3][2].status = modelNum
-        end
-        discordID = id
-        djui_chat_message_create("Set ID to ".. id)
+function set_discord_id(msg)
+    if modelTable[msg] ~= nil then
+        discordID = msg
+        djui_chat_message_create("Valid ID Entered!")
     else
         djui_chat_message_create("Invalid ID Entered")
     end
+    return true
 end
 
 if network_is_server() then
