@@ -24,6 +24,7 @@ Peachy = "732244024567529503"
 Eros = "376304957168812032"
 Oquanaut = "459762042274840587"
 RedBun = "459762042274840587"
+Dvk = "542676894244536350"
 
 local m = gMarioStates[0]
 
@@ -473,6 +474,20 @@ modelTable = {
             modelName = "Yoshi",
             forcePlayer = CT_MARIO
         },
+    },
+    [Dvk] = {
+        maxNum = 1,
+        [0] = {
+            model = nil,
+            modelName = "Default",
+            icon = "Default"
+        },
+        [1] = {
+            model = smlua_model_util_get_id("crudelo_geo"),
+            modelName = "Crudelo Badge",
+            forcePlayer = CT_MARIO,
+            icon = "Default"
+        }
     },
 }
 
