@@ -12,7 +12,6 @@ gGlobalSyncTable.GlobalMoveset = true
 gLevelValues.extendedPauseDisplay = true
 
 local menu = false
-local optionType = 0
 local optionTab = 1
 local optionHover = 1
 local optionHoverTimer = -1
@@ -331,9 +330,10 @@ function displaymenu()
     if is_game_paused() and not djui_hud_is_pause_menu_created() then
         djui_hud_set_font(FONT_NORMAL)
         if m.action ~= ACT_EXIT_LAND_SAVE_DIALOG then
-            if (m.controller.buttonPressed & L_TRIG) ~= 0 and menu == false then
+            if (m.controller.buttonDown & L_TRIG) ~= 0 and not menu then
                 menu = true
-            elseif (m.controller.buttonPressed & B_BUTTON) ~= 0 and menu then
+            end
+            if (m.controller.buttonDown & B_BUTTON) ~= 0 and menu then
                 menu = false
             end
             djui_hud_set_resolution(RESOLUTION_DJUI)
