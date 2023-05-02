@@ -319,8 +319,6 @@ end
 function displaymenu()
     local m = gMarioStates[0]
 
-    halfScreenWidth = djui_hud_get_screen_width()*0.5
-
     djui_hud_set_render_behind_hud(false)
 
     if is_game_paused() or rules then
@@ -336,6 +334,7 @@ function displaymenu()
             if (m.controller.buttonDown & B_BUTTON) ~= 0 and menu then
                 menu = false
             end
+            halfScreenWidth = djui_hud_get_screen_width()*0.5
             djui_hud_set_resolution(RESOLUTION_DJUI)
             djui_hud_set_color(0, 0, 0, 255)
             djui_hud_print_text("L Button - Server Options", (djui_hud_get_screen_width()*0.5 - (djui_hud_measure_text("L Button - Server Options")*0.5)) + 1, 43, 1)
@@ -343,6 +342,7 @@ function displaymenu()
             djui_hud_print_text("L Button - Server Options", (djui_hud_get_screen_width()*0.5 - (djui_hud_measure_text("L Button - Server Options")*0.5)), 42, 1)
         end
         djui_hud_set_resolution(RESOLUTION_N64)
+        halfScreenWidth = djui_hud_get_screen_width()*0.5
         if m.action == ACT_EXIT_LAND_SAVE_DIALOG then
             djui_hud_set_color(0, 0, 0, 255)
             djui_hud_print_text("Room has been Open for:", (halfScreenWidth - 33), 31, 0.3)
