@@ -413,7 +413,7 @@ end
 
 --This is mostly copied from the wall bonk check code
 ---@param m MarioState
-function wallkicks(m)
+function before_phys_step(m)
     if m.playerIndex ~= 0 then return end
     if gPlayerSyncTable[m.playerIndex].wallSlide ~= 1 then return end
     if m.wall ~= nil then
@@ -539,5 +539,5 @@ hook_event(HOOK_ON_SET_MARIO_ACTION, on_set_mario_action)
 hook_event(HOOK_UPDATE, update)
 hook_event(HOOK_ALLOW_INTERACT, allow_interact)
 hook_mario_action(ACT_WALL_SLIDE, act_wall_slide)
-hook_event(HOOK_BEFORE_PHYS_STEP, wallkicks)
+hook_event(HOOK_BEFORE_PHYS_STEP, before_phys_step)
 hook_event(HOOK_ON_PLAYER_CONNECTED, on_player_connected)
