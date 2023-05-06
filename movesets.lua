@@ -28,18 +28,16 @@ for i = 0, (MAX_PLAYERS - 1) do
     e.spinBufferTimer = 0
     e.spinInput = 0
     e.lastIntendedMag = 0
-    e.swims = 0
 end
 
 -----------
 -- luigi --
 -----------
 
-ACT_SPIN_POUND_LAND = allocate_mario_action(ACT_FLAG_STATIONARY | ACT_FLAG_ATTACKING)
-ACT_SPIN_POUND      = allocate_mario_action(ACT_FLAG_AIR | ACT_FLAG_ATTACKING)
+ACT_SPIN_POUND_LAND = allocate_mario_action(ACT_GROUP_STATIONARY | ACT_FLAG_STATIONARY | ACT_FLAG_ATTACKING)
+ACT_SPIN_POUND      = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_ATTACKING)
 
 function act_spin_pound(m)
-    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 or not gGlobalSyncTable.GlobalMoveset then return end
     local e = gStateExtras[m.playerIndex]
     if m.actionTimer == 0 then
         m.actionState = m.actionArg
@@ -99,7 +97,6 @@ function act_spin_pound(m)
 end
 
 function act_spin_pound_land(m)
-    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 or not gGlobalSyncTable.GlobalMoveset then return end
     m.actionState = 1
 
     if m.actionTimer <= 8 then
@@ -135,14 +132,11 @@ function act_spin_pound_land(m)
 end
 
 function luigi_before_phys_step(m)
-    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 or not gGlobalSyncTable.GlobalMoveset then return end
     local e = gStateExtras[m.playerIndex]
 
     local floorClass = mario_get_floor_class(m)
     local hScale = 1.0
     local vScale = 1.0
-	
-	if gPlayerSyncTable[0].modelId ~= nil then return end
 
     -- faster swimming
     if (m.action & ACT_FLAG_SWIMMING) ~= 0 then
@@ -194,10 +188,7 @@ function luigi_before_phys_step(m)
 end
 
 function luigi_on_set_action(m)
-    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 or not gGlobalSyncTable.GlobalMoveset then return end
     local e = gStateExtras[m.playerIndex]
-	
-	if gPlayerSyncTable[0].modelId ~= nil then return end
 
     -- extra height to the backflip
     if m.action == ACT_BACKFLIP then
@@ -222,10 +213,7 @@ function luigi_on_set_action(m)
 end
 
 function luigi_update(m)
-    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 or not gGlobalSyncTable.GlobalMoveset then return end
     local e = gStateExtras[m.playerIndex]
-	
-	if gPlayerSyncTable[0].modelId ~= nil then return end
 
     -- increase player damage
     if (m.hurtCounter > e.lastHurtCounter) then
@@ -242,11 +230,11 @@ function luigi_update(m)
             m.vel.y = m.vel.y + 1
         else
             m.vel.y = m.vel.y + 3
-			if m.action == ACT_HOLD_JUMP then
-				set_mario_animation(m, MARIO_ANIM_RUN_WITH_LIGHT_OBJ)
-			else
-				set_mario_animation(m, MARIO_ANIM_RUNNING_UNUSED)
-			end
+            if m.action == ACT_HOLD_JUMP then
+                set_mario_animation(m, MARIO_ANIM_RUN_WITH_LIGHT_OBJ)
+            else
+                set_mario_animation(m, MARIO_ANIM_RUNNING_UNUSED)
+            end
             set_anim_to_frame(m, e.animFrame)
             e.animFrame = e.animFrame + 13
             if e.animFrame >= m.marioObj.header.gfx.animInfo.curAnim.loopEnd then
@@ -279,7 +267,6 @@ gEventTable[CT_LUIGI] = {
 -----------
 
 function toad_before_phys_step(m)
-    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 or not gGlobalSyncTable.GlobalMoveset then return end
     local e = gStateExtras[m.playerIndex]
 
     local hScale = 1.0
@@ -305,7 +292,6 @@ function toad_before_phys_step(m)
 end
 
 function toad_on_set_action(m)
-    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 or not gGlobalSyncTable.GlobalMoveset then return end
     local e = gStateExtras[m.playerIndex]
 
     -- wall kick height based on how fast toad is going
@@ -341,7 +327,6 @@ function toad_on_set_action(m)
 end
 
 function toad_update(m)
-    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 or not gGlobalSyncTable.GlobalMoveset then return end
     local e = gStateExtras[m.playerIndex]
 
     -- track average forward velocity
@@ -377,12 +362,9 @@ gEventTable[CT_TOAD] = {
 -- waluigi --
 -------------
 
-ACT_WALL_SLIDE       = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_MOVING | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)
-ACT_ELEGANT_JUMP     = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)
-ACT_WALUIGI_AIR_SWIM = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_MOVING | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)
+ACT_WALL_SLIDE = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_MOVING | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)
 
 function act_wall_slide(m)
-    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 or not gGlobalSyncTable.GlobalMoveset then return end
     if (m.input & INPUT_A_PRESSED) ~= 0 then
         local rc = set_mario_action(m, ACT_TRIPLE_JUMP, 0)
         m.vel.y = 72.0
@@ -421,106 +403,7 @@ function act_wall_slide(m)
     return 0
 end
 
-function act_elegant_jump(m)
-    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 or not gGlobalSyncTable.GlobalMoveset then return end
-    local e = gStateExtras[m.playerIndex]
-    if m.actionTimer == 0 then
-        m.particleFlags = m.particleFlags | PARTICLE_MIST_CIRCLE
-        m.vel.y = 40
-        e.animFrame = 68
-        play_character_sound(m, CHAR_SOUND_HAHA)
-    end
-    local stepResult = common_air_action_step(m, ACT_DOUBLE_JUMP_LAND, MARIO_ANIM_FINAL_BOWSER_RAISE_HAND_SPIN, 
-	                                                            AIR_STEP_CHECK_LEDGE_GRAB | AIR_STEP_CHECK_HANG)
-    set_anim_to_frame(m, 68)
-    m.particleFlags = m.particleFlags | PARTICLE_SPARKLES
-    m.marioBodyState.eyeState = MARIO_EYES_CLOSED
-    m.faceAngle.y = m.intendedYaw
-    
-    if (m.input & INPUT_Z_PRESSED) ~= 0 then
-        return set_mario_action(m, ACT_GROUND_POUND, 0)
-    end
-    
-    if stepResult == AIR_STEP_LANDED then
-        if should_get_stuck_in_ground(m) ~= 0 then
-            queue_rumble_data_mario(m, 5, 80)
-            play_sound(SOUND_MARIO_OOOF2, m.marioObj.header.gfx.cameraToObject)
-            m.particleFlags = m.particleFlags | PARTICLE_MIST_CIRCLE
-            set_mario_action(m, ACT_FEET_STUCK_IN_GROUND, 0)
-        else
-            if check_fall_damage(m, ACT_HARD_BACKWARD_GROUND_KB) == 0 then
-                play_sound(SOUND_ACTION_TERRAIN_LANDING, m.marioObj.header.gfx.cameraToObject)
-                set_mario_action(m, ACT_DOUBLE_JUMP_LAND, 0)
-            end
-        end
-    end
-    
-    e.rotAngle = e.rotAngle + 0x2000
-    m.marioObj.header.gfx.angle.y = m.marioObj.header.gfx.angle.y + e.rotAngle
-    
-    m.actionTimer = m.actionTimer + 1
-    return 0
-end
-
-function act_waluigi_air_swim(m)
-    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 or not gGlobalSyncTable.GlobalMoveset then return end
-    local e = gStateExtras[m.playerIndex]
-    
-    if m.actionTimer == 0 then
-        e.animFrame = 0
-        play_sound(SOUND_ACTION_SWIM_FAST, m.marioObj.header.gfx.cameraToObject)
-        if m.forwardVel <= 40 then 
-            mario_set_forward_vel(m, 40)
-        else
-            mario_set_forward_vel(m, m.forwardVel + 5)
-        end
-    elseif m.actionTimer >= 20 then
-        m.vel.y = 0
-        m.faceAngle.x = 0
-		mario_set_forward_vel(m, 0)
-        set_mario_action(m, ACT_DIVE, 0)
-    elseif m.actionTimer > 10 and (m.controller.buttonPressed & B_BUTTON) ~= 0 and e.swims > 0 then
-        e.swims = e.swims - 1
-        return set_mario_action(m, ACT_WALUIGI_AIR_SWIM, 0)
-    end
-    
-    if (m.input & INPUT_Z_PRESSED) ~= 0 then
-        return set_mario_action(m, ACT_GROUND_POUND, 0)
-    end
-    
-    m.vel.y = 0
-    
-    if e.animFrame >= m.marioObj.header.gfx.animInfo.curAnim.loopEnd then
-        e.animFrame = m.marioObj.header.gfx.animInfo.curAnim.loopEnd
-    end
-    
-    set_mario_animation(m, MARIO_ANIM_SWIM_PART1)
-    set_anim_to_frame(m, e.animFrame)
-    
-    local stepResult = perform_air_step(m, 0)
-    if stepResult == AIR_STEP_LANDED then
-        if should_get_stuck_in_ground(m) ~= 0 then
-            queue_rumble_data_mario(m, 5, 80)
-            play_character_sound(m, CHAR_SOUND_OOOF2)
-            set_mario_action(m, ACT_FEET_STUCK_IN_GROUND, 0)
-        else
-            if check_fall_damage(m, ACT_SQUISHED) == 0 then
-                set_mario_action(m, ACT_DIVE_SLIDE, 0)
-            end
-        end
-    elseif stepResult == AIR_STEP_HIT_WALL then
-        return set_mario_action(m, ACT_SOFT_BONK, 0)
-    end
-    
-    if m.forwardVel > 4 then mario_set_forward_vel(m, m.forwardVel - 2) end
-    e.animFrame = e.animFrame + 1
-    m.actionTimer = m.actionTimer + 1
-    m.faceAngle.y = m.intendedYaw - approach_s32(convert_s16(m.intendedYaw - m.faceAngle.y), 0, 0x200, 0x200)
-    return 0
-end
-
 function waluigi_before_phys_step(m)
-    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 or not gGlobalSyncTable.GlobalMoveset then return end
     local e = gStateExtras[m.playerIndex]
 
     local hScale = 1.0
@@ -528,7 +411,7 @@ function waluigi_before_phys_step(m)
 
     -- faster ground movement
     if (m.action & ACT_FLAG_MOVING) ~= 0 then
-        hScale = hScale * 1.09
+        hScale = hScale * 1.085
     end
 
     m.vel.x = m.vel.x * hScale
@@ -542,7 +425,6 @@ function waluigi_before_phys_step(m)
 end
 
 function waluigi_on_set_action(m)
-    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 or not gGlobalSyncTable.GlobalMoveset then return end
     local e = gStateExtras[m.playerIndex]
 
     -- wall slide
@@ -573,44 +455,23 @@ function waluigi_on_set_action(m)
 end
 
 function waluigi_update(m)
-    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 or not gGlobalSyncTable.GlobalMoveset then return end
     local e = gStateExtras[m.playerIndex]
 
-    -- increase player damage (go easy on the capless players)
+    -- increase player damage
     if m.hurtCounter > e.lastHurtCounter then
-		if m.flags & (MARIO_NORMAL_CAP | MARIO_CAP_ON_HEAD) == 0 then
-			m.hurtCounter = m.hurtCounter + 6
-		else
-			m.hurtCounter = m.hurtCounter + 8
-		end
+        m.hurtCounter = m.hurtCounter * 2
     end
     e.lastHurtCounter = m.hurtCounter
 
     -- double jump
-    local shouldDoubleJump = (m.action == ACT_DOUBLE_JUMP or m.action == ACT_JUMP or m.action == ACT_SIDE_FLIP or m.action == ACT_BACKFLIP)
-    
-    if shouldDoubleJump and m.actionTimer > 0 and (m.controller.buttonPressed & A_BUTTON) ~= 0 then
-        return set_mario_action(m, ACT_ELEGANT_JUMP, 0)
+    if m.action == ACT_DOUBLE_JUMP and m.actionTimer > 0 and (m.controller.buttonPressed & A_BUTTON) ~= 0 then
+        set_mario_action(m, ACT_TRIPLE_JUMP, 0)
+        m.vel.y = m.vel.y * 0.8
     end
-    if shouldDoubleJump then
+    if m.action == ACT_DOUBLE_JUMP then
         m.actionTimer = m.actionTimer + 1
     end
 
-    -- swim mid-air
-    if m.action == ACT_DIVE and m.actionTimer > 0 and (m.controller.buttonPressed & B_BUTTON) ~= 0 and e.swims > 0 then
-        e.swims = e.swims - 1
-        return set_mario_action(m, ACT_WALUIGI_AIR_SWIM, 0)
-    end
-    if m.action ~= ACT_DIVE and m.action ~= ACT_WALUIGI_AIR_SWIM then
-        e.swims = 3
-    end
-    if m.action == ACT_DIVE then
-        m.actionTimer = m.actionTimer + 1
-        if m.prevAction == ACT_WALUIGI_AIR_SWIM then
-            set_mario_animation(m, MARIO_ANIM_SWIM_PART1)
-            set_anim_to_frame(m, 30)
-        end
-    end
 end
 
 gEventTable[CT_WALUIGI] = {
@@ -623,15 +484,14 @@ gEventTable[CT_WALUIGI] = {
 -- wario --
 -----------
 
-ACT_WARIO_DASH         = allocate_mario_action(ACT_FLAG_MOVING | ACT_FLAG_ATTACKING)
-ACT_WARIO_AIR_DASH     = allocate_mario_action(ACT_FLAG_AIR | ACT_FLAG_ATTACKING)
-ACT_WARIO_HOLD_JUMP     = allocate_mario_action(ACT_FLAG_AIR | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)
-ACT_CORKSCREW_CONK     = allocate_mario_action(ACT_FLAG_AIR | ACT_FLAG_ATTACKING | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)
-ACT_PILEDRIVER     = allocate_mario_action(ACT_FLAG_AIR | ACT_FLAG_ATTACKING | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)
-ACT_WARIO_SPINNING_OBJ = allocate_mario_action(ACT_FLAG_STATIONARY)
+ACT_WARIO_DASH         = allocate_mario_action(ACT_GROUP_MOVING | ACT_FLAG_MOVING | ACT_FLAG_ATTACKING)
+ACT_WARIO_AIR_DASH     = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_ATTACKING)
+ACT_PILEDRIVER         = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_ATTACKING | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)
+ACT_WARIO_HOLD_JUMP    = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)
+ACT_CORKSCREW_CONK     = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_ATTACKING | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)
+ACT_WARIO_SPINNING_OBJ = allocate_mario_action(ACT_GROUP_OBJECT | ACT_FLAG_STATIONARY)
 
 function act_corkscrew_conk(m)
-    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 or not gGlobalSyncTable.GlobalMoveset then return end
     local e = gStateExtras[m.playerIndex]
 
     -- visuals
@@ -661,7 +521,6 @@ function act_corkscrew_conk(m)
 end
 
 function act_wario_dash(m)
-    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 or not gGlobalSyncTable.GlobalMoveset then return end
     local e = gStateExtras[m.playerIndex]
 
     -- when hitting wall, knock Wario backwards and thrust him upwards
@@ -678,7 +537,7 @@ function act_wario_dash(m)
     -- make sound
     if m.actionTimer == 0 then
         m.actionState = m.actionArg
-        play_character_sound(m, CHAR_SOUND_WAH2)
+        play_character_sound(m, CHAR_SOUND_YAHOO)
     end
 
     -- walk once dash is up
@@ -707,15 +566,14 @@ function act_wario_dash(m)
     if (m.input & INPUT_Z_PRESSED) ~= 0 then
         return set_mario_action(m, ACT_SLIDE_KICK, 0)
     end
-	
-	m.faceAngle.y = m.intendedYaw - approach_s32(convert_s16(m.intendedYaw - m.faceAngle.y), 0, 0x400, 0x400)
+    
+    m.faceAngle.y = m.intendedYaw - approach_s32(convert_s16(m.intendedYaw - m.faceAngle.y), 0, 0x400, 0x400)
 
     m.actionTimer = m.actionTimer + 1
     return 0
 end
 
 function act_wario_air_dash(m)
-    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 or not gGlobalSyncTable.GlobalMoveset then return end
     local e = gStateExtras[m.playerIndex]
 
     -- when hitting wall, knock Wario backwards and thrust him upwards
@@ -730,9 +588,9 @@ function act_wario_air_dash(m)
         return 0
     end
 
-    -- walk once dash is up
+    -- fall once dash is up
     if m.actionTimer > 15 then
-        return set_mario_action(m, ACT_JUMP_LAND, 0)
+        return set_mario_action(m, ACT_FREEFALL, 0)
     end
 
     -- slide and set animation
@@ -757,20 +615,19 @@ function act_wario_air_dash(m)
     if (m.input & INPUT_Z_PRESSED) ~= 0 then
         return set_mario_action(m, ACT_SLIDE_KICK, 0)
     end
-	
-	m.faceAngle.y = m.intendedYaw - approach_s32(convert_s16(m.intendedYaw - m.faceAngle.y), 0, 0x400, 0x400)
+    
+    m.faceAngle.y = m.intendedYaw - approach_s32(convert_s16(m.intendedYaw - m.faceAngle.y), 0, 0x400, 0x400)
 
     m.actionTimer = m.actionTimer + 1
     return 0
 end
 
 function act_wario_spinning_obj(m)
-    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 or not gGlobalSyncTable.GlobalMoveset then return end
     local spin = 0
 
     -- throw object
     if m.playerIndex == 0 and (m.input & INPUT_B_PRESSED) ~= 0 then
-        play_character_sound_if_no_flag(m, CHAR_SOUND_SO_LONGA_BOWSER, MARIO_MARIO_SOUND_PLAYED)
+        play_character_sound_if_no_flag(m, CHAR_SOUND_WAH2, MARIO_MARIO_SOUND_PLAYED)
         play_sound_if_no_flag(m, SOUND_ACTION_THROW, MARIO_ACTION_SOUND_PLAYED)
         return set_mario_action(m, ACT_RELEASING_BOWSER, 0)
     end
@@ -843,7 +700,6 @@ function act_wario_spinning_obj(m)
 end
 
 function wario_update_spin_input(m)
-    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 or not gGlobalSyncTable.GlobalMoveset then return end
     local e = gStateExtras[m.playerIndex]
     local rawAngle = atan2s(-m.controller.stickY, m.controller.stickX)
     e.spinInput = 0
@@ -925,8 +781,8 @@ function wario_update_spin_input(m)
     e.lastIntendedMag = m.intendedMag
 end
 
+-- patch wario's hold jump for piledriver
 function act_wario_hold_jump(m)
-    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 or not gGlobalSyncTable.GlobalMoveset then return end
     if (m.marioObj.oInteractStatus & INT_STATUS_MARIO_DROP_OBJECT) ~= 0 then
         return drop_and_set_mario_action(m, ACT_FREEFALL, 0)
     end
@@ -946,42 +802,40 @@ function act_wario_hold_jump(m)
 end
 
 function act_piledriver(m)
-    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 or not gGlobalSyncTable.GlobalMoveset then return end
     local e = gStateExtras[m.playerIndex]
-	if m.actionTimer == 0 then
-		play_sound(SOUND_ACTION_SPIN, m.marioObj.header.gfx.cameraToObject)
-		play_character_sound(m, CHAR_SOUND_SO_LONGA_BOWSER)
-	end
-	set_mario_animation(m, MARIO_ANIM_HOLDING_BOWSER)
-	local stepResult = perform_air_step(m, 0)
-	if stepResult == AIR_STEP_LANDED then
-		if should_get_stuck_in_ground(m) ~= 0 then
-			queue_rumble_data_mario(m, 5, 80)
-			play_sound(SOUND_MARIO_OOOF2, m.marioObj.header.gfx.cameraToObject)
-			m.particleFlags = m.particleFlags | PARTICLE_MIST_CIRCLE
-			set_mario_action(m, ACT_BUTT_STUCK_IN_GROUND, 0)
-		else
-			play_mario_heavy_landing_sound(m, SOUND_ACTION_TERRAIN_HEAVY_LANDING)
-			if check_fall_damage(m, ACT_HARD_BACKWARD_GROUND_KB) == 0 then
-				m.particleFlags = m.particleFlags | PARTICLE_MIST_CIRCLE | PARTICLE_HORIZONTAL_STAR
-				-- set facing direction
-				-- not part of original Extended Moveset
-				local yawDiff = m.faceAngle.y - m.intendedYaw
-				e.rotAngle = e.rotAngle + yawDiff
-				m.faceAngle.y = m.intendedYaw
-				return set_mario_action(m, ACT_RELEASING_BOWSER, 0)
-			end
-		end
-	end
-	m.vel.y = -32
-	mario_set_forward_vel(m, 0)
-	m.faceAngle.y = m.faceAngle.y + 0x3000
-	m.actionTimer = m.actionTimer + 1
-	return 0
+    if m.actionTimer == 0 then
+        play_sound(SOUND_ACTION_SPIN, m.marioObj.header.gfx.cameraToObject)
+        play_character_sound(m, CHAR_SOUND_SO_LONGA_BOWSER)
+    end
+    set_mario_animation(m, MARIO_ANIM_HOLDING_BOWSER)
+    local stepResult = perform_air_step(m, 0)
+    if stepResult == AIR_STEP_LANDED then
+        if should_get_stuck_in_ground(m) ~= 0 then
+            queue_rumble_data_mario(m, 5, 80)
+            play_sound(SOUND_MARIO_OOOF2, m.marioObj.header.gfx.cameraToObject)
+            m.particleFlags = m.particleFlags | PARTICLE_MIST_CIRCLE
+            set_mario_action(m, ACT_BUTT_STUCK_IN_GROUND, 0)
+        else
+            play_mario_heavy_landing_sound(m, SOUND_ACTION_TERRAIN_HEAVY_LANDING)
+            if check_fall_damage(m, ACT_HARD_BACKWARD_GROUND_KB) == 0 then
+                m.particleFlags = m.particleFlags | PARTICLE_MIST_CIRCLE | PARTICLE_HORIZONTAL_STAR
+                -- set facing direction
+                -- not part of original Extended Moveset
+                local yawDiff = m.faceAngle.y - m.intendedYaw
+                e.rotAngle = e.rotAngle + yawDiff
+                m.faceAngle.y = m.intendedYaw
+                return set_mario_action(m, ACT_RELEASING_BOWSER, 0)
+            end
+        end
+    end
+    m.vel.y = -32
+    mario_set_forward_vel(m, 0)
+    m.faceAngle.y = m.faceAngle.y + 0x3000
+    m.actionTimer = m.actionTimer + 1
+    return 0
 end
 
 function wario_before_phys_step(m)
-    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 or not gGlobalSyncTable.GlobalMoveset then return end
     local hScale = 1.0
 
     -- slower on ground
@@ -1017,7 +871,6 @@ function wario_before_phys_step(m)
 end
 
 function wario_on_set_action(m)
-    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 or not gGlobalSyncTable.GlobalMoveset then return end
     local e = gStateExtras[m.playerIndex]
 
     -- air dash
@@ -1075,6 +928,11 @@ function wario_on_set_action(m)
     if m.action == ACT_TRIPLE_JUMP or m.action == ACT_SPECIAL_TRIPLE_JUMP then
         m.vel.y = m.vel.y * 1.15
     end
+    
+    -- patch wario's hold jump for piledriver
+    if m.action == ACT_HOLD_JUMP then
+        return set_mario_action(m, ACT_WARIO_HOLD_JUMP, 0)
+    end
 
     -- less height on other jumps
     if m.action == ACT_JUMP or
@@ -1092,16 +950,10 @@ function wario_on_set_action(m)
             m.pos.y = m.pos.y + 10
         end
     end
-	
-	if m.action == ACT_HOLD_JUMP then
-		return set_mario_action(m, ACT_WARIO_HOLD_JUMP, 0)
-	end
-	
     e.lastAction = action
 end
 
 function wario_update(m)
-    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 or not gGlobalSyncTable.GlobalMoveset then return end
     local hScale = 1.0
     local e = gStateExtras[m.playerIndex]
 
@@ -1137,7 +989,7 @@ function wario_update(m)
     -- shake camera
     if m.action == ACT_GROUND_POUND_LAND then
         set_camera_shake_from_point(SHAKE_POS_MEDIUM, m.pos.x, m.pos.y, m.pos.z)
-		m.squishTimer = 5
+        m.squishTimer = 5
     end
 
     -- faster ground pound
@@ -1182,6 +1034,14 @@ function mario_before_phys_step(m)
         return
     end
 
+    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 then
+        return
+    end
+    
+    if not gGlobalSyncTable.GlobalMoveset then
+        return
+    end
+
     gEventTable[m.character.type].before_phys_step(m)
 end
 
@@ -1195,6 +1055,14 @@ function mario_on_set_action(m)
     end
 
     if gEventTable[m.character.type].on_set_action == nil then
+        return
+    end
+
+    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 then
+        return
+    end
+    
+    if not gGlobalSyncTable.GlobalMoveset then
         return
     end
 
@@ -1214,6 +1082,14 @@ function mario_update(m)
         return
     end
 
+    if gPlayerSyncTable[m.playerIndex].moveset ~= 1 then
+        return
+    end
+    
+    if not gGlobalSyncTable.GlobalMoveset then
+        return
+    end
+    
     gEventTable[m.character.type].update(m)
 end
 
@@ -1257,127 +1133,129 @@ ACT_WALL_SLIDE = (0x0BF | ACT_FLAG_AIR | ACT_FLAG_MOVING | ACT_FLAG_ALLOW_VERTIC
 
 
 function mario_update(m)
-    if gPlayerSyncTable[m.playerIndex].moveset ~= 2 or not gGlobalSyncTable.GlobalMoveset then return end
+    if gPlayerSyncTable[m.playerIndex].moveset == 2 and gGlobalSyncTable.GlobalMoveset then
 
-    if m.action == ACT_GROUND_POUND_LAND and m.controller.buttonPressed & A_BUTTON ~=0 then
-        m.vel.y = 30
-        set_mario_action(m, ACT_TRIPLE_JUMP, 0)
+        if m.action == ACT_GROUND_POUND_LAND and m.controller.buttonPressed & A_BUTTON ~=0 then
+            m.vel.y = 30
+            set_mario_action(m, ACT_TRIPLE_JUMP, 0)
+        end
+
+        if m.action == ACT_TWIRLING and m.controller.buttonDown & Z_TRIG ~= 0 then
+            m.vel.y = -50
+        end
+
+        if m.action == ACT_TWIRL_LAND and m.controller.buttonDown & Z_TRIG ~= 0 and m.actionTimer == 0 then
+            set_mario_action(m, ACT_GROUND_POUND, 0)
+            m.actionTimer = 5000
+        end
+
+        if m.action == ACT_TWIRL_LAND then
+            m.actionTimer = m.actionTimer + 1
+        end
+
+        if m.action == ACT_GROUND_POUND and m.controller.buttonPressed & B_BUTTON ~=0 then
+            m.vel.y = 36
+            m.forwardVel = 25
+            m.faceAngle.y = m.intendedYaw
+            m.particleFlags = m.particleFlags | PARTICLE_MIST_CIRCLE
+            set_mario_action(m, ACT_DIVE, 0)
+        end
+
+        if m.action == ACT_WATER_JUMP and m.controller.buttonPressed & Z_TRIG ~=0 then
+            set_mario_action(m, ACT_GROUND_POUND, 0)
+        end
+
+        if m.action == ACT_STEEP_JUMP and m.controller.buttonPressed & Z_TRIG ~=0 then
+            set_mario_action(m, ACT_GROUND_POUND, 0)
+        end
+
+        if (m.action == ACT_FORWARD_ROLLOUT or m.action == ACT_BACKWARD_ROLLOUT or m.action == ACT_FALLING_EXIT_AIRBORNE) and m.controller.buttonPressed & Z_TRIG ~= 0 then
+            set_mario_action(m, ACT_GROUND_POUND, 0)
+        end
+
+        if m.action & ACT_FLAG_SWIMMING ~= 0 and m.controller.buttonPressed & Z_TRIG ~= 0 and m.action ~= ACT_WATER_GROUND_POUND then
+            set_mario_action(m, ACT_WATER_GROUND_POUND, 0)
+        end
     end
-
-    if m.action == ACT_TWIRLING and m.controller.buttonDown & Z_TRIG ~= 0 then
-        m.vel.y = -50
-    end
-
-    if m.action == ACT_TWIRL_LAND and m.controller.buttonDown & Z_TRIG ~= 0 and m.actionTimer == 0 then
-        set_mario_action(m, ACT_GROUND_POUND, 0)
-        m.actionTimer = 5000
-    end
-
-    if m.action == ACT_TWIRL_LAND then
-        m.actionTimer = m.actionTimer + 1
-    end
-
-    if m.action == ACT_GROUND_POUND and m.controller.buttonPressed & B_BUTTON ~=0 then
-        m.vel.y = 36
-        m.forwardVel = 25
-        m.faceAngle.y = m.intendedYaw
-        m.particleFlags = m.particleFlags | PARTICLE_MIST_CIRCLE
-        set_mario_action(m, ACT_DIVE, 0)
-    end
-
-    if m.action == ACT_WATER_JUMP and m.controller.buttonPressed & Z_TRIG ~=0 then
-        set_mario_action(m, ACT_GROUND_POUND, 0)
-    end
-
-    if m.action == ACT_STEEP_JUMP and m.controller.buttonPressed & Z_TRIG ~=0 then
-        set_mario_action(m, ACT_GROUND_POUND, 0)
-    end
-
-    if (m.action == ACT_FORWARD_ROLLOUT or m.action == ACT_BACKWARD_ROLLOUT or m.action == ACT_FALLING_EXIT_AIRBORNE) and m.controller.buttonPressed & Z_TRIG ~= 0 then
-        set_mario_action(m, ACT_GROUND_POUND, 0)
-    end
-
-    if m.action & ACT_FLAG_SWIMMING ~= 0 and m.controller.buttonPressed & Z_TRIG ~= 0 and m.action ~= ACT_WATER_GROUND_POUND then
-        set_mario_action(m, ACT_WATER_GROUND_POUND, 0)
-    end
-
 end
 
 ---@param m MarioState
 function before_mario_update(m)
-    if gPlayerSyncTable[m.playerIndex].moveset ~= 2 or not gGlobalSyncTable.GlobalMoveset then return end
-    if m.prevAction == ACT_GROUND_POUND_LAND and m.action == ACT_TRIPLE_JUMP and m.controller.buttonPressed & B_BUTTON ~= 0 then
-        m.vel.y = 36
-        m.forwardVel = 25
-        m.faceAngle.y = m.intendedYaw
-        m.particleFlags = m.particleFlags | PARTICLE_MIST_CIRCLE
-        set_mario_action(m, ACT_DIVE, 0)
+    if gPlayerSyncTable[m.playerIndex].moveset == 2 and gGlobalSyncTable.GlobalMoveset then
+        if m.prevAction == ACT_GROUND_POUND_LAND and m.action == ACT_TRIPLE_JUMP and m.controller.buttonPressed & B_BUTTON ~= 0 then
+            m.vel.y = 36
+            m.forwardVel = 25
+            m.faceAngle.y = m.intendedYaw
+            m.particleFlags = m.particleFlags | PARTICLE_MIST_CIRCLE
+            set_mario_action(m, ACT_DIVE, 0)
+        end
     end
 end
 
 ---@param m MarioState
 function act_water_ground_pound(m)
-    if gPlayerSyncTable[m.playerIndex].moveset ~= 2 or not gGlobalSyncTable.GlobalMoveset then return end
+    if gPlayerSyncTable[m.playerIndex].moveset == 2 and gGlobalSyncTable.GlobalMoveset then
 
-    m.actionTimer = m.actionTimer + 1
+        m.actionTimer = m.actionTimer + 1
 
-    local stepResult = perform_water_step(m)
+        local stepResult = perform_water_step(m)
 
-    m.vel.x = 0
-    m.vel.z = 0
-    m.forwardVel = 0
-    m.faceAngle.x = 0
-    m.faceAngle.z = 0
+        m.vel.x = 0
+        m.vel.z = 0
+        m.forwardVel = 0
+        m.faceAngle.x = 0
+        m.faceAngle.z = 0
 
-    if m.actionState == 0 then
-        if m.actionTimer < 10 then
-            local yOffset = 20 - 2 * m.actionTimer
-            if (m.pos.y + yOffset + 160.0 < m.ceilHeight) then
-                m.pos.y = m.pos.y + yOffset
-                m.peakHeight = m.pos.y
-                vec3f_copy(m.marioObj.header.gfx.pos, m.pos)
+        if m.actionState == 0 then
+            if m.actionTimer < 10 then
+                local yOffset = 20 - 2 * m.actionTimer
+                if (m.pos.y + yOffset + 160.0 < m.ceilHeight) then
+                    m.pos.y = m.pos.y + yOffset
+                    m.peakHeight = m.pos.y
+                    vec3f_copy(m.marioObj.header.gfx.pos, m.pos)
+                end
+            end
+
+            set_mario_animation(m, MARIO_ANIM_START_GROUND_POUND)
+            if (m.actionTimer == 0) then
+                play_sound(SOUND_ACTION_SPIN, m.marioObj.header.gfx.cameraToObject);
+            end
+
+            m.actionTimer = m.actionTimer + 1
+            if (m.actionTimer >= m.marioObj.header.gfx.animInfo.curAnim.loopEnd + 4) then
+                m.actionState = 1
+                m.actionTimer = 0
+            end
+        elseif m.actionState == 1 then
+            m.vel.y = -50
+
+            set_mario_animation(m, MARIO_ANIM_GROUND_POUND)
+
+            if m.actionTimer >= 0.25 * 30 then
+                return set_mario_action(m, ACT_WATER_IDLE, 0)
+            elseif stepResult == WATER_STEP_HIT_FLOOR then
+                play_mario_heavy_landing_sound(m, SOUND_ACTION_TERRAIN_HEAVY_LANDING)
+                set_mario_particle_flags(m, (PARTICLE_MIST_CIRCLE | PARTICLE_HORIZONTAL_STAR), 0)
+                m.actionState = 2
+                m.actionTimer = 0
+            end
+        else
+            m.vel.y = 0
+
+            if m.actionTimer >= 0.25 * 30 then
+                return set_mario_action(m, ACT_WATER_IDLE, 0)
             end
         end
 
-        set_mario_animation(m, MARIO_ANIM_START_GROUND_POUND)
-        if (m.actionTimer == 0) then
-            play_sound(SOUND_ACTION_SPIN, m.marioObj.header.gfx.cameraToObject);
+        if m.controller.buttonPressed & B_BUTTON ~= 0 then
+            m.forwardVel = 90
+            m.faceAngle.y = m.intendedYaw
+            m.input = m.input & ~INPUT_B_PRESSED
+            return set_mario_action(m, ACT_BREASTSTROKE, 0)
         end
 
-        m.actionTimer = m.actionTimer + 1
-        if (m.actionTimer >= m.marioObj.header.gfx.animInfo.curAnim.loopEnd + 4) then
-            m.actionState = 1
-            m.actionTimer = 0
-        end
-    elseif m.actionState == 1 then
-        m.vel.y = -50
-
-        set_mario_animation(m, MARIO_ANIM_GROUND_POUND)
-
-        if m.actionTimer >= 0.25 * 30 then
-            return set_mario_action(m, ACT_WATER_IDLE, 0)
-        elseif stepResult == WATER_STEP_HIT_FLOOR then
-            play_mario_heavy_landing_sound(m, SOUND_ACTION_TERRAIN_HEAVY_LANDING)
-            set_mario_particle_flags(m, (PARTICLE_MIST_CIRCLE | PARTICLE_HORIZONTAL_STAR), 0)
-            m.actionState = 2
-            m.actionTimer = 0
-        end
-    else
-        m.vel.y = 0
-
-        if m.actionTimer >= 0.25 * 30 then
-            return set_mario_action(m, ACT_WATER_IDLE, 0)
-        end
+        return 0
     end
-
-    if m.controller.buttonPressed & B_BUTTON ~= 0 then
-        m.forwardVel = 90
-        m.faceAngle.y = m.intendedYaw
-        m.input = m.input & ~INPUT_B_PRESSED
-        return set_mario_action(m, ACT_BREASTSTROKE, 0)
-    end
-
-    return 0
 end
 
 -- hooks
