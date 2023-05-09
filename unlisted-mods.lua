@@ -102,7 +102,6 @@ end
 
 id_bhvBrokenDoor = hook_behavior(nil, OBJ_LIST_GENACTOR, true, bhv_broken_door_init, bhv_broken_door_loop)
 
-local visible = false
 extraVel = 0
 IdiotSound = audio_sample_load("Idiot.mp3")
 --- @param m MarioState
@@ -524,13 +523,6 @@ function update()
         c.cutscene = 0
     end
 end
-
---Player Colored Stars
---- @param o Object
-local function bhv_star_init(o)
-    o.globalPlayerIndex = gNetworkPlayers[0].globalIndex
-end
-id_bhvStar = hook_behavior(id_bhvStar, OBJ_LIST_LEVEL, false, bhv_star_init, nil)
 
 --All Hooks
 hook_event(HOOK_MARIO_UPDATE, mario_update)
