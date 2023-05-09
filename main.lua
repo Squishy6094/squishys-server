@@ -187,23 +187,6 @@ function mario_update_msgtimer(m)
     
 end
 
---Manual Pop-ups--
-for i = 0, MAX_PLAYERS - 1, 1 do
-    gPlayerSyncTable[i].showMSG = false
-    gPlayerSyncTable[i].msg = ""
-end
-
-function chat_command(msg)
-    if msg ~= nil then
-        for i = 0, MAX_PLAYERS - 1, 1 do
-            gPlayerSyncTable[i].showMSG = true
-            gPlayerSyncTable[i].msg = msg
-        end
-        return true
-    end
-    return false
-end
-
 function update()
     local m = gMarioStates[0]
     if gPlayerSyncTable[m.playerIndex].showMSG then
@@ -212,9 +195,5 @@ function update()
     end
 end
 
-hook_event(HOOK_ON_HUD_RENDER, displayrules)
-if network_is_server() or network_is_moderator() then
-    hook_chat_command('servermsg', "Type a message to send as a popup to everyone.", chat_command)
-end
 hook_event(HOOK_UPDATE, update)
 hook_event(HOOK_MARIO_UPDATE, mario_update_msgtimer)
