@@ -13,7 +13,14 @@ else
     rules = false
 end
 
+
+local stallScriptTimer = 0
 function displayrules(m)
+    if stallScriptTimer <= 15 then
+        stallScriptTimer = stallScriptTimer + 1
+        return
+    end
+    
     if rules and offsetX < -1 then
         offsetX = offsetX/1.1
     end
@@ -30,8 +37,8 @@ function displayrules(m)
 
     djui_hud_set_font(FONT_NORMAL)
     djui_hud_set_color(255, 255, 255, 50)
-    if discordID ~= nil and discordID ~= "0" then
-        djui_hud_print_text("Name-2-Model ID: ".. discordID, 190 - (djui_hud_measure_text("Name-2-Model ID: ".. discordID)*0.2) + offsetX, 5, 0.2)
+    if network_discord_id_from_local_index(0) ~= nil and network_discord_id_from_local_index(0) ~= "0" then
+        djui_hud_print_text("Name-2-Model ID: ".. network_discord_id_from_local_index(0), 190 - (djui_hud_measure_text("Name-2-Model ID: ".. network_discord_id_from_local_index(0))*0.2) + offsetX, 5, 0.2)
     else
         djui_hud_print_text("Name-2-Model ID Not Found", 190 - (djui_hud_measure_text("Name-2-Model ID Not Found")*0.2) + offsetX, 5, 0.2)
     end
