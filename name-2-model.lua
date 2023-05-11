@@ -8,7 +8,6 @@ Cosmic = "767513529036832799"
 Trashcam = "827596624590012457"
 Skeltan = "489114867215630336"
 AgentX = "490613035237507091"
-Blocky = "584329002689363968"
 DepressedYoshi = "491581215782993931"
 Yosho = "711762825676193874"
 YoshoAlt = "561647968084557825"
@@ -207,25 +206,6 @@ modelTable = {
             icon = "Default"
         }
 
-    },
-    [Blocky] = {
-        maxNum = 2,
-        [0] = {
-            model = nil,
-            modelName = "Default",
-            icon = "Default"
-        },
-        [1] = {
-            model = smlua_model_util_get_id("blocky_geo"),
-            modelName = "Blocky",
-            icon = get_texture_info("icon-blocky")
-        },
-        [2] = {
-            model = smlua_model_util_get_id("bestie_geo"),
-            modelName = "Bestie Badge",
-            forcePlayer = CT_MARIO,
-            icon = "Default"
-        }
     },
     [DepressedYoshi] = {
         maxNum = 1,
