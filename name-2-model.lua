@@ -288,7 +288,7 @@ modelTable = {
         }
     },
     [Elby] = {
-        maxNum = 2,
+        maxNum = 3,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -304,7 +304,12 @@ modelTable = {
             modelName = "Hatsune Maiku",
             forcePlayer = CT_MARIO,
             icon = "Default"
-        }
+        },
+        [3] = {
+            model = smlua_model_util_get_id("noelle_geo"),
+            modelName = "Noelle",
+            forcePlayer = CT_LUIGI
+        },
     },
     [Crispyman] = {
         maxNum = 3,
@@ -325,10 +330,10 @@ modelTable = {
             icon = get_texture_info("icon-peppino")
         },
         [3] = {
-            model = smlua_model_util_get_id("rosalina_geo"),
-            modelName = "Rosalina",
-            forcePlayer = CT_WALUIGI
-        }
+            model = smlua_model_util_get_id("noelle_geo"),
+            modelName = "Noelle",
+            forcePlayer = CT_LUIGI
+        },
     },
     [Butter] = {
         maxNum = 1,
