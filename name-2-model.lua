@@ -76,7 +76,7 @@ modelTable = {
         },
     },
     [Nut] = {
-        maxNum = 4,
+        maxNum = 5,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -103,7 +103,12 @@ modelTable = {
             modelName = "Purple Guy",
             forcePlayer = CT_MARIO,
             icon = get_texture_info("icon-purple-guy")
-        }
+        },
+        [4] = {
+            model = smlua_model_util_get_id("wander_geo"),
+            modelName = "Wander",
+            forcePlayer = CT_TOAD
+        },
     },
     [Cosmic] = {
         maxNum = 1,
@@ -312,7 +317,7 @@ modelTable = {
         },
     },
     [Crispyman] = {
-        maxNum = 3,
+        maxNum = 4,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -333,6 +338,11 @@ modelTable = {
             model = smlua_model_util_get_id("noelle_geo"),
             modelName = "Noelle",
             forcePlayer = CT_LUIGI
+        },
+        [4] = {
+            model = smlua_model_util_get_id("peepers_geo"),
+            modelName = "Peepers",
+            forcePlayer = CT_TOAD
         },
     },
     [Butter] = {
