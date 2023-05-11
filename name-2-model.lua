@@ -89,7 +89,7 @@ modelTable = {
         }
     },
     [Nut] = {
-        maxNum = 3,
+        maxNum = 4,
         [0] = {
             model = nil,
             modelName = "Default",
@@ -110,6 +110,12 @@ modelTable = {
             modelName = "Super Show Toad",
             forcePlayer = CT_TOAD,
             icon = "Default",
+        },
+        [4] = {
+            model = smlua_model_util_get_id("purple_guy_geo"),
+            modelName = "Purple Guy",
+            forcePlayer = CT_MARIO,
+            icon = get_texture_info("icon-purple-guy")
         }
     },
     [Cosmic] = {
@@ -152,10 +158,10 @@ modelTable = {
             icon = get_texture_info("icon-peppino")
         },
         [3] = {
-            model = smlua_model_util_get_id("bestie_geo"),
-            modelName = "Bestie Badge",
+            model = smlua_model_util_get_id("purple_guy_geo"),
+            modelName = "Purple Guy",
             forcePlayer = CT_MARIO,
-            icon = "Default"
+            icon = get_texture_info("icon-purple-guy")
         }
     },
     [Skeltan] = {
