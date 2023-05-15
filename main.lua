@@ -6,7 +6,20 @@ local opacity = 255
 local msgtimer = -3000
 local lastpopupNum = 0
 
+if mod_storage_load("RulesSave") == nil or mod_storage_load("RulesSave") == "1" then
+    rules = true
+else
+    rules = false
+end
+
+
+local stallScriptTimer = 0
 function displayrules(m)
+    if stallScriptTimer <= 15 then
+        stallScriptTimer = stallScriptTimer + 1
+        return
+    end
+    
     if rules and offsetX < -1 then
         offsetX = offsetX/1.1
     end
@@ -174,7 +187,7 @@ function mario_update_msgtimer(m)
         m.pos.y = m.floorHeight
         m.action = ACT_READING_NPC_DIALOG
         if msgtimer >= 0 and m.controller.buttonDown & A_BUTTON ~= 0 then
-            rules = false
+            rules = 0
         end
     end
     
@@ -188,5 +201,6 @@ function update()
     end
 end
 
+hook_event(HOOK_ON_HUD_RENDER, displayrules)
 hook_event(HOOK_UPDATE, update)
 hook_event(HOOK_MARIO_UPDATE, mario_update_msgtimer)

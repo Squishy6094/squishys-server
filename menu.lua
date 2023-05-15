@@ -1,16 +1,3 @@
-if network_is_server() then
-    gGlobalSyncTable.RoomStart = get_time()
-end
-
-gGlobalSyncTable.bubbleDeath = 0
-gGlobalSyncTable.playerInteractions = gServerSettings.playerInteractions
-gGlobalSyncTable.playerKnockbackStrength = gServerSettings.playerKnockbackStrength
-gGlobalSyncTable.stayInLevelAfterStar = gServerSettings.stayInLevelAfterStar
-gGlobalSyncTable.GlobalAQS = true
-gGlobalSyncTable.GlobalMoveset = true
-
-gLevelValues.extendedPauseDisplay = true
-
 local menu = false
 local optionTab = 1
 local optionHover = 1
