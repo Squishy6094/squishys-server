@@ -515,7 +515,8 @@ function set_discord_id(msg)
     if modelTable[msg] ~= nil then
         discordID = msg
         menuTable[3][2].statusMax = modelTable[discordID].maxNum
-        djui_chat_message_create('ID set to "'..msg'" Successfully!')
+        menuTable[3][2].status = 0
+        djui_chat_message_create('ID set Successfully!')
     else
         djui_chat_message_create("Invalid ID Entered")
     end
