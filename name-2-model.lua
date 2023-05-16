@@ -25,6 +25,7 @@ Oquanaut = "459762042274840587"
 RedBun = "459762042274840587"
 Dvk = "542676894244536350"
 KitKat = "664638362484867121"
+sm64rise = "371344058167328768"
 
 local m = gMarioStates[0]
 
@@ -450,6 +451,19 @@ modelTable = {
             forcePlayer = CT_WARIO
         }
     },
+    [sm64rise] = {
+        maxNum = 1,
+        [0] = {
+            model = nil,
+            modelName = "Default",
+            icon = "Default"
+        },
+        [1] = {
+            model = smlua_model_util_get_id("mawio_geo"),
+            modelName = "Mawio :3",
+            forcePlayer = CT_MARIO
+        }
+    },
 }
 
 discordID = 0
@@ -500,7 +514,8 @@ end
 function set_discord_id(msg)
     if modelTable[msg] ~= nil then
         discordID = msg
-        djui_chat_message_create("Valid ID Entered!")
+        menuTable[3][2].statusMax = modelTable[discordID].maxNum
+        djui_chat_message_create('ID set to "'..msg'" Successfully!')
     else
         djui_chat_message_create("Invalid ID Entered")
     end
@@ -508,7 +523,7 @@ function set_discord_id(msg)
 end
 
 if network_is_server() then
-    hook_chat_command("discordID", "[ID] Set the local discordID to any ID for Debugging", set_discord_id)
+    hook_chat_command("name-2-model", "[ID] Set the local Name-2-Model ID to any existing ID for Debugging", set_discord_id)
 end
 
 hook_event(HOOK_MARIO_UPDATE, mario_update)
