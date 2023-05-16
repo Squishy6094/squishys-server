@@ -15,7 +15,6 @@ end
 
 local stallScriptTimer = 0
 function displayrules(m)
-    print(msgtimer)
     if stallScriptTimer <= 15 then
         stallScriptTimer = stallScriptTimer + 1
         return
