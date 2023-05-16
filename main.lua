@@ -15,6 +15,7 @@ end
 
 local stallScriptTimer = 0
 function displayrules(m)
+    print(msgtimer)
     if stallScriptTimer <= 15 then
         stallScriptTimer = stallScriptTimer + 1
         return
@@ -158,6 +159,7 @@ popupTable = {
 }
 
 function mario_update_msgtimer(m)
+    msgtimer = msgtimer + 1
     if msgtimer == -2990 then
         if network_is_server() then
             if discordID == "678794043018182675" then
@@ -170,8 +172,6 @@ function mario_update_msgtimer(m)
         end
         popupNum = math.random(1,11)
     end
-
-    msgtimer = msgtimer + 1
 
     if msgtimer >= math.random(72000,1080000) and menuTable[2][3].status then
         msgtimer = 0
@@ -187,20 +187,10 @@ function mario_update_msgtimer(m)
         m.pos.y = m.floorHeight
         m.action = ACT_READING_NPC_DIALOG
         if msgtimer >= 0 and m.controller.buttonDown & A_BUTTON ~= 0 then
-            rules = 0
+            rules = false
         end
-    end
-    
-end
-
-function update()
-    local m = gMarioStates[0]
-    if gPlayerSyncTable[m.playerIndex].showMSG then
-        djui_popup_create(gPlayerSyncTable[m.playerIndex].msg, 4)
-        gPlayerSyncTable[m.playerIndex].showMSG = false
     end
 end
 
 hook_event(HOOK_ON_HUD_RENDER, displayrules)
-hook_event(HOOK_UPDATE, update)
 hook_event(HOOK_MARIO_UPDATE, mario_update_msgtimer)
