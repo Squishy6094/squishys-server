@@ -104,7 +104,7 @@ modelTable = {
             forcePlayer = CT_MARIO,
             icon = get_texture_info("icon-purple-guy")
         },
-        [4] = {
+        [5] = {
             model = smlua_model_util_get_id("wander_geo"),
             modelName = "Wander",
             forcePlayer = CT_TOAD
@@ -453,6 +453,7 @@ modelTable = {
 }
 
 discordID = 0
+
 
 --- @param m MarioState
 function mario_update(m)
