@@ -164,20 +164,8 @@ menuTable = {
     },
     [3] = {
         name = "Misc.",
-        tabMax = 3,
+        tabMax = 4,
         [1] = {
-            name = "Star Spawn Cutscene",
-            nameSave = "SSCSave",
-            status = tonumber(mod_storage_load("SSCSave")),
-            statusMax = 1,
-            statusDefault = 1,
-            --Description
-            Line1 = "Toggles if Star Spawning",
-            Line2 = "Cutscenes play, Recommended",
-            Line3 = "if you don't know where a",
-            Line4 = "star spawns."
-        },
-        [2] = {
             name = "Personal Model",
             nameSave = "ModelSave",
             status = tonumber(mod_storage_load("ModelSave")),
@@ -194,7 +182,7 @@ menuTable = {
             Line8 = "information about",
             Line9 = "Custom Models and DynOS"
         },
-        [3] = {
+        [2] = {
             name = "Locally Display Models",
             nameSave = "ModelDisplaySave",
             status = tonumber(mod_storage_load("ModelDisplaySave")),
@@ -210,7 +198,31 @@ menuTable = {
             Line7 = "Contact The Host for more",
             Line8 = "information about",
             Line9 = "Custom Models and DynOS"
-        }
+        },
+        [3] = {
+            name = "Taunt Menu",
+            nameSave = "TauntSave",
+            status = tonumber(mod_storage_load("TauntSave")),
+            statusMax = 1,
+            statusDefault = 1,
+            --Description
+            Line1 = "Allows you to open a taunt",
+            Line2 = "Menu with the L button.",
+            Line3 = "",
+            Line4 = "(Work In Progress Feature)"
+        },
+        [4] = {
+            name = "Star Spawn Cutscene",
+            nameSave = "SSCSave",
+            status = tonumber(mod_storage_load("SSCSave")),
+            statusMax = 1,
+            statusDefault = 1,
+            --Description
+            Line1 = "Toggles if Star Spawning",
+            Line2 = "Cutscenes play, Recommended",
+            Line3 = "if you don't know where a",
+            Line4 = "star spawns."
+        },
     },
     [4] = {
         name = "Misc.",
@@ -317,7 +329,11 @@ if mod_storage_load("SaveData") ~= "true" then
     end
 
     for i = 1, #menuTable[3] do
-        set_status_and_save(menuTable[3], i, 1)
+        if i == 4 then
+            set_status_and_save(menuTable[3], i, 0)
+        else
+            set_status_and_save(menuTable[3], i, 1)
+        end
     end
 
     print("Save Data made successfully!")

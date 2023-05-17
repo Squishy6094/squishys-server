@@ -128,9 +128,9 @@ function displaymenu()
                 djui_hud_print_text(menuTable[optionTab][optionHover][menuTable[optionTab][optionHover].status], (halfScreenWidth), 70 + (optionHover * 10), 0.3)
             else
                 if optionTab == 3 and optionHover == 2 then
-                    djui_hud_print_text(modelTable[discordID][menuTable[3][2].status].modelName, (halfScreenWidth), 70 + (optionHover * 10), 0.3)
-                    if menuTable[3][2].statusMax == nil then
-                        menuTable[3][2].statusMax = maxModelNum
+                    djui_hud_print_text(modelTable[discordID][menuTable[3][1].status].modelName, (halfScreenWidth), 70 + (optionHover * 10), 0.3)
+                    if menuTable[3][1].statusMax == nil then
+                        menuTable[3][1].statusMax = maxModelNum
                     end
                 else
                     if menuTable[optionTab][optionHover].status > 0 then

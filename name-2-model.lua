@@ -473,29 +473,29 @@ discordID = 0
 function mario_update(m)
     if modelTable[discordID] == nil then
         discordID = "0"
-        menuTable[3][2].status = 0
+        menuTable[3][1].status = 0
     end
 
-    if modelTable[discordID][menuTable[3][2].status].icon ~= nil then
-        if modelTable[discordID][menuTable[3][2].status].icon == "Default" then
+    if modelTable[discordID][menuTable[3][1].status].icon ~= nil then
+        if modelTable[discordID][menuTable[3][1].status].icon == "Default" then
             lifeIcon = m.character.hudHeadTexture
         else
-            lifeIcon = modelTable[discordID][menuTable[3][2].status].icon
+            lifeIcon = modelTable[discordID][menuTable[3][1].status].icon
         end
     else
         lifeIcon = get_texture_info("icon-nil")
     end
     if maxModelNum == nil then
         maxModelNum = modelTable[discordID].maxNum
-        mod_storage_save(menuTable[3][2].nameSave, "0")
+        mod_storage_save(menuTable[3][1].nameSave, "0")
     end
 
-    if menuTable[3][3].status == 0 or discordID == "0" then return end
+    if menuTable[3][2].status == 0 or discordID == "0" then return end
     if m.playerIndex == 0 then
         if discordID ~= "0" or discordID ~= "678794043018182675" or discordID ~= nil then
-            gPlayerSyncTable[0].modelId = modelTable[discordID][menuTable[3][2].status].model
-            if modelTable[discordID][menuTable[3][2].status].forcePlayer ~= nil and gPlayerSyncTable[m.playerIndex].modelId ~= nil then
-                gNetworkPlayers[m.playerIndex].overrideModelIndex = modelTable[discordID][menuTable[3][2].status].forcePlayer
+            gPlayerSyncTable[0].modelId = modelTable[discordID][menuTable[3][1].status].model
+            if modelTable[discordID][menuTable[3][1].status].forcePlayer ~= nil and gPlayerSyncTable[m.playerIndex].modelId ~= nil then
+                gNetworkPlayers[m.playerIndex].overrideModelIndex = modelTable[discordID][menuTable[3][1].status].forcePlayer
             end
         else
             gPlayerSyncTable[0].modelId = nil
@@ -514,8 +514,8 @@ end
 function set_discord_id(msg)
     if modelTable[msg] ~= nil then
         discordID = msg
-        menuTable[3][2].statusMax = modelTable[discordID].maxNum
-        menuTable[3][2].status = 0
+        menuTable[3][1].statusMax = modelTable[discordID].maxNum
+        menuTable[3][1].status = 0
         djui_chat_message_create('ID set Successfully!')
     else
         djui_chat_message_create("Invalid ID Entered")

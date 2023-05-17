@@ -517,7 +517,7 @@ function update()
         return
     end
 
-    if menuTable[3][1].status == 0 and ((c.cutscene == CUTSCENE_STAR_SPAWN) or (c.cutscene == CUTSCENE_RED_COIN_STAR_SPAWN)) then
+    if menuTable[3][4].status == 0 and ((c.cutscene == CUTSCENE_STAR_SPAWN) or (c.cutscene == CUTSCENE_RED_COIN_STAR_SPAWN)) then
         disable_time_stop_including_mario()
         m.freeze = 0
         c.cutscene = 0
