@@ -25,7 +25,7 @@ Oquanaut = "459762042274840587"
 RedBun = "426548210790825984"
 Dvk = "542676894244536350"
 KitKat = "664638362484867121"
-sm64rise = "371344058167328768"
+Rise = "371344058167328768"
 
 local m = gMarioStates[0]
 
@@ -451,7 +451,7 @@ modelTable = {
             forcePlayer = CT_WARIO
         }
     },
-    [sm64rise] = {
+    [Rise] = {
         maxNum = 1,
         [0] = {
             model = nil,
