@@ -466,7 +466,8 @@ modelTable = {
         [1] = {
             model = smlua_model_util_get_id("mawio_geo"),
             modelName = "Mawio :3",
-            forcePlayer = CT_MARIO
+            forcePlayer = CT_MARIO,
+            icon = get_texture_info("icon-mawio")
         }
     },
 }
