@@ -16,6 +16,7 @@ tauntList = {
 function displaytaunt()
     local m = gMarioStates[0]
     djui_hud_set_resolution(RESOLUTION_N64)
+    if menuTable[3][3].status == 0 then return end
     if tauntAct[m.action] and m.controller.buttonDown & L_TRIG ~= 0 and not is_game_paused() then
         tauntMenu = 1
     end
