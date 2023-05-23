@@ -349,6 +349,9 @@ local FourThreeLock = 1
 local Compact = 2
 local Off = 3
 
+_G.StarCounter = nil
+_G.TotalStarCounter = nil
+
 hudTable = {
     [DefaultHUD] = {
         name = "Default",
@@ -715,7 +718,3 @@ hudTable = {
         }
     },
 }
-
---------------------------
--- Name-2-Model Handler --
---------------------------
