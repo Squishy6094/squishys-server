@@ -6,6 +6,8 @@ local opacity = 255
 local msgtimer = -3000
 local lastpopupNum = 0
 
+discordID = network_discord_id_from_local_index(0)
+
 if mod_storage_load("RulesSave") == nil or mod_storage_load("RulesSave") == "1" then
     rules = true
 else

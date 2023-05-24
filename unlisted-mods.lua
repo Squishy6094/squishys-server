@@ -2,7 +2,6 @@
 --Mods are bundled here to prevent lag and clutter--
 --Credits go to all their original mod creators--
 
---Level Values
 gLevelValues.starHeal = true
 gLevelValues.floatingStarDance = true
 gLevelValues.mushroom1UpHeal = true
