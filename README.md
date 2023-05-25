@@ -9,6 +9,16 @@
 
  Since this is a mod by the player, for the player, I want to make sure in can adapt to however *you* play! So please leave any suggestions you may have for features/additions, they make my hosts just that much better.
 
+### Name-2-Model and DynOS Models
+
+Squishy's Server allows for a multitude of custom character models, all being implemented via the Custom Menu. Any model you request is unique to You!
+
+For more information on creating models, please check out [Trashcam's Modding Resources](https://github.com/TrashcamSaysFrick/sm64ex-coop-modding-resources) for more information.
+
+Once you have your .bin model, Just send it over to 6094Squishy#4111 on Discord or make a commit adding the model yourself, the table system used in name-2-model.lua is fairly simple and shouldn't be that hard to implement.
+
+###### Note: This only makes your model selectable by you, and is liable to being distributed without your knowledge. Do not trust this project with your model if you want it to stay private!
+
 ### Links:
 
 [Repo](https://github.com/djoslin0/sm64ex-coop) - The original Repo for the game, made by **djoslin0**
