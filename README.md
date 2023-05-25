@@ -13,7 +13,7 @@
 
 Squishy's Server allows for a multitude of custom character models, all being implemented via the Custom Menu. Any model you request is unique to You!
 
-For more information on creating models, please check out [Trashcam's Modding Resources](https://github.com/TrashcamSaysFrick/sm64ex-coop-modding-resources) for more information.
+For more information on creating models, please check out [Trashcam's Modding Resources](https://github.com/TrashcamSaysFrick/sm64ex-coop-modding-resources) for more information. It's an amazing resource if you're just getting into making DynOS Models!
 
 Once you have your .bin model, Just send it over to 6094Squishy#4111 on Discord or make a commit adding the model yourself, the table system used in name-2-model.lua is fairly simple and shouldn't be that hard to implement.
 
