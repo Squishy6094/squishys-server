@@ -1,17 +1,19 @@
 -- name: -Squishy's Server-
 -- description: \\#008800\\Squishy's Server\n\n\\#dcdcdc\\A Server Mod filled with a bunch of Quality of Life Mods and Customizability made to suit anyones play style!\n\n\\#AAAAFF\\Github:\nSQUISHY6094/squishys-server\n\n\\#FF0000\\This mod is not intended for public hosting by anyone other than Squishy! Please only use this mod privatly!
 
+discordID = network_discord_id_from_local_index(0)
+
 local offsetX = -200
 local opacity = 255
-local msgtimer = -3000
+local rulesTimer = get_time() + 5
 local lastpopupNum = 0
-
-discordID = network_discord_id_from_local_index(0)
+local firstRuleShow = true
 
 if mod_storage_load("RulesSave") == nil or mod_storage_load("RulesSave") == "1" then
     rules = true
 else
     rules = false
+    firstRuleShow = false
 end
 
 
@@ -98,7 +100,7 @@ function displayrules(m)
     djui_hud_print_text('you would like to see when I host, Go ahead and', 20 + offsetX, 205, 0.3)
     djui_hud_print_text('ask or send me the mod directly on Discord', 20 + offsetX, 212, 0.3)
 
-    if msgtimer >= 0 then
+    if get_time() >= rulesTimer then
         if opacity >= -1 then
             opacity = opacity/1.05
         end
@@ -159,9 +161,11 @@ popupTable = {
     }
 }
 
+local popupTimer = get_time()
+local noLoop = false
+
 function mario_update_msgtimer(m)
-    msgtimer = msgtimer + 1
-    if msgtimer == -2990 then
+    if get_time() == popupTimer + 1 and not noLoop then
         if network_is_server() then
             if discordID == "678794043018182675" then
                 djui_popup_create("You are now hosting\n\\#005500\\Squishy's Server\\#dcdcdc\\,\nCheck your mods list and\nsend an Invite!",4)
@@ -172,10 +176,11 @@ function mario_update_msgtimer(m)
             djui_popup_create("Thanks For Joining\n\\#005500\\Squishy's Server\\#dcdcdc\\,\nEnjoy your Stay!",3)
         end
         popupNum = math.random(1,11)
+        noLoop = true
     end
 
-    if msgtimer >= math.random(72000,1080000) and menuTable[2][3].status then
-        msgtimer = 0
+    if get_time() - popupTimer >= math.random(180,300) and menuTable[2][3].status then
+        popupTimer = get_time()
         popupNum = math.random(1,11)
         if lastpopupNum == popupNum then
             popupNum = math.random(1,11)
@@ -185,13 +190,22 @@ function mario_update_msgtimer(m)
     end
 
     if rules then
-        m.pos.y = m.floorHeight
-        m.action = ACT_READING_NPC_DIALOG
-        if msgtimer >= 0 and m.controller.buttonDown & A_BUTTON ~= 0 then
+        if firstRuleShow then
+            m.pos.y = m.floorHeight
+            m.action = ACT_READING_NPC_DIALOG
+        end
+        if get_time() >= rulesTimer and m.controller.buttonDown & A_BUTTON ~= 0 then
             rules = false
+            firstRuleShow = false
         end
     end
 end
 
+function set_rules()
+    rules = true
+    return true
+end
+
 hook_event(HOOK_ON_HUD_RENDER, displayrules)
 hook_event(HOOK_MARIO_UPDATE, mario_update_msgtimer)
+hook_chat_command("rules", "Show the Rules of the server, just in case you forgot them :>", set_rules)
