@@ -1,4 +1,6 @@
-# Squishy's Server
+# Squishy's Server ![2023-05-26_08 35 56](https://github.com/SQUISHY6094/squishys-server/assets/74333752/bb4fb926-0f90-4ac8-bc18-9829d1e409ee)
+
+
  A repo for the Squishy's Server Lua Mod for sm64ex-coop, with the main goal to make my hosts have everything you would need quality of life wise!
 
  This repo is a resource if you're curious about how something in the mod is coded, Want to make optimization Pull Requests, or just hate long loading times and just want to download it here.
