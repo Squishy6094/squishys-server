@@ -554,14 +554,15 @@ function before_update(m)
         m.controller.buttonPressed = m.controller.buttonPressed & ~A_BUTTON
         m.controller.buttonDown = m.controller.buttonDown & ~A_BUTTON
     end
+end
+
+function update()
     --Possible Locked Code
     gGlobalSyncTable.GlobalMoveset = menuTable[4][5].status
     if menuTable[4][5].status ~= gGlobalSyncTable.GlobalMoveset then
         menuTable[4][5].status = gGlobalSyncTable.GlobalMoveset
     end
     menuTable[1][1].unlocked = gGlobalSyncTable.GlobalMoveset
-    print("Global: "..gGlobalSyncTable.GlobalMoveset)
-    print("Force: "..menuTable[1][1].unlocked)
     if menuTable[optionTab][optionHover].unlocked == false then
         menuTable[optionTab][optionHover].status = menuTable[optionTab][optionHover].lockTo
     end
@@ -569,3 +570,4 @@ end
 
 hook_event(HOOK_ON_HUD_RENDER, displaymenu)
 hook_event(HOOK_BEFORE_MARIO_UPDATE, before_update)
+hook_event(HOOK_UPDATE, update)
