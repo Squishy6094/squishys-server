@@ -26,10 +26,13 @@ menuTable = {
             status = tonumber(mod_storage_load("MoveSave")),
             statusMax = 2,
             statusDefault = 0,
+            unlocked = true,
+            lockTo = 0,
             --Status Toggle Names
             [0] = "Default",
             [1] = "Character",
             [2] = "Quality of Life",
+            ["Forced"] = "Forced Default",
             --Description
             Line1 = "Change small things about",
             Line2 = "how Mario moves to make",
@@ -462,10 +465,14 @@ function displaymenu()
                         menuTable[3][1].statusMax = maxModelNum
                     end
                 else
-                    if menuTable[optionTab][optionHover].status > 0 then
-                        djui_hud_print_text("On", (halfScreenWidth), 70 + (optionHover * 10), 0.3)
+                    if menuTable[optionTab][optionHover].unlocked == false then
+                        djui_hud_print_text(menuTable[optionTab][optionHover]["Forced"], (halfScreenWidth), 70 + (optionHover * 10), 0.3)
                     else
-                        djui_hud_print_text("Off", (halfScreenWidth), 70 + (optionHover * 10), 0.3)
+                        if menuTable[optionTab][optionHover].status > 0 then
+                            djui_hud_print_text("On", (halfScreenWidth), 70 + (optionHover * 10), 0.3)
+                        else
+                            djui_hud_print_text("Off", (halfScreenWidth), 70 + (optionHover * 10), 0.3)
+                        end
                     end
                 end
             end
@@ -522,17 +529,22 @@ end
 
 function before_update(m)
     if menu then
-        if m.playerIndex ~= 0 then return end        
+        if m.playerIndex ~= 0 then return end
         if optionHoverTimer == -1 and m.controller.buttonDown & A_BUTTON ~= 0 then
             optionHoverTimer = 0
-            menuTable[optionTab][optionHover].status = menuTable[optionTab][optionHover].status + 1
-            if menuTable[optionTab][optionHover].status > menuTable[optionTab][optionHover].statusMax then
-                menuTable[optionTab][optionHover].status = 0
+            if menuTable[optionTab][optionHover].unlocked == false then
+                menuTable[optionTab][optionHover].status = menuTable[optionTab][optionHover].lockTo
+                print("Could not change status")
+            else
+                menuTable[optionTab][optionHover].status = menuTable[optionTab][optionHover].status + 1
+                if menuTable[optionTab][optionHover].status > menuTable[optionTab][optionHover].statusMax then
+                    menuTable[optionTab][optionHover].status = 0
+                end
+                if menuTable[optionTab][optionHover].nameSave ~= nil then
+                    mod_storage_save(menuTable[optionTab][optionHover].nameSave, tostring(menuTable[optionTab][optionHover].status))
+                end
+                print("Saving configuration to 'squishys-server.sav'")
             end
-            if menuTable[optionTab][optionHover].nameSave ~= nil then
-                mod_storage_save(menuTable[optionTab][optionHover].nameSave, tostring(menuTable[optionTab][optionHover].status))
-            end
-            print("Saving configuration to 'squishys-server.sav'")
         end
         m.controller.rawStickY = 0
         m.controller.rawStickX = 0
@@ -541,6 +553,17 @@ function before_update(m)
         m.controller.buttonDown = m.controller.buttonDown & ~R_TRIG
         m.controller.buttonPressed = m.controller.buttonPressed & ~A_BUTTON
         m.controller.buttonDown = m.controller.buttonDown & ~A_BUTTON
+    end
+    --Possible Locked Code
+    gGlobalSyncTable.GlobalMoveset = menuTable[4][5].status
+    if menuTable[4][5].status ~= gGlobalSyncTable.GlobalMoveset then
+        menuTable[4][5].status = gGlobalSyncTable.GlobalMoveset
+    end
+    menuTable[1][1].unlocked = gGlobalSyncTable.GlobalMoveset
+    print("Global: "..gGlobalSyncTable.GlobalMoveset)
+    print("Force: "..menuTable[1][1].unlocked)
+    if menuTable[optionTab][optionHover].unlocked == false then
+        menuTable[optionTab][optionHover].status = menuTable[optionTab][optionHover].lockTo
     end
 end
 
