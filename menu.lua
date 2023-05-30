@@ -195,18 +195,6 @@ menuTable = {
             Line9 = "Custom Models and DynOS"
         },
         [3] = {
-            name = "Taunt Menu",
-            nameSave = "TauntSave",
-            status = tonumber(mod_storage_load("TauntSave")),
-            statusMax = 1,
-            statusDefault = 1,
-            --Description
-            Line1 = "Allows you to open a taunt",
-            Line2 = "Menu with the L button.",
-            Line3 = "",
-            Line4 = "(Work In Progress Feature)"
-        },
-        [4] = {
             name = "Star Spawn Cutscene",
             nameSave = "SSCSave",
             status = tonumber(mod_storage_load("SSCSave")),
@@ -324,7 +312,7 @@ if mod_storage_load("SaveData") ~= "true" then
     end
 
     for i = 1, #menuTable[3] do
-        if i == 4 then
+        if i == 3 then
             set_status_and_save(menuTable[3], i, 0)
         else
             set_status_and_save(menuTable[3], i, 1)
@@ -382,37 +370,34 @@ function displaymenu()
             optionHoverTimer = optionHoverTimer + 1
         end
 
-        if (m.controller.stickY < -10 or (m.controller.buttonDown & D_JPAD ~= 0)) and optionHoverTimer == -1 then
-            play_sound(SOUND_MENU_MESSAGE_NEXT_PAGE, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-            optionHover = optionHover + 1
-            optionHoverTimer = 0
-        elseif (m.controller.stickY > 10 or (m.controller.buttonDown & U_JPAD ~= 0)) and optionHoverTimer == -1 then
-            play_sound(SOUND_MENU_MESSAGE_NEXT_PAGE, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-            optionHover = optionHover - 1
-            optionHoverTimer = 0
-        end
+        local stickX = m.controller.stickX
+        local stickY = m.controller.stickY
+        local buttonDown = m.controller.buttonDown
 
-        if (m.controller.stickX < -10 or (m.controller.buttonDown & L_JPAD ~= 0)) and optionHoverTimer == -1 then
-            play_sound(SOUND_MENU_MESSAGE_NEXT_PAGE, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-            if optionTab == 1 and not (network_is_server() or network_is_moderator()) then
-                optionTab = 3
-            elseif optionTab == 1 and (network_is_server() or network_is_moderator()) then
-                optionTab = 4
-            else
-                optionTab = optionTab - 1
+        if optionHoverTimer == -1 then
+            if (stickY < -10 or (buttonDown & D_JPAD ~= 0)) then
+                play_sound(SOUND_MENU_MESSAGE_NEXT_PAGE, gMarioStates[0].marioObj.header.gfx.cameraToObject)
+                optionHover = optionHover + 1
+                optionHoverTimer = 0
+            elseif (stickY > 10 or (buttonDown & U_JPAD ~= 0)) then
+                play_sound(SOUND_MENU_MESSAGE_NEXT_PAGE, gMarioStates[0].marioObj.header.gfx.cameraToObject)
+                optionHover = optionHover - 1
+                optionHoverTimer = 0
             end
-            optionHoverTimer = 0
-        elseif (m.controller.stickX > 10 or (m.controller.buttonDown & R_JPAD ~= 0)) and optionHoverTimer == -1 then
-            play_sound(SOUND_MENU_MESSAGE_NEXT_PAGE, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-            if optionTab == 3 and not (network_is_server() or network_is_moderator()) then
-                optionTab = 1
-            elseif optionTab == 4 and (network_is_server() or network_is_moderator()) then
-                optionTab = 1
-            else
-                optionTab = optionTab + 1
-            end
-            optionHoverTimer = 0
         end
+        
+        if optionHoverTimer == -1 then
+            if (stickX < -10 or (buttonDown & L_JPAD ~= 0)) then
+                play_sound(SOUND_MENU_MESSAGE_NEXT_PAGE, gMarioStates[0].marioObj.header.gfx.cameraToObject)
+                optionTab = (optionTab == 1 and not (network_is_server() or network_is_moderator())) and 3 or optionTab - 1
+                optionHoverTimer = 0
+            elseif (stickX > 10 or (buttonDown & R_JPAD ~= 0)) then
+                play_sound(SOUND_MENU_MESSAGE_NEXT_PAGE, gMarioStates[0].marioObj.header.gfx.cameraToObject)
+                optionTab = (optionTab == 3 and not (network_is_server() or network_is_moderator())) and 1 or optionTab + 1
+                optionHoverTimer = 0
+            end
+        end
+        
 
         djui_hud_set_font(FONT_MENU)
         djui_hud_set_resolution(RESOLUTION_N64)
@@ -487,23 +472,8 @@ function displaymenu()
             print("Autofilled Toggle for '" ..menuTable[optionTab][optionHover].nameSave "' created.")
         end
         
-        if menuTable[optionTab].tabMax >= 1 then
-            djui_hud_print_text(menuTable[optionTab][1].name, (halfScreenWidth - 70), 80, 0.3)
-        end
-        if menuTable[optionTab].tabMax >= 2 then
-            djui_hud_print_text(menuTable[optionTab][2].name, (halfScreenWidth - 70), 90, 0.3)
-        end
-        if menuTable[optionTab].tabMax >= 3 then
-            djui_hud_print_text(menuTable[optionTab][3].name, (halfScreenWidth - 70), 100, 0.3)
-        end
-        if menuTable[optionTab].tabMax >= 4 then
-            djui_hud_print_text(menuTable[optionTab][4].name, (halfScreenWidth - 70), 110, 0.3)
-        end
-        if menuTable[optionTab].tabMax >= 5 then
-            djui_hud_print_text(menuTable[optionTab][5].name, (halfScreenWidth - 70), 120, 0.3)
-        end
-        if menuTable[optionTab].tabMax >= 6 then
-            djui_hud_print_text(menuTable[optionTab][6].name, (halfScreenWidth - 70), 130, 0.3)
+        for i = 1, menuTable[optionTab].tabMax do
+            djui_hud_print_text(menuTable[optionTab][i].name, halfScreenWidth - 70, 80 + (i - 1) * 10, 0.3)
         end
 
         if menuTable[2][2].status == 1 then
@@ -514,15 +484,12 @@ function displaymenu()
             djui_hud_set_color(0, 150, 0, 255)
             djui_hud_print_text(menuTable[optionTab][optionHover].name, (halfScreenWidth + 100), 85, 0.35)
             djui_hud_set_color(255, 255, 255, 255)
-            if menuTable[optionTab][optionHover].Line1 ~= nil then djui_hud_print_text(menuTable[optionTab][optionHover].Line1, (halfScreenWidth + 100), 100, 0.3) end
-            if menuTable[optionTab][optionHover].Line2 ~= nil then djui_hud_print_text(menuTable[optionTab][optionHover].Line2, (halfScreenWidth + 100), 108, 0.3) end
-            if menuTable[optionTab][optionHover].Line3 ~= nil then djui_hud_print_text(menuTable[optionTab][optionHover].Line3, (halfScreenWidth + 100), 116, 0.3) end
-            if menuTable[optionTab][optionHover].Line4 ~= nil then djui_hud_print_text(menuTable[optionTab][optionHover].Line4, (halfScreenWidth + 100), 124, 0.3) end
-            if menuTable[optionTab][optionHover].Line5 ~= nil then djui_hud_print_text(menuTable[optionTab][optionHover].Line5, (halfScreenWidth + 100), 132, 0.3) end
-            if menuTable[optionTab][optionHover].Line6 ~= nil then djui_hud_print_text(menuTable[optionTab][optionHover].Line6, (halfScreenWidth + 100), 140, 0.3) end
-            if menuTable[optionTab][optionHover].Line7 ~= nil then djui_hud_print_text(menuTable[optionTab][optionHover].Line7, (halfScreenWidth + 100), 148, 0.3) end
-            if menuTable[optionTab][optionHover].Line8 ~= nil then djui_hud_print_text(menuTable[optionTab][optionHover].Line8, (halfScreenWidth + 100), 156, 0.3) end
-            if menuTable[optionTab][optionHover].Line9 ~= nil then djui_hud_print_text(menuTable[optionTab][optionHover].Line9, (halfScreenWidth + 100), 164, 0.3) end
+            for i = 1, 9 do
+                local line = menuTable[optionTab][optionHover]["Line" .. i]
+                if line ~= nil then
+                    djui_hud_print_text(line, halfScreenWidth + 100, 100 + (i - 1) * 8, 0.3)
+                end
+            end
         end
     end
 end
@@ -556,18 +523,5 @@ function before_update(m)
     end
 end
 
-function update()
-    --Possible Locked Code
-    gGlobalSyncTable.GlobalMoveset = menuTable[4][5].status
-    if menuTable[4][5].status ~= gGlobalSyncTable.GlobalMoveset then
-        menuTable[4][5].status = gGlobalSyncTable.GlobalMoveset
-    end
-    menuTable[1][1].unlocked = gGlobalSyncTable.GlobalMoveset
-    if menuTable[optionTab][optionHover].unlocked == false then
-        menuTable[optionTab][optionHover].status = menuTable[optionTab][optionHover].lockTo
-    end
-end
-
 hook_event(HOOK_ON_HUD_RENDER, displaymenu)
 hook_event(HOOK_BEFORE_MARIO_UPDATE, before_update)
-hook_event(HOOK_UPDATE, update)
