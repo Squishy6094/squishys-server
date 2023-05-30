@@ -31,6 +31,7 @@ local m = gMarioStates[0]
 
 modelTable = {
     [Default] = {
+        nickname = "Default",
         maxNum = 0,
         [0] = {
             model = nil,
@@ -39,6 +40,7 @@ modelTable = {
         }
     },
     [Squishy] = {
+        nickname = "Squishy",
         maxNum = 2,
         [0] = {
             model = nil,
@@ -57,6 +59,7 @@ modelTable = {
         },
     },
     [Spoomples] = {
+        nickname = "Spoomples",
         maxNum = 3,
         [0] = {
             model = nil,
@@ -82,6 +85,7 @@ modelTable = {
         },
     },
     [Nut] = {
+        nickname = "Nut",
         maxNum = 5,
         [0] = {
             model = nil,
@@ -117,6 +121,7 @@ modelTable = {
         },
     },
     [Cosmic] = {
+        nickname = "Cosmic",
         maxNum = 1,
         [0] = {
             model = nil,
@@ -131,6 +136,7 @@ modelTable = {
         }
     },
     [Trashcam] = {
+        nickname = "Trashcam",
         maxNum = 3,
         [0] = {
             model = nil,
@@ -157,6 +163,7 @@ modelTable = {
         }
     },
     [Skeltan] = {
+        nickname = "Skeltan",
         maxNum = 1,
         [0] = {
             model = nil,
@@ -170,6 +177,7 @@ modelTable = {
         }
     },
     [AgentX] = {
+        nickname = "Agent X",
         maxNum = 2,
         [0] = {
             model = nil,
@@ -189,6 +197,7 @@ modelTable = {
 
     },
     [DepressedYoshi] = {
+        nickname = "Depressed Yoshi",
         maxNum = 1,
         [0] = {
             model = nil,
@@ -207,19 +216,7 @@ modelTable = {
         },
     },
     [Yosho] = {
-        maxNum = 1,
-        [0] = {
-            model = nil,
-            modelName = "Default",
-            icon = "Default"
-        },
-        [1] = {
-            model = smlua_model_util_get_id("yoshi_player_geo"),
-            modelName = "Yoshi",
-            forcePlayer = CT_MARIO
-        }
-    },
-    [YoshoAlt] = {
+        nickname = "Yosho",
         maxNum = 1,
         [0] = {
             model = nil,
@@ -233,6 +230,7 @@ modelTable = {
         }
     },
     [KanHeaven] = {
+        nickname = "KanHeaven",
         maxNum = 1,
         [0] = {
             model = nil,
@@ -247,6 +245,7 @@ modelTable = {
         }
     },
     [Bloxxel64Nya] = {
+        nickname = "Bloxxel",
         maxNum = 1,
         [0] = {
             model = nil,
@@ -261,6 +260,7 @@ modelTable = {
         }
     },
     [Vince] = {
+        nickname = "0x2480",
         maxNum = 1,
         [0] = {
             model = nil,
@@ -275,6 +275,7 @@ modelTable = {
         }
     },
     [Average] = {
+        nickname = "Average <3",
         maxNum = 3,
         [0] = {
             model = nil,
@@ -299,6 +300,7 @@ modelTable = {
         }
     },
     [Elby] = {
+        nickname = "Elby",
         maxNum = 3,
         [0] = {
             model = nil,
@@ -323,6 +325,7 @@ modelTable = {
         },
     },
     [Crispyman] = {
+        nickname = "Crispy",
         maxNum = 4,
         [0] = {
             model = nil,
@@ -352,6 +355,7 @@ modelTable = {
         },
     },
     [Butter] = {
+        nickname = "Butter",
         maxNum = 1,
         [0] = {
             model = nil,
@@ -365,6 +369,7 @@ modelTable = {
         }
     },
     [Mathew] = {
+        nickname = "Mathew",
         maxNum = 1,
         [0] = {
             model = nil,
@@ -378,6 +383,7 @@ modelTable = {
         }
     },
     [Peachy] = {
+        nickname = "PeachyPeach",
         maxNum = 1,
         [0] = {
             model = nil,
@@ -391,6 +397,7 @@ modelTable = {
         },
     },
     [Eros] = {
+        nickname = "Eros71",
         maxNum = 1,
         [0] = {
             model = nil,
@@ -404,6 +411,7 @@ modelTable = {
         },
     },
     [Oquanaut] = {
+        nickname = "Oqua",
         maxNum = 1,
         [0] = {
             model = nil,
@@ -417,6 +425,7 @@ modelTable = {
         }
     },
     [RedBun] = {
+        nickname = "Jonch",
         maxNum = 1,
         [0] = {
             model = nil,
@@ -430,6 +439,7 @@ modelTable = {
         },
     },
     [Dvk] = {
+        nickname = "Dvk",
         maxNum = 1,
         [0] = {
             model = nil,
@@ -444,6 +454,7 @@ modelTable = {
         }
     },
     [KitKat] = {
+        nickname = "KitKat",
         maxNum = 1,
         [0] = {
             model = nil,
@@ -457,6 +468,7 @@ modelTable = {
         }
     },
     [Rise] = {
+        nickname = "sm64rise",
         maxNum = 1,
         [0] = {
             model = nil,
