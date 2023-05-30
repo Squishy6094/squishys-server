@@ -68,9 +68,9 @@ menuTable = {
             statusMax = 1,
             --Description
             Line1 = "Adds Wallsliding and more",
-            Line2 = "lenient angles you can wall",
-            Line3 = "kick at, best for a more",
-            Line4 = "modern experience."
+            Line2 = "Lenient Angles and Timings",
+            Line3 = "you can wall kick at, best",
+            Line4 = "for a more modern experience."
         },
         [5] = {
             name = "Strafing",
@@ -159,7 +159,7 @@ menuTable = {
     },
     [3] = {
         name = "Misc.",
-        tabMax = 4,
+        tabMax = 3,
         [1] = {
             name = "Personal Model",
             nameSave = "ModelSave",
@@ -373,6 +373,29 @@ function displaymenu()
         local stickX = m.controller.stickX
         local stickY = m.controller.stickY
         local buttonDown = m.controller.buttonDown
+        if optionHoverTimer == -1 then
+            if (stickX < -10 or (buttonDown & L_JPAD ~= 0)) then
+                play_sound(SOUND_MENU_MESSAGE_NEXT_PAGE, gMarioStates[0].marioObj.header.gfx.cameraToObject)
+                if optionTab == 1 and not (network_is_server() or network_is_moderator()) then
+                    optionTab = 3
+                elseif optionTab == 1 and (network_is_server() or network_is_moderator()) then
+                    optionTab = 4
+                else
+                    optionTab = optionTab - 1
+                end
+                optionHoverTimer = 0
+            elseif (stickX > 10 or (buttonDown & R_JPAD ~= 0)) then
+                play_sound(SOUND_MENU_MESSAGE_NEXT_PAGE, gMarioStates[0].marioObj.header.gfx.cameraToObject)
+                if optionTab == 3 and not (network_is_server() or network_is_moderator()) then
+                    optionTab = 1
+                elseif optionTab == 4 and (network_is_server() or network_is_moderator()) then
+                    optionTab = 1
+                else
+                    optionTab = optionTab + 1
+                end
+                optionHoverTimer = 0
+            end
+        end
 
         if optionHoverTimer == -1 then
             if (stickY < -10 or (buttonDown & D_JPAD ~= 0)) then
@@ -385,19 +408,6 @@ function displaymenu()
                 optionHoverTimer = 0
             end
         end
-        
-        if optionHoverTimer == -1 then
-            if (stickX < -10 or (buttonDown & L_JPAD ~= 0)) then
-                play_sound(SOUND_MENU_MESSAGE_NEXT_PAGE, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-                optionTab = (optionTab == 1 and not (network_is_server() or network_is_moderator())) and 3 or optionTab - 1
-                optionHoverTimer = 0
-            elseif (stickX > 10 or (buttonDown & R_JPAD ~= 0)) then
-                play_sound(SOUND_MENU_MESSAGE_NEXT_PAGE, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-                optionTab = (optionTab == 3 and not (network_is_server() or network_is_moderator())) and 1 or optionTab + 1
-                optionHoverTimer = 0
-            end
-        end
-        
 
         djui_hud_set_font(FONT_MENU)
         djui_hud_set_resolution(RESOLUTION_N64)

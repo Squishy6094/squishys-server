@@ -455,6 +455,31 @@ local noStrafeActs = {
     [ACT_SPECIAL_DEATH_EXIT] = true,
 }
 
+local pressed_A = false
+local TIMER_MAX = 5
+local timer = TIMER_MAX
+
+---@param m MarioState
+function before_mario_update(m)
+    --Early Wallkick Leniency--
+    if m.playerIndex ~= 0 then return end
+
+    if m.controller.buttonPressed & A_BUTTON ~= 0 then
+        pressed_A = true
+    end
+
+    if pressed_A and gPlayerSyncTable[m.playerIndex].wallSlide == 1 then
+        timer = timer - 1
+        if m.controller.buttonPressed & A_BUTTON ~= 0 then
+            timer = TIMER_MAX
+        end
+        if timer <= 0 then
+            pressed_A = false
+            timer = TIMER_MAX
+        end
+    end
+end
+
 --- @param m MarioState
 function on_set_mario_action(m)
     --Swim Star Anim--
@@ -485,10 +510,22 @@ function on_set_mario_action(m)
         end
     end
 
-    --wallslide--
+    --Wallslide--
     if m.action == ACT_SOFT_BONK and gPlayerSyncTable[m.playerIndex].wallSlide == 1 then
         m.faceAngle.y = m.faceAngle.y + 0x8000
         set_mario_action(m, ACT_WALL_SLIDE, 0)
+    end
+
+    --Early Wallkick Leniency--
+    if m.playerIndex ~= 0 then return end
+    if pressed_A and gPlayerSyncTable[m.playerIndex].wallSlide == 1 then
+        if m.action == ACT_AIR_HIT_WALL then
+            --mario_bonk_reflection(m, 0)
+            m.faceAngle.y = m.faceAngle.y + 0x8000
+            set_mario_action(m, ACT_WALL_KICK_AIR, 0)
+            pressed_A = false
+            timer = TIMER_MAX
+        end
     end
 
     --Strafing--
@@ -525,6 +562,7 @@ end
 
 --All Hooks
 hook_event(HOOK_MARIO_UPDATE, mario_update)
+hook_event(HOOK_BEFORE_MARIO_UPDATE, before_mario_update)
 hook_event(HOOK_ON_SET_MARIO_ACTION, localtechaction)
 hook_event(HOOK_ON_SET_MARIO_ACTION, on_set_mario_action)
 hook_event(HOOK_UPDATE, update)
