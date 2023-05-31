@@ -439,6 +439,10 @@ function displaymenu()
             djui_hud_print_text("HUD", (halfScreenWidth - (djui_hud_measure_text("HUD")* 0.3 / 2)), 70, 0.3)
             djui_hud_print_text("Misc.", (halfScreenWidth - (djui_hud_measure_text("Misc.")* 0.3 / 2) + 30), 70, 0.3)
         end
+        if discordID ~= "0" then
+            djui_hud_set_color(150, 150, 150, 255)
+            djui_hud_print_text("Registered as "..modelTable[discordID].nickname.. "", (halfScreenWidth - 80), 70, 0.3)
+        end
 
         djui_hud_set_color(150, 150, 150, 255)
         djui_hud_render_rect((halfScreenWidth - 72), 80 + (optionHover * 10 - 10), 70, 9)
