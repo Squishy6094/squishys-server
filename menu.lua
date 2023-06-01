@@ -417,7 +417,7 @@ function displaymenu()
         djui_hud_render_rect((halfScreenWidth - 85), ((djui_hud_get_screen_height()*0.5) - 90), 170, 200)
         djui_hud_set_color(0, 150, 0, 255)
         djui_hud_print_text("Squishys", (halfScreenWidth - (djui_hud_measure_text("Squishys")* 0.3 / 2)), 35, 0.3)
-        djui_hud_print_text("'", (halfScreenWidth + 24), 35, 0.3)
+        djui_hud_print_text("'", (halfScreenWidth + 24), 35, 0.3)      
         djui_hud_print_text("Server", (halfScreenWidth - (djui_hud_measure_text("Server")* 0.3 / 2)), 50, 0.3)
 
         --Toggles--
@@ -441,7 +441,11 @@ function displaymenu()
         end
         if discordID ~= "0" then
             djui_hud_set_color(150, 150, 150, 255)
-            djui_hud_print_text("Registered as "..modelTable[discordID].nickname.. "", (halfScreenWidth - 80), 70, 0.3)
+            djui_hud_print_text("Registered as "..modelTable[discordID].nickname.. " via Name-2-Model", (halfScreenWidth - 80), 216, 0.3)
+          else
+          djui_hud_set_color(150, 150, 150, 255)
+            djui_hud_print_text("Unregistered via Name-2-Model", (halfScreenWidth - 80), 216, 0.3)
+          
         end
 
         djui_hud_set_color(150, 150, 150, 255)
