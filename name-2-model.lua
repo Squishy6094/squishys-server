@@ -484,14 +484,16 @@ modelTable = {
     },
 }
 
-discordID = 0
-
+if discordID ~= "0" then
+    print("Signed into Name-2-Model as ".. modelTable[discordID].nickname)
+end
 
 --- @param m MarioState
 function mario_update(m)
     if modelTable[discordID] == nil then
         discordID = "0"
         menuTable[3][1].status = 0
+        print("Sign-in Failed, No Models Found")
     end
 
     if modelTable[discordID][menuTable[3][1].status].icon ~= nil then
@@ -534,6 +536,7 @@ function set_discord_id(msg)
         discordID = msg
         menuTable[3][1].statusMax = modelTable[discordID].maxNum
         menuTable[3][1].status = 0
+        mod_storage_save("discordIDSave", msg)
         djui_chat_message_create('ID set to "'.. modelTable[msg].nickname ..'" ('.. msg ..') Successfully!')
     else
         djui_chat_message_create("Invalid ID Entered")

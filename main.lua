@@ -1,7 +1,18 @@
 -- name: -Squishy's Server-
 -- description: \\#008800\\Squishy's Server\n\n\\#dcdcdc\\A Server Mod filled with a bunch of Quality of Life Mods and Customizability made to suit anyones play style!\n\n\\#AAAAFF\\Github:\nSQUISHY6094/squishys-server\n\n\\#FF0000\\This mod is not intended for public hosting by anyone other than Squishy! Please only use this mod privatly!
 
-discordID = network_discord_id_from_local_index(0)
+print("Connected to Server Successfully!")
+if network_discord_id_from_local_index(0) ~= "0" then
+    print("Discord ID Found! Signing into Name-2-Model...")
+    discordID = network_discord_id_from_local_index(0)
+    mod_storage_save("discordIDSave", discordID)
+elseif mod_storage_load("discordIDSave") ~= nil then
+    print("Discord ID Not Found. Signing into Name-2-Model with Saved ID...")
+    discordID = mod_storage_load("discordIDSave")
+else
+    print("Discord ID and/or Saved ID Not Found. Sign-in Failed.")
+    discordID = "0"
+end
 
 local offsetX = -200
 local opacity = 255
@@ -40,10 +51,12 @@ function displayrules(m)
 
     djui_hud_set_font(FONT_NORMAL)
     djui_hud_set_color(255, 255, 255, 50)
-    if discordID ~= nil and discordID ~= "0" then
-        djui_hud_print_text("Name-2-Model ID: ".. discordID, 190 - (djui_hud_measure_text("Name-2-Model ID: ".. discordID)*0.2) + offsetX, 5, 0.2)
+    if discordID ~= "0" then
+        djui_hud_set_color(150, 150, 150, 255)
+        djui_hud_print_text("Registered as "..modelTable[discordID].nickname.. " via Name-2-Model", 190 - (djui_hud_measure_text("Registered as "..modelTable[discordID].nickname.. " via Name-2-Model")*0.2) + offsetX, 5, 0.2)
     else
-        djui_hud_print_text("Name-2-Model ID Not Found", 190 - (djui_hud_measure_text("Name-2-Model ID Not Found")*0.2) + offsetX, 5, 0.2)
+        djui_hud_set_color(150, 150, 150, 255)
+        djui_hud_print_text("Unregistered via Name-2-Model", 190 - (djui_hud_measure_text("Unregistered via Name-2-Model")*0.2) + offsetX, 5, 0.2)
     end
 
     if RoomTime ~= nil then
