@@ -9,6 +9,21 @@ gLevelValues.previewBlueCoins = true
 gLevelValues.respawnBlueCoinsSwitch = true
 gLevelValues.visibleSecrets = true
 
+--Inertia Stuff
+local prevPos = {x = 0, y = 0, z = 0}
+local inertiaVel = {x = 0, y = 0, z = 0}
+local kbAirActions = {
+    [ACT_BACKWARD_AIR_KB] = true,
+    [ACT_HARD_BACKWARD_AIR_KB] = true,
+    [ACT_FORWARD_AIR_KB] = true,
+    [ACT_HARD_FORWARD_AIR_KB] = true,
+}
+
+local is_mario_grounded = function(m)
+    return m.pos.y <= m.floorHeight + 100
+end
+
+--Tech Stuff
 local TECH_KB = {
     [ACT_GROUND_BONK]             = ACT_BACKWARD_ROLLOUT,
     [ACT_BACKWARD_GROUND_KB]      = ACT_BACKWARD_ROLLOUT,
@@ -23,16 +38,6 @@ local burn_press = 0
 local slopetimer = 0
 
 z = 0
---Teching hook mario action--
-
-local function localtechaction(m)
-    if TECH_KB[m.action] then
-        tech_tmr = 0
-    end
-    if m.action ~= ACT_BURNING_GROUND then
-        burn_press = 0
-    end
-end
 
 --Door Bust Stuff--
 
@@ -433,6 +438,20 @@ function before_phys_step(m)
             end
         end
     end
+
+    --Inertia
+    -- Adds the inertia to his velocity, then decreases it due to drag
+    if not is_mario_grounded(m) and m.action ~= ACT_GROUND_POUND then
+        if kbAirActions[m.action] then
+            mario_set_forward_vel(m, m.forwardVel) -- Without this you just accelerate to infinity
+        end
+
+        m.vel.x = m.vel.x + inertiaVel.x
+        m.vel.z = m.vel.z + inertiaVel.z
+
+        inertiaVel.x = inertiaVel.x * 0.97
+        inertiaVel.z = inertiaVel.z * 0.97
+    end
 end
 
 local noStrafeActs = {
@@ -478,10 +497,41 @@ function before_mario_update(m)
             timer = TIMER_MAX
         end
     end
+
+    --Inertia
+
+    -- Now that Mario has undergone through the displacement calculations, we can get how much he's been displaced by just calculating the
+    -- difference between his current position and the one stored beforehand
+    if is_mario_grounded(m) and m.action & ACT_FLAG_AIR == 0 then
+        if m.marioObj.platform then
+            inertiaVel.x = m.pos.x - prevPos.x
+            -- Cant exactly get y displacement with the method for x and y, so I had to resort to this instead
+            inertiaVel.y = (prevPos.y - find_floor_height(m.pos.x, m.pos.y + 100, m.pos.z)) * -1
+            inertiaVel.z = m.pos.z - prevPos.z
+        else
+            inertiaVel.x = 0
+            inertiaVel.y = 0
+            inertiaVel.z = 0
+        end
+    end
+
+    if m.action == ACT_BUBBLED then
+        inertiaVel.x = 0
+        inertiaVel.y = 0
+        inertiaVel.z = 0
+    end
 end
 
 --- @param m MarioState
 function on_set_mario_action(m)
+    --Tech action
+    if TECH_KB[m.action] then
+        tech_tmr = 0
+    end
+    if m.action ~= ACT_BURNING_GROUND then
+        burn_press = 0
+    end
+
     --Swim Star Anim--
     if (m.action == ACT_FALL_AFTER_STAR_GRAB) then
         m.action = ACT_STAR_DANCE_WATER
@@ -541,6 +591,22 @@ function on_set_mario_action(m)
             set_mario_action(m, ACT_SIDE_FLIP, 0) -- if all conditions are met set martin's action to sideflip
         end
     end
+
+    --Inertia
+    if m.playerIndex ~= 0 then return end
+
+    if inertiaVel.y < 0 then
+        inertiaVel.y = 0
+    end
+
+    -- Apply vertical momentum to his jumps
+    if is_mario_grounded(m) then
+        -- We add the velocity to his position directly to prevent platforms from eating your jumps
+        -- Comment or erase this line to remove that feature (which brings back BLJs off elevators)
+        m.pos.y = m.pos.y + inertiaVel.y
+        m.vel.y = m.vel.y + inertiaVel.y
+        inertiaVel.y = 0
+    end
 end
 
 function update()
@@ -558,15 +624,32 @@ function update()
         m.freeze = 0
         c.cutscene = 0
     end
+
+    --Inertia
+    local m = gMarioStates[0]
+    if m.playerIndex ~= 0 then
+        return
+    end
+
+    -- Store his position before platform displacement is calculated
+    if is_mario_grounded(m) then
+        prevPos.x = m.pos.x
+        prevPos.y = m.pos.y
+        prevPos.z = m.pos.z
+    end
 end
+
+hook_event(HOOK_ON_WARP, function()
+    inertiaVel.x = 0
+    inertiaVel.y = 0
+    inertiaVel.z = 0
+end)
 
 --All Hooks
 hook_event(HOOK_MARIO_UPDATE, mario_update)
 hook_event(HOOK_BEFORE_MARIO_UPDATE, before_mario_update)
-hook_event(HOOK_ON_SET_MARIO_ACTION, localtechaction)
 hook_event(HOOK_ON_SET_MARIO_ACTION, on_set_mario_action)
 hook_event(HOOK_UPDATE, update)
 hook_event(HOOK_ALLOW_INTERACT, allow_interact)
 hook_mario_action(ACT_WALL_SLIDE, act_wall_slide)
 hook_event(HOOK_BEFORE_PHYS_STEP, before_phys_step)
-hook_event(HOOK_ON_PLAYER_CONNECTED, on_player_connected)
