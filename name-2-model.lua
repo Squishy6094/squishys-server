@@ -549,3 +549,4 @@ if network_is_server() then
 end
 
 hook_event(HOOK_MARIO_UPDATE, mario_update)
+hook_event(HOOK_ON_PLAYER_CONNECTED, on_player_connected)
