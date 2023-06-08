@@ -89,6 +89,40 @@ local hudTable = {
             numOffsetX = -46.8,
             numOffsetY = 51,
         },
+        ["RedRadar"] = {
+            xAlignment = 0,
+            yAlignment = 2,
+            iconShow = true,
+            iconColorR = 255,
+            iconColorG = 0,
+            iconColorB = 0,
+            iconColorO = 255,
+            iconOffsetX = 21,
+            iconOffsetY = -25,
+            xShow = false,
+            xOffsetX = 37,
+            xOffsetY = -25,
+            numShow = true,
+            numOffsetX = 37,
+            numOffsetY = -25,
+        },
+        ["SecretRadar"] = {
+            xAlignment = 0,
+            yAlignment = 2,
+            iconShow = true,
+            iconColorR = 255,
+            iconColorG = 0,
+            iconColorB = 0,
+            iconColorO = 255,
+            iconOffsetX = 21,
+            iconOffsetY = -45,
+            xShow = false,
+            xOffsetX = 37,
+            xOffsetY = -45,
+            numShow = true,
+            numOffsetX = 37,
+            numOffsetY = -45,
+        },
         ["Health"] = {
             colorR = 255,
             colorG = 255,
@@ -182,6 +216,40 @@ local hudTable = {
             numOffsetX = 112.2,
             numOffsetY = 51,
         },
+        ["RedRadar"] = {
+            xAlignment = 1,
+            yAlignment = 2,
+            iconShow = true,
+            iconColorR = 255,
+            iconColorG = 0,
+            iconColorB = 0,
+            iconColorO = 255,
+            iconOffsetX = -138,
+            iconOffsetY = -25,
+            xShow = false,
+            xOffsetX = -122,
+            xOffsetY = -25,
+            numShow = true,
+            numOffsetX = -122,
+            numOffsetY = -25,
+        },
+        ["SecretRadar"] = {
+            xAlignment = 1,
+            yAlignment = 2,
+            iconShow = true,
+            iconColorR = 255,
+            iconColorG = 0,
+            iconColorB = 0,
+            iconColorO = 255,
+            iconOffsetX = -138,
+            iconOffsetY = -45,
+            xShow = false,
+            xOffsetX = -122,
+            xOffsetY = -45,
+            numShow = true,
+            numOffsetX = -122,
+            numOffsetY = -45,
+        },
         ["Health"] = {
             scale = 64,
             xAlignment = 1,
@@ -199,41 +267,41 @@ local hudTable = {
             xAlignment = 0,
             yAlignment = 0,
             iconShow = true,
-            iconOffsetX = 21,
-            iconOffsetY = 60,
+            iconOffsetX = 80,
+            iconOffsetY = 35,
             xShow = false,
             xOffsetX = 0,
             xOffsetY = 0,
             numShow = true,
-            numOffsetX = 40,
-            numOffsetY = 60,
+            numOffsetX = 100,
+            numOffsetY = 35,
         },
         ["Coins"] = {
             xAlignment = 0,
             yAlignment = 0,
             iconShow = true,
-            iconOffsetX = 21,
-            iconOffsetY = 78,
+            iconOffsetX = 135,
+            iconOffsetY = 35,
             xShow = false,
             xOffsetX = 0,
             xOffsetY = 0,
             numShow = true,
-            numOffsetX = 40,
-            numOffsetY = 78,
+            numOffsetX = 155,
+            numOffsetY = 35,
         },
         ["Stars"] = {
             xAlignment = 0,
             yAlignment = 0,
             iconShow = true,
-            iconOffsetX = 21,
-            iconOffsetY = 96,
+            iconOffsetX = 80,
+            iconOffsetY = 15,
             xShow = false,
             hideOnTriple = false,
             xOffsetX = 0,
             xOffsetY = 0,
             numShow = true,
-            numOffsetX = 40,
-            numOffsetY = 96,
+            numOffsetX = 100,
+            numOffsetY = 15,
         },
         ["RedStars"] = {
             xAlignment = 0,
@@ -243,15 +311,15 @@ local hudTable = {
             iconColorG = 0,
             iconColorB = 0,
             iconColorO = 255,
-            iconOffsetX = 21,
-            iconOffsetY = 114,
+            iconOffsetX = 135,
+            iconOffsetY = 15,
             xShow = false,
             hideOnTriple = false,
             xOffsetX = 0,
             xOffsetY = 0,
             numShow = true,
-            numOffsetX = 40,
-            numOffsetY = 114,
+            numOffsetX = 155,
+            numOffsetY = 15,
         },
         ["GreenStars"] = {
             xAlignment = 0,
@@ -261,15 +329,15 @@ local hudTable = {
             iconColorG = 255,
             iconColorB = 0,
             iconColorO = 255,
-            iconOffsetX = 21,
-            iconOffsetY = 132,
+            iconOffsetX = 190,
+            iconOffsetY = 15,
             xShow = false,
             hideOnTriple = false,
             xOffsetX = 0,
             xOffsetY = 0,
             numShow = true,
-            numOffsetX = 40,
-            numOffsetY = 132,
+            numOffsetX = 210,
+            numOffsetY = 15,
         },
         ["Health"] = {
             scale = 64,
@@ -375,7 +443,7 @@ local hudTable = {
     },
 }
 
-function djui_hud_render_element(element, number, icon)
+local function djui_hud_render_element(element, number, icon)
     local m = gMarioStates[0]
 
     local r = 255
@@ -450,6 +518,17 @@ function djui_hud_render_element(element, number, icon)
     end
 end
 
+local red_coin_distance = 0
+local secret_distance = 0
+
+local function get_closest_object(id_bhv)
+    local obj = obj_get_nearest_object_with_behavior_id(gMarioStates[0].marioObj, id_bhv)
+    if obj ~= nil then
+        return obj
+    end
+    return nil
+end
+
 function hud_render()
     local m = gMarioStates[0]
     currHUD = menuTable[2][1].status
@@ -496,6 +575,15 @@ function hud_render()
         hud_render_power_meter(gMarioStates[0].health, x, y, scale, scale)
     end
 
+    --Collectables Radar
+    local obj = m.marioObj
+    if obj ~= nil then
+        obj = get_closest_object(id_bhvRedCoin)
+        red_coin_distance = dist_between_objects(obj, m.marioObj)
+        obj = get_closest_object(id_bhvHiddenStarTrigger)
+        secret_distance = dist_between_objects(obj, m.marioObj)
+    end
+
     djui_hud_render_element("Lives", m.numLives, lifeIcon)
     djui_hud_render_element("Coins", m.numCoins, gTextures.coin)
     djui_hud_render_element("Stars", m.numStars, gTextures.star)
@@ -504,6 +592,12 @@ function hud_render()
     end
     if _G.TotalStarCounter ~= nil then
         djui_hud_render_element("GreenStars", _G.TotalStarCounter, gTextures.star)
+    end
+    if obj_get_first_with_behavior_id(id_bhvRedCoin) ~= nil then
+        djui_hud_render_element("RedRadar", math.floor(red_coin_distance*0.1), gTextures.coin)
+    end
+    if obj_get_first_with_behavior_id(id_bhvHiddenStarTrigger) ~= nil then
+        djui_hud_render_element("SecretRadar", math.floor(secret_distance*0.1), gTextures.coin)
     end
 end
 
