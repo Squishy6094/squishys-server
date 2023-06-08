@@ -334,20 +334,12 @@ function displaymenu()
 
     if is_game_paused() and not djui_hud_is_pause_menu_created() then
         djui_hud_set_font(FONT_NORMAL)
-        if m.action ~= ACT_EXIT_LAND_SAVE_DIALOG then
-            if (m.controller.buttonDown & L_TRIG) ~= 0 and not menu then
-                menu = true
-            end
-            if (m.controller.buttonDown & B_BUTTON) ~= 0 and menu then
-                menu = false
-            end
-            halfScreenWidth = djui_hud_get_screen_width()*0.5
-            djui_hud_set_resolution(RESOLUTION_DJUI)
-            djui_hud_set_color(0, 0, 0, 255)
-            djui_hud_print_text("L Button - Server Options", (djui_hud_get_screen_width()*0.5 - (djui_hud_measure_text("L Button - Server Options")*0.5)) + 1, 43, 1)
-            djui_hud_set_color(255, 255, 255, 255)
-            djui_hud_print_text("L Button - Server Options", (djui_hud_get_screen_width()*0.5 - (djui_hud_measure_text("L Button - Server Options")*0.5)), 42, 1)
-        end
+        halfScreenWidth = djui_hud_get_screen_width()*0.5
+        djui_hud_set_resolution(RESOLUTION_DJUI)
+        djui_hud_set_color(0, 0, 0, 255)
+        djui_hud_print_text("L Button - Server Options", (djui_hud_get_screen_width()*0.5 - (djui_hud_measure_text("L Button - Server Options")*0.5)) + 1, 43, 1)
+        djui_hud_set_color(255, 255, 255, 255)
+        djui_hud_print_text("L Button - Server Options", (djui_hud_get_screen_width()*0.5 - (djui_hud_measure_text("L Button - Server Options")*0.5)), 42, 1)
         djui_hud_set_resolution(RESOLUTION_N64)
         halfScreenWidth = djui_hud_get_screen_width()*0.5
         if m.action == ACT_EXIT_LAND_SAVE_DIALOG then
@@ -358,57 +350,11 @@ function displaymenu()
         djui_hud_set_color(255, 255, 255, 255)
         djui_hud_print_text("Room has been Open for:", (halfScreenWidth - 35), 30, 0.3)
         djui_hud_print_text(RoomTime, (halfScreenWidth - 35), 40, 0.7)
-    else 
+    else
         menu = false
     end
 
     if menu then
-        if optionHoverTimer >= 8 then
-            optionHoverTimer = -1
-        end
-        if optionHoverTimer ~= -1 then
-            optionHoverTimer = optionHoverTimer + 1
-        end
-
-        local stickX = m.controller.stickX
-        local stickY = m.controller.stickY
-        local buttonDown = m.controller.buttonDown
-        if optionHoverTimer == -1 then
-            if (stickX < -10 or (buttonDown & L_JPAD ~= 0)) then
-                play_sound(SOUND_MENU_MESSAGE_NEXT_PAGE, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-                if optionTab == 1 and not (network_is_server() or network_is_moderator()) then
-                    optionTab = 3
-                elseif optionTab == 1 and (network_is_server() or network_is_moderator()) then
-                    optionTab = 4
-                else
-                    optionTab = optionTab - 1
-                end
-                optionHoverTimer = 0
-            elseif (stickX > 10 or (buttonDown & R_JPAD ~= 0)) then
-                play_sound(SOUND_MENU_MESSAGE_NEXT_PAGE, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-                if optionTab == 3 and not (network_is_server() or network_is_moderator()) then
-                    optionTab = 1
-                elseif optionTab == 4 and (network_is_server() or network_is_moderator()) then
-                    optionTab = 1
-                else
-                    optionTab = optionTab + 1
-                end
-                optionHoverTimer = 0
-            end
-        end
-
-        if optionHoverTimer == -1 then
-            if (stickY < -10 or (buttonDown & D_JPAD ~= 0)) then
-                play_sound(SOUND_MENU_MESSAGE_NEXT_PAGE, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-                optionHover = optionHover + 1
-                optionHoverTimer = 0
-            elseif (stickY > 10 or (buttonDown & U_JPAD ~= 0)) then
-                play_sound(SOUND_MENU_MESSAGE_NEXT_PAGE, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-                optionHover = optionHover - 1
-                optionHoverTimer = 0
-            end
-        end
-
         djui_hud_set_font(FONT_MENU)
         djui_hud_set_resolution(RESOLUTION_N64)
         djui_hud_set_color(0, 0, 0, 170)
@@ -513,8 +459,53 @@ function displaymenu()
 end
 
 function before_update(m)
+    if m.playerIndex ~= 0 then return end
     if menu then
-        if m.playerIndex ~= 0 then return end
+        if optionHoverTimer >= 8 then
+            optionHoverTimer = -1
+        end
+        if optionHoverTimer ~= -1 then
+            optionHoverTimer = optionHoverTimer + 1
+        end
+
+        local stickX = m.controller.stickX
+        local stickY = m.controller.stickY
+        local buttonDown = m.controller.buttonDown
+        if optionHoverTimer == -1 then
+            if (stickX < -10 or (buttonDown & L_JPAD ~= 0)) then
+                play_sound(SOUND_MENU_MESSAGE_NEXT_PAGE, gMarioStates[0].marioObj.header.gfx.cameraToObject)
+                if optionTab == 1 and not (network_is_server() or network_is_moderator()) then
+                    optionTab = 3
+                elseif optionTab == 1 and (network_is_server() or network_is_moderator()) then
+                    optionTab = 4
+                else
+                    optionTab = optionTab - 1
+                end
+                optionHoverTimer = 0
+            elseif (stickX > 10 or (buttonDown & R_JPAD ~= 0)) then
+                play_sound(SOUND_MENU_MESSAGE_NEXT_PAGE, gMarioStates[0].marioObj.header.gfx.cameraToObject)
+                if optionTab == 3 and not (network_is_server() or network_is_moderator()) then
+                    optionTab = 1
+                elseif optionTab == 4 and (network_is_server() or network_is_moderator()) then
+                    optionTab = 1
+                else
+                    optionTab = optionTab + 1
+                end
+                optionHoverTimer = 0
+            end
+        end
+
+        if optionHoverTimer == -1 then
+            if (stickY < -10 or (buttonDown & D_JPAD ~= 0)) then
+                play_sound(SOUND_MENU_MESSAGE_NEXT_PAGE, gMarioStates[0].marioObj.header.gfx.cameraToObject)
+                optionHover = optionHover + 1
+                optionHoverTimer = 0
+            elseif (stickY > 10 or (buttonDown & U_JPAD ~= 0)) then
+                play_sound(SOUND_MENU_MESSAGE_NEXT_PAGE, gMarioStates[0].marioObj.header.gfx.cameraToObject)
+                optionHover = optionHover - 1
+                optionHoverTimer = 0
+            end
+        end
         if optionHoverTimer == -1 and m.controller.buttonDown & A_BUTTON ~= 0 then
             optionHoverTimer = 0
             if menuTable[optionTab][optionHover].unlocked == false then
@@ -528,7 +519,6 @@ function before_update(m)
                 if menuTable[optionTab][optionHover].nameSave ~= nil then
                     mod_storage_save(menuTable[optionTab][optionHover].nameSave, tostring(menuTable[optionTab][optionHover].status))
                 end
-                print("Saving configuration to 'squishys-server.sav'")
             end
         end
         m.controller.rawStickY = 0
@@ -538,6 +528,13 @@ function before_update(m)
         m.controller.buttonDown = m.controller.buttonDown & ~R_TRIG
         m.controller.buttonPressed = m.controller.buttonPressed & ~A_BUTTON
         m.controller.buttonDown = m.controller.buttonDown & ~A_BUTTON
+    end
+
+    if is_game_paused() and not djui_hud_is_pause_menu_created() and m.action ~= ACT_EXIT_LAND_SAVE_DIALOG then
+        if ((m.controller.buttonDown & L_TRIG) ~= 0 or (m.controller.buttonDown & B_BUTTON) ~= 0) and not menu then
+            print("Saving configuration to 'squishys-server.sav'")
+            menu = true
+        end
     end
 end
 
