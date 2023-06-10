@@ -37,7 +37,12 @@ modelTable = {
             model = nil,
             modelName = "N/A",
             icon = "Default",
-        }
+        },
+        [1] = {
+            model = nil,
+            modelName = "N/A",
+            icon = "Default",
+        },
     },
     [Squishy] = {
         nickname = "Squishy",
@@ -490,12 +495,13 @@ end
 
 --- @param m MarioState
 function mario_update(m)
+    if m.playerIndex ~= 0 then return end
     if modelTable[discordID] == nil then
         discordID = "0"
         menuTable[3][1].status = 0
         print("Sign-in Failed, No Models Found")
     end
-
+    
     if modelTable[discordID][menuTable[3][1].status].icon ~= nil then
         if modelTable[discordID][menuTable[3][1].status].icon == "Default" then
             lifeIcon = m.character.hudHeadTexture

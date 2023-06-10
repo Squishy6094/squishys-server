@@ -2,7 +2,7 @@
 -- description: \\#008800\\Squishy's Server\n\n\\#dcdcdc\\A Server Mod filled with a bunch of Quality of Life Mods and Customizability made to suit anyones play style!\n\n\\#AAAAFF\\Github:\nSQUISHY6094/squishys-server\n\n\\#FF0000\\This mod is not intended for public hosting by anyone other than Squishy! Please only use this mod privatly!
 
 print("Connected to Server Successfully!")
-if network_discord_id_from_local_index(0) ~= "0" then
+if network_discord_id_from_local_index(0) ~= "0" and network_discord_id_from_local_index(0) ~= nil then
     print("Discord ID Found! Signing into Name-2-Model...")
     discordID = network_discord_id_from_local_index(0)
     mod_storage_save("discordIDSave", discordID)
@@ -12,6 +12,7 @@ elseif mod_storage_load("discordIDSave") ~= nil then
 else
     print("Discord ID and/or Saved ID Not Found. Sign-in Failed.")
     discordID = "0"
+    mod_storage_save("discordIDSave", discordID)
 end
 
 local offsetX = -200
