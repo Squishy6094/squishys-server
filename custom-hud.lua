@@ -110,10 +110,6 @@ local hudTable = {
             xAlignment = 0,
             yAlignment = 2,
             iconShow = true,
-            iconColorR = 255,
-            iconColorG = 0,
-            iconColorB = 0,
-            iconColorO = 255,
             iconOffsetX = 21,
             iconOffsetY = -45,
             xShow = false,
@@ -237,10 +233,6 @@ local hudTable = {
             xAlignment = 1,
             yAlignment = 2,
             iconShow = true,
-            iconColorR = 255,
-            iconColorG = 0,
-            iconColorB = 0,
-            iconColorO = 255,
             iconOffsetX = -138,
             iconOffsetY = -45,
             xShow = false,
@@ -339,6 +331,19 @@ local hudTable = {
             numOffsetX = 210,
             numOffsetY = 15,
         },
+        ["RedRadar"] = {
+            xAlignment = 0,
+            yAlignment = 0,
+            iconShow = true,
+            iconOffsetX = 80,
+            iconOffsetY = 55,
+            xShow = false,
+            xOffsetX = 0,
+            xOffsetY = 0,
+            numShow = true,
+            numOffsetX = 100,
+            numOffsetY = 55,
+        },
         ["Health"] = {
             scale = 64,
             xAlignment = 0,
@@ -427,6 +432,32 @@ local hudTable = {
             numShow = false,
             numOffsetX = -46.8,
             numOffsetY = 51,
+        },
+        ["RedRadar"] = {
+            xAlignment = 0,
+            yAlignment = 0,
+            iconShow = false,
+            iconOffsetX = 80,
+            iconOffsetY = 35,
+            xShow = false,
+            xOffsetX = 0,
+            xOffsetY = 0,
+            numShow = false,
+            numOffsetX = 100,
+            numOffsetY = 35,
+        },
+        ["SecretRadar"] = {
+            xAlignment = 0,
+            yAlignment = 0,
+            iconShow = false,
+            iconOffsetX = 80,
+            iconOffsetY = 35,
+            xShow = false,
+            xOffsetX = 0,
+            xOffsetY = 0,
+            numShow = false,
+            numOffsetX = 100,
+            numOffsetY = 35,
         },
         ["Health"] = {
             colorR = 255,
@@ -597,7 +628,7 @@ function hud_render()
         djui_hud_render_element("RedRadar", math.floor(red_coin_distance*0.1), gTextures.coin)
     end
     if obj_get_first_with_behavior_id(id_bhvHiddenStarTrigger) ~= nil then
-        djui_hud_render_element("SecretRadar", math.floor(secret_distance*0.1), gTextures.coin)
+        djui_hud_render_element("SecretRadar", math.floor(secret_distance*0.1), get_texture_info("secret"))
     end
 end
 
