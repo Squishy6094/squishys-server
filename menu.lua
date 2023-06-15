@@ -3,10 +3,6 @@ local optionTab = 1
 local optionHover = 1
 local optionHoverTimer = -1
 
-if network_is_server() then
-    gGlobalSyncTable.RoomStart = get_time()
-end
-
 gGlobalSyncTable.bubbleDeath = 0
 gGlobalSyncTable.playerInteractions = gServerSettings.playerInteractions
 gGlobalSyncTable.playerKnockbackStrength = gServerSettings.playerKnockbackStrength

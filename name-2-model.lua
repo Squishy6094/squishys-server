@@ -489,18 +489,17 @@ modelTable = {
     },
 }
 
-if discordID ~= "0" then
+if modelTable[discordID] == nil then
+    discordID = "0"
+    menuTable[3][1].status = 0
+    print("Sign-in Failed, No Models Found")
+elseif discordID ~= "0" then
     print("Signed into Name-2-Model as ".. modelTable[discordID].nickname)
 end
 
 --- @param m MarioState
 function mario_update(m)
     if m.playerIndex ~= 0 then return end
-    if modelTable[discordID] == nil then
-        discordID = "0"
-        menuTable[3][1].status = 0
-        print("Sign-in Failed, No Models Found")
-    end
     
     if modelTable[discordID][menuTable[3][1].status].icon ~= nil then
         if modelTable[discordID][menuTable[3][1].status].icon == "Default" then
