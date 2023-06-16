@@ -527,9 +527,12 @@ function before_update(m)
     end
 
     if is_game_paused() and not djui_hud_is_pause_menu_created() and m.action ~= ACT_EXIT_LAND_SAVE_DIALOG then
-        if ((m.controller.buttonDown & L_TRIG) ~= 0 or (m.controller.buttonDown & B_BUTTON) ~= 0) and not menu then
-            print("Saving configuration to 'squishys-server.sav'")
+        if (m.controller.buttonDown & L_TRIG) ~= 0 and not menu then
             menu = true
+        end
+        if (m.controller.buttonDown & B_BUTTON) ~= 0 and menu then
+            print("Saving configuration to 'squishys-server.sav'")
+            menu = false
         end
     end
 end

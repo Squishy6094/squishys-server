@@ -14,122 +14,66 @@ local hudTable = {
         res = RESOLUTION_N64,
         font = FONT_HUD,
         ["Lives"] = {
-            xAlignment = 0,
-            yAlignment = 0,
-            iconShow = true,
-            iconOffsetX = 21,
-            iconOffsetY = 15,
-            xShow = true,
-            xOffsetX = 37,
-            xOffsetY = 15,
-            numShow = true,
-            numOffsetX = 54,
-            numOffsetY = 15,
+            alignment = {x = 0, y = 0},
+            shownElements = {icon = true, div = true, num = true},
+            iconOffset = {x = 21, y = 15},
+            xOffset = {x = 37, y = 15},
+            numOffset = {x = 54, y = 15},
         },
         ["Coins"] = {
-            xAlignment = 1,
-            yAlignment = 0,
-            iconShow = true,
-            iconOffsetX = 8,
-            iconOffsetY = 15,
-            xShow = true,
-            xOffsetX = 24,
-            xOffsetY = 15,
-            numShow = true,
-            numOffsetX = 38,
-            numOffsetY = 15,
+            alignment = {x = 1, y = 0},
+            shownElements = {icon = true, div = true, num = true},
+            iconOffset = {x = 8, y = 15},
+            xOffset = {x = 24, y = 15},
+            numOffset = {x = 38, y = 15},
         },
         ["Stars"] = {
-            xAlignment = 2,
-            yAlignment = 0,
-            iconShow = true,
-            iconOffsetX = -77,
-            iconOffsetY = 15,
-            xShow = true,
+            alignment = {x = 2, y = 0},
+            shownElements = {icon = true, div = true, num = true},
             hideOnTriple = true,
-            xOffsetX = -61,
-            xOffsetY = 15,
-            numShow = true,
-            numOffsetX = -46.8,
-            numOffsetY = 15,
+            iconOffset = {x = -77, y = 15},
+            xOffset = {x = -61, y = 15},
+            numOffset = {x = -46.8, y = 15},
         },
         ["RedStars"] = {
-            xAlignment = 2,
-            yAlignment = 0,
-            iconShow = true,
-            iconColorR = 255,
-            iconColorG = 0,
-            iconColorB = 0,
-            iconColorO = 255,
-            iconOffsetX = -77,
-            iconOffsetY = 33,
-            xShow = true,
+            alignment = {x = 2, y = 0},
+            shownElements = {icon = true, div = true, num = true},
             hideOnTriple = true,
-            xOffsetX = -61,
-            xOffsetY = 33,
-            numShow = true,
-            numOffsetX = -46.8,
-            numOffsetY = 33,
+            iconColor = {r = 255, g = 0, b = 0, o = 255},
+            iconOffset = {x = -77, y = 33},
+            xOffset = {x = -61, y = 33},
+            numOffset = {x = -46.8, y = 33},
         },
         ["GreenStars"] = {
-            xAlignment = 2,
-            yAlignment = 0,
-            iconShow = true,
-            iconColorR = 0,
-            iconColorG = 255,
-            iconColorB = 0,
-            iconColorO = 255,
-            iconOffsetX = -77,
-            iconOffsetY = 51,
-            xShow = true,
+            alignment = {x = 2, y = 0},
+            shownElements = {icon = true, div = true, num = true},
             hideOnTriple = true,
-            xOffsetX = -61,
-            xOffsetY = 51,
-            numShow = true,
-            numOffsetX = -46.8,
-            numOffsetY = 51,
+            iconColor = {r = 0, g = 255, b = 0, o = 255},
+            iconOffset = {x = -77, y = 51},
+            xOffset = {x = -61, y = 51},
+            numOffset = {x = -46.8, y = 51},
         },
         ["RedRadar"] = {
-            xAlignment = 0,
-            yAlignment = 2,
-            iconShow = true,
-            iconColorR = 255,
-            iconColorG = 0,
-            iconColorB = 0,
-            iconColorO = 255,
-            iconOffsetX = 21,
-            iconOffsetY = -25,
-            xShow = false,
-            xOffsetX = 37,
-            xOffsetY = -25,
-            numShow = true,
-            numOffsetX = 37,
-            numOffsetY = -25,
+            alignment = {x = 0, y = 2},
+            shownElements = {icon = true, div = false, num = true},
+            iconColor = {r = 255, g = 0, b = 0, o = 255},
+            iconOffset = {x = 21, y = -25},
+            xOffset = {x = 37, y = -25},
+            numOffset = {x = 37, y = -25},
         },
         ["SecretRadar"] = {
-            xAlignment = 0,
-            yAlignment = 2,
-            iconShow = true,
-            iconOffsetX = 21,
-            iconOffsetY = -45,
-            xShow = false,
-            xOffsetX = 37,
-            xOffsetY = -45,
-            numShow = true,
-            numOffsetX = 37,
-            numOffsetY = -45,
+            alignment = {x = 0, y = 2},
+            shownElements = {icon = true, div = false, num = true},
+            iconOffset = {x = 21, y = -45},
+            xOffset = {x = 37, y = -45},
+            numOffset = {x = 37, y = -45},
         },
         ["Health"] = {
-            colorR = 255,
-            colorG = 255,
-            colorB = 255,
-            colorO = 255,
+            alignment = { x = 1, y = 0 },
+            color = { r = 255, g = 255, b = 255, o = 255},
             scale = 64,
-            xAlignment = 1,
-            yAlignment = 0,
-            meterShow = true,
-            meterOffsetX = -52,
-            meterOffsetY = 8,
+            meterShow = false,
+            meterOffset = {x = -52, y = 8},
         }
     },
     [FourThreeLock] = {
@@ -137,118 +81,66 @@ local hudTable = {
         res = RESOLUTION_N64,
         font = FONT_HUD,
         ["Lives"] = {
-            xAlignment = 1,
-            yAlignment = 0,
-            iconShow = true,
-            iconOffsetX = -138,
-            iconOffsetY = 15,
-            xShow = true,
-            xOffsetX = -122,
-            xOffsetY = 15,
-            numShow = true,
-            numOffsetX = -106,
-            numOffsetY = 15,
+            alignment = {x = 1, y = 0},
+            shownElements = {icon = true, div = true, num = true},
+            iconOffset = {x = -138, y = 15},
+            xOffset = {x = -122, y = 15},
+            numOffset = {x = -106, y = 15},
         },
         ["Coins"] = {
-            xAlignment = 1,
-            yAlignment = 0,
-            iconShow = true,
-            iconOffsetX = 8,
-            iconOffsetY = 15,
-            xShow = true,
-            xOffsetX = 24,
-            xOffsetY = 15,
-            numShow = true,
-            numOffsetX = 38,
-            numOffsetY = 15,
+            alignment = {x = 1, y = 0},
+            shownElements = {icon = true, div = true, num = true},
+            iconOffset = {x = 8, y = 15},
+            xOffset = {x = 24, y = 15},
+            numOffset = {x = 38, y = 15},
         },
         ["Stars"] = {
-            xAlignment = 1,
-            yAlignment = 0,
-            iconShow = true,
-            iconOffsetX = 82,
-            iconOffsetY = 15,
-            xShow = true,
+            alignment = {x = 1, y = 0},
+            shownElements = {icon = true, div = true, num = true},
             hideOnTriple = true,
-            xOffsetX = 98,
-            xOffsetY = 15,
-            numShow = true,
-            numOffsetX = 112.2,
-            numOffsetY = 15,
+            iconOffset = {x = 82, y = 15},
+            xOffset = {x = 98, y = 15},
+            numOffset = {x = 112.2, y = 15},
         },
         ["RedStars"] = {
-            xAlignment = 1,
-            yAlignment = 0,
-            iconShow = true,
-            iconColorR = 255,
-            iconColorG = 0,
-            iconColorB = 0,
-            iconColorO = 255,
-            iconOffsetX = 82,
-            iconOffsetY = 33,
-            xShow = true,
+            alignment = {x = 1, y = 0},
+            shownElements = {icon = true, div = true, num = true},
+            iconColor = {r = 255, g = 0, b = 0, o = 255},
             hideOnTriple = true,
-            xOffsetX = 98,
-            xOffsetY = 33,
-            numShow = true,
-            numOffsetX = 112.2,
-            numOffsetY = 33,
+            iconOffset = {x = 82, y = 33},
+            xOffset = {x = 98, y = 33},
+            numOffset = {x = 112.2, y = 33},
         },
         ["GreenStars"] = {
-            xAlignment = 1,
-            yAlignment = 0,
-            iconShow = true,
-            iconColorR = 0,
-            iconColorG = 255,
-            iconColorB = 0,
-            iconColorO = 255,
-            iconOffsetX = 82,
-            iconOffsetY = 51,
-            xShow = true,
+            alignment = {x = 1, y = 0},
+            shownElements = {icon = true, div = true, num = true},
+            iconColor = {r = 0, g = 255, b = 0, o = 255},
             hideOnTriple = true,
-            xOffsetX = 98,
-            xOffsetY = 51,
-            numShow = true,
-            numOffsetX = 112.2,
-            numOffsetY = 51,
+            iconOffset = {x = 82, y = 51},
+            xOffset = {x = 98, y = 51},
+            numOffset = {x = 112.2, y = 51},
         },
         ["RedRadar"] = {
-            xAlignment = 1,
-            yAlignment = 2,
-            iconShow = true,
-            iconColorR = 255,
-            iconColorG = 0,
-            iconColorB = 0,
-            iconColorO = 255,
-            iconOffsetX = -138,
-            iconOffsetY = -25,
-            xShow = false,
-            xOffsetX = -122,
-            xOffsetY = -25,
-            numShow = true,
-            numOffsetX = -122,
-            numOffsetY = -25,
+            alignment = {x = 1, y = 2},
+            shownElements = {icon = true, div = false, num = true},
+            iconColor = {r = 255, g = 0, b = 0, o = 255},
+            iconOffset = {x = -138, y = -25},
+            xOffset = {x = -122, y = -25},
+            numOffset = {x = 37, y = -25},
         },
         ["SecretRadar"] = {
-            xAlignment = 1,
-            yAlignment = 2,
-            iconShow = true,
-            iconOffsetX = -138,
-            iconOffsetY = -45,
-            xShow = false,
-            xOffsetX = -122,
-            xOffsetY = -45,
-            numShow = true,
-            numOffsetX = -122,
-            numOffsetY = -45,
+            alignment = {x = 1, y = 2},
+            shownElements = {icon = true, div = false, num = true},
+            iconOffset = {x = -138, y = -45},
+            xOffset = {x = -122, y = -45},
+            numOffset = {x = 37, y = -45},
         },
         ["Health"] = {
+            alignment = { x = 1, y = 0 },
+            color = { r = 255, g = 255, b = 255, o = 255},
             scale = 64,
-            xAlignment = 1,
-            yAlignment = 0,
             meterShow = true,
-            meterOffsetX = -52,
-            meterOffsetY = 8,
+            meterOffset = {x = -52, y = 8},
         }
     },
     [Compact] = {
@@ -256,101 +148,65 @@ local hudTable = {
         res = RESOLUTION_N64,
         font = FONT_HUD,
         ["Lives"] = {
-            xAlignment = 0,
-            yAlignment = 0,
-            iconShow = true,
-            iconOffsetX = 80,
-            iconOffsetY = 35,
-            xShow = false,
-            xOffsetX = 0,
-            xOffsetY = 0,
-            numShow = true,
-            numOffsetX = 100,
-            numOffsetY = 35,
+            alignment = {x = 0, y = 0},
+            shownElements = {icon = true, div = false, num = true},
+            iconOffset = {x = 15, y = 15},
+            xOffset = {x = 0, y = 0},
+            numOffset = {x = 25, y = 20},
         },
         ["Coins"] = {
-            xAlignment = 0,
-            yAlignment = 0,
-            iconShow = true,
-            iconOffsetX = 135,
-            iconOffsetY = 35,
-            xShow = false,
-            xOffsetX = 0,
-            xOffsetY = 0,
-            numShow = true,
-            numOffsetX = 155,
-            numOffsetY = 35,
+            alignment = {x = 0, y = 0},
+            shownElements = {icon = true, div = false, num = true},
+            iconOffset = {x = 15, y = 35},
+            xOffset = {x = 0, y = 0},
+            numOffset = {x = 25, y = 40},
         },
         ["Stars"] = {
-            xAlignment = 0,
-            yAlignment = 0,
-            iconShow = true,
-            iconOffsetX = 80,
-            iconOffsetY = 15,
-            xShow = false,
-            hideOnTriple = false,
-            xOffsetX = 0,
-            xOffsetY = 0,
-            numShow = true,
-            numOffsetX = 100,
-            numOffsetY = 15,
+            alignment = {x = 0, y = 0},
+            shownElements = {icon = true, div = false, num = true},
+            iconOffset = {x = 15, y = 55},
+            xOffset = {x = 0, y = 0},
+            numOffset = {x = 25, y = 60},
         },
         ["RedStars"] = {
-            xAlignment = 0,
-            yAlignment = 0,
-            iconShow = true,
-            iconColorR = 255,
-            iconColorG = 0,
-            iconColorB = 0,
-            iconColorO = 255,
-            iconOffsetX = 135,
-            iconOffsetY = 15,
-            xShow = false,
-            hideOnTriple = false,
-            xOffsetX = 0,
-            xOffsetY = 0,
-            numShow = true,
-            numOffsetX = 155,
-            numOffsetY = 15,
+            alignment = {x = 0, y = 0},
+            shownElements = {icon = true, div = false, num = true},
+            iconColor = {r = 255, g = 0, b = 0, o = 255},
+            scale = 0.6,
+            iconOffset = {x = 20, y = 72},
+            xOffset = {x = 0, y = 0},
+            numOffset = {x = 25, y = 77},
         },
         ["GreenStars"] = {
-            xAlignment = 0,
-            yAlignment = 0,
-            iconShow = true,
-            iconColorR = 0,
-            iconColorG = 255,
-            iconColorB = 0,
-            iconColorO = 255,
-            iconOffsetX = 190,
-            iconOffsetY = 15,
-            xShow = false,
-            hideOnTriple = false,
-            xOffsetX = 0,
-            xOffsetY = 0,
-            numShow = true,
-            numOffsetX = 210,
-            numOffsetY = 15,
+            alignment = {x = 0, y = 0},
+            shownElements = {icon = true, div = false, num = true},
+            iconColor = {r = 0, g = 255, b = 0, o = 255},
+            scale = 0.6,
+            iconOffset = {x = 20, y = 82},
+            xOffset = {x = 0, y = 0},
+            numOffset = {x = 25, y = 87},
         },
         ["RedRadar"] = {
-            xAlignment = 0,
-            yAlignment = 0,
-            iconShow = true,
-            iconOffsetX = 80,
-            iconOffsetY = 55,
-            xShow = false,
-            xOffsetX = 0,
-            xOffsetY = 0,
-            numShow = true,
-            numOffsetX = 100,
-            numOffsetY = 55,
+            alignment = {x = 1, y = 0},
+            shownElements = {icon = true, div = false, num = true},
+            iconColor = {r = 255, g = 0, b = 0, o = 255},
+            iconOffset = {x = -60, y = 10},
+            xOffset = {x = 0, y = 0},
+            numOffset = {x = -50, y = 15},
+        },
+        ["SecretRadar"] = {
+            alignment = {x = 1, y = 0},
+            shownElements = {icon = true, div = false, num = true},
+            iconOffset = {x = 10, y = 10},
+            xOffset = {x = 0, y = 0},
+            numOffset = {x = 20, y = 15},
         },
         ["Health"] = {
+            alignment = { x = 2, y = 0},
+            color = { r = 255, g = 255, b = 255, o = 255},
             scale = 64,
-            xAlignment = 0,
-            yAlignment = 0,
             meterShow = true,
-            meterOffsetX = 15,
-            meterOffsetY = 8,
+            meterOffset = {x = -70, y = 10},
         }
     },
     [Off] = {
@@ -358,121 +214,80 @@ local hudTable = {
         res = RESOLUTION_N64,
         font = FONT_HUD,
         ["Lives"] = {
-            xAlignment = 0,
-            yAlignment = 0,
-            iconShow = false,
-            iconOffsetX = 21,
-            iconOffsetY = 15,
-            xShow = false,
-            xOffsetX = 37,
-            xOffsetY = 15,
-            numShow = false,
-            numOffsetX = 54,
-            numOffsetY = 15,
+            alignment = {x = 0, y = 0},
+            shownElements = {icon = false, div = false, num = false},
+            iconOffset = {x = 21, y = 15},
+            xOffset = {x = 37, y = 15},
+            numOffset = {x = 54, y = 15},
         },
         ["Coins"] = {
-            xAlignment = 1,
-            yAlignment = 0,
-            iconShow = false,
-            iconOffsetX = 8,
-            iconOffsetY = 15,
-            xShow = false,
-            xOffsetX = 24,
-            xOffsetY = 15,
-            numShow = false,
-            numOffsetX = 38,
-            numOffsetY = 15,
+            alignment = {x = 1, y = 0},
+            shownElements = {icon = false, div = false, num = false},
+            iconOffset = {x = 8, y = 15},
+            xOffset = {x = 24, y = 15},
+            numOffset = {x = 38, y = 15},
         },
         ["Stars"] = {
-            xAlignment = 2,
-            yAlignment = 0,
-            iconShow = false,
-            iconOffsetX = -77,
-            iconOffsetY = 15,
-            xShow = false,
-            hideOnTriple = false,
-            xOffsetX = -61,
-            xOffsetY = 15,
-            numShow = false,
-            numOffsetX = -46.8,
-            numOffsetY = 15,
+            alignment = {x = 2, y = 0},
+            shownElements = {icon = false, div = false, num = false},
+            hideOnTriple = true,
+            iconOffset = {x = -77, y = 15},
+            xOffset = {x = -61, y = 15},
+            numOffset = {x = -46.8, y = 15},
         },
         ["RedStars"] = {
-            xAlignment = 2,
-            yAlignment = 0,
-            iconShow = false,
-            iconColorR = 255,
-            iconColorG = 0,
-            iconColorB = 0,
-            iconColorO = 255,
-            iconOffsetX = -77,
-            iconOffsetY = 33,
-            xShow = false,
-            hideOnTriple = false,
-            xOffsetX = -61,
-            xOffsetY = 33,
-            numShow = false,
-            numOffsetX = -46.8,
-            numOffsetY = 33,
+            alignment = {x = 2, y = 0},
+            shownElements = {icon = false, div = false, num = false},
+            hideOnTriple = true,
+            iconColor = {r = 255, g = 0, b = 0, o = 255},
+            iconOffset = {x = -77, y = 33},
+            xOffset = {x = -61, y = 33},
+            numOffset = {x = -46.8, y = 33},
         },
         ["GreenStars"] = {
-            xAlignment = 2,
-            yAlignment = 0,
-            iconShow = false,
-            iconColorR = 0,
-            iconColorG = 255,
-            iconColorB = 0,
-            iconColorO = 255,
-            iconOffsetX = -77,
-            iconOffsetY = 51,
-            xShow = false,
-            hideOnTriple = false,
-            xOffsetX = -61,
-            xOffsetY = 51,
-            numShow = false,
-            numOffsetX = -46.8,
-            numOffsetY = 51,
+            alignment = {x = 2, y = 0},
+            shownElements = {icon = false, div = false, num = false},
+            hideOnTriple = true,
+            iconColor = {r = 0, g = 255, b = 0, o = 255},
+            iconOffset = {x = -77, y = 51},
+            xOffset = {x = -61, y = 51},
+            numOffset = {x = -46.8, y = 51},
         },
         ["RedRadar"] = {
-            xAlignment = 0,
-            yAlignment = 0,
-            iconShow = false,
-            iconOffsetX = 80,
-            iconOffsetY = 35,
-            xShow = false,
-            xOffsetX = 0,
-            xOffsetY = 0,
-            numShow = false,
-            numOffsetX = 100,
-            numOffsetY = 35,
+            alignment = {x = 0, y = 2},
+            shownElements = {icon = false, div = false, num = false},
+            hideOnTriple = true,
+            iconColor = {r = 255, g = 0, b = 0, o = 255},
+            iconOffset = {x = 21, y = -25},
+            xOffset = {x = 37, y = -25},
+            numOffset = {x = 37, y = -25},
         },
         ["SecretRadar"] = {
-            xAlignment = 0,
-            yAlignment = 0,
-            iconShow = false,
-            iconOffsetX = 80,
-            iconOffsetY = 35,
-            xShow = false,
-            xOffsetX = 0,
-            xOffsetY = 0,
-            numShow = false,
-            numOffsetX = 100,
-            numOffsetY = 35,
+            alignment = {x = 0, y = 2},
+            shownElements = {icon = false, div = false, num = false},
+            hideOnTriple = true,
+            iconColor = {r = 255, g = 255, b = 255, o = 255},
+            iconOffset = {x = 21, y = -45},
+            xOffset = {x = 37, y = -45},
+            numOffset = {x = 37, y = -45},
         },
         ["Health"] = {
-            colorR = 255,
-            colorG = 255,
-            colorB = 255,
-            colorO = 255,
+            alignment = { x = 1, y = 0 },
+            color = { r = 255, g = 255, b = 255, o = 255},
             scale = 64,
-            xAlignment = 1,
-            yAlignment = 0,
             meterShow = false,
-            meterOffsetX = -52,
-            meterOffsetY = 8,
+            meterOffset = {x = -52, y = 8},
         }
     },
 }
+
+local function get_value_or_default(value, defaultValue)
+    if value ~= nil then
+        return value
+    else
+        return defaultValue
+    end
+end
 
 local function djui_hud_render_element(element, number, icon)
     local m = gMarioStates[0]
@@ -481,54 +296,48 @@ local function djui_hud_render_element(element, number, icon)
     local g = 255
     local b = 255
     local o = 255
-    local iconR = 255
-    local iconG = 255
-    local iconB = 255
-    local iconO = 255
-    local scale = 1
 
-    local xAlign = djui_hud_get_screen_width()*0.5 * hudTable[currHUD][element].xAlignment
-    local yAlign = djui_hud_get_screen_height()*0.5 * hudTable[currHUD][element].yAlignment
-
-    -- Optimized by ChatGPT
-    -- Base color
-    local function getColorOrDefault(value, defaultValue)
-        if value ~= nil then
-            return value
-        else
-            return defaultValue
-        end
+    if hudTable[currHUD][element].color ~= nil then
+        r = hudTable[currHUD][element].color.r
+        g = hudTable[currHUD][element].color.g
+        b = hudTable[currHUD][element].color.b
+        o = hudTable[currHUD][element].color.o
     end
 
-    r = getColorOrDefault(hudTable[currHUD][element].colorR, r)
-    g = getColorOrDefault(hudTable[currHUD][element].colorG, g)
-    b = getColorOrDefault(hudTable[currHUD][element].colorB, b)
-    o = getColorOrDefault(hudTable[currHUD][element].colorO, o)
+    local iconR = r
+    local iconG = g
+    local iconB = b
+    local iconO = o
 
-    -- Icon color
-    iconR = getColorOrDefault(hudTable[currHUD][element].iconColorR, r)
-    iconG = getColorOrDefault(hudTable[currHUD][element].iconColorG, g)
-    iconB = getColorOrDefault(hudTable[currHUD][element].iconColorB, b)
-    iconO = getColorOrDefault(hudTable[currHUD][element].iconColorO, o)
+    if hudTable[currHUD][element].iconColor ~= nil then
+        iconR = hudTable[currHUD][element].iconColor.r
+        iconG = hudTable[currHUD][element].iconColor.g
+        iconB = hudTable[currHUD][element].iconColor.b
+        iconO = hudTable[currHUD][element].iconColor.o
+    end
 
-    --Checks for Scale 
+    local scale = 1
+
     if hudTable[currHUD][element].scale ~= nil then
         scale = hudTable[currHUD][element].scale
     end
 
-    local iconX = hudTable[currHUD][element].iconOffsetX + xAlign
-    local iconY = hudTable[currHUD][element].iconOffsetY + yAlign
-    local xX = hudTable[currHUD][element].xOffsetX + xAlign
-    local xY = hudTable[currHUD][element].xOffsetY + yAlign
-    local numX = hudTable[currHUD][element].numOffsetX + xAlign
-    local numY = hudTable[currHUD][element].numOffsetY + yAlign
+    local xAlign = djui_hud_get_screen_width()*0.5 * hudTable[currHUD][element].alignment.x
+    local yAlign = djui_hud_get_screen_height()*0.5 * hudTable[currHUD][element].alignment.y
+
+    local iconX = hudTable[currHUD][element].iconOffset.x + xAlign
+    local iconY = hudTable[currHUD][element].iconOffset.y + yAlign
+    local divX = hudTable[currHUD][element].xOffset.x + xAlign
+    local divY = hudTable[currHUD][element].xOffset.y + yAlign
+    local numX = hudTable[currHUD][element].numOffset.x + xAlign
+    local numY = hudTable[currHUD][element].numOffset.y + yAlign
 
     if is_game_paused() then
         djui_hud_set_color(iconR*0.5, iconG*0.5, iconB*0.5, iconO)
     else
         djui_hud_set_color(iconR, iconG, iconB, iconO)
     end
-    if hudTable[currHUD][element].iconShow then
+    if hudTable[currHUD][element].shownElements.icon then
         djui_hud_render_texture(icon, iconX, iconY, scale, scale)
     end
     if is_game_paused() then
@@ -537,12 +346,12 @@ local function djui_hud_render_element(element, number, icon)
         djui_hud_set_color(r, g, b, o)
     end
 
-    if hudTable[currHUD][element].xShow and not (number >= 100 and hudTable[currHUD][element].hideOnTriple) then
-        djui_hud_print_text("x", xX, xY, scale)
+    if hudTable[currHUD][element].shownElements.div and not (number >= 100 and hudTable[currHUD][element].hideOnTriple) then
+        djui_hud_print_text("x", divX, divY, scale)
     end
-    if hudTable[currHUD][element].numShow then
+    if hudTable[currHUD][element].shownElements.num then
         if number >= 100 and hudTable[currHUD][element].hideOnTriple then
-            djui_hud_print_text(tostring(number), xX, xY, scale)
+            djui_hud_print_text(tostring(number), divX, divY, scale)
         else
             djui_hud_print_text(tostring(number), numX, numY, scale)
         end
@@ -580,28 +389,23 @@ function hud_render()
 
     if get_dialog_id() ~= -1 then return end
 
-    if hudTable[currHUD]["Health"].colorR ~= nil then
-        r = hudTable[currHUD]["Health"].colorR
+    if hudTable[currHUD]["Health"].color.r ~= nil then
+        r = hudTable[currHUD]["Health"].color.r
     end
-    if hudTable[currHUD]["Health"].colorG ~= nil then
-        g = hudTable[currHUD]["Health"].colorG
+    if hudTable[currHUD]["Health"].color.g ~= nil then
+        g = hudTable[currHUD]["Health"].color.g
     end
-    if hudTable[currHUD]["Health"].colorB ~= nil then
-        b = hudTable[currHUD]["Health"].colorB
+    if hudTable[currHUD]["Health"].color.b ~= nil then
+        b = hudTable[currHUD]["Health"].color.b
     end
-    if hudTable[currHUD]["Health"].colorO ~= nil then
-        o = hudTable[currHUD]["Health"].colorO
+    if hudTable[currHUD]["Health"].color.o ~= nil then
+        o = hudTable[currHUD]["Health"].color.o
     end
 
-    local x = hudTable[currHUD]["Health"].meterOffsetX + djui_hud_get_screen_width()*0.5 * hudTable[currHUD]["Health"].xAlignment
-    local y = hudTable[currHUD]["Health"].meterOffsetY + djui_hud_get_screen_height()*0.5 * hudTable[currHUD]["Health"].yAlignment
+    local x = hudTable[currHUD]["Health"].meterOffset.x + djui_hud_get_screen_width()*0.5 * hudTable[currHUD]["Health"].alignment.x
+    local y = hudTable[currHUD]["Health"].meterOffset.y + djui_hud_get_screen_height()*0.5 * hudTable[currHUD]["Health"].alignment.y
     local scale = hudTable[currHUD]["Health"].scale
-
-    if is_game_paused() then
-        djui_hud_set_color(r*0.5, g*0.5, b*0.5, o)
-    else
-        djui_hud_set_color(r, g, b, o)
-    end
+    djui_hud_set_color(r, g, b, o)
     if hudTable[currHUD]["Health"].meterShow then
         hud_render_power_meter(gMarioStates[0].health, x, y, scale, scale)
     end
