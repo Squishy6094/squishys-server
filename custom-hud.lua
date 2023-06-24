@@ -281,14 +281,6 @@ local hudTable = {
     },
 }
 
-local function get_value_or_default(value, defaultValue)
-    if value ~= nil then
-        return value
-    else
-        return defaultValue
-    end
-end
-
 local function djui_hud_render_element(element, number, icon)
     local m = gMarioStates[0]
 
