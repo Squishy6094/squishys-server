@@ -15,7 +15,6 @@ gLevelValues.extendedPauseDisplay = true
 menuTable = {
     [1] = {
         name = "Movement",
-        tabMax = 6,
         [1] = {
             name = "Moveset",
             nameSave = "MoveSave",
@@ -97,7 +96,6 @@ menuTable = {
     },
     [2] = {
         name = "HUD",
-        tabMax = 4,
         [1] = {
             name = "HUD Type",
             nameSave = "HUDSave",
@@ -155,7 +153,6 @@ menuTable = {
     },
     [3] = {
         name = "Misc.",
-        tabMax = 3,
         [1] = {
             name = "Personal Model",
             nameSave = "ModelSave",
@@ -205,7 +202,6 @@ menuTable = {
     },
     [4] = {
         name = "Misc.",
-        tabMax = 6,
         [1] = {
             name = "Death Type",
             status = gServerSettings.bubbleDeath,
@@ -395,8 +391,8 @@ function displaymenu()
         djui_hud_set_color(255, 255, 255, 255)
         
         if optionHover < 1 then
-            optionHover = menuTable[optionTab].tabMax
-        elseif  optionHover > menuTable[optionTab].tabMax then
+            optionHover = #menuTable[optionTab]
+        elseif  optionHover > #menuTable[optionTab] then
             optionHover = 1
         end
 
@@ -432,7 +428,7 @@ function displaymenu()
             print("Autofilled Toggle for '" ..menuTable[optionTab][optionHover].nameSave "' created.")
         end
         
-        for i = 1, menuTable[optionTab].tabMax do
+        for i = 1, #menuTable[optionTab] do
             djui_hud_print_text(menuTable[optionTab][i].name, halfScreenWidth - 70, 80 + (i - 1) * 10, 0.3)
         end
 
