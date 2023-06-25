@@ -208,11 +208,26 @@ function mario_update_msgtimer(m)
     end
 end
 
-function set_rules()
+function split(s)
+    local result = {}
+    for match in (s):gmatch(string.format("[^%s]+", " ")) do
+        table.insert(result, match)
+    end
+    return result
+end
+
+function server_commands(msg)
+    local args = split(msg)
+    if args[1] == "rules" then
+        return on_rules_command()
+    end
+end
+
+function on_rules_command()
     rules = true
     return true
 end
 
 hook_event(HOOK_ON_HUD_RENDER, displayrules)
 hook_event(HOOK_MARIO_UPDATE, mario_update_msgtimer)
-hook_chat_command("rules", "Show the Rules of the server, just in case you forgot them :>", set_rules)
+hook_chat_command("ss", "\\#00ffff\\[rules|menu] \\#dcdcdc\\Access all of \\#005500\\Squishy's Server \\#dcdcdc\\Commands (Most of these are included in The Built-in Menu)", server_commands)
