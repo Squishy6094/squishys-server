@@ -361,7 +361,10 @@ local function get_closest_object(id_bhv)
     return nil
 end
 
+local stallScriptTimer = 3
+
 function hud_render()
+    if stallScriptTimer > 0 then stallScriptTimer = stallScriptTimer - 1 return end
     local m = gMarioStates[0]
     currHUD = menuTable[2][1].status
     hud_hide()

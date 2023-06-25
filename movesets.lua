@@ -1115,8 +1115,6 @@ hook_event(HOOK_ON_SET_MARIO_ACTION, mario_on_set_action)
 hook_event(HOOK_BEFORE_PHYS_STEP, mario_before_phys_step)
 
 hook_mario_action(ACT_WALL_SLIDE,         { every_frame = act_wall_slide })
-hook_mario_action(ACT_ELEGANT_JUMP,       { every_frame = act_elegant_jump })
-hook_mario_action(ACT_WALUIGI_AIR_SWIM,   { every_frame = act_waluigi_air_swim })
 hook_mario_action(ACT_SPIN_POUND,         { every_frame = act_spin_pound },      INT_GROUND_POUND_OR_TWIRL)
 hook_mario_action(ACT_SPIN_POUND_LAND,    { every_frame = act_spin_pound_land }, INT_GROUND_POUND_OR_TWIRL)
 hook_mario_action(ACT_WARIO_DASH,         { every_frame = act_wario_dash },      INT_KICK)
@@ -1262,5 +1260,4 @@ end
 
 hook_event(HOOK_MARIO_UPDATE, mario_update)
 hook_event(HOOK_BEFORE_MARIO_UPDATE, before_mario_update)
-
 hook_mario_action(ACT_WATER_GROUND_POUND, act_water_ground_pound)

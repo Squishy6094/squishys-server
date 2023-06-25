@@ -22,12 +22,9 @@ else
 end
 
 
-local stallScriptTimer = 0
+local stallScriptTimer = 15
 function displayrules(m)
-    if stallScriptTimer <= 15 then
-        stallScriptTimer = stallScriptTimer + 1
-        return
-    end
+    if stallScriptTimer > 0 then stallScriptTimer = stallScriptTimer - 1 return end
     
     if rules and offsetX < -1 then
         offsetX = offsetX/1.1
