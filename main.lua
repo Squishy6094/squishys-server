@@ -88,8 +88,6 @@ function displayrules(m)
     djui_hud_print_text("Pausing and Pressing the L button", 20 + offsetX, 127, 0.3)
     djui_hud_print_text("To avoid lag and clutter, some mods", 20 + offsetX, 137, 0.3)
     djui_hud_print_text('are built into into "-Squishy'.."'"..'s Server-"', 20 + offsetX, 144, 0.3)
-    djui_hud_set_color(150, 150, 150, 255)
-    djui_hud_print_text('All Credits are in "unlisted-mods-list.md"', 20 + offsetX, 152, 0.25)
 
     djui_hud_set_font(FONT_HUD)
     djui_hud_set_color(255, 255, 255, 255)
