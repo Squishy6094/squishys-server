@@ -479,7 +479,7 @@ local noStrafeActs = {
 }
 
 local pressed_A = false
-local TIMER_MAX = 5
+local TIMER_MAX = 2
 local timer = TIMER_MAX
 
 ---@param m MarioState
