@@ -281,6 +281,13 @@ local hudTable = {
     },
 }
 
+
+function djui_hud_set_adjusted_color(r, g, b, a)
+    local multiplier = 1
+    if is_game_paused() then multiplier = 0.5 end
+    djui_hud_set_color(r * multiplier, g * multiplier, b * multiplier, a)
+end
+
 local function djui_hud_render_element(element, number, icon)
     local m = gMarioStates[0]
 
@@ -324,20 +331,12 @@ local function djui_hud_render_element(element, number, icon)
     local numX = hudTable[currHUD][element].numOffset.x + xAlign
     local numY = hudTable[currHUD][element].numOffset.y + yAlign
 
-    if is_game_paused() then
-        djui_hud_set_color(iconR*0.5, iconG*0.5, iconB*0.5, iconO)
-    else
-        djui_hud_set_color(iconR, iconG, iconB, iconO)
-    end
+    djui_hud_set_adjusted_color(iconR, iconG, iconB, iconO)
     if hudTable[currHUD][element].shownElements.icon then
         djui_hud_render_texture(icon, iconX, iconY, scale, scale)
     end
-    if is_game_paused() then
-        djui_hud_set_color(r*0.5, g*0.5, b*0.5, o)
-    else
-        djui_hud_set_color(r, g, b, o)
-    end
 
+    djui_hud_set_adjusted_color(r, g, b, o)
     if hudTable[currHUD][element].shownElements.div and not (number >= 100 and hudTable[currHUD][element].hideOnTriple) then
         djui_hud_print_text("x", divX, divY, scale)
     end
@@ -400,11 +399,7 @@ function hud_render()
     local x = hudTable[currHUD]["Health"].meterOffset.x + djui_hud_get_screen_width()*0.5 * hudTable[currHUD]["Health"].alignment.x
     local y = hudTable[currHUD]["Health"].meterOffset.y + djui_hud_get_screen_height()*0.5 * hudTable[currHUD]["Health"].alignment.y
     local scale = hudTable[currHUD]["Health"].scale
-    if is_game_paused() then
-        djui_hud_set_color(r*0.5, g*0.5, b*0.5, o)
-    else
-        djui_hud_set_color(r, g, b, o)
-    end
+    djui_hud_set_adjusted_color(r, g, b, o)
     if hudTable[currHUD]["Health"].meterShow then
         hud_render_power_meter(gMarioStates[0].health, x, y, scale, scale)
     end
