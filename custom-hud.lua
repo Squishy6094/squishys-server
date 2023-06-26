@@ -72,7 +72,7 @@ local hudTable = {
             alignment = { x = 1, y = 0 },
             color = { r = 255, g = 255, b = 255, o = 255},
             scale = 64,
-            meterShow = false,
+            meterShow = true,
             meterOffset = {x = -52, y = 8},
         }
     },
@@ -400,7 +400,11 @@ function hud_render()
     local x = hudTable[currHUD]["Health"].meterOffset.x + djui_hud_get_screen_width()*0.5 * hudTable[currHUD]["Health"].alignment.x
     local y = hudTable[currHUD]["Health"].meterOffset.y + djui_hud_get_screen_height()*0.5 * hudTable[currHUD]["Health"].alignment.y
     local scale = hudTable[currHUD]["Health"].scale
-    djui_hud_set_color(r, g, b, o)
+    if is_game_paused() then
+        djui_hud_set_color(r*0.5, g*0.5, b*0.5, o)
+    else
+        djui_hud_set_color(r, g, b, o)
+    end
     if hudTable[currHUD]["Health"].meterShow then
         hud_render_power_meter(gMarioStates[0].health, x, y, scale, scale)
     end
