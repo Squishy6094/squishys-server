@@ -3,12 +3,12 @@ local optionTab = 1
 local optionHover = 1
 local optionHoverTimer = -1
 
-gGlobalSyncTable.bubbleDeath = 0
+gGlobalSyncTable.bubbleDeath = gServerSettings.bubbleDeath
 gGlobalSyncTable.playerInteractions = gServerSettings.playerInteractions
 gGlobalSyncTable.playerKnockbackStrength = gServerSettings.playerKnockbackStrength
 gGlobalSyncTable.stayInLevelAfterStar = gServerSettings.stayInLevelAfterStar
-gGlobalSyncTable.GlobalAQS = true
-gGlobalSyncTable.GlobalMoveset = true
+gGlobalSyncTable.GlobalMoveset = 1
+gGlobalSyncTable.GlobalAQS = 1
 
 gLevelValues.extendedPauseDisplay = true
 
@@ -21,13 +21,13 @@ menuTable = {
             status = tonumber(mod_storage_load("MoveSave")),
             statusMax = 2,
             statusDefault = 0,
-            unlocked = true,
+            unlocked = gGlobalSyncTable.GlobalMoveset,
             lockTo = 0,
             --Status Toggle Names
+            [-1] = "Forced Default",
             [0] = "Default",
             [1] = "Character",
             [2] = "Quality of Life",
-            ["Forced"] = "Forced Default",
             --Description
             Line1 = "Change small things about",
             Line2 = "how Mario moves to make",
@@ -48,8 +48,11 @@ menuTable = {
             nameSave = "AQSSave",
             status = tonumber(mod_storage_load("AQSSave")),
             statusMax = 1,
-            restriction = true,
+            unlocked = gGlobalSyncTable.GlobalAQS,
+            lockTo = 0,
             --Description
+            --Status Toggle Names
+            [-1] = "Forced Off",
             Line1 = "Makes instant quicksand act",
             Line2 = "like lava, preventing what",
             Line3 = "may seem like an unfair",
@@ -204,7 +207,7 @@ menuTable = {
         name = "Misc.",
         [1] = {
             name = "Death Type",
-            status = gServerSettings.bubbleDeath,
+            status = gGlobalSyncTable.bubbleDeath,
             statusMax = 1,
             statusDefault = 1,
             --Status Toggle Names
@@ -216,7 +219,7 @@ menuTable = {
         },
         [2] = {
             name = "Player Interactions",
-            status = gServerSettings.playerInteractions,
+            status = gGlobalSyncTable.playerInteractions,
             statusMax = 2,
             statusDefault = 2,
             --Status Toggle Names
@@ -229,7 +232,7 @@ menuTable = {
         },
         [3] = {
             name = "Player Knockback",
-            status = gServerSettings.playerKnockbackStrength,
+            status = gGlobalSyncTable.playerKnockbackStrength,
             statusMax = 2,
             statusDefault = 1,
             --Status Toggle Names
@@ -243,7 +246,7 @@ menuTable = {
         },
         [4] = {
             name = "On Star Collection",
-            status = gServerSettings.stayInLevelAfterStar,
+            status = gGlobalSyncTable.stayInLevelAfterStar,
             statusMax = 2,
             statusDefault = 1,
             --Status Toggle Names
@@ -397,7 +400,11 @@ function displaymenu()
         end
 
         if menuTable[optionTab][optionHover].status ~= nil then
-            if menuTable[optionTab][optionHover][menuTable[optionTab][optionHover].status] ~= nil then
+            if menuTable[optionTab][optionHover].unlocked == nil then menuTable[optionTab][optionHover].unlocked = 1 end
+            if menuTable[optionTab][optionHover].unlocked ~= 1 then
+                djui_hud_print_text(menuTable[optionTab][optionHover][-1], (halfScreenWidth), 70 + (optionHover * 10), 0.3)
+                menuTable[optionTab][optionHover].status = menuTable[optionTab][optionHover].lockTo
+            elseif menuTable[optionTab][optionHover][menuTable[optionTab][optionHover].status] ~= nil then
                 djui_hud_print_text(menuTable[optionTab][optionHover][menuTable[optionTab][optionHover].status], (halfScreenWidth), 70 + (optionHover * 10), 0.3)
             else
                 if optionTab == 3 and optionHover == 1 then
@@ -406,14 +413,10 @@ function displaymenu()
                         menuTable[3][1].statusMax = maxModelNum
                     end
                 else
-                    if menuTable[optionTab][optionHover].unlocked == false then
-                        djui_hud_print_text(menuTable[optionTab][optionHover]["Forced"], (halfScreenWidth), 70 + (optionHover * 10), 0.3)
+                    if menuTable[optionTab][optionHover].status > 0 then
+                        djui_hud_print_text("On", (halfScreenWidth), 70 + (optionHover * 10), 0.3)
                     else
-                        if menuTable[optionTab][optionHover].status > 0 then
-                            djui_hud_print_text("On", (halfScreenWidth), 70 + (optionHover * 10), 0.3)
-                        else
-                            djui_hud_print_text("Off", (halfScreenWidth), 70 + (optionHover * 10), 0.3)
-                        end
+                        djui_hud_print_text("Off", (halfScreenWidth), 70 + (optionHover * 10), 0.3)
                     end
                 end
             end
@@ -500,8 +503,7 @@ function before_update(m)
         end
         if optionHoverTimer == -1 and m.controller.buttonDown & A_BUTTON ~= 0 then
             optionHoverTimer = 0
-            if menuTable[optionTab][optionHover].unlocked == false then
-                menuTable[optionTab][optionHover].status = menuTable[optionTab][optionHover].lockTo
+            if menuTable[optionTab][optionHover].unlocked ~= 1 then
                 print("Could not change status")
             else
                 menuTable[optionTab][optionHover].status = menuTable[optionTab][optionHover].status + 1
@@ -533,5 +535,42 @@ function before_update(m)
     end
 end
 
+function update()
+    if menu then
+        gGlobalSyncTable.bubbleDeath = menuTable[4][1].status
+        gGlobalSyncTable.playerInteractions = menuTable[4][2].status
+        gGlobalSyncTable.playerKnockbackStrength = menuTable[4][3].status
+        gGlobalSyncTable.stayInLevelAfterStar = menuTable[4][4].status
+        gGlobalSyncTable.GlobalMoveset = menuTable[4][5].status
+        gGlobalSyncTable.GlobalAQS = menuTable[4][6].status
+    else
+        menuTable[4][1].status = gGlobalSyncTable.bubbleDeath
+        menuTable[4][2].status = gGlobalSyncTable.playerInteractions
+        menuTable[4][3].status = gGlobalSyncTable.playerKnockbackStrength
+        menuTable[4][4].status = gGlobalSyncTable.stayInLevelAfterStar
+        menuTable[4][5].status = gGlobalSyncTable.GlobalMoveset
+        menuTable[4][6].status = gGlobalSyncTable.GlobalAQS
+    end
+    gServerSettings.bubbleDeath = gGlobalSyncTable.bubbleDeath
+    gServerSettings.playerInteractions = gGlobalSyncTable.playerInteractions
+    if gGlobalSyncTable.playerKnockbackStrength == 0 then
+        gServerSettings.playerKnockbackStrength = 10
+    elseif gGlobalSyncTable.playerKnockbackStrength == 1 then
+        gServerSettings.playerKnockbackStrength = 25
+    elseif gGlobalSyncTable.playerKnockbackStrength == 2 then
+        gServerSettings.playerKnockbackStrength = 60
+    end
+    gServerSettings.stayInLevelAfterStar = gGlobalSyncTable.stayInLevelAfterStar
+    menuTable[1][1].unlocked = gGlobalSyncTable.GlobalMoveset
+    if menuTable[1][1].unlocked ~= 1 then
+        menuTable[1][1].status = menuTable[1][1].lockTo
+    end
+    menuTable[1][3].unlocked = gGlobalSyncTable.GlobalAQS
+    if menuTable[1][3].unlocked ~= 1 then
+        menuTable[1][3].status = menuTable[1][3].lockTo
+    end
+end
+
 hook_event(HOOK_ON_HUD_RENDER, displaymenu)
 hook_event(HOOK_BEFORE_MARIO_UPDATE, before_update)
+hook_event(HOOK_UPDATE, update)
