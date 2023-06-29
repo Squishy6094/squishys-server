@@ -6,6 +6,13 @@ local optionHoverTimer = -1
 gGlobalSyncTable.bubbleDeath = gServerSettings.bubbleDeath
 gGlobalSyncTable.playerInteractions = gServerSettings.playerInteractions
 gGlobalSyncTable.playerKnockbackStrength = gServerSettings.playerKnockbackStrength
+if gServerSettings.playerKnockbackStrength == 10 then
+    gGlobalSyncTable.playerKnockbackStrength = 0
+elseif gServerSettings.playerKnockbackStrength == 25 then
+    gGlobalSyncTable.playerKnockbackStrength = 1
+elseif gServerSettings.playerKnockbackStrength == 60 then
+    gGlobalSyncTable.playerKnockbackStrength = 2
+end
 gGlobalSyncTable.stayInLevelAfterStar = gServerSettings.stayInLevelAfterStar
 gGlobalSyncTable.GlobalMoveset = 1
 gGlobalSyncTable.GlobalAQS = 1
