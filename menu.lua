@@ -160,6 +160,21 @@ menuTable = {
             Line5 = "have Read and Understand",
             Line6 = "the Rules."
         },
+        [5] = {
+            name = "Prevent HUD Clashing",
+            nameSave = "HUDDisableSave",
+            status = tonumber(mod_storage_load("HUDDisableSave")),
+            statusMax = 1,
+            statusDefault = 1,
+            --Description
+            Line1 = "Toggles if your HUD",
+            Line2 = "automatically gets set to",
+            Line3 = "Disabled if another mod",
+            Line4 = "has a Custom HUD, This",
+            Line5 = "does not force the HUD to",
+            Line6 = "Disabled."
+
+        },
     },
     [3] = {
         name = "Misc.",
@@ -287,6 +302,18 @@ menuTable = {
         },
     }
 }
+
+for i in pairs(gActiveMods) do
+    --Mod Check Preventing Moveset Clashing
+    if (gActiveMods[i].incompatible ~= nil and gActiveMods[i].incompatible:find("moveset")) or (gActiveMods[i].name:find("Pasta") and gActiveMods[i].name:find("Castle")) then
+        gGlobalSyncTable.GlobalMoveset = 0
+        menuTable[1][1][-1] = "External Moveset"
+    end
+    --Mod Check Preventing HUD Overlapping
+    if (gActiveMods[i].incompatible ~= nil and gActiveMods[i].incompatible:find("gamemode")) or (gActiveMods[i].name:find("OMM Rebirth")) and menuTable[2][5].status ~= 0 then
+        menuTable[2][1].status = 3
+    end
+end
 
 -- Optimized by ChatGPT
 local function set_status_and_save(table, index, status)
