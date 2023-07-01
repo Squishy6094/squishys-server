@@ -26,6 +26,7 @@ RedBun = "426548210790825984"
 Dvk = "542676894244536350"
 KitKat = "664638362484867121"
 Rise = "371344058167328768"
+Yuyake = "397891541160558593"
 
 local m = gMarioStates[0]
 
@@ -178,7 +179,8 @@ modelTable = {
         [1] = {
             model = smlua_model_util_get_id("woop_geo"),
             modelName = "Wooper",
-            forcePlayer = CT_TOAD
+            forcePlayer = CT_TOAD,
+            icon = get_texture_info("icon-woop")
         }
     },
     [AgentX] = {
@@ -485,6 +487,20 @@ modelTable = {
             modelName = "Mawio :3",
             forcePlayer = CT_MARIO,
             icon = get_texture_info("icon-mawio")
+        }
+    },
+    [Yuyake] = {
+        nickname = "Yuyake",
+        maxNum = 1,
+        [0] = {
+            model = nil,
+            modelName = "Default",
+            icon = "Default"
+        },
+        [1] = {
+            model = smlua_model_util_get_id("yuyake_geo"),
+            modelName = "Yuyake",
+            forcePlayer = CT_MARIO
         }
     },
 }
