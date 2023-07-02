@@ -551,7 +551,7 @@ function on_set_mario_action(m)
     end
     
     --Anti quicksand--
-    if menuTable[1][3].status == 1 and gGlobalSyncTable.GlobalAQS then
+    if menuTable[1][3].status == 1 then
         if m.action == ACT_QUICKSAND_DEATH then
             set_mario_action(m, ACT_LAVA_BOOST, 0)
             if m.flags & MARIO_METAL_CAP ~= 0 then

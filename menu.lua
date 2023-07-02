@@ -3,21 +3,21 @@ local optionTab = 1
 local optionHover = 1
 local optionHoverTimer = -1
 
-gGlobalSyncTable.bubbleDeath = gServerSettings.bubbleDeath
-gGlobalSyncTable.playerInteractions = gServerSettings.playerInteractions
-gGlobalSyncTable.playerKnockbackStrength = gServerSettings.playerKnockbackStrength
+KBTranslate = 0
+
 if gServerSettings.playerKnockbackStrength == 10 then
-    gGlobalSyncTable.playerKnockbackStrength = 0
+    KBTranslate = 0
 elseif gServerSettings.playerKnockbackStrength == 25 then
-    gGlobalSyncTable.playerKnockbackStrength = 1
+    KBTranslate = 1
 elseif gServerSettings.playerKnockbackStrength == 60 then
-    gGlobalSyncTable.playerKnockbackStrength = 2
+    KBTranslate = 2
 end
-gGlobalSyncTable.stayInLevelAfterStar = gServerSettings.stayInLevelAfterStar
-gGlobalSyncTable.GlobalMoveset = 1
-gGlobalSyncTable.GlobalAQS = 1
+
+gGlobalSyncTable.syncData = tostring(gServerSettings.bubbleDeath) .. " " .. tostring(gServerSettings.playerInteractions) .. " " .. tostring(KBTranslate) .. " " .. tostring(gServerSettings.stayInLevelAfterStar) .. " " .. tostring(1) .. " " .. tostring(1)
 
 gLevelValues.extendedPauseDisplay = true
+
+local args = split(gGlobalSyncTable.syncData)
 
 menuTable = {
     [1] = {
@@ -28,7 +28,7 @@ menuTable = {
             status = tonumber(mod_storage_load("MoveSave")),
             statusMax = 2,
             statusDefault = 0,
-            unlocked = gGlobalSyncTable.GlobalMoveset,
+            unlocked = 1,
             lockTo = 0,
             --Status Toggle Names
             [-1] = "Forced Default",
@@ -55,7 +55,7 @@ menuTable = {
             nameSave = "AQSSave",
             status = tonumber(mod_storage_load("AQSSave")),
             statusMax = 1,
-            unlocked = gGlobalSyncTable.GlobalAQS,
+            unlocked = 1,
             lockTo = 0,
             --Description
             --Status Toggle Names
@@ -226,10 +226,10 @@ menuTable = {
         },
     },
     [4] = {
-        name = "Misc.",
+        name = "Server",
         [1] = {
             name = "Death Type",
-            status = gGlobalSyncTable.bubbleDeath,
+            status = tonumber(gServerSettings.bubbleDeath),
             statusMax = 1,
             statusDefault = 1,
             --Status Toggle Names
@@ -241,7 +241,7 @@ menuTable = {
         },
         [2] = {
             name = "Player Interactions",
-            status = gGlobalSyncTable.playerInteractions,
+            status = tonumber(gServerSettings.playerInteractions),
             statusMax = 2,
             statusDefault = 2,
             --Status Toggle Names
@@ -254,7 +254,7 @@ menuTable = {
         },
         [3] = {
             name = "Player Knockback",
-            status = gGlobalSyncTable.playerKnockbackStrength,
+            status = gServerSettings.playerKnockbackStrength,
             statusMax = 2,
             statusDefault = 1,
             --Status Toggle Names
@@ -268,7 +268,7 @@ menuTable = {
         },
         [4] = {
             name = "On Star Collection",
-            status = gGlobalSyncTable.stayInLevelAfterStar,
+            status = gServerSettings.stayInLevelAfterStar,
             statusMax = 2,
             statusDefault = 1,
             --Status Toggle Names
@@ -283,7 +283,7 @@ menuTable = {
             name = "Global Movesets",
             status = 1,
             statusMax = 1,
-            statusDefault = 0,
+            statusDefault = 1,
             --Description
             Line1 = "Determines if players can",
             Line2 = "locally change what moveset",
@@ -294,7 +294,7 @@ menuTable = {
             name = "Global Anti-Quicksand",
             status = 0,
             statusMax = 1,
-            statusDefault = 0,
+            statusDefault = 1,
             --Description
             Line1 = "Determines if players can",
             Line2 = "locally change AQS or if",
@@ -306,7 +306,7 @@ menuTable = {
 for i in pairs(gActiveMods) do
     --Mod Check Preventing Moveset Clashing
     if (gActiveMods[i].incompatible ~= nil and gActiveMods[i].incompatible:find("moveset")) or (gActiveMods[i].name:find("Pasta") and gActiveMods[i].name:find("Castle")) then
-        gGlobalSyncTable.GlobalMoveset = 0
+        menuTable[4][5].status = 0
         menuTable[1][1][-1] = "External Moveset"
     end
     --Mod Check Preventing HUD Overlapping
@@ -570,36 +570,39 @@ function before_update(m)
 end
 
 function update()
-    if menu then
-        gGlobalSyncTable.bubbleDeath = menuTable[4][1].status
-        gGlobalSyncTable.playerInteractions = menuTable[4][2].status
-        gGlobalSyncTable.playerKnockbackStrength = menuTable[4][3].status
-        gGlobalSyncTable.stayInLevelAfterStar = menuTable[4][4].status
-        gGlobalSyncTable.GlobalMoveset = menuTable[4][5].status
-        gGlobalSyncTable.GlobalAQS = menuTable[4][6].status
+    local args = split(gGlobalSyncTable.syncData)
+
+    if menu and optionTab == 4 then
+        gGlobalSyncTable.syncData = tostring(menuTable[4][1].status) .. " " .. tostring(menuTable[4][2].status) .. " " .. tostring(menuTable[4][3].status) .. " " .. tostring(menuTable[4][4].status) .. " " .. tostring(menuTable[4][5].status) .. " " .. tostring(menuTable[4][6].status)
     else
-        menuTable[4][1].status = gGlobalSyncTable.bubbleDeath
-        menuTable[4][2].status = gGlobalSyncTable.playerInteractions
-        menuTable[4][3].status = gGlobalSyncTable.playerKnockbackStrength
-        menuTable[4][4].status = gGlobalSyncTable.stayInLevelAfterStar
-        menuTable[4][5].status = gGlobalSyncTable.GlobalMoveset
-        menuTable[4][6].status = gGlobalSyncTable.GlobalAQS
+        --Death Type
+        menuTable[4][1].status = tonumber(args[1])
+        --Player Interactions
+        menuTable[4][2].status = tonumber(args[2])
+        --Player Knockback
+        menuTable[4][3].status = tonumber(args[3])
+        --On Star Collection
+        menuTable[4][4].status = tonumber(args[4])
+        --Global Movesets
+        menuTable[4][5].status = tonumber(args[5])
+        --Global AQS
+        menuTable[4][6].status = tonumber(args[6])
     end
-    gServerSettings.bubbleDeath = gGlobalSyncTable.bubbleDeath
-    gServerSettings.playerInteractions = gGlobalSyncTable.playerInteractions
-    if gGlobalSyncTable.playerKnockbackStrength == 0 then
+    gServerSettings.bubbleDeath = tonumber(args[1])
+    gServerSettings.playerInteractions = tonumber(args[2])
+    if tonumber(args[3]) == 0 then
         gServerSettings.playerKnockbackStrength = 10
-    elseif gGlobalSyncTable.playerKnockbackStrength == 1 then
+    elseif tonumber(args[3]) == 1 then
         gServerSettings.playerKnockbackStrength = 25
-    elseif gGlobalSyncTable.playerKnockbackStrength == 2 then
+    elseif tonumber(args[3]) == 2 then
         gServerSettings.playerKnockbackStrength = 60
     end
-    gServerSettings.stayInLevelAfterStar = gGlobalSyncTable.stayInLevelAfterStar
-    menuTable[1][1].unlocked = gGlobalSyncTable.GlobalMoveset
+    gServerSettings.stayInLevelAfterStar = tonumber(args[4])
+    menuTable[1][1].unlocked = tonumber(args[5])
     if menuTable[1][1].unlocked ~= 1 then
         menuTable[1][1].status = menuTable[1][1].lockTo
     end
-    menuTable[1][3].unlocked = gGlobalSyncTable.GlobalAQS
+    menuTable[1][3].unlocked = tonumber(args[6])
     if menuTable[1][3].unlocked ~= 1 then
         menuTable[1][3].status = menuTable[1][3].lockTo
     end

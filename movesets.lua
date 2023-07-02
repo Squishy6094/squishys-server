@@ -1037,10 +1037,6 @@ function mario_before_phys_step(m)
     if gPlayerSyncTable[m.playerIndex].moveset ~= 1 then
         return
     end
-    
-    if not gGlobalSyncTable.GlobalMoveset then
-        return
-    end
 
     gEventTable[m.character.type].before_phys_step(m)
 end
@@ -1061,10 +1057,6 @@ function mario_on_set_action(m)
     if gPlayerSyncTable[m.playerIndex].moveset ~= 1 then
         return
     end
-    
-    if not gGlobalSyncTable.GlobalMoveset then
-        return
-    end
 
     gEventTable[m.character.type].on_set_action(m)
 end
@@ -1083,10 +1075,6 @@ function mario_update(m)
     end
 
     if gPlayerSyncTable[m.playerIndex].moveset ~= 1 then
-        return
-    end
-    
-    if not gGlobalSyncTable.GlobalMoveset then
         return
     end
     
@@ -1131,7 +1119,7 @@ ACT_WALL_SLIDE = (0x0BF | ACT_FLAG_AIR | ACT_FLAG_MOVING | ACT_FLAG_ALLOW_VERTIC
 
 
 function mario_update(m)
-    if gPlayerSyncTable[m.playerIndex].moveset == 2 and gGlobalSyncTable.GlobalMoveset then
+    if gPlayerSyncTable[m.playerIndex].moveset == 2 then
 
         if m.action == ACT_GROUND_POUND_LAND and m.controller.buttonPressed & A_BUTTON ~=0 then
             m.vel.y = 30
@@ -1179,7 +1167,7 @@ end
 
 ---@param m MarioState
 function before_mario_update(m)
-    if gPlayerSyncTable[m.playerIndex].moveset == 2 and gGlobalSyncTable.GlobalMoveset then
+    if gPlayerSyncTable[m.playerIndex].moveset == 2 then
         if m.prevAction == ACT_GROUND_POUND_LAND and m.action == ACT_TRIPLE_JUMP and m.controller.buttonPressed & B_BUTTON ~= 0 then
             m.vel.y = 36
             m.forwardVel = 25
@@ -1192,7 +1180,7 @@ end
 
 ---@param m MarioState
 function act_water_ground_pound(m)
-    if gPlayerSyncTable[m.playerIndex].moveset == 2 and gGlobalSyncTable.GlobalMoveset then
+    if gPlayerSyncTable[m.playerIndex].moveset == 2 then
 
         m.actionTimer = m.actionTimer + 1
 
