@@ -404,15 +404,6 @@ function hud_render()
         hud_render_power_meter(gMarioStates[0].health, x, y, scale, scale)
     end
 
-    --Collectables Radar
-    local obj = m.marioObj
-    if obj ~= nil then
-        obj = get_closest_object(id_bhvRedCoin)
-        red_coin_distance = dist_between_objects(obj, m.marioObj)
-        obj = get_closest_object(id_bhvHiddenStarTrigger)
-        secret_distance = dist_between_objects(obj, m.marioObj)
-    end
-
     djui_hud_render_element("Lives", m.numLives, lifeIcon)
     djui_hud_render_element("Coins", m.numCoins, gTextures.coin)
     djui_hud_render_element("Stars", m.numStars, gTextures.star)
@@ -422,11 +413,11 @@ function hud_render()
     if _G.TotalStarCounter ~= nil then
         djui_hud_render_element("GreenStars", _G.TotalStarCounter, gTextures.star)
     end
-    if obj_get_first_with_behavior_id(id_bhvRedCoin) ~= nil then
-        djui_hud_render_element("RedRadar", math.floor(red_coin_distance*0.1), gTextures.coin)
+    if _G.red_coin_distance ~= nil and _G.red_coin_distance ~= 0 then
+        djui_hud_render_element("RedRadar", math.floor(_G.red_coin_distance*0.1), gTextures.coin)
     end
-    if obj_get_first_with_behavior_id(id_bhvHiddenStarTrigger) ~= nil then
-        djui_hud_render_element("SecretRadar", math.floor(secret_distance*0.1), get_texture_info("secret"))
+    if _G.secret_distance ~= nil and _G.secret_distance ~= 0 then
+        djui_hud_render_element("SecretRadar", math.floor(_G.secret_distance*0.1), get_texture_info("secret"))
     end
 end
 
