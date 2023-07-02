@@ -479,7 +479,15 @@ modelTable = {
     },
 }
 
+menuErrorMsg = nil
+
+if discordID == nil then
+    menuErrorMsg = "Discord not Detected"
+end
 if modelTable[discordID] == nil then
+    if menuErrorMsg == nil then
+        menuErrorMsg = "No Models Found"
+    end
     discordID = "0"
     menuTable[3][1].status = 0
     print("Sign-in Failed, No Models Found")

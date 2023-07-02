@@ -419,7 +419,7 @@ function displaymenu()
             djui_hud_print_text("Registered as "..modelTable[discordID].nickname.. " via Name-2-Model", (halfScreenWidth - 80), 216, 0.3)
           else
           djui_hud_set_color(150, 150, 150, 255)
-            djui_hud_print_text("Unregistered via Name-2-Model", (halfScreenWidth - 80), 216, 0.3)
+            djui_hud_print_text("Unregistered via Name-2-Model - ".. menuErrorMsg, (halfScreenWidth - 80), 216, 0.3)
           
         end
 
