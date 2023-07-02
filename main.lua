@@ -215,6 +215,8 @@ function server_commands(msg)
     local args = split(msg)
     if args[1] == "rules" then
         return on_rules_command()
+    elseif args[1] == "name-2-model" then
+        return set_discord_id(args[2])
     end
 end
 

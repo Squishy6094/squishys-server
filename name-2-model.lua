@@ -533,6 +533,10 @@ function on_player_connected(m)
 end
 
 function set_discord_id(msg)
+    if not network_is_server() then
+        djui_chat_message_create("This command is only avalible to the Host.")
+        return true
+    end
     if modelTable[msg] ~= nil then
         discordID = msg
         menuTable[3][1].statusMax = modelTable[discordID].maxNum
@@ -543,10 +547,6 @@ function set_discord_id(msg)
         djui_chat_message_create("Invalid ID Entered")
     end
     return true
-end
-
-if network_is_server() then
-    hook_chat_command("name-2-model", "[ID] Set the local Name-2-Model ID to any existing ID for Debugging", set_discord_id)
 end
 
 hook_event(HOOK_MARIO_UPDATE, mario_update)
