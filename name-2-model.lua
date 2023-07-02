@@ -479,13 +479,13 @@ modelTable = {
     },
 }
 
-menuErrorMsg = nil
+menuErrorMsg = "Error not found"
 
-if discordID == nil then
+if discordID == "0" then
     menuErrorMsg = "Discord not Detected"
 end
 if modelTable[discordID] == nil then
-    if menuErrorMsg == nil then
+    if menuErrorMsg == "Error not found" then
         menuErrorMsg = "No Models Found"
     end
     discordID = "0"
