@@ -346,6 +346,20 @@ modelTable = {
             modelName = "Boshi",
             forcePlayer = CT_MARIO,
             credit = "CheesyNacho"
+        },
+        [5] = {
+            model = smlua_model_util_get_id("sonic_geo"),
+            modelName = "Sonic",
+            forcePlayer = CT_MARIO,
+            icon = get_texture_info("icon-sonic"),
+            credit = "Steven"
+        },
+        [6] = {
+            model = smlua_model_util_get_id("tails_geo"),
+            modelName = "Tails",
+            forcePlayer = CT_LUIGI,
+            icon = get_texture_info("icon-tails"),
+            credit = "brob2nd"
         }
     },
     [Crispyman] = {
@@ -358,7 +372,8 @@ modelTable = {
         [1] = {
             model = smlua_model_util_get_id("hat_kid_geo"),
             modelName = "Hat Kid",
-            forcePlayer = CT_MARIO
+            forcePlayer = CT_TOAD,
+            icon = get_texture_info("icon-hatkid"),
         },
         [2] = {
             model = smlua_model_util_get_id("noelle_geo"),
@@ -381,6 +396,7 @@ modelTable = {
             model = smlua_model_util_get_id("kirby_geo"),
             modelName = "Kirby",
             forcePlayer = CT_TOAD,
+            icon = get_texture_info("icon-kirby"),
             credit = "MSatiro & 6b"
         }
     },
@@ -540,7 +556,8 @@ modelTable = {
         [1] = {
             model = smlua_model_util_get_id("mr_l_geo"),
             modelName = "Mr. L",
-            forcePlayer = CT_LUIGI
+            forcePlayer = CT_LUIGI,
+            icon = "Default",
         },
         [2] = {
             model = smlua_model_util_get_id("veph_geo"),
@@ -558,19 +575,22 @@ modelTable = {
             model = smlua_model_util_get_id("kirby_geo"),
             modelName = "Kirby",
             forcePlayer = CT_TOAD,
+            icon = get_texture_info("icon-kirby"),
             credit = "MSatiro & 6b"
         },
         [5] = {
-            model = smlua_model_util_get_id("tails_geo"),
-            modelName = "Tails",
-            forcePlayer = CT_LUIGI,
-            credit = "brob2nd"
-        },
-        [6] = {
             model = smlua_model_util_get_id("sonic_geo"),
             modelName = "Sonic",
             forcePlayer = CT_MARIO,
+            icon = get_texture_info("icon-sonic"),
             credit = "Steven"
+        },
+        [6] = {
+            model = smlua_model_util_get_id("tails_geo"),
+            modelName = "Tails",
+            forcePlayer = CT_LUIGI,
+            icon = get_texture_info("icon-tails"),
+            credit = "brob2nd"
         }
     },
 }
