@@ -512,7 +512,7 @@ modelTable = {
         [3] = {
             model = smlua_model_util_get_id("boshi_geo"),
             modelName = "Boshi",
-            forcePlayer = CT_MARIO
+            forcePlayer = CT_WARIO
         },
         [4] = {
             model = smlua_model_util_get_id("kirby_geo"),
@@ -523,6 +523,11 @@ modelTable = {
             model = smlua_model_util_get_id("tails_geo"),
             modelName = "Tails",
             forcePlayer = CT_LUIGI
+        },
+        [6] = {
+             model = smlua_model_util_get_id("sonic_geo"),
+             modelName = "Sonic",
+             forcePlayer = CT_MARIO
         }
     },
 }
