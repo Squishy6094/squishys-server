@@ -551,7 +551,7 @@ modelTable = {
         [3] = {
             model = smlua_model_util_get_id("boshi_geo"),
             modelName = "Boshi",
-            forcePlayer = CT_WARIO,
+            forcePlayer = CT_MARIO,
             credit = "CheesyNacho"
         },
         [4] = {
