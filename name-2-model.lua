@@ -27,6 +27,7 @@ Dvk = "542676894244536350"
 KitKat = "664638362484867121"
 Rise = "371344058167328768"
 Yuyake = "397891541160558593"
+Plusle = "635629441678180362"
 
 local m = gMarioStates[0]
 
@@ -315,6 +316,11 @@ modelTable = {
             modelName = "Noelle",
             forcePlayer = CT_LUIGI
         },
+        [4] = {
+            model = smlua_model_util_get_id("boshi_geo"),
+            modelName = "Boshi",
+            forcePlayer = CT_MARIO
+        }
     },
     [Crispyman] = {
         nickname = "Crispy",
@@ -329,21 +335,25 @@ modelTable = {
             forcePlayer = CT_MARIO
         },
         [2] = {
-            model = smlua_model_util_get_id("peppino_geo"),
-            modelName = "Peppino",
-            forcePlayer = CT_WARIO,
-            icon = get_texture_info("icon-peppino")
-        },
-        [3] = {
             model = smlua_model_util_get_id("noelle_geo"),
             modelName = "Noelle",
             forcePlayer = CT_LUIGI
         },
-        [4] = {
+        [3] = {
             model = smlua_model_util_get_id("peepers_geo"),
             modelName = "Peepers",
             forcePlayer = CT_TOAD
         },
+        [4] = {
+            model = smlua_model_util_get_id("boshi_geo"),
+            modelName = "Boshi",
+            forcePlayer = CT_MARIO
+        },
+        [5] = {
+            model = smlua_model_util_get_id("boshi_geo"),
+            modelName = "Boshi",
+            forcePlayer = CT_TOAD
+        }
     },
     [Butter] = {
         nickname = "Butter",
@@ -475,6 +485,39 @@ modelTable = {
             model = smlua_model_util_get_id("yuyake_geo"),
             modelName = "Yuyake",
             forcePlayer = CT_MARIO
+        },
+        [2] = {
+            model = smlua_model_util_get_id("veph_geo"),
+            modelName = "Veph the Dolphin-Fox",
+            forcePlayer = CT_LUIGI
+        }
+    },
+    [Plusle] = {
+        nickname = "Plus",
+        [0] = {
+            model = nil,
+            modelName = "Default",
+            icon = "Default"
+        },
+        [1] = {
+            model = smlua_model_util_get_id("mr_l_geo"),
+            modelName = "Mr. L",
+            forcePlayer = CT_LUIGI
+        },
+        [2] = {
+            model = smlua_model_util_get_id("veph_geo"),
+            modelName = "Veph the Dolphin-Fox",
+            forcePlayer = CT_LUIGI
+        },
+        [3] = {
+            model = smlua_model_util_get_id("boshi_geo"),
+            modelName = "Boshi",
+            forcePlayer = CT_MARIO
+        },
+        [4] = {
+            model = smlua_model_util_get_id("boshi_geo"),
+            modelName = "Boshi",
+            forcePlayer = CT_TOAD
         }
     },
 }
