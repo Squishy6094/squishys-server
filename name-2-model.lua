@@ -350,8 +350,8 @@ modelTable = {
             forcePlayer = CT_MARIO
         },
         [5] = {
-            model = smlua_model_util_get_id("boshi_geo"),
-            modelName = "Boshi",
+            model = smlua_model_util_get_id("kirby_geo"),
+            modelName = "Kirby",
             forcePlayer = CT_TOAD
         }
     },
