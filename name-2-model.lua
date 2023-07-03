@@ -55,12 +55,14 @@ modelTable = {
         [1] = {
             model = smlua_model_util_get_id("mc_squishy_geo"),
             modelName = "Squishy (Minecraft)",
-            forcePlayer = CT_MARIO
+            forcePlayer = CT_MARIO,
+            credit = "Elby"
         },
         [2] = {
             model = smlua_model_util_get_id("ski_geo"),
             modelName = "Ski",
-            forcePlayer = CT_TOAD
+            forcePlayer = CT_TOAD,
+            credit = "BBPanzu / Port by SunSpirit",
         },
     },
     [Spoomples] = {
@@ -75,17 +77,20 @@ modelTable = {
             modelName = "Super Show Toad",
             forcePlayer = CT_TOAD,
             icon = "Default",
+            credit = "Depressed Yoshi",
         },
         [2] = {
             model = smlua_model_util_get_id("pacman_geo"),
             modelName = "Pac-Man",
-            forcePlayer = CT_MARIO
+            forcePlayer = CT_MARIO,
+            credit = "CosmicMan08"
         },
         [3] = {
             model = smlua_model_util_get_id("peppino_geo"),
             modelName = "Peppino",
             forcePlayer = CT_WARIO,
-            icon = get_texture_info("icon-peppino")
+            icon = get_texture_info("icon-peppino"),
+            credit = "Trashcam"
         },
     },
     [Nut] = {
@@ -98,29 +103,34 @@ modelTable = {
         [1] = {
             model = smlua_model_util_get_id("n64_goomba_player_geo"),
             modelName = "N64 Goomba",
-            forcePlayer = CT_TOAD
+            forcePlayer = CT_TOAD,
+            credit = "Goldenix"
         },
         [2] = {
             model = smlua_model_util_get_id("pizzelle_geo"),
             modelName = "Pizzelle",
-            forcePlayer = CT_TOAD
+            forcePlayer = CT_TOAD,
+            credit = "DepressedYoshi"
         },
         [3] = {
             model = smlua_model_util_get_id("ss_toad_player_geo"),
             modelName = "Super Show Toad",
             forcePlayer = CT_TOAD,
             icon = "Default",
+            credit = "DepressedYoshi"
         },
         [4] = {
             model = smlua_model_util_get_id("purple_guy_geo"),
             modelName = "Purple Guy",
             forcePlayer = CT_MARIO,
-            icon = get_texture_info("icon-purple-guy")
+            icon = get_texture_info("icon-purple-guy"),
+            credit = "Trashcam"
         },
         [5] = {
             model = smlua_model_util_get_id("wander_geo"),
             modelName = "Wander",
-            forcePlayer = CT_TOAD
+            forcePlayer = CT_TOAD,
+            credit = "AlexXRGames"
         },
     },
     [Cosmic] = {
@@ -134,7 +144,8 @@ modelTable = {
             model = smlua_model_util_get_id("cosmic_geo"),
             modelName = "Weedcat",
             forcePlayer = CT_WALUIGI,
-            icon = get_texture_info("icon-weedcat")
+            icon = get_texture_info("icon-weedcat"),
+            credit = "Cosmic(Wo)Man08"
         }
     },
     [Trashcam] = {
@@ -148,19 +159,22 @@ modelTable = {
             model = smlua_model_util_get_id("trashcam_geo"),
             modelName = "Trashcam",
             forcePlayer = CT_MARIO,
-            icon = get_texture_info("icon-trashcam")
+            icon = get_texture_info("icon-trashcam"),
+            credit = "Trashcam"
         },
         [2] = {
             model = smlua_model_util_get_id("peppino_geo"),
             modelName = "Peppino",
             forcePlayer = CT_WARIO,
-            icon = get_texture_info("icon-peppino")
+            icon = get_texture_info("icon-peppino"),
+            credit = "Trashcam"
         },
         [3] = {
             model = smlua_model_util_get_id("purple_guy_geo"),
             modelName = "Purple Guy",
             forcePlayer = CT_MARIO,
-            icon = get_texture_info("icon-purple-guy")
+            icon = get_texture_info("icon-purple-guy"),
+            credit = "Trashcam"
         }
     },
     [Skeltan] = {
@@ -172,9 +186,10 @@ modelTable = {
         },
         [1] = {
             model = smlua_model_util_get_id("woop_geo"),
-            modelName = "Wooper",
+            modelName = "Wizard Wooper",
             forcePlayer = CT_TOAD,
-            icon = get_texture_info("icon-woop")
+            icon = get_texture_info("icon-woop"),
+            credit = "6b"
         }
     },
     [AgentX] = {
@@ -188,6 +203,7 @@ modelTable = {
             model = smlua_model_util_get_id("gordon_geo"),
             modelName = "Gordon Freeman",
             forcePlayer = CT_MARIO,
+            credit = "Agent X"
         },
         [2] = {
             model = smlua_model_util_get_id("nya_geo"),
@@ -206,12 +222,14 @@ modelTable = {
         [1] = {
             model = smlua_model_util_get_id("yoshi_player_geo"),
             modelName = "Yoshi",
-            forcePlayer = CT_MARIO
+            forcePlayer = CT_MARIO,
+            credit = "CheesyNacho"
         },
         [2] = {
             model = smlua_model_util_get_id("pizzelle_geo"),
             modelName = "Pizzelle",
-            forcePlayer = CT_TOAD
+            forcePlayer = CT_TOAD,
+            credit = "DepressedYoshi"
         },
     },
     [Yosho] = {
@@ -224,7 +242,8 @@ modelTable = {
         [1] = {
             model = smlua_model_util_get_id("yoshi_player_geo"),
             modelName = "Yoshi",
-            forcePlayer = CT_MARIO
+            forcePlayer = CT_MARIO,
+            credit = "CheesyNacho"
         }
     },
     [KanHeaven] = {
@@ -266,7 +285,8 @@ modelTable = {
             model = smlua_model_util_get_id("croc_geo"),
             modelName = "Croc",
             forcePlayer = CT_LUIGI,
-            icon = get_texture_info("icon-croc")
+            icon = get_texture_info("icon-croc"),
+            credit = "0x2480"
         }
     },
     [Average] = {
@@ -280,17 +300,20 @@ modelTable = {
             model = smlua_model_util_get_id("natsuki_geo"),
             modelName = "Natsuki",
             forcePlayer = CT_MARIO,
+            credit = "DusterBuster & SunSpirit"
         },
         [2] = {
             model = smlua_model_util_get_id("paper_mario_geo"),
             modelName = "Paper Mario",
             forcePlayer = CT_MARIO,
-            icon = "Default"
+            icon = "Default",
+            credit = "6b"
         },
         [3] = {
             model = smlua_model_util_get_id("rosalina_geo"),
             modelName = "Rosalina",
-            forcePlayer = CT_WALUIGI
+            forcePlayer = CT_WALUIGI,
+            credit = "TheAnkleDestroyer"
         }
     },
     [Elby] = {
@@ -309,17 +332,20 @@ modelTable = {
             model = smlua_model_util_get_id("nya_geo"),
             modelName = "Hatsune Maiku",
             forcePlayer = CT_MARIO,
-            icon = "Default"
+            icon = "Default",
+            credit = "SolonelyCapybara"
         },
         [3] = {
             model = smlua_model_util_get_id("noelle_geo"),
             modelName = "Noelle",
-            forcePlayer = CT_LUIGI
+            forcePlayer = CT_LUIGI,
+            credit = "misfiremf & deltomx3"
         },
         [4] = {
             model = smlua_model_util_get_id("boshi_geo"),
             modelName = "Boshi",
-            forcePlayer = CT_MARIO
+            forcePlayer = CT_MARIO,
+            credit = "CheesyNacho"
         }
     },
     [Crispyman] = {
@@ -342,17 +368,20 @@ modelTable = {
         [3] = {
             model = smlua_model_util_get_id("peepers_geo"),
             modelName = "Peepers",
-            forcePlayer = CT_TOAD
+            forcePlayer = CT_TOAD,
+            credit = "AlexXRGames"
         },
         [4] = {
             model = smlua_model_util_get_id("boshi_geo"),
             modelName = "Boshi",
-            forcePlayer = CT_MARIO
+            forcePlayer = CT_MARIO,
+            credit = "CheesyNacho"
         },
         [5] = {
             model = smlua_model_util_get_id("kirby_geo"),
             modelName = "Kirby",
-            forcePlayer = CT_TOAD
+            forcePlayer = CT_TOAD,
+            credit = "MSatiro & 6b"
         }
     },
     [Butter] = {
@@ -378,7 +407,8 @@ modelTable = {
         [1] = {
             model = smlua_model_util_get_id("mathew_geo"),
             modelName = "Mathew",
-            icon = get_texture_info("icon-mathew")
+            icon = get_texture_info("icon-mathew"),
+            credit = "Mathew"
         }
     },
     [Peachy] = {
@@ -404,7 +434,8 @@ modelTable = {
         [1] = {
             model = smlua_model_util_get_id("eros_geo"),
             modelName = "Eros",
-            forcePlayer = CT_MARIO
+            forcePlayer = CT_MARIO,
+            credit = "Eros71"
         },
     },
     [Oquanaut] = {
@@ -417,7 +448,8 @@ modelTable = {
         [1] = {
             model = smlua_model_util_get_id("oqua_geo"),
             modelName = "Oqua",
-            forcePlayer = CT_TOAD
+            forcePlayer = CT_TOAD,
+            credit = "Oquanaut"
         }
     },
     [RedBun] = {
@@ -430,7 +462,8 @@ modelTable = {
         [1] = {
             model = smlua_model_util_get_id("yoshi_player_geo"),
             modelName = "Yoshi",
-            forcePlayer = CT_MARIO
+            forcePlayer = CT_MARIO,
+            credit = "CheesyNacho"
         },
     },
     [Dvk] = {
@@ -444,7 +477,8 @@ modelTable = {
             model = smlua_model_util_get_id("crudelo_geo"),
             modelName = "Crudelo Badge",
             forcePlayer = CT_MARIO,
-            icon = "Default"
+            icon = "Default",
+            credit = "Floralys"
         }
     },
     [KitKat] = {
@@ -457,7 +491,8 @@ modelTable = {
         [1] = {
             model = smlua_model_util_get_id("pepperman_geo"),
             modelName = "Pepperman",
-            forcePlayer = CT_WARIO
+            forcePlayer = CT_WARIO,
+            credit = "CheesyNacho"
         }
     },
     [Rise] = {
@@ -471,7 +506,8 @@ modelTable = {
             model = smlua_model_util_get_id("mawio_geo"),
             modelName = "Mawio :3",
             forcePlayer = CT_MARIO,
-            icon = get_texture_info("icon-mawio")
+            icon = get_texture_info("icon-mawio"),
+            credit = "sm64rise"
         }
     },
     [Yuyake] = {
@@ -484,12 +520,14 @@ modelTable = {
         [1] = {
             model = smlua_model_util_get_id("yuyake_geo"),
             modelName = "Yuyake",
-            forcePlayer = CT_MARIO
+            forcePlayer = CT_MARIO,
+            credit = "Yuyake"
         },
         [2] = {
             model = smlua_model_util_get_id("veph_geo"),
             modelName = "Veph the Dolphin-Fox",
-            forcePlayer = CT_LUIGI
+            forcePlayer = CT_LUIGI,
+            credit = "Yuyake"
         }
     },
     [Plusle] = {
@@ -507,22 +545,26 @@ modelTable = {
         [2] = {
             model = smlua_model_util_get_id("veph_geo"),
             modelName = "Veph the Dolphin-Fox",
-            forcePlayer = CT_LUIGI
+            forcePlayer = CT_LUIGI,
+            credit = "Yuyake"
         },
         [3] = {
             model = smlua_model_util_get_id("boshi_geo"),
             modelName = "Boshi",
-            forcePlayer = CT_MARIO
+            forcePlayer = CT_MARIO,
+            credit = "CheesyNacho"
         },
         [4] = {
             model = smlua_model_util_get_id("kirby_geo"),
             modelName = "Kirby",
-            forcePlayer = CT_TOAD
+            forcePlayer = CT_TOAD,
+            credit = "MSatiro & 6b"
         },
         [5] = {
             model = smlua_model_util_get_id("tails_geo"),
             modelName = "Tails",
-            forcePlayer = CT_LUIGI
+            forcePlayer = CT_LUIGI,
+            credit = "brob2nd"
         }
     },
 }
@@ -589,6 +631,7 @@ function set_discord_id(msg)
         discordID = msg
         menuTable[3][1].statusMax = modelTable[discordID].maxNum
         menuTable[3][1].status = 0
+        maxModelNum = #modelTable[discordID]
         mod_storage_save("discordIDSave", msg)
         djui_chat_message_create('ID set to "'.. modelTable[msg].nickname ..'" ('.. msg ..') Successfully!')
     else

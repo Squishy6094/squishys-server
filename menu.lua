@@ -308,6 +308,7 @@ for i in pairs(gActiveMods) do
     if (gActiveMods[i].incompatible ~= nil and gActiveMods[i].incompatible:find("moveset")) or (gActiveMods[i].name:find("Pasta") and gActiveMods[i].name:find("Castle")) then
         menuTable[4][5].status = 0
         menuTable[1][1][-1] = "External Moveset"
+        gGlobalSyncTable.syncData = tostring(gServerSettings.bubbleDeath) .. " " .. tostring(gServerSettings.playerInteractions) .. " " .. tostring(KBTranslate) .. " " .. tostring(gServerSettings.stayInLevelAfterStar) .. " " .. tostring(0) .. " " .. tostring(1)
     end
     --Mod Check Preventing HUD Overlapping
     if (gActiveMods[i].incompatible ~= nil and gActiveMods[i].incompatible:find("gamemode")) or (gActiveMods[i].name:find("OMM Rebirth")) and menuTable[2][5].status ~= 0 then
@@ -446,8 +447,13 @@ function displaymenu()
                     if menuTable[3][1].statusMax == nil then
                         menuTable[3][1].statusMax = maxModelNum
                     end
+                    if modelTable[discordID][menuTable[3][1].status].credit ~= nil then
+                        djui_hud_set_color(150, 150, 150, 255)
+                        djui_hud_print_text("Model by " .. modelTable[discordID][menuTable[3][1].status].credit, (halfScreenWidth), 80 + (optionHover * 10), 0.225)
+                    end
                 else
                     if menuTable[optionTab][optionHover].status > 0 then
+                        djui_hud_set_color(255, 255, 255, 255)
                         djui_hud_print_text("On", (halfScreenWidth), 70 + (optionHover * 10), 0.3)
                     else
                         djui_hud_print_text("Off", (halfScreenWidth), 70 + (optionHover * 10), 0.3)
@@ -466,6 +472,7 @@ function displaymenu()
         end
         
         for i = 1, #menuTable[optionTab] do
+            djui_hud_set_color(255, 255, 255, 255)
             djui_hud_print_text(menuTable[optionTab][i].name, halfScreenWidth - 70, 80 + (i - 1) * 10, 0.3)
         end
 
