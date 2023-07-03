@@ -518,6 +518,11 @@ modelTable = {
             model = smlua_model_util_get_id("kirby_geo"),
             modelName = "Kirby",
             forcePlayer = CT_TOAD
+        },
+        [5] = {
+            model = smlua_model_util_get_id("tails_geo"),
+            modelName = "Tails",
+            forcePlayer = CT_LUIGI
         }
     },
 }
