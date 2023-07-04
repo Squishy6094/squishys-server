@@ -224,6 +224,19 @@ menuTable = {
             Line3 = "if you don't know where a",
             Line4 = "star spawns."
         },
+        [4] = {
+            name = "Menu Theme",
+            nameSave = "ThemeSave",
+            status = tonumber(mod_storage_load("ThemeSave")),
+            statusMax = nil,
+            statusDefault = 0,
+            --Description
+            Line1 = "Toggles what theme the",
+            Line2 = "Server Menu Displays, these",
+            Line3 = "are unlocked via doing",
+            Line4 = "specific tasks or joining",
+            Line5 = "specific events."
+        }
     },
     [4] = {
         name = "Server",
@@ -303,6 +316,13 @@ menuTable = {
     }
 }
 
+themeTable = {
+    [0] = {
+        name = "Default",
+        mainTex = get_texture_info("theme-default")
+    }
+}
+
 for i in pairs(gActiveMods) do
     --Mod Check Preventing Moveset Clashing
     if (gActiveMods[i].incompatible ~= nil and gActiveMods[i].incompatible:find("moveset")) or (gActiveMods[i].name:find("Pasta") and gActiveMods[i].name:find("Castle")) then
@@ -342,15 +362,41 @@ if mod_storage_load("SaveData") ~= "true" then
     end
 
     for i = 1, #menuTable[3] do
-        if i == 3 then
+        if i == 3 or i == 4 then
             set_status_and_save(menuTable[3], i, 0)
         else
             set_status_and_save(menuTable[3], i, 1)
         end
     end
 
+    for i = 1, 2 do
+        mod_storage_save("UnlockedTheme-"..i, "nil")
+    end
+
     print("Save Data made successfully!")
     mod_storage_save("SaveData", "true")
+end
+
+if mod_storage_load("UnlockedTheme-1") == "nil" then
+    themeTable[0].name = "No Themes Unlocked"
+end
+
+local maxThemeNum = 0
+for i = 1, 2 do
+    if mod_storage_load("UnlockedTheme-"..i) == "Uoker" then
+        themeTable[#themeTable + 1] = {
+            name = "Uoker",
+            mainTex = get_texture_info("theme-uoker")
+        }
+        maxThemeNum = maxThemeNum + 1
+    elseif mod_storage_load("UnlockedTheme-"..i) == "Upper" then
+        themeTable[#themeTable + 1] = {
+            name = "Castle Upper",
+            mainTex = get_texture_info("theme-50door"),
+            descTex = get_texture_info("theme-50door-desc")
+        }
+        maxThemeNum = maxThemeNum + 1
+    end
 end
 
 function displaymenu()
@@ -387,10 +433,12 @@ function displaymenu()
     if menu then
         djui_hud_set_font(FONT_MENU)
         djui_hud_set_resolution(RESOLUTION_N64)
-        djui_hud_set_color(0, 0, 0, 170)
-        djui_hud_render_rect((halfScreenWidth - 87), ((djui_hud_get_screen_height()*0.5) - 92), 174, 204)
+        djui_hud_set_color(255, 255, 255, 255)
+        if menuTable[3][4].status == nil then menuTable[3][4].status = 0 end
+        --Scales 256x256 to 176x208
+        djui_hud_render_texture(themeTable[menuTable[3][4].status].mainTex, (halfScreenWidth - 88), ((djui_hud_get_screen_height()*0.5) - 93), 0.6875, 0.8)
         djui_hud_set_color(0, 0, 0, 220)
-        djui_hud_render_rect((halfScreenWidth - 85), ((djui_hud_get_screen_height()*0.5) - 90), 170, 200)
+        djui_hud_render_rect((halfScreenWidth - 85), ((djui_hud_get_screen_height()*0.5) - 90), 170, 199)
         djui_hud_set_color(0, 150, 0, 255)
         djui_hud_print_text("Squishys", (halfScreenWidth - (djui_hud_measure_text("Squishys")* 0.3 / 2)), 35, 0.3)
         djui_hud_print_text("'", (halfScreenWidth + 24), 35, 0.3)      
@@ -430,7 +478,7 @@ function displaymenu()
         
         if optionHover < 1 then
             optionHover = #menuTable[optionTab]
-        elseif  optionHover > #menuTable[optionTab] then
+        elseif optionHover > #menuTable[optionTab] then
             optionHover = 1
         end
 
@@ -450,6 +498,11 @@ function displaymenu()
                     if modelTable[discordID][menuTable[3][1].status].credit ~= nil then
                         djui_hud_set_color(150, 150, 150, 255)
                         djui_hud_print_text("Model by " .. modelTable[discordID][menuTable[3][1].status].credit, (halfScreenWidth), 80 + (optionHover * 10), 0.225)
+                    end
+                elseif optionTab == 3 and optionHover == 4 then
+                    djui_hud_print_text(themeTable[menuTable[3][4].status].name, (halfScreenWidth), 70 + (optionHover * 10), 0.3)
+                    if menuTable[3][4].statusMax == nil then
+                        menuTable[3][4].statusMax = maxThemeNum
                     end
                 else
                     if menuTable[optionTab][optionHover].status > 0 then
@@ -477,8 +530,13 @@ function displaymenu()
         end
 
         if menuTable[2][2].status == 1 then
-            djui_hud_set_color(0, 0, 0, 170)
-            djui_hud_render_rect((halfScreenWidth + 91), ((djui_hud_get_screen_height()*0.5) - 42), 104, 104)
+            if themeTable[menuTable[3][4].status].descTex ~= nil then
+                --Scales 128x128 to 104x104
+                djui_hud_render_texture(themeTable[menuTable[3][4].status].descTex, (halfScreenWidth + 91), ((djui_hud_get_screen_height()*0.5) - 42), 0.8125, 0.8125)
+            else
+                --Scales 256x256 to 104x104
+                djui_hud_render_texture(themeTable[menuTable[3][4].status].mainTex, (halfScreenWidth + 91), ((djui_hud_get_screen_height()*0.5) - 42), 0.40625, 0.40625)
+            end
             djui_hud_set_color(0, 0, 0, 220)
             djui_hud_render_rect((halfScreenWidth + 93), ((djui_hud_get_screen_height()*0.5) - 40), 100, 100)
             djui_hud_set_color(0, 150, 0, 255)
@@ -487,6 +545,7 @@ function displaymenu()
             for i = 1, 9 do
                 local line = menuTable[optionTab][optionHover]["Line" .. i]
                 if line ~= nil then
+                    djui_hud_set_color(255, 255, 255, 255)
                     djui_hud_print_text(line, halfScreenWidth + 100, 100 + (i - 1) * 8, 0.3)
                 end
             end
@@ -614,6 +673,8 @@ function update()
         menuTable[1][3].status = menuTable[1][3].lockTo
     end
 end
+
+
 
 hook_event(HOOK_ON_HUD_RENDER, displaymenu)
 hook_event(HOOK_BEFORE_MARIO_UPDATE, before_update)
