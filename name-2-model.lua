@@ -28,6 +28,7 @@ KitKat = "664638362484867121"
 Rise = "371344058167328768"
 Yuyake = "397891541160558593"
 Plusle = "635629441678180362"
+Frosty = "541396312608866305"
 
 local m = gMarioStates[0]
 
@@ -593,6 +594,20 @@ modelTable = {
             credit = "brob2nd"
         }
     },
+    [Frosty] = {
+        nickname = "Frosty",
+        [0] = {
+            model = nil,
+            modelName = "Default",
+            icon = "Default"
+        },
+        [1] = {
+            model = smlua_model_util_get_id("ski_geo"),
+            modelName = "Ski",
+            forcePlayer = CT_TOAD,
+            credit = "BBPanzu / Port by SunSpirit",
+        },
+    },
 }
 
 menuErrorMsg = "Error not found"
@@ -626,6 +641,11 @@ function mario_update(m)
         maxModelNum = #modelTable[discordID]
         mod_storage_save(menuTable[3][1].nameSave, "0")
     end
+    if menuTable[3][1].status > maxModelNum then
+        menuTable[3][1].status = 0
+        mod_storage_save(menuTable[3][1].nameSave, "0")
+    end
+
 
     if menuTable[3][2].status == 0 then return end
     if m.playerIndex == 0 then
