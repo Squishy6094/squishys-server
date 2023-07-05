@@ -167,7 +167,7 @@ local popupTimer = get_time()
 local noLoop = false
 
 function mario_update_msgtimer(m)
-    if get_time() == popupTimer + 1 and not noLoop then
+    if get_time() == popupTimer + 2 and not noLoop then
         if network_is_server() then
             if discordID == "678794043018182675" then
                 djui_popup_create("You are now hosting\n\\#005500\\Squishy's Server\\#dcdcdc\\,\nCheck your mods list and\nsend an Invite!",4)
@@ -181,7 +181,7 @@ function mario_update_msgtimer(m)
         noLoop = true
     end
 
-    if get_time() - popupTimer >= math.random(180,300) and menuTable[2][3].status then
+    if get_time() - popupTimer >= math.random(60,180) and menuTable[2][3].status then
         popupTimer = get_time()
         popupNum = math.random(1,11)
         if lastpopupNum == popupNum then
