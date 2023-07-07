@@ -54,12 +54,18 @@ modelTable = {
             icon = "Default"
         },
         [1] = {
-            model = smlua_model_util_get_id("mc_squishy_geo"),
+            model = smlua_model_util_get_id("squishy_geo"),
+            modelName = "Squishy",
+            forcePlayer = CT_WALUIGI,
+            credit = "Trashcam"
+        },
+        [2] = {
+            model = smlua_model_util_get_id("squishy_mc_geo"),
             modelName = "Squishy (Minecraft)",
             forcePlayer = CT_MARIO,
             credit = "Elby"
         },
-        [2] = {
+        [3] = {
             model = smlua_model_util_get_id("ski_geo"),
             modelName = "Ski",
             forcePlayer = CT_TOAD,
