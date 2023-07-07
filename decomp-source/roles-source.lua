@@ -8,22 +8,23 @@ function update_roles()
         -- 1 = Creator
         -- 2 = Developer
         -- 3 = Verified Host
-        -- 4 = Bestie (Verified but not hosting)
-        -- 5 = Contributer
-        -- 6 = Moderator
-        -- -1 = Unverified --
+        -- 4 = Contributer
+        -- 5 = Moderator
+        -- -1 = Unverified Host
         roleIDtable = {
+            --Creator
             [678794043018182675] = "1", --Squishy
         
+            --Developer
             [635629441678180362] = "2", --Plussle
         
-            --Gm_Boo3volved
-            [401406794649436161] = "3", --Uoker
+            --Gm_Boo3volved (Verified Host)
+            [401406794649436161] = "3",  --Uoker
             [673582558507827221] = '3',  --Elby
             [664638362484867121] = "3",  --Kitkat
             [397847847283720193] = "3",  --Koffee
-            --Skedar
-            [490613035237507091] = "3 5",  --Agent X (Tons of help overall with coding)
+            --Skedar (Verified Host)
+            [490613035237507091] = "3 5",--Agent X (Tons of help overall with coding)
             [376304957168812032] = "3",  --eros71
             [282702284608110593] = "3",  --0x
             [767513529036832799] = "3",  --Cosmic
@@ -31,13 +32,14 @@ function update_roles()
             [827596624590012457] = "3", --Trashcam
             [443963592220344320] = "3", --Charity
             [732244024567529503] = "3", --PeachyPeach
-            --Epic Gamer Squad
+            --Epic Gamer Squad (Verified Host)
             [397219199375769620] = "3", --Average
             [817821798363955251] = "3", --Crispy
             [1092073683377455215] ="3", --Nut
 
-            [409438020870078486] = "5", --EmilyEmmi (The entire Roles System)
-            [376426041788465173] = "5", --Sunk (A bunch of QOL mods)
+            --Contributer
+            [409438020870078486] = "4", --EmilyEmmi (The entire Roles System)
+            [376426041788465173] = "4", --Sunk (A bunch of QOL mods)
         }
         if roleIDtable[ID] ~= nil then
             sMario.role = roleIDtable[ID]
@@ -46,16 +48,11 @@ function update_roles()
                 sMario.role = "-1"
             end
         end
-        local args = split(sMario.role)
-        for i = 1, 5 do
-            if args[i] == "3" and not network_is_server() then
-                args[i] = "4"
-                sMario.role = args[1].." "..args[2].." "..args[3].." "..args[4].." "..args[5].." "..args[6]
-            end
-            if network_is_moderator() and args[i] == nil then
-                args[i] = "6"
-                sMario.role = args[1].." "..args[2].." "..args[3].." "..args[4].." "..args[5].." "..args[6]
-            end
+        if network_is_server() then
+            sMario.ishost = true
+        end
+        if network_is_moderator() then
+            sMario.ismod = true
         end
     else
         if network_is_server() then
@@ -73,24 +70,25 @@ function on_chat_message(m, msg)
     if sMario.role ~= nil then
         rolestring = ""
         local args = split(sMario.role)
-        for i = 1, 5 do
+        for i = 1, 6 do
             if args[i] == "1" then
                 rolestring = rolestring.." \\#00aa00\\[Creator]"
             end 
             if args[i] == "2" then
-                rolestring = rolestring.." \\#9F2B68\\[Developer]"
-            end 
+                rolestring = rolestring.." \\#FF2400\\[Developer]"
+            end
             if args[i] == "3" then
-                rolestring = rolestring.." \\##FFD700\\[Verified Host]"
+                if sMario.ishost then
+                    rolestring = rolestring.." \\#7FFFD4\\[Verified Host]"
+                else
+                    rolestring = rolestring.." \\#f23064\\[Bestie]"
+                end
             end 
             if args[i] == "4" then
-                rolestring = rolestring.." \\##FFC0CB\\[Bestie]"
+                rolestring = rolestring.." \\#0568e3\\[Contributor]"
             end 
-            if args[i] == "5" then
-                rolestring = rolestring.." \\#1560bd\\[Contrubuter]"
-            end 
-            if args[i] == "6" then
-                rolestring = rolestring.." \\#F1EB9C\\[Moderator]"
+            if sMario.ismod then
+                rolestring = rolestring.." \\#fcef42\\[Moderator]"
             end
         end
         if sMario.role == "-1" then
