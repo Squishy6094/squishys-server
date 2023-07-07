@@ -87,9 +87,9 @@ function on_chat_message(m, msg)
             if args[i] == "4" then
                 rolestring = rolestring.." \\#0568e3\\[Contributor]"
             end 
-            if sMario.ismod then
-                rolestring = rolestring.." \\#fcef42\\[Moderator]"
-            end
+        end
+        if sMario.ismod then
+            rolestring = rolestring.." \\#fcef42\\[Moderator]"
         end
         if sMario.role == "-1" then
             rolestring = " \\#ff0000\\[Unverified Host]"
