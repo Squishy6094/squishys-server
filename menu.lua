@@ -164,8 +164,12 @@ menuTable = {
             name = "Prevent HUD Clashing",
             nameSave = "HUDDisableSave",
             status = tonumber(mod_storage_load("HUDDisableSave")),
-            statusMax = 1,
+            statusMax = 2,
             statusDefault = 1,
+            --Status Toggle Names
+            [0] = "Off",
+            [1] = "On",
+            [2] = "Gamemodes Only",
             --Description
             Line1 = "Toggles if your HUD",
             Line2 = "automatically gets set to",
@@ -331,8 +335,13 @@ for i in pairs(gActiveMods) do
         gGlobalSyncTable.syncData = tostring(gServerSettings.bubbleDeath) .. " " .. tostring(gServerSettings.playerInteractions) .. " " .. tostring(KBTranslate) .. " " .. tostring(gServerSettings.stayInLevelAfterStar) .. " " .. tostring(0) .. " " .. tostring(1)
     end
     --Mod Check Preventing HUD Overlapping
-    if (gActiveMods[i].incompatible ~= nil and gActiveMods[i].incompatible:find("gamemode")) or (gActiveMods[i].name:find("OMM Rebirth")) and menuTable[2][5].status ~= 0 then
-        menuTable[2][1].status = 3
+    if menuTable[2][5].status ~= 0 then
+        if (gActiveMods[i].incompatible ~= nil and gActiveMods[i].incompatible:find("gamemode")) and menuTable[2][5].status > 0 then
+            menuTable[2][1].status = 3
+        end
+        if (gActiveMods[i].name:find("OMM Rebirth")) and menuTable[2][5].status == 1 then
+            menuTable[2][1].status = 3
+        end
     end
 end
 
@@ -556,7 +565,7 @@ end
 function before_update(m)
     if m.playerIndex ~= 0 then return end
     if menu then
-        if optionHoverTimer >= 8 then
+        if optionHoverTimer >= 5 then
             optionHoverTimer = -1
         end
         if optionHoverTimer ~= -1 then
