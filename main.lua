@@ -130,11 +130,11 @@ popupTable = {
         lines = 6
     },
     [4] = {
-        text = '\nHate all the HUD clutter?\nYou can toggle off Extra Hud Elements\nin the "Server Options" Menu\n\n\\#8c8c8c\\This can be accessed by\nPressing L on the Pause Menu!',
+        text = '\nHate all the HUD clutter?\nYou can toggle your HUD Type\nin the "Server Options" Menu\n\n\\#8c8c8c\\This can be accessed by\nPressing L on the Pause Menu!',
         lines = 5
     },
     [5] = {
-        text = '\nThese messages pop-up every 4-6 minutes, You can turn them off\nin the "Server Options" Menu\n\n\\#8c8c8c\\This can be accessed by\nPressing L on the Pause Menu!',
+        text = '\nThese messages pop-up every 1-3 minutes, You can turn them off\nin the "Server Options" Menu\n\n\\#8c8c8c\\This can be accessed by\nPressing L on the Pause Menu!',
         lines = 5
     },
     [6] = {
@@ -142,22 +142,26 @@ popupTable = {
         lines = 3
     },
     [7] = {
+        text = "Remember to keep a lookout for users\nwith an \\#ff0000\\[Unverified Host]\\#dcdcdc\\ role,\nThey're not supposed to be\nHosting with Squishy's Server and\nshould be reported as soon as possible!",
+        lines = 5
+    },
+    [8] = {
         text = "Remember to tip your hosts folks,\nThey won't get their pay\nany other way!",
         lines = 3
     },
-    [8] = {
+    [9] = {
         text = "If you get knocked back, you can\npress Z when you hit the ground to\nTech and get right back up!",
         lines = 3
     },
-    [9] = {
+    [10] = {
         text = "You can get though a door\nquicker if you kick it down!",
         lines = 2
     },
-    [10] = {
+    [11] = {
         text = "If you're fast enough, you can\nPress A or B on a Ledge to\ntrick and keep your speed!",
         lines = 3
     },
-    [11] = {
+    [12] = {
         text = "\nPersonal Model not added?\nDM me with the models you want\nand I'll add them as soon as\npossible!",
         lines = 4
     }
@@ -165,14 +169,13 @@ popupTable = {
 
 local popupTimer = get_time()
 local noLoop = false
-
 function mario_update_msgtimer(m)
-    if get_time() == popupTimer + 2 and not noLoop then
+    if get_time() == popupTimer + 5 and not noLoop then
         if network_is_server() then
-            if discordID == "678794043018182675" then
+            if roleIDtable[discordID] ~= "-1" then
                 djui_popup_create("You are now hosting\n\\#005500\\Squishy's Server\\#dcdcdc\\,\nCheck your mods list and\nsend an Invite!",4)
             else
-                djui_popup_create("\n\\#FF8888\\Error: Discord ID Mismatch\n\\#dcdcdc\\You are hosting via Discord without\nbeing Squishy, Don't host\npublicly with this mod on!\n\n\\#8c8c8c\\(This error will not effect\nthe performence of\nSquishy's Server or sm64ex-coop)",8)
+                djui_popup_create("\n\\#FF8888\\Error: Discord ID Mismatch\n\\#dcdcdc\\You are hosting via Discord without\nbeing a \\#7FFFD4\\[Verified Host]\\#dcdcdc\\, Don't host\npublicly with this mod on or else\nyou'll be at risk of being reported!\n\n\\#8c8c8c\\(This error will not effect\nthe performence of\nSquishy's Server or sm64ex-coop)",8)
             end
         else
             djui_popup_create("Thanks For Joining\n\\#005500\\Squishy's Server\\#dcdcdc\\,\nEnjoy your Stay!",3)
