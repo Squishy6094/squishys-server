@@ -645,7 +645,6 @@ function mario_update(m)
     end
     if maxModelNum == nil then
         maxModelNum = #modelTable[discordID]
-        mod_storage_save(menuTable[3][1].nameSave, "0")
     end
     if menuTable[3][1].status > maxModelNum then
         menuTable[3][1].status = 0
