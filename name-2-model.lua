@@ -29,6 +29,7 @@ Rise = "371344058167328768"
 Yuyake = "397891541160558593"
 Plusle = "635629441678180362"
 Frosty = "541396312608866305"
+Shard = "1064980922371420313"
 
 local m = gMarioStates[0]
 
@@ -612,6 +613,21 @@ modelTable = {
             modelName = "Ski",
             forcePlayer = CT_TOAD,
             credit = "BBPanzu / Port by SunSpirit",
+        },
+    },
+    [Shard] = {
+        nickname = "Archie",
+        [0] = {
+            model = nil,
+            modelName = "Default",
+            icon = "Default"
+        },
+        [1] = {
+            model = smlua_model_util_get_id("archie_geo"),
+            modelName = "Archie",
+            forcePlayer = CT_WARIO,
+            icon = get_texture_info("icon-archie"),
+            credit = "Trashcam",
         },
     },
 }
