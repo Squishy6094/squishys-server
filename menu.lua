@@ -323,7 +323,7 @@ menuTable = {
 themeTable = {
     [0] = {
         name = "Default",
-        mainTex = get_texture_info("theme-default")
+        texture = get_texture_info("theme-default")
     }
 }
 
@@ -395,14 +395,13 @@ for i = 1, 2 do
     if mod_storage_load("UnlockedTheme-"..i) == "Uoker" then
         themeTable[#themeTable + 1] = {
             name = "Uoker",
-            mainTex = get_texture_info("theme-uoker")
+            texture = get_texture_info("theme-uoker")
         }
         maxThemeNum = maxThemeNum + 1
     elseif mod_storage_load("UnlockedTheme-"..i) == "Upper" then
         themeTable[#themeTable + 1] = {
             name = "Castle Upper",
-            mainTex = get_texture_info("theme-50door"),
-            descTex = get_texture_info("theme-50door-desc")
+            texture = get_texture_info("theme-50door")
         }
         maxThemeNum = maxThemeNum + 1
     end
@@ -444,8 +443,8 @@ function displaymenu()
         djui_hud_set_resolution(RESOLUTION_N64)
         djui_hud_set_color(255, 255, 255, 255)
         if menuTable[3][4].status == nil then menuTable[3][4].status = 0 end
-        --Scales 256x256 to 176x208
-        djui_hud_render_texture(themeTable[menuTable[3][4].status].mainTex, (halfScreenWidth - 88), ((djui_hud_get_screen_height()*0.5) - 93), 0.6875, 0.8)
+        djui_hud_set_color(255, 255, 255, 255)
+        djui_hud_render_texture_tile(themeTable[menuTable[3][4].status].texture, (halfScreenWidth - 88), ((djui_hud_get_screen_height()*0.5) - 93), 1.17045454545, 1, 0, 0, 176, 205)
         djui_hud_set_color(0, 0, 0, 220)
         djui_hud_render_rect((halfScreenWidth - 85), ((djui_hud_get_screen_height()*0.5) - 90), 170, 199)
         djui_hud_set_color(0, 150, 0, 255)
@@ -539,13 +538,8 @@ function displaymenu()
         end
 
         if menuTable[2][2].status == 1 then
-            if themeTable[menuTable[3][4].status].descTex ~= nil then
-                --Scales 128x128 to 104x104
-                djui_hud_render_texture(themeTable[menuTable[3][4].status].descTex, (halfScreenWidth + 91), ((djui_hud_get_screen_height()*0.5) - 42), 0.8125, 0.8125)
-            else
-                --Scales 256x256 to 104x104
-                djui_hud_render_texture(themeTable[menuTable[3][4].status].mainTex, (halfScreenWidth + 91), ((djui_hud_get_screen_height()*0.5) - 42), 0.40625, 0.40625)
-            end
+            djui_hud_set_color(255, 255, 255, 255)
+            djui_hud_render_texture_tile(themeTable[menuTable[3][4].status].texture, (halfScreenWidth + 91), ((djui_hud_get_screen_height()*0.5) - 42), 1.3, 1.3, 176, 0, 80, 80)
             djui_hud_set_color(0, 0, 0, 220)
             djui_hud_render_rect((halfScreenWidth + 93), ((djui_hud_get_screen_height()*0.5) - 40), 100, 100)
             djui_hud_set_color(0, 150, 0, 255)

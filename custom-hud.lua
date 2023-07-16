@@ -333,7 +333,15 @@ local function djui_hud_render_element(element, number, icon)
 
     djui_hud_set_adjusted_color(iconR, iconG, iconB, iconO)
     if hudTable[currHUD][element].shownElements.icon then
-        djui_hud_render_texture(icon, iconX, iconY, scale, scale)
+        if element == "Lives" then
+            if icon ~= "Default" then
+                djui_hud_render_texture_tile(get_texture_info("icons"), iconX, iconY, scale, scale, (icon%16)*16, (math.floor(icon/16))*16, 16, 16)
+            else
+                djui_hud_render_texture(m.character.hudHeadTexture, iconX, iconY, scale, scale)
+            end
+        else
+            djui_hud_render_texture(icon, iconX, iconY, scale, scale)
+        end
     end
 
     djui_hud_set_adjusted_color(r, g, b, o)
@@ -347,17 +355,6 @@ local function djui_hud_render_element(element, number, icon)
             djui_hud_print_text(tostring(number), numX, numY, scale)
         end
     end
-end
-
-local red_coin_distance = 0
-local secret_distance = 0
-
-local function get_closest_object(id_bhv)
-    local obj = obj_get_nearest_object_with_behavior_id(gMarioStates[0].marioObj, id_bhv)
-    if obj ~= nil then
-        return obj
-    end
-    return nil
 end
 
 local stallScriptTimer = 3

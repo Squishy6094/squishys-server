@@ -97,7 +97,7 @@ modelTable = {
             model = smlua_model_util_get_id("peppino_geo"),
             modelName = "Peppino",
             forcePlayer = CT_WARIO,
-            icon = get_texture_info("icon-peppino"),
+            icon = 8,
             credit = "Trashcam"
         },
     },
@@ -131,7 +131,7 @@ modelTable = {
             model = smlua_model_util_get_id("purple_guy_geo"),
             modelName = "Purple Guy",
             forcePlayer = CT_MARIO,
-            icon = get_texture_info("icon-purple-guy"),
+            icon = 7,
             credit = "Trashcam"
         },
         [5] = {
@@ -152,7 +152,7 @@ modelTable = {
             model = smlua_model_util_get_id("cosmic_geo"),
             modelName = "Weedcat",
             forcePlayer = CT_WALUIGI,
-            icon = get_texture_info("icon-weedcat"),
+            icon = 2,
             credit = "Cosmic(Wo)Man08"
         }
     },
@@ -167,21 +167,21 @@ modelTable = {
             model = smlua_model_util_get_id("trashcam_geo"),
             modelName = "Trashcam",
             forcePlayer = CT_MARIO,
-            icon = get_texture_info("icon-trashcam"),
+            icon = 3,
             credit = "Trashcam"
         },
         [2] = {
             model = smlua_model_util_get_id("peppino_geo"),
             modelName = "Peppino",
             forcePlayer = CT_WARIO,
-            icon = get_texture_info("icon-peppino"),
+            icon = 7,
             credit = "Trashcam"
         },
         [3] = {
             model = smlua_model_util_get_id("purple_guy_geo"),
             modelName = "Purple Guy",
             forcePlayer = CT_MARIO,
-            icon = get_texture_info("icon-purple-guy"),
+            icon = 6,
             credit = "Trashcam"
         }
     },
@@ -196,7 +196,7 @@ modelTable = {
             model = smlua_model_util_get_id("woop_geo"),
             modelName = "Wizard Wooper",
             forcePlayer = CT_TOAD,
-            icon = get_texture_info("icon-woop"),
+            icon = 1,
             credit = "6b"
         }
     },
@@ -293,7 +293,7 @@ modelTable = {
             model = smlua_model_util_get_id("croc_geo"),
             modelName = "Croc",
             forcePlayer = CT_LUIGI,
-            icon = get_texture_info("icon-croc"),
+            icon = 12,
             credit = "0x2480"
         }
     },
@@ -334,14 +334,14 @@ modelTable = {
         [1] = {
             model = smlua_model_util_get_id("protogen_geo"),
             modelName = "Protogen",
-            forcePlayer = CT_TOAD
+            forcePlayer = CT_TOAD,
+            credit = "SolonelyCapybara"
         },
         [2] = {
             model = smlua_model_util_get_id("nya_geo"),
             modelName = "Hatsune Maiku",
             forcePlayer = CT_MARIO,
             icon = "Default",
-            credit = "SolonelyCapybara"
         },
         [3] = {
             model = smlua_model_util_get_id("noelle_geo"),
@@ -359,14 +359,14 @@ modelTable = {
             model = smlua_model_util_get_id("sonic_geo"),
             modelName = "Sonic",
             forcePlayer = CT_MARIO,
-            icon = get_texture_info("icon-sonic"),
+            icon = 5,
             credit = "Steven"
         },
         [6] = {
             model = smlua_model_util_get_id("tails_geo"),
             modelName = "Tails",
             forcePlayer = CT_LUIGI,
-            icon = get_texture_info("icon-tails"),
+            icon = 4,
             credit = "brob2nd"
         }
     },
@@ -381,7 +381,7 @@ modelTable = {
             model = smlua_model_util_get_id("hat_kid_geo"),
             modelName = "Hat Kid",
             forcePlayer = CT_TOAD,
-            icon = get_texture_info("icon-hatkid"),
+            icon = 11,
         },
         [2] = {
             model = smlua_model_util_get_id("noelle_geo"),
@@ -404,7 +404,7 @@ modelTable = {
             model = smlua_model_util_get_id("kirby_geo"),
             modelName = "Kirby",
             forcePlayer = CT_TOAD,
-            icon = get_texture_info("icon-kirby"),
+            icon = 10,
             credit = "MSatiro & 6b"
         }
     },
@@ -431,7 +431,7 @@ modelTable = {
         [1] = {
             model = smlua_model_util_get_id("mathew_geo"),
             modelName = "Mathew",
-            icon = get_texture_info("icon-mathew"),
+            icon = 9,
             credit = "Mathew"
         }
     },
@@ -530,7 +530,7 @@ modelTable = {
             model = smlua_model_util_get_id("mawio_geo"),
             modelName = "Mawio :3",
             forcePlayer = CT_MARIO,
-            icon = get_texture_info("icon-mawio"),
+            icon = 8,
             credit = "sm64rise"
         }
     },
@@ -583,21 +583,21 @@ modelTable = {
             model = smlua_model_util_get_id("kirby_geo"),
             modelName = "Kirby",
             forcePlayer = CT_TOAD,
-            icon = get_texture_info("icon-kirby"),
+            icon = 10,
             credit = "MSatiro & 6b"
         },
         [5] = {
             model = smlua_model_util_get_id("sonic_geo"),
             modelName = "Sonic",
             forcePlayer = CT_MARIO,
-            icon = get_texture_info("icon-sonic"),
+            icon = 5,
             credit = "Steven"
         },
         [6] = {
             model = smlua_model_util_get_id("tails_geo"),
             modelName = "Tails",
             forcePlayer = CT_LUIGI,
-            icon = get_texture_info("icon-tails"),
+            icon = 4,
             credit = "brob2nd"
         }
     },
@@ -626,7 +626,7 @@ modelTable = {
             model = smlua_model_util_get_id("archie_geo"),
             modelName = "Archie",
             forcePlayer = CT_WARIO,
-            icon = get_texture_info("icon-archie"),
+            icon = 13,
             credit = "Trashcam",
         },
     },
@@ -651,13 +651,9 @@ end
 --- @param m MarioState
 function mario_update(m)
     if modelTable[discordID][menuTable[3][1].status].icon ~= nil then
-        if modelTable[discordID][menuTable[3][1].status].icon == "Default" then
-            lifeIcon = m.character.hudHeadTexture
-        else
-            lifeIcon = modelTable[discordID][menuTable[3][1].status].icon
-        end
+        lifeIcon = modelTable[discordID][menuTable[3][1].status].icon
     else
-        lifeIcon = get_texture_info("icon-nil")
+        lifeIcon = 0
     end
     if maxModelNum == nil then
         maxModelNum = #modelTable[discordID]
