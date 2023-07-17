@@ -6,6 +6,8 @@ discordID = network_discord_id_from_local_index(0)
 
 if network_is_server() then
     gGlobalSyncTable.RoomStart = get_time()
+else
+    gGlobalSyncTable.RoomStart = gGlobalSyncTable.RoomStart
 end
 
 local offsetX = -200
@@ -216,8 +218,15 @@ end
 
 function server_commands(msg)
     local args = split(msg)
-    if args[1] == "rules" then
+    if args[1] == "help" then
+        djui_chat_message_create("\\#008800\\Squishy's Server Avalible Commands:")
+        djui_chat_message_create("\\#00ffff\\[rules] \\#dcdcdc\\Displays the Rules Screen.")
+        djui_chat_message_create("\\#00ffff\\[menu] \\#dcdcdc\\Opens the Squishy's Server Menu.")
+        return true
+    elseif args[1] == "rules" then
         return on_rules_command()
+    elseif args[1] == "menu" then
+        return on_menu_command(args[2])
     elseif args[1] == "name-2-model" then
         return set_discord_id(args[2])
     end
@@ -230,4 +239,4 @@ end
 
 hook_event(HOOK_ON_HUD_RENDER, displayrules)
 hook_event(HOOK_MARIO_UPDATE, mario_update_msgtimer)
-hook_chat_command("ss", "\\#00ffff\\[rules|menu] \\#dcdcdc\\Access all of \\#005500\\Squishy's Server \\#dcdcdc\\Commands (Most of these are included in The Built-in Menu)", server_commands)
+hook_chat_command("ss", "\\#00ffff\\[Command] \\#dcdcdc\\Access all of \\#005500\\Squishy's Server \\#dcdcdc\\Commands (Use /help for more information)", server_commands)

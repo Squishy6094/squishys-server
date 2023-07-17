@@ -696,7 +696,6 @@ function set_discord_id(msg)
         menuTable[3][1].statusMax = modelTable[discordID].maxNum
         menuTable[3][1].status = 0
         maxModelNum = #modelTable[discordID]
-        mod_storage_save("discordIDSave", msg)
         djui_chat_message_create('ID set to "'.. modelTable[msg].nickname ..'" ('.. msg ..') Successfully!')
     else
         djui_chat_message_create("Invalid ID Entered")

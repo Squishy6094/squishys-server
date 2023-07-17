@@ -386,9 +386,7 @@ if mod_storage_load("SaveData") ~= "true" then
     mod_storage_save("SaveData", "true")
 end
 
-if mod_storage_load("UnlockedTheme-1") == "nil" then
-    themeTable[0].name = "No Themes Unlocked"
-end
+
 
 local maxThemeNum = 0
 function theme_load()
@@ -396,15 +394,22 @@ function theme_load()
         if mod_storage_load("UnlockedTheme-"..i) == "Uoker" then
             themeTable[#themeTable + 1] = {
                 name = "Uoker",
+                color = "\\#5b35ec\\",
                 texture = get_texture_info("theme-uoker")
             }
             maxThemeNum = maxThemeNum + 1
         elseif mod_storage_load("UnlockedTheme-"..i) == "Upper" then
             themeTable[#themeTable + 1] = {
                 name = "Castle Upper",
+                color = "\\#ff1515\\",
                 texture = get_texture_info("theme-50door")
             }
             maxThemeNum = maxThemeNum + 1
+        end
+        if mod_storage_load("UnlockedTheme-1") == "nil" then
+            themeTable[0].name = "No Themes Unlocked"
+        else
+            themeTable[0].name = "Default"
         end
     end
 end
@@ -417,7 +422,8 @@ function theme_unlock(themestring)
             if mod_storage_load("UnlockedTheme-1") == themestring then return end
             mod_storage_save("UnlockedTheme-"..i, themestring)
             theme_load()
-            djui_popup_create("You've".. 'unlocked a Theme!\n"'.. themestring..'"', 2)
+            local theme = #themeTable
+            djui_popup_create("\\#008800\\Squishy's Server\n".. '\\#dcdcdc\\Theme Unlocked!\n'..themeTable[theme].color..'"'..themeTable[theme].name..'"\\#dcdcdc\\', 3)
         end
     end
 end
@@ -431,26 +437,27 @@ function displaymenu()
         RoomTime = string.format("%s:%s:%s", string.format("%02d", math.floor((get_time() - gGlobalSyncTable.RoomStart)/60/60)), string.format("%02d", math.floor((get_time() - gGlobalSyncTable.RoomStart)/60)%60), string.format("%02d", math.floor(get_time() - gGlobalSyncTable.RoomStart)%60))
     end
 
+    djui_hud_set_font(FONT_NORMAL)
+    halfScreenWidth = djui_hud_get_screen_width()*0.5
+    djui_hud_set_resolution(RESOLUTION_N64)
+    halfScreenWidth = djui_hud_get_screen_width()*0.5
+
     if is_game_paused() and not djui_hud_is_pause_menu_created() then
-        djui_hud_set_font(FONT_NORMAL)
-        halfScreenWidth = djui_hud_get_screen_width()*0.5
-        djui_hud_set_resolution(RESOLUTION_DJUI)
-        djui_hud_set_color(0, 0, 0, 255)
-        djui_hud_print_text("L Button - Server Options", (djui_hud_get_screen_width()*0.5 - (djui_hud_measure_text("L Button - Server Options")*0.5)) + 1, 43, 1)
-        djui_hud_set_color(255, 255, 255, 255)
-        djui_hud_print_text("L Button - Server Options", (djui_hud_get_screen_width()*0.5 - (djui_hud_measure_text("L Button - Server Options")*0.5)), 42, 1)
-        djui_hud_set_resolution(RESOLUTION_N64)
-        halfScreenWidth = djui_hud_get_screen_width()*0.5
         if m.action == ACT_EXIT_LAND_SAVE_DIALOG then
             djui_hud_set_color(0, 0, 0, 255)
             djui_hud_print_text("Room has been Open for:", (halfScreenWidth - 33), 31, 0.3)
             djui_hud_print_text(RoomTime, (halfScreenWidth - 32.5), 42, 0.7)
+        else
+            djui_hud_set_resolution(RESOLUTION_DJUI)
+            djui_hud_set_color(0, 0, 0, 255)
+            djui_hud_print_text("L Button - Server Options", (djui_hud_get_screen_width()*0.5 - (djui_hud_measure_text("L Button - Server Options")*0.5)) + 1, 43, 1)
+            djui_hud_set_color(255, 255, 255, 255)
+            djui_hud_print_text("L Button - Server Options", (djui_hud_get_screen_width()*0.5 - (djui_hud_measure_text("L Button - Server Options")*0.5)), 42, 1)
         end
+        djui_hud_set_resolution(RESOLUTION_N64)
         djui_hud_set_color(255, 255, 255, 255)
         djui_hud_print_text("Room has been Open for:", (halfScreenWidth - 35), 30, 0.3)
         djui_hud_print_text(RoomTime, (halfScreenWidth - 35), 40, 0.7)
-    else
-        menu = false
     end
 
     if menu then
@@ -546,7 +553,7 @@ function displaymenu()
             mod_storage_save(menuTable[optionTab][optionHover].nameSave, tostring(menuTable[optionTab][optionHover].status))
             print("Autofilled Toggle for '" ..menuTable[optionTab][optionHover].nameSave "' created.")
         end
-        
+
         for i = 1, #menuTable[optionTab] do
             djui_hud_set_color(255, 255, 255, 255)
             djui_hud_print_text(menuTable[optionTab][i].name, halfScreenWidth - 70, 80 + (i - 1) * 10, 0.3)
@@ -633,23 +640,46 @@ function before_update(m)
                 end
             end
         end
+        if (m.controller.buttonDown & B_BUTTON) ~= 0 or (m.controller.buttonDown & START_BUTTON) ~= 0 and menu then
+            print("Saving configuration to 'squishys-server.sav'")
+            menu = false
+        end
         m.controller.rawStickY = 0
         m.controller.rawStickX = 0
+        m.controller.stickX = 0
+        m.controller.stickY = 0
         m.controller.stickMag = 0
         m.controller.buttonPressed = m.controller.buttonPressed & ~R_TRIG
         m.controller.buttonDown = m.controller.buttonDown & ~R_TRIG
         m.controller.buttonPressed = m.controller.buttonPressed & ~A_BUTTON
         m.controller.buttonDown = m.controller.buttonDown & ~A_BUTTON
+        m.controller.buttonPressed = m.controller.buttonPressed & ~B_BUTTON
+        m.controller.buttonDown = m.controller.buttonDown & ~B_BUTTON
+        m.controller.buttonPressed = m.controller.buttonPressed & ~START_BUTTON
+        m.controller.buttonDown = m.controller.buttonDown & ~START_BUTTON
     end
 
     if is_game_paused() and not djui_hud_is_pause_menu_created() and m.action ~= ACT_EXIT_LAND_SAVE_DIALOG then
         if (m.controller.buttonDown & L_TRIG) ~= 0 and not menu then
             menu = true
         end
-        if (m.controller.buttonDown & B_BUTTON) ~= 0 and menu then
-            print("Saving configuration to 'squishys-server.sav'")
-            menu = false
+    end
+end
+
+function on_menu_command(msg)
+    args = split(msg)
+    if args[1] ~= nil then
+        if tonumber(args[1]) > 0 and tonumber(args[1]) <= 4 then
+            optionTab = tonumber(args[1])
+            menu = true
+            return true
+        else
+            djui_chat_message_create("Invalid Tab Entered")
+            return true
         end
+    else
+        menu = not menu
+        return true
     end
 end
 
