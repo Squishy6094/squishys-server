@@ -339,7 +339,7 @@ for i in pairs(gActiveMods) do
         if (gActiveMods[i].incompatible ~= nil and gActiveMods[i].incompatible:find("gamemode")) and menuTable[2][5].status > 0 then
             menuTable[2][1].status = 3
         end
-        if (gActiveMods[i].name:find("OMM Rebirth")) and menuTable[2][5].status == 1 then
+        if (gActiveMods[i].name:find("OMM Rebirth")) or (gActiveMods[i].name:find("Super Mario 64: The Underworld")) and menuTable[2][5].status == 1 then
             menuTable[2][1].status = 3
         end
     end
