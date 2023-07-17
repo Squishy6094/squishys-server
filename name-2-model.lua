@@ -57,7 +57,7 @@ modelTable = {
         [1] = {
             model = smlua_model_util_get_id("squishy_geo"),
             modelName = "Squishy",
-            forcePlayer = CT_WALUIGI,
+            forcePlayer = CT_MARIO,
             credit = "Trashcam"
         },
         [2] = {
