@@ -516,6 +516,7 @@ modelTable = {
             model = smlua_model_util_get_id("pepperman_geo"),
             modelName = "Pepperman",
             forcePlayer = CT_WARIO,
+            icon = 14,
             credit = "CheesyNacho"
         }
     },
