@@ -378,12 +378,7 @@ function mario_update(m)
         play_sound(SOUND_GENERAL_METAL_POUND, m.marioObj.header.gfx.cameraToObject)
         if m.actionTimer == 6 then
             djui_chat_message_create("\\#fbfb7d\\Lakitu:\\#ffffff\\ OH SH-")
-            for i = 1, 2 do
-                if mod_storage_load("UnlockedTheme-"..i) == nil then
-                    mod_storage_save("UnlockedTheme-"..i, theme)
-                    djui_popup_create("\\#dcffdc\\Squishy's Server Theme Unlocked:\n\\#dcdcdc\\".. theme, 3)
-                end
-            end
+            theme_unlock("Upper")
         end
     end
 end

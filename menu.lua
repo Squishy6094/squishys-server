@@ -391,19 +391,34 @@ if mod_storage_load("UnlockedTheme-1") == "nil" then
 end
 
 local maxThemeNum = 0
-for i = 1, 2 do
-    if mod_storage_load("UnlockedTheme-"..i) == "Uoker" then
-        themeTable[#themeTable + 1] = {
-            name = "Uoker",
-            texture = get_texture_info("theme-uoker")
-        }
-        maxThemeNum = maxThemeNum + 1
-    elseif mod_storage_load("UnlockedTheme-"..i) == "Upper" then
-        themeTable[#themeTable + 1] = {
-            name = "Castle Upper",
-            texture = get_texture_info("theme-50door")
-        }
-        maxThemeNum = maxThemeNum + 1
+function theme_load()
+    for i = 1, 2 do
+        if mod_storage_load("UnlockedTheme-"..i) == "Uoker" then
+            themeTable[#themeTable + 1] = {
+                name = "Uoker",
+                texture = get_texture_info("theme-uoker")
+            }
+            maxThemeNum = maxThemeNum + 1
+        elseif mod_storage_load("UnlockedTheme-"..i) == "Upper" then
+            themeTable[#themeTable + 1] = {
+                name = "Castle Upper",
+                texture = get_texture_info("theme-50door")
+            }
+            maxThemeNum = maxThemeNum + 1
+        end
+    end
+end
+
+theme_load()
+
+function theme_unlock(themestring)
+    for i = 1, 2 do
+        if mod_storage_load("UnlockedTheme-"..i) == "nil" or mod_storage_load("UnlockedTheme-"..i) == nil then
+            if mod_storage_load("UnlockedTheme-1") == themestring then return end
+            mod_storage_save("UnlockedTheme-"..i, themestring)
+            theme_load()
+            djui_popup_create("You've".. 'unlocked a Theme!\n"'.. themestring..'"', 2)
+        end
     end
 end
 
