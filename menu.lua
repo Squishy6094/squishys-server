@@ -3,6 +3,12 @@ local optionTab = 1
 local optionHover = 1
 local optionHoverTimer = -1
 
+--Optimization I guess
+local djui_hud_set_resolution = djui_hud_set_resolution
+local djui_hud_set_font = djui_hud_set_font
+local djui_hud_set_color = djui_hud_set_color
+local djui_hud_print_text = djui_hud_print_text
+
 KBTranslate = 0
 
 if gServerSettings.playerKnockbackStrength == 10 then
@@ -351,9 +357,7 @@ local function set_status_and_save(table, index, status)
     mod_storage_save(table[index].nameSave, tostring(status))
 end
 
-if mod_storage_load("SaveData") ~= "true" then
-    print("Save Data not found for 'squishys-server.sav,' Creating Save Data...")
-
+local function reset_config()
     for i = 1, #menuTable[1] do
         if i == 1 or i == 5 then
             set_status_and_save(menuTable[1], i, 0)
@@ -381,12 +385,14 @@ if mod_storage_load("SaveData") ~= "true" then
     for i = 1, 2 do
         mod_storage_save("UnlockedTheme-"..i, "nil")
     end
+end
 
+if mod_storage_load("SaveData") ~= "true" then
+    print("Save Data not found for 'squishys-server.sav,' Creating Save Data...")
+    reset_config()
     print("Save Data made successfully!")
     mod_storage_save("SaveData", "true")
 end
-
-
 
 local maxThemeNum = 0
 function theme_load()
@@ -428,17 +434,22 @@ function theme_unlock(themestring)
     end
 end
 
+local stallScriptTimer = 10
 function displaymenu()
     local m = gMarioStates[0]
+    
+    if tonumber(mod_storage_load("ThemeSave")) > #themeTable then
+        mod_storage_save("ThemeSave", "0")
+    end
 
     djui_hud_set_render_behind_hud(false)
 
+    if stallScriptTimer < 0 then stallScriptTimer = stallScriptTimer - 1 return end
     if is_game_paused() or rules then
         RoomTime = string.format("%s:%s:%s", string.format("%02d", math.floor((get_time() - gGlobalSyncTable.RoomStart)/60/60)), string.format("%02d", math.floor((get_time() - gGlobalSyncTable.RoomStart)/60)%60), string.format("%02d", math.floor(get_time() - gGlobalSyncTable.RoomStart)%60))
     end
 
     djui_hud_set_font(FONT_NORMAL)
-    halfScreenWidth = djui_hud_get_screen_width()*0.5
     djui_hud_set_resolution(RESOLUTION_N64)
     halfScreenWidth = djui_hud_get_screen_width()*0.5
 
