@@ -6,8 +6,6 @@ discordID = network_discord_id_from_local_index(0)
 
 if network_is_server() then
     gGlobalSyncTable.RoomStart = get_time()
-else
-    gGlobalSyncTable.RoomStart = gGlobalSyncTable.RoomStart
 end
 
 local offsetX = -200
@@ -15,6 +13,7 @@ local opacity = 255
 local rulesTimer = get_time() + 5
 local lastpopupNum = 0
 local firstRuleShow = true
+local showCommandHint = true
 
 if mod_storage_load("RulesSave") == nil or mod_storage_load("RulesSave") == "1" then
     rules = true
@@ -111,6 +110,11 @@ function displayrules(m)
         djui_hud_set_font(FONT_MENU)
         djui_hud_set_color(255, 255, 255, 255 - opacity)
         djui_hud_print_text("Press A to continue", 100 + offsetX - (djui_hud_measure_text("Press A to continue")*0.5*0.2), djui_hud_get_screen_height() - 17, 0.2)
+    end
+
+    if offsetX >= 200 and showCommandHint then
+        djui_chat_message_create("Welcome to Squishy's Server! You can use /ss help for a list of commands!")
+        showCommandHint = false
     end
 end
 
