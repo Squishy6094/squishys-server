@@ -381,6 +381,12 @@ function mario_update(m)
             theme_unlock("Upper")
         end
     end
+
+    --Return Cap
+    if m.cap ~= 0 and does_mario_have_normal_cap_on_head(m) == 1 then
+        m.cap = 0
+        print("Returned cap!")
+    end
 end
 
 --- @param m MarioState
@@ -701,6 +707,61 @@ hook_event(HOOK_ON_WARP, function()
     inertiaVel.y = 0
     inertiaVel.z = 0
 end)
+
+-- Cap Return Toad
+-- DIALOG_099 is unused
+local NEW_DIALOG = DIALOG_099
+smlua_text_utils_dialog_replace(NEW_DIALOG,1,3,30,200, ("Hey, is this your cap?\
+It seemed to appear from\
+thin air.\
+Here, take it-\
+it looks better on you\
+anyway."))
+
+local caps = {
+  [0] = E_MODEL_MARIOS_CAP,
+  [1] = E_MODEL_LUIGIS_CAP,
+  [2] = E_MODEL_TOADS_CAP,
+  [3] = E_MODEL_WARIOS_CAP,
+  [4] = E_MODEL_WALUIGIS_CAP,
+}
+
+function custom_toad_init(obj)
+  local m = gMarioStates[0]
+  if m.cap ~= 0 and obj.oToadMessageDialogId == 133 then -- lobby toad
+    print("Found lobby toad!")
+    obj.unused1 = obj.oToadMessageDialogId
+    obj.oToadMessageDialogId = NEW_DIALOG
+    local model = caps[m.character.type] or E_MODEL_MARIOS_CAP
+    spawn_non_sync_object(
+      id_bhvToadMessage,
+      model,
+      obj.oPosX, obj.oPosY+85, obj.oPosZ,
+      function(cap)
+        cap.parentObj = obj
+      end)
+  end
+  return
+end
+function custom_toad_loop(obj)
+  if obj.unused1 ~= 0 and obj.oDialogState == 3 then
+    local m = gMarioStates[0]
+    m.cap = 0
+    mario_retrieve_cap(m)
+    obj.oToadMessageDialogId = obj.unused1
+    obj.unused1 = 0
+    set_mario_action(m, ACT_PUTTING_ON_CAP, 0)
+  elseif obj.parentObj ~= nil then
+    local toad = obj.parentObj
+    if toad ~= obj and toad.unused1 == 0 then
+      obj.activeFlags = ACTIVE_FLAG_DEACTIVATED
+    else
+      obj.oMoveAngleYaw = toad.oMoveAngleYaw
+    end
+  end
+  return
+end
+hook_behavior(id_bhvToadMessage, OBJ_LIST_GENACTOR, false, custom_toad_init, custom_toad_loop)
 
 --All Hooks
 hook_event(HOOK_MARIO_UPDATE, mario_update)
