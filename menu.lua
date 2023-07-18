@@ -465,7 +465,7 @@ function displaymenu()
         djui_hud_set_resolution(RESOLUTION_N64)
         djui_hud_set_color(255, 255, 255, 255)
         if menuTable[3][4].status == nil then menuTable[3][4].status = 0 end
-        djui_hud_set_color(255, 255, 255, 255)
+        djui_hud_set_color(255, 255, 255, 200)
         djui_hud_render_texture_tile(themeTable[menuTable[3][4].status].texture, (halfScreenWidth - 88), ((djui_hud_get_screen_height()*0.5) - 93), 1.17045454545, 1, 0, 0, 176, 205)
         djui_hud_set_color(0, 0, 0, 220)
         djui_hud_render_rect((halfScreenWidth - 85), ((djui_hud_get_screen_height()*0.5) - 90), 170, 199)
@@ -560,7 +560,7 @@ function displaymenu()
         end
 
         if menuTable[2][2].status == 1 then
-            djui_hud_set_color(255, 255, 255, 255)
+            djui_hud_set_color(255, 255, 255, 200)
             djui_hud_render_texture_tile(themeTable[menuTable[3][4].status].texture, (halfScreenWidth + 91), ((djui_hud_get_screen_height()*0.5) - 42), 1.3, 1.3, 176, 0, 80, 80)
             djui_hud_set_color(0, 0, 0, 220)
             djui_hud_render_rect((halfScreenWidth + 93), ((djui_hud_get_screen_height()*0.5) - 40), 100, 100)
@@ -668,19 +668,43 @@ end
 
 function on_menu_command(msg)
     args = split(msg)
-    if args[1] ~= nil then
-        if tonumber(args[1]) > 0 and tonumber(args[1]) <= 4 then
-            optionTab = tonumber(args[1])
-            menu = true
-            return true
-        else
-            djui_chat_message_create("Invalid Tab Entered")
-            return true
-        end
-    else
+    if args[2] == nil then
         menu = not menu
         return true
     end
+    if args[4] ~= nil then
+        if tonumber(args[4]) >= 0 and tonumber(args[4]) <= menuTable[optionTab][optionHover].statusMax then
+            menuTable[optionTab][optionHover].status = tonumber(args[4])
+            djui_chat_message_create(menuTable[optionTab][optionHover].name.." set to "..tostring(menuTable[optionTab][optionHover].status))
+            mod_storage_save(menuTable[optionTab][optionHover].nameSave, tostring(menuTable[optionTab][optionHover].status))
+            menu = false
+        else
+            djui_chat_message_create("Invalid Status Entered")
+            return true
+        end
+    else
+        if args[2] ~= nil then
+            if tonumber(args[2]) > 0 and tonumber(args[2]) <= 4 then
+                optionTab = tonumber(args[2])
+                djui_chat_message_create("Redirected Tab to "..menuTable[optionTab].name)
+                menu = true
+            else
+                djui_chat_message_create("Invalid Tab Entered")
+                return true
+            end
+        end
+        if args[3] ~= nil then
+            if tonumber(args[3]) > 0 and tonumber(args[3]) <= #menuTable[optionTab] then
+                optionHover = tonumber(args[3])
+                djui_chat_message_create("Redirected Option to "..menuTable[optionTab][optionHover].name)
+                menu = true
+            else
+                djui_chat_message_create("Invalid Option Entered")
+                return true
+            end
+        end
+    end
+    return true
 end
 
 function update()

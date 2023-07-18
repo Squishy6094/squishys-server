@@ -226,7 +226,7 @@ function server_commands(msg)
     elseif args[1] == "rules" then
         return on_rules_command()
     elseif args[1] == "menu" then
-        return on_menu_command(args[2])
+        return on_menu_command(msg)
     elseif args[1] == "name-2-model" then
         return set_discord_id(args[2])
     end
