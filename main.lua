@@ -13,7 +13,6 @@ local opacity = 255
 local rulesTimer = get_time() + 5
 local lastpopupNum = 0
 local firstRuleShow = true
-local showCommandHint = true
 
 if mod_storage_load("RulesSave") == nil or mod_storage_load("RulesSave") == "1" then
     rules = true
@@ -35,7 +34,21 @@ function displayrules(m)
         offsetX = offsetX*1.2
     end
 
-    if offsetX <= -200 and not rules then return end
+    if offsetX <= -200 and not rules and not noLoop then
+        djui_chat_message_create("Welcome to \\#008800\\Squishy's Server\\#dcdcdc\\! You can use \\#00ffff\\/ss help \\#dcdcdc\\for a list of commands!")
+        if network_is_server() then
+            if roleIDtable[discordID] ~= "-1" then
+                djui_popup_create("You are now hosting\n\\#005500\\Squishy's Server\\#dcdcdc\\,\nCheck your mods list and\nsend an Invite!",4)
+            else
+                djui_popup_create("\n\\#ffff00\\Warning:\n\\#dcdcdc\\You are not a Verified Host,\nand will be marked as such\nto other players.\n\nDo not host publicly with this\nmod to avoid being banned\nfrom both the\n\\#7289DA\\Sm64ex-coop Discord \\#dcdcdc\\& \\#ff3333\\Coopnet!",8)
+            end
+        else
+            djui_popup_create("Thanks For Joining\n\\#005500\\Squishy's Server\\#dcdcdc\\,\nEnjoy your Stay!",3)
+        end
+        popupNum = math.random(1,11)
+        noLoop = true
+        return
+    end
     djui_hud_set_resolution(RESOLUTION_N64)
     djui_hud_set_color(0, 0, 0, 200)
     djui_hud_render_rect(0 + offsetX, 0, 195, djui_hud_get_screen_height())
@@ -111,11 +124,6 @@ function displayrules(m)
         djui_hud_set_color(255, 255, 255, 255 - opacity)
         djui_hud_print_text("Press A to continue", 100 + offsetX - (djui_hud_measure_text("Press A to continue")*0.5*0.2), djui_hud_get_screen_height() - 17, 0.2)
     end
-
-    if offsetX >= 200 and showCommandHint then
-        djui_chat_message_create("Welcome to Squishy's Server! You can use /ss help for a list of commands!")
-        showCommandHint = false
-    end
 end
 
 -----------------
@@ -176,20 +184,6 @@ popupTable = {
 local popupTimer = get_time()
 local noLoop = false
 function mario_update_msgtimer(m)
-    if get_time() == popupTimer + 5 and not noLoop then
-        if network_is_server() then
-            if roleIDtable[discordID] ~= "-1" then
-                djui_popup_create("You are now hosting\n\\#005500\\Squishy's Server\\#dcdcdc\\,\nCheck your mods list and\nsend an Invite!",4)
-            else
-                djui_popup_create("\n\\#FF8888\\Error: Discord ID Mismatch\n\\#dcdcdc\\You are hosting via Discord without\nbeing a \\#7FFFD4\\[Verified Host]\\#dcdcdc\\, Don't host\npublicly with this mod on or else\nyou'll be at risk of being reported!\n\n\\#8c8c8c\\(This error will not effect\nthe performence of\nSquishy's Server or sm64ex-coop)",8)
-            end
-        else
-            djui_popup_create("Thanks For Joining\n\\#005500\\Squishy's Server\\#dcdcdc\\,\nEnjoy your Stay!",3)
-        end
-        popupNum = math.random(1,11)
-        noLoop = true
-    end
-
     if get_time() - popupTimer >= math.random(60,180) and menuTable[2][3].status then
         popupTimer = get_time()
         popupNum = math.random(1,11)
@@ -224,8 +218,8 @@ function server_commands(msg)
     local args = split(msg)
     if args[1] == "help" then
         djui_chat_message_create("\\#008800\\Squishy's Server Avalible Commands:")
-        djui_chat_message_create("\\#00ffff\\[rules] \\#dcdcdc\\Displays the Rules Screen.")
-        djui_chat_message_create("\\#00ffff\\[menu] \\#dcdcdc\\Opens the Squishy's Server Menu.")
+        djui_chat_message_create("\\#00ffff\\/ss rules \\#dcdcdc\\Displays the Rules Screen.")
+        djui_chat_message_create("\\#00ffff\\/ss menu \\#dcdcdc\\Opens the Squishy's Server Menu.")
         return true
     elseif args[1] == "rules" then
         return on_rules_command()
