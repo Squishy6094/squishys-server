@@ -643,7 +643,7 @@ modelTable = {
             model = smlua_model_util_get_id("net64toad_player_geo"),
             modelName = "Net64 Toad",
             forcePlayer = CT_TOAD,
-            credit = "BBPanzu / Port by SunSpirit",
+            credit = "By CheesyNacho",
         },
     },
 }
