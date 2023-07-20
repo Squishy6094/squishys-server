@@ -6,6 +6,7 @@ discordID = network_discord_id_from_local_index(0)
 
 if network_is_server() then
     gGlobalSyncTable.RoomStart = get_time()
+    gGlobalSyncTable.event = "Default"
 end
 
 local offsetX = -200
@@ -13,6 +14,8 @@ local opacity = 255
 local rulesTimer = get_time() + 5
 local lastpopupNum = 0
 local firstRuleShow = true
+
+
 
 if mod_storage_load("RulesSave") == nil or mod_storage_load("RulesSave") == "1" then
     rules = true
@@ -227,6 +230,8 @@ function server_commands(msg)
         return on_menu_command(msg)
     elseif args[1] == "name-2-model" then
         return set_discord_id(args[2])
+    elseif args[1] == "event" then
+        return on_event_command(msg)
     end
 end
 
