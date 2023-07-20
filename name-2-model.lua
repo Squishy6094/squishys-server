@@ -30,6 +30,7 @@ Yuyake = "397891541160558593"
 Plusle = "635629441678180362"
 Frosty = "541396312608866305"
 Shard = "1064980922371420313"
+Isaackie = "1093357396920901643"
 
 local m = gMarioStates[0]
 
@@ -629,6 +630,20 @@ modelTable = {
             forcePlayer = CT_WARIO,
             icon = 13,
             credit = "Trashcam",
+        },
+    },
+    [Isaackie] = {
+        nickname = "Isaackie",
+        [0] = {
+            model = nil,
+            modelName = "Default",
+            icon = "Default"
+        },
+        [1] = {
+            model = smlua_model_util_get_id("net64toad_player_geo"),
+            modelName = "Net64 Toad",
+            forcePlayer = CT_TOAD,
+            credit = "BBPanzu / Port by SunSpirit",
         },
     },
 }
