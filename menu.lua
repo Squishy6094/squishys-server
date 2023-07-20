@@ -477,7 +477,10 @@ function displaymenu()
         djui_hud_set_font(FONT_MENU)
         djui_hud_set_resolution(RESOLUTION_N64)
         djui_hud_set_color(255, 255, 255, 255)
-        if menuTable[3][4].status == nil then menuTable[3][4].status = 0 end
+        if menuTable[3][4].status == nil or themeTable[menuTable[3][4].status] == nil then
+            menuTable[3][4].status = 0
+            mod_storage_save("ThemeSave", "0")
+        end
         djui_hud_set_color(255, 255, 255, 200)
         djui_hud_render_texture_tile(themeTable[menuTable[3][4].status].texture, (halfScreenWidth - 88), ((djui_hud_get_screen_height()*0.5) - 93), 1.17045454545, 1, 0, 0, 176, 205)
         djui_hud_set_color(0, 0, 0, 220)
