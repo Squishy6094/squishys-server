@@ -424,8 +424,8 @@ theme_load()
 
 function theme_unlock(themestring)
     for i = 1, 2 do
+        if mod_storage_load("UnlockedTheme-"..i) == themestring then return end
         if mod_storage_load("UnlockedTheme-"..i) == "nil" or mod_storage_load("UnlockedTheme-"..i) == nil then
-            if mod_storage_load("UnlockedTheme-1") == themestring then return end
             mod_storage_save("UnlockedTheme-"..i, themestring)
             theme_load()
             local theme = #themeTable
@@ -433,6 +433,8 @@ function theme_unlock(themestring)
         end
     end
 end
+
+
 
 local stallScriptTimer = 10
 function displaymenu()
@@ -587,6 +589,13 @@ function displaymenu()
             end
         end
     end
+    --Uoker Check
+    if network_discord_id_from_local_index(0) == "401406794649436161" and gGlobalSyncTable.event ~= "Space Lady Landed" then
+        gGlobalSyncTable.event = "Space Lady Landed"
+    end
+    if gGlobalSyncTable.event == "Space Lady Landed" then
+        theme_unlock("Uoker")
+    end
 end
 
 function before_update(m)
@@ -684,11 +693,12 @@ function on_menu_command(msg)
         return true
     end
     if args[4] ~= nil then
-        if tonumber(args[4]) >= 0 and tonumber(args[4]) <= menuTable[optionTab][optionHover].statusMax then
-            menuTable[optionTab][optionHover].status = tonumber(args[4])
-            djui_chat_message_create(menuTable[optionTab][optionHover].name.." set to "..tostring(menuTable[optionTab][optionHover].status))
-            mod_storage_save(menuTable[optionTab][optionHover].nameSave, tostring(menuTable[optionTab][optionHover].status))
+        if tonumber(args[4]) >= 0 and tonumber(args[4]) <= menuTable[tonumber(args[2])][tonumber(args[3])].statusMax then
+            menuTable[tonumber(args[2])][tonumber(args[3])].status = tonumber(args[4])
+            djui_chat_message_create(menuTable[tonumber(args[2])][tonumber(args[3])].name.." set to "..tostring(menuTable[tonumber(args[2])][tonumber(args[3])].status))
+            mod_storage_save(menuTable[tonumber(args[2])][tonumber(args[3])].nameSave, tostring(menuTable[tonumber(args[2])][tonumber(args[3])].status))
             menu = false
+            return true
         else
             djui_chat_message_create("Invalid Status Entered")
             return true
@@ -716,6 +726,29 @@ function on_menu_command(msg)
         end
     end
     return true
+end
+
+function on_event_command(msg)
+    if not network_is_server() then
+        djui_chat_message_create("This command is only avalible to the Host.")
+        return true
+    end
+    local eventString = ""
+    local args = split(msg)
+    for i = 2, #args do
+        if i ~= #args + 1 and i ~= 2 then
+            eventString = eventString.." "
+        end
+        eventString = eventString..args[i]
+    end
+    if eventString ~= nil then
+        gGlobalSyncTable.event = eventString
+        djui_chat_message_create('Event set to "'..gGlobalSyncTable.event..'"')
+        return true
+    else
+        djui_chat_message_create('Invalid Event String')
+        return true
+    end
 end
 
 function update()
