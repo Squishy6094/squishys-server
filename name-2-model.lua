@@ -601,6 +601,13 @@ modelTable = {
             forcePlayer = CT_LUIGI,
             icon = 4,
             credit = "brob2nd"
+        },
+        [7] = {
+            model = smlua_model_util_get_id("yoshi_player_geo"),
+            modelName = "Yoshi",
+            forcePlayer = CT_MARIO,
+            icon = "Default",
+            credit = "CheesyNacho"
         }
     },
     [Frosty] = {
