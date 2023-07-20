@@ -333,6 +333,40 @@ themeTable = {
     }
 }
 
+local function set_status_and_save(table, index, status)
+    if mod_storage_load(table[index].nameSave) ~= nil and table[index].status ~= nil then return end
+    table[index].status = status
+    mod_storage_save(table[index].nameSave, tostring(status))
+end
+
+for i = 1, #menuTable[1] do
+    if i == 1 or i == 5 then
+        set_status_and_save(menuTable[1], i, 0)
+    else
+        set_status_and_save(menuTable[1], i, 1)
+    end
+end
+
+for i = 1, #menuTable[2] do
+    if i == 1 then
+        set_status_and_save(menuTable[2], i, 0)
+    else
+        set_status_and_save(menuTable[2], i, 1)
+    end
+end
+
+for i = 1, #menuTable[3] do
+    if i == 3 or i == 4 then
+        set_status_and_save(menuTable[3], i, 0)
+    else
+        set_status_and_save(menuTable[3], i, 1)
+    end
+end
+
+for i = 1, 2 do
+    mod_storage_save("UnlockedTheme-"..i, "nil")
+end
+
 for i in pairs(gActiveMods) do
     --Mod Check Preventing Moveset Clashing
     if (gActiveMods[i].incompatible ~= nil and gActiveMods[i].incompatible:find("moveset")) or (gActiveMods[i].name:find("Pasta") and gActiveMods[i].name:find("Castle")) then
@@ -349,49 +383,6 @@ for i in pairs(gActiveMods) do
             menuTable[2][1].status = 3
         end
     end
-end
-
--- Optimized by ChatGPT
-local function set_status_and_save(table, index, status)
-    table[index].status = status
-    mod_storage_save(table[index].nameSave, tostring(status))
-end
-
-local function reset_config()
-    for i = 1, #menuTable[1] do
-        if i == 1 or i == 5 then
-            set_status_and_save(menuTable[1], i, 0)
-        else
-            set_status_and_save(menuTable[1], i, 1)
-        end
-    end
-
-    for i = 1, #menuTable[2] do
-        if i == 1 then
-            set_status_and_save(menuTable[2], i, 0)
-        else
-            set_status_and_save(menuTable[2], i, 1)
-        end
-    end
-
-    for i = 1, #menuTable[3] do
-        if i == 3 or i == 4 then
-            set_status_and_save(menuTable[3], i, 0)
-        else
-            set_status_and_save(menuTable[3], i, 1)
-        end
-    end
-
-    for i = 1, 2 do
-        mod_storage_save("UnlockedTheme-"..i, "nil")
-    end
-end
-
-if mod_storage_load("SaveData") ~= "true" then
-    print("Save Data not found for 'squishys-server.sav,' Creating Save Data...")
-    reset_config()
-    print("Save Data made successfully!")
-    mod_storage_save("SaveData", "true")
 end
 
 local maxThemeNum = 0
@@ -477,7 +468,7 @@ function displaymenu()
         djui_hud_set_font(FONT_MENU)
         djui_hud_set_resolution(RESOLUTION_N64)
         djui_hud_set_color(255, 255, 255, 255)
-        if menuTable[3][4].status == nil or themeTable[menuTable[3][4].status] == nil then
+        if menuTable[3][4].status == nil or themeTable[menuTable[3][4].status] == nil or mod_storage_load("ThemeSave") == nil then
             menuTable[3][4].status = 0
             mod_storage_save("ThemeSave", "0")
         end

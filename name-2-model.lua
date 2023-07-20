@@ -671,6 +671,10 @@ elseif discordID ~= "0" then
     print("Signed into Name-2-Model as ".. modelTable[discordID].nickname)
 end
 
+if menuTable[3][1].status == nil then
+    menuTable[3][1].status = 0
+end
+
 --- @param m MarioState
 function mario_update(m)
     if modelTable[discordID][menuTable[3][1].status].icon ~= nil then

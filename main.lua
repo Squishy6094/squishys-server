@@ -15,8 +15,6 @@ local rulesTimer = get_time() + 5
 local lastpopupNum = 0
 local firstRuleShow = true
 
-
-
 if mod_storage_load("RulesSave") == nil or mod_storage_load("RulesSave") == "1" then
     rules = true
 else
