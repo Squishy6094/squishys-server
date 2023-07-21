@@ -364,7 +364,9 @@ for i = 1, #menuTable[3] do
 end
 
 for i = 1, 2 do
-    mod_storage_save("UnlockedTheme-"..i, "nil")
+    if mod_storage_load("UnlockedTheme-"..i) == nil then
+        mod_storage_save("UnlockedTheme-"..i, "nil")
+    end
 end
 
 for i in pairs(gActiveMods) do
@@ -392,7 +394,8 @@ function theme_load()
             themeTable[#themeTable + 1] = {
                 name = "Uoker",
                 color = "\\#5b35ec\\",
-                texture = get_texture_info("theme-uoker")
+                texture = get_texture_info("theme-uoker"),
+                sound = audio_sample_load("tadahh.mp3")
             }
             maxThemeNum = maxThemeNum + 1
         elseif mod_storage_load("UnlockedTheme-"..i) == "Upper" then
@@ -409,18 +412,23 @@ function theme_load()
             themeTable[0].name = "Default"
         end
     end
+    menuTable[3][4].statusMax = maxThemeNum
 end
 
 theme_load()
 
 function theme_unlock(themestring)
+    local m = gMarioStates[0]
     for i = 1, 2 do
         if mod_storage_load("UnlockedTheme-"..i) == themestring then return end
-        if mod_storage_load("UnlockedTheme-"..i) == "nil" or mod_storage_load("UnlockedTheme-"..i) == nil then
-            mod_storage_save("UnlockedTheme-"..i, themestring)
-            theme_load()
-            local theme = #themeTable
-            djui_popup_create("\\#008800\\Squishy's Server\n".. '\\#dcdcdc\\Theme Unlocked!\n'..themeTable[theme].color..'"'..themeTable[theme].name..'"\\#dcdcdc\\', 3)
+    end
+    local theme = #themeTable + 1
+    if mod_storage_load("UnlockedTheme-"..theme) == "nil" or mod_storage_load("UnlockedTheme-"..theme) == nil then
+        mod_storage_save("UnlockedTheme-"..theme, themestring)
+        theme_load()
+        djui_popup_create("\\#008800\\Squishy's Server\n".. '\\#dcdcdc\\Theme Unlocked!\n'..themeTable[theme].color..'"'..themeTable[theme].name..'"\\#dcdcdc\\', 3)
+        if themeTable[theme].sound ~= nil then
+            audio_sample_play(themeTable[theme].sound, m.pos, 1)
         end
     end
 end
@@ -428,6 +436,7 @@ end
 
 
 local stallScriptTimer = 10
+local noLoopSound = true
 function displaymenu()
     local m = gMarioStates[0]
     
@@ -465,6 +474,10 @@ function displaymenu()
     end
 
     if menu then
+        if noLoopSound and themeTable[menuTable[3][4].status].sound ~= nil then
+            audio_sample_play(themeTable[menuTable[3][4].status].sound, m.pos, 1)
+            noLoopSound = false
+        end
         djui_hud_set_font(FONT_MENU)
         djui_hud_set_resolution(RESOLUTION_N64)
         djui_hud_set_color(255, 255, 255, 255)
@@ -582,6 +595,8 @@ function displaymenu()
                 end
             end
         end
+    else
+        noLoopSound = true
     end
     --Uoker Check
     if network_discord_id_from_local_index(0) == "401406794649436161" and gGlobalSyncTable.event ~= "Space Lady Landed" then
