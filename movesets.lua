@@ -928,11 +928,6 @@ function wario_on_set_action(m)
     if m.action == ACT_TRIPLE_JUMP or m.action == ACT_SPECIAL_TRIPLE_JUMP then
         m.vel.y = m.vel.y * 1.15
     end
-    
-    -- patch wario's hold jump for piledriver
-    if m.action == ACT_HOLD_JUMP then
-        return set_mario_action(m, ACT_WARIO_HOLD_JUMP, 0)
-    end
 
     -- less height on other jumps
     if m.action == ACT_JUMP or
@@ -1110,7 +1105,6 @@ hook_mario_action(ACT_WARIO_AIR_DASH,     { every_frame = act_wario_air_dash }, 
 hook_mario_action(ACT_CORKSCREW_CONK,     { every_frame = act_corkscrew_conk },  INT_FAST_ATTACK_OR_SHELL)
 hook_mario_action(ACT_WARIO_SPINNING_OBJ, { every_frame = act_wario_spinning_obj })
 hook_mario_action(ACT_PILEDRIVER,         { every_frame = act_piledriver})
-hook_mario_action(ACT_WARIO_HOLD_JUMP,    { every_frame = act_wario_hold_jump})
 
 --QOL Moveset
 
