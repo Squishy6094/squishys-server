@@ -128,45 +128,6 @@ menuTable = {
             Line2 = "displays! (WIP)"
         },
         [2] = {
-            name = "Descriptions",
-            nameSave = "DescSave",
-            status = tonumber(mod_storage_load("DescSave")),
-            statusMax = 1,
-            statusDefault = 1,
-            --Description
-            Line1 = "Toggles these descriptions",
-            Line2 = "you see on the right,",
-            Line3 = "Recommended to turn Off if",
-            Line4 = "you like a more minimalistic",
-            Line5 = "menu."
-        },
-        [3] = {
-            name = "Server Popups",
-            nameSave = "notifSave",
-            status = tonumber(mod_storage_load("notifSave")),
-            statusMax = 1,
-            statusDefault = 1,
-            --Description
-            Line1 = "Shows Tips/Hints about the",
-            Line2 = "server every 3-5 minutes.",
-            Line3 = "Recommended for if you're",
-            Line4 = "new to the server."
-        },
-        [4] = {
-            name = "Show Rules",
-            nameSave = "RulesSave",
-            status = tonumber(mod_storage_load("RulesSave")),
-            statusMax = 1,
-            statusDefault = 1,
-            --Description
-            Line1 = "Toggles if the Rules Screen",
-            Line2 = "Displays upon joining. By",
-            Line3 = "turning this option off,",
-            Line4 = "You're confirming that you",
-            Line5 = "have Read and Understand",
-            Line6 = "the Rules."
-        },
-        [5] = {
             name = "Prevent HUD Clashing",
             nameSave = "HUDDisableSave",
             status = tonumber(mod_storage_load("HUDDisableSave")),
@@ -184,6 +145,58 @@ menuTable = {
             Line5 = "does not force the HUD to",
             Line6 = "Disabled."
 
+        },
+        [3] = {
+            name = "Menu Theme",
+            nameSave = "ThemeSave",
+            status = tonumber(mod_storage_load("ThemeSave")),
+            statusMax = nil,
+            statusDefault = 0,
+            --Description
+            Line1 = "Toggles what theme the",
+            Line2 = "Server Menu Displays, these",
+            Line3 = "are unlocked via doing",
+            Line4 = "specific tasks or joining",
+            Line5 = "specific events."
+        },
+        [4] = {
+            name = "Menu Descriptions",
+            nameSave = "DescSave",
+            status = tonumber(mod_storage_load("DescSave")),
+            statusMax = 1,
+            statusDefault = 1,
+            --Description
+            Line1 = "Toggles these descriptions",
+            Line2 = "you see on the right,",
+            Line3 = "Recommended to turn Off if",
+            Line4 = "you like a more minimalistic",
+            Line5 = "menu."
+        },
+        [5] = {
+            name = "Server Popups",
+            nameSave = "notifSave",
+            status = tonumber(mod_storage_load("notifSave")),
+            statusMax = 1,
+            statusDefault = 1,
+            --Description
+            Line1 = "Shows Tips/Hints about the",
+            Line2 = "server every 3-5 minutes.",
+            Line3 = "Recommended for if you're",
+            Line4 = "new to the server."
+        },
+        [6] = {
+            name = "Show Rules",
+            nameSave = "RulesSave",
+            status = tonumber(mod_storage_load("RulesSave")),
+            statusMax = 1,
+            statusDefault = 1,
+            --Description
+            Line1 = "Toggles if the Rules Screen",
+            Line2 = "Displays upon joining. By",
+            Line3 = "turning this option off,",
+            Line4 = "You're confirming that you",
+            Line5 = "have Read and Understand",
+            Line6 = "the Rules."
         },
     },
     [3] = {
@@ -223,6 +236,22 @@ menuTable = {
             Line9 = "Custom Models and DynOS"
         },
         [3] = {
+            name = "Rom-Hack Camera",
+            nameSave = "HackCamSave",
+            status = tonumber(mod_storage_load("HackCamSave")),
+            statusMax = 2,
+            statusDefault = 0,
+            --Status Toggle Names
+            [0] = "Off",
+            [1] = "On",
+            [2] = "On Except Bowser",
+            --Description
+            Line1 = "Toggles if the camera acts",
+            Line2 = "the same way it does in",
+            Line3 = "Rom-Hacks. (8 directional)",
+            Line4 = "[Non-functional as of now]"
+        },
+        [4] = {
             name = "Star Spawn Cutscene",
             nameSave = "SSCSave",
             status = tonumber(mod_storage_load("SSCSave")),
@@ -234,19 +263,6 @@ menuTable = {
             Line3 = "if you don't know where a",
             Line4 = "star spawns."
         },
-        [4] = {
-            name = "Menu Theme",
-            nameSave = "ThemeSave",
-            status = tonumber(mod_storage_load("ThemeSave")),
-            statusMax = nil,
-            statusDefault = 0,
-            --Description
-            Line1 = "Toggles what theme the",
-            Line2 = "Server Menu Displays, these",
-            Line3 = "are unlocked via doing",
-            Line4 = "specific tasks or joining",
-            Line5 = "specific events."
-        }
     },
     [4] = {
         name = "Server",
@@ -377,12 +393,14 @@ for i in pairs(gActiveMods) do
         gGlobalSyncTable.syncData = tostring(gServerSettings.bubbleDeath) .. " " .. tostring(gServerSettings.playerInteractions) .. " " .. tostring(KBTranslate) .. " " .. tostring(gServerSettings.stayInLevelAfterStar) .. " " .. tostring(0) .. " " .. tostring(1)
     end
     --Mod Check Preventing HUD Overlapping
-    if menuTable[2][5].status ~= 0 then
-        if (gActiveMods[i].incompatible ~= nil and gActiveMods[i].incompatible:find("gamemode")) and menuTable[2][5].status > 0 then
+    if menuTable[2][2].status ~= 0 then
+        if (gActiveMods[i].incompatible ~= nil and gActiveMods[i].incompatible:find("gamemode")) and menuTable[2][2].status > 0 then
             menuTable[2][1].status = 3
+            menuTable[2][1][3] = "External HUD"
         end
-        if (gActiveMods[i].name:find("OMM Rebirth")) or (gActiveMods[i].name:find("Super Mario 64: The Underworld")) and menuTable[2][5].status == 1 then
+        if (gActiveMods[i].name:find("OMM Rebirth")) or (gActiveMods[i].name:find("Super Mario 64: The Underworld")) and menuTable[2][2].status == 1 then
             menuTable[2][1].status = 3
+            menuTable[2][1][3] = "External HUD"
         end
     end
 end
@@ -412,7 +430,7 @@ function theme_load()
             themeTable[0].name = "Default"
         end
     end
-    menuTable[3][4].statusMax = maxThemeNum
+    menuTable[2][3].statusMax = maxThemeNum
 end
 
 theme_load()
@@ -474,19 +492,19 @@ function displaymenu()
     end
 
     if menu then
-        if noLoopSound and themeTable[menuTable[3][4].status].sound ~= nil then
-            audio_sample_play(themeTable[menuTable[3][4].status].sound, m.pos, 1)
+        if noLoopSound and themeTable[menuTable[2][3].status].sound ~= nil then
+            audio_sample_play(themeTable[menuTable[2][3].status].sound, m.pos, 1)
             noLoopSound = false
         end
         djui_hud_set_font(FONT_MENU)
         djui_hud_set_resolution(RESOLUTION_N64)
         djui_hud_set_color(255, 255, 255, 255)
-        if menuTable[3][4].status == nil or themeTable[menuTable[3][4].status] == nil or mod_storage_load("ThemeSave") == nil then
-            menuTable[3][4].status = 0
+        if menuTable[2][3].status == nil or themeTable[menuTable[2][3].status] == nil or mod_storage_load("ThemeSave") == nil then
+            menuTable[2][3].status = 0
             mod_storage_save("ThemeSave", "0")
         end
         djui_hud_set_color(255, 255, 255, 200)
-        djui_hud_render_texture_tile(themeTable[menuTable[3][4].status].texture, (halfScreenWidth - 88), ((djui_hud_get_screen_height()*0.5) - 93), 1.17045454545, 1, 0, 0, 176, 205)
+        djui_hud_render_texture_tile(themeTable[menuTable[2][3].status].texture, (halfScreenWidth - 88), ((djui_hud_get_screen_height()*0.5) - 93), 1.17045454545, 1, 0, 0, 176, 205)
         djui_hud_set_color(0, 0, 0, 220)
         djui_hud_render_rect((halfScreenWidth - 85), ((djui_hud_get_screen_height()*0.5) - 90), 170, 199)
         djui_hud_set_color(0, 150, 0, 255)
@@ -549,10 +567,10 @@ function displaymenu()
                         djui_hud_set_color(150, 150, 150, 255)
                         djui_hud_print_text("Model by " .. modelTable[discordID][menuTable[3][1].status].credit, (halfScreenWidth), 80 + (optionHover * 10), 0.225)
                     end
-                elseif optionTab == 3 and optionHover == 4 then
-                    djui_hud_print_text(themeTable[menuTable[3][4].status].name, (halfScreenWidth), 70 + (optionHover * 10), 0.3)
-                    if menuTable[3][4].statusMax == nil then
-                        menuTable[3][4].statusMax = maxThemeNum
+                elseif optionTab == 2 and optionHover == 3 then
+                    djui_hud_print_text(themeTable[menuTable[2][3].status].name, (halfScreenWidth), 70 + (optionHover * 10), 0.3)
+                    if menuTable[2][3].statusMax == nil then
+                        menuTable[2][3].statusMax = maxThemeNum
                     end
                 else
                     if menuTable[optionTab][optionHover].status > 0 then
@@ -579,9 +597,9 @@ function displaymenu()
             djui_hud_print_text(menuTable[optionTab][i].name, halfScreenWidth - 70, 80 + (i - 1) * 10, 0.3)
         end
 
-        if menuTable[2][2].status == 1 then
+        if menuTable[2][4].status == 1 then
             djui_hud_set_color(255, 255, 255, 200)
-            djui_hud_render_texture_tile(themeTable[menuTable[3][4].status].texture, (halfScreenWidth + 91), ((djui_hud_get_screen_height()*0.5) - 42), 1.3, 1.3, 176, 0, 80, 80)
+            djui_hud_render_texture_tile(themeTable[menuTable[2][3].status].texture, (halfScreenWidth + 91), ((djui_hud_get_screen_height()*0.5) - 42), 1.3, 1.3, 176, 0, 80, 80)
             djui_hud_set_color(0, 0, 0, 220)
             djui_hud_render_rect((halfScreenWidth + 93), ((djui_hud_get_screen_height()*0.5) - 40), 100, 100)
             djui_hud_set_color(0, 150, 0, 255)
