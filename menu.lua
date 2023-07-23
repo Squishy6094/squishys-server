@@ -412,6 +412,7 @@ function theme_load()
             themeTable[#themeTable + 1] = {
                 name = "Uoker",
                 color = "\\#5b35ec\\",
+                hoverColor = {r = 91, g = 53, b = 236},
                 texture = get_texture_info("theme-uoker"),
                 sound = audio_sample_load("tadahh.mp3")
             }
@@ -420,6 +421,7 @@ function theme_load()
             themeTable[#themeTable + 1] = {
                 name = "Castle Upper",
                 color = "\\#ff1515\\",
+                hoverColor = {r = 131, g = 93, b = 99},
                 texture = get_texture_info("theme-50door")
             }
             maxThemeNum = maxThemeNum + 1
@@ -439,14 +441,26 @@ function theme_unlock(themestring)
     local m = gMarioStates[0]
     for i = 1, 2 do
         if mod_storage_load("UnlockedTheme-"..i) == themestring then return end
+        if mod_storage_load("UnlockedTheme-"..i) == "nil" or mod_storage_load("UnlockedTheme-"..i) == nil then
+            mod_storage_save("UnlockedTheme-"..i, themestring)
+            theme_load()
+            local theme = #themeTable
+            djui_popup_create("\\#008800\\Squishy's Server\n".. '\\#dcdcdc\\Theme Unlocked!\n'..themeTable[theme].color..'"'..themeTable[theme].name..'"\\#dcdcdc\\', 3)
+            if themeTable[theme].sound ~= nil then
+                audio_sample_play(themeTable[theme].sound, m.pos, 1)
+            end
+        end
     end
-    local theme = #themeTable + 1
-    if mod_storage_load("UnlockedTheme-"..theme) == "nil" or mod_storage_load("UnlockedTheme-"..theme) == nil then
-        mod_storage_save("UnlockedTheme-"..theme, themestring)
-        theme_load()
-        djui_popup_create("\\#008800\\Squishy's Server\n".. '\\#dcdcdc\\Theme Unlocked!\n'..themeTable[theme].color..'"'..themeTable[theme].name..'"\\#dcdcdc\\', 3)
-        if themeTable[theme].sound ~= nil then
-            audio_sample_play(themeTable[theme].sound, m.pos, 1)
+end
+
+function theme_unlock(themestring)
+    for i = 1, 2 do
+        if mod_storage_load("UnlockedTheme-"..i) == themestring then return end
+        if mod_storage_load("UnlockedTheme-"..i) == "nil" or mod_storage_load("UnlockedTheme-"..i) == nil then
+            mod_storage_save("UnlockedTheme-"..i, themestring)
+            theme_load()
+            local theme = #themeTable
+            djui_popup_create("\\#008800\\Squishy's Server\n".. '\\#dcdcdc\\Theme Unlocked!\n'..themeTable[theme].color..'"'..themeTable[theme].name..'"\\#dcdcdc\\', 3)
         end
     end
 end
@@ -512,11 +526,16 @@ function displaymenu()
         djui_hud_print_text("'", (halfScreenWidth + 24), 35, 0.3)      
         djui_hud_print_text("Server", (halfScreenWidth - (djui_hud_measure_text("Server")* 0.3 / 2)), 50, 0.3)
 
+
+        if themeTable[menuTable[2][3].status].hoverColor == nil then
+            themeTable[menuTable[2][3].status].hoverColor = {r = 150, g = 150, b = 150}
+        end
+
         --Toggles--
         djui_hud_set_font(FONT_NORMAL)
         djui_hud_set_resolution(RESOLUTION_N64)
         if network_is_server() or network_is_moderator() then
-            djui_hud_set_color(150, 150, 150, 255)
+            djui_hud_set_color(themeTable[menuTable[2][3].status].hoverColor.r, themeTable[menuTable[2][3].status].hoverColor.g, themeTable[menuTable[2][3].status].hoverColor.b, 200)
             djui_hud_render_rect((halfScreenWidth - 60 + (optionTab * 30 - 30)), 70, 30, 9)
             djui_hud_set_color(255, 255, 255, 255)
             djui_hud_print_text("Movement", (halfScreenWidth - (djui_hud_measure_text("Movement")* 0.3 / 2) - 45), 70, 0.3)
@@ -524,7 +543,7 @@ function displaymenu()
             djui_hud_print_text("Misc.", (halfScreenWidth - (djui_hud_measure_text("Misc.")* 0.3 / 2) + 15), 70, 0.3)
             djui_hud_print_text("Server", (halfScreenWidth - (djui_hud_measure_text("Server")* 0.3 / 2) + 45), 70, 0.3)
         else
-            djui_hud_set_color(150, 150, 150, 255)
+            djui_hud_set_color(themeTable[menuTable[2][3].status].hoverColor.r, themeTable[menuTable[2][3].status].hoverColor.g, themeTable[menuTable[2][3].status].hoverColor.b, 200)
             djui_hud_render_rect((halfScreenWidth - 60 + (optionTab * 30 - 30) + 15), 70, 30, 9)
             djui_hud_set_color(255, 255, 255, 255)
             djui_hud_print_text("Movement", (halfScreenWidth - (djui_hud_measure_text("Movement")* 0.3 / 2) - 30), 70, 0.3)
@@ -540,7 +559,7 @@ function displaymenu()
           
         end
 
-        djui_hud_set_color(150, 150, 150, 255)
+        djui_hud_set_color(themeTable[menuTable[2][3].status].hoverColor.r, themeTable[menuTable[2][3].status].hoverColor.g, themeTable[menuTable[2][3].status].hoverColor.b, 200)
         djui_hud_render_rect((halfScreenWidth - 72), 80 + (optionHover * 10 - 10), 70, 9)
         djui_hud_set_color(255, 255, 255, 255)
         
