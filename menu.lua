@@ -364,7 +364,7 @@ for i = 1, #menuTable[1] do
 end
 
 for i = 1, #menuTable[2] do
-    if i == 1 then
+    if i == 1 or i == 3 then
         set_status_and_save(menuTable[2], i, 0)
     else
         set_status_and_save(menuTable[2], i, 1)
