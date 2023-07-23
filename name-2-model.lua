@@ -402,17 +402,24 @@ modelTable = {
             credit = "AlexXRGames"
         },
         [5] = {
-            model = smlua_model_util_get_id("boshi_geo"),
-            modelName = "Boshi",
-            forcePlayer = CT_MARIO,
-            credit = "CheesyNacho"
-        },
-        [6] = {
             model = smlua_model_util_get_id("kirby_geo"),
             modelName = "Kirby",
             forcePlayer = CT_TOAD,
             icon = 10,
             credit = "MSatiro & 6b"
+        },
+        [6] = {
+            model = smlua_model_util_get_id("boshi_geo"),
+            modelName = "Boshi",
+            forcePlayer = CT_MARIO,
+            credit = "CheesyNacho"
+        },
+        [7] = {
+            model = smlua_model_util_get_id("yoshi_player_geo"),
+            modelName = "Yoshi",
+            forcePlayer = CT_MARIO,
+            icon = "Default",
+            credit = "CheesyNacho"
         }
     },
     [Butter] = {

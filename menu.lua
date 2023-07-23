@@ -379,7 +379,7 @@ for i = 1, #menuTable[3] do
     end
 end
 
-for i = 1, 2 do
+for i = 1, 3 do
     if mod_storage_load("UnlockedTheme-"..i) == nil then
         mod_storage_save("UnlockedTheme-"..i, "nil")
     end
@@ -407,24 +407,35 @@ end
 
 local maxThemeNum = 0
 function theme_load()
-    for i = 1, 2 do
+    for i = 1, 3 do
+        themeTable[i] = nil
+    end
+    for i = 1, 3 do
         if mod_storage_load("UnlockedTheme-"..i) == "Uoker" then
             themeTable[#themeTable + 1] = {
                 name = "Uoker",
+                saveName = "Uoker",
                 color = "\\#5b35ec\\",
                 hoverColor = {r = 91, g = 53, b = 236},
                 texture = get_texture_info("theme-uoker"),
                 sound = audio_sample_load("tadahh.mp3")
             }
-            maxThemeNum = maxThemeNum + 1
         elseif mod_storage_load("UnlockedTheme-"..i) == "Upper" then
             themeTable[#themeTable + 1] = {
                 name = "Castle Upper",
+                saveName = "Upper",
                 color = "\\#ff1515\\",
                 hoverColor = {r = 131, g = 93, b = 99},
                 texture = get_texture_info("theme-50door")
             }
-            maxThemeNum = maxThemeNum + 1
+        elseif mod_storage_load("UnlockedTheme-"..i) == "Plus" then
+            themeTable[#themeTable + 1] = {
+                name = "Plusle",
+                saveName = "Plus",
+                color = "\\#e3616d\\",
+                hoverColor = {r = 227, g = 97, b = 109},
+                texture = get_texture_info("theme-plus")
+            }
         end
         if mod_storage_load("UnlockedTheme-1") == "nil" then
             themeTable[0].name = "No Themes Unlocked"
@@ -432,15 +443,15 @@ function theme_load()
             themeTable[0].name = "Default"
         end
     end
-    menuTable[2][3].statusMax = maxThemeNum
+    menuTable[2][3].statusMax = #themeTable
 end
 
 theme_load()
 
 function theme_unlock(themestring)
     local m = gMarioStates[0]
-    for i = 1, 2 do
-        if mod_storage_load("UnlockedTheme-"..i) == themestring then return end
+    for i = 1, 3 do
+        if mod_storage_load("UnlockedTheme-"..i) == themestring or mod_storage_load("UnlockedTheme-"..i-1) == themestring or mod_storage_load("UnlockedTheme-"..i+1) == themestring then return end
         if mod_storage_load("UnlockedTheme-"..i) == "nil" or mod_storage_load("UnlockedTheme-"..i) == nil then
             mod_storage_save("UnlockedTheme-"..i, themestring)
             theme_load()
@@ -452,20 +463,6 @@ function theme_unlock(themestring)
         end
     end
 end
-
-function theme_unlock(themestring)
-    for i = 1, 2 do
-        if mod_storage_load("UnlockedTheme-"..i) == themestring then return end
-        if mod_storage_load("UnlockedTheme-"..i) == "nil" or mod_storage_load("UnlockedTheme-"..i) == nil then
-            mod_storage_save("UnlockedTheme-"..i, themestring)
-            theme_load()
-            local theme = #themeTable
-            djui_popup_create("\\#008800\\Squishy's Server\n".. '\\#dcdcdc\\Theme Unlocked!\n'..themeTable[theme].color..'"'..themeTable[theme].name..'"\\#dcdcdc\\', 3)
-        end
-    end
-end
-
-
 
 local stallScriptTimer = 10
 local noLoopSound = true
@@ -641,6 +638,10 @@ function displaymenu()
     end
     if gGlobalSyncTable.event == "Space Lady Landed" then
         theme_unlock("Uoker")
+    end
+    --Fucking Dead Check
+    if (m.action == ACT_SHOCKED or m.action == ACT_WATER_SHOCKED) and m.health == 255 then
+        theme_unlock("Plus")
     end
 end
 
