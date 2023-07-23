@@ -161,6 +161,9 @@ function mario_update(m)
     gPlayerSyncTable[m.playerIndex].wallSlide = menuTable[1][4].status
     --Wallslide
 
+    --Remove Fall Damage
+    m.peakHeight = m.pos.y
+
     --Ledge Parkour
     if menuTable[1][6].status == 1 then
         if (m.action == ACT_LEDGE_GRAB or m.action == ACT_LEDGE_CLIMB_FAST) then
