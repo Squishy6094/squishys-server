@@ -379,29 +379,35 @@ modelTable = {
             icon = "Default"
         },
         [1] = {
+            model = smlua_model_util_get_id("wario_man_geo"),
+            modelName = "Wario Man",
+            forcePlayer = CT_WARIO,
+            credit = "AlexXRGames"
+        },
+        [2] = {
             model = smlua_model_util_get_id("hat_kid_geo"),
             modelName = "Hat Kid",
             forcePlayer = CT_TOAD,
             icon = 11,
         },
-        [2] = {
+        [3] = {
             model = smlua_model_util_get_id("noelle_geo"),
             modelName = "Noelle",
             forcePlayer = CT_LUIGI
         },
-        [3] = {
+        [4] = {
             model = smlua_model_util_get_id("peepers_geo"),
             modelName = "Peepers",
             forcePlayer = CT_TOAD,
             credit = "AlexXRGames"
         },
-        [4] = {
+        [5] = {
             model = smlua_model_util_get_id("boshi_geo"),
             modelName = "Boshi",
             forcePlayer = CT_MARIO,
             credit = "CheesyNacho"
         },
-        [5] = {
+        [6] = {
             model = smlua_model_util_get_id("kirby_geo"),
             modelName = "Kirby",
             forcePlayer = CT_TOAD,
