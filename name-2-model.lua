@@ -263,6 +263,13 @@ modelTable = {
             icon = "Default"
         },
         [1] = {
+            model = smlua_model_util_get_id("kan_geo"),
+            modelName = "KanHeaven",
+            forcePlayer = CT_MARIO,
+            icon = "Default",
+            credit = "KanHeaven"
+        },
+        [2] = {
             model = smlua_model_util_get_id("nya_geo"),
             modelName = "Hatsune Maiku",
             forcePlayer = CT_MARIO,
