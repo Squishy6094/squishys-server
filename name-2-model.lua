@@ -597,14 +597,14 @@ modelTable = {
         [5] = {
             model = smlua_model_util_get_id("sonic_geo"),
             modelName = "Sonic",
-            forcePlayer = CT_MARIO,
+            forcePlayer = CT_TOAD,
             icon = 5,
             credit = "Steven"
         },
         [6] = {
             model = smlua_model_util_get_id("tails_geo"),
             modelName = "Tails",
-            forcePlayer = CT_LUIGI,
+            forcePlayer = CT_TOAD,
             icon = 4,
             credit = "brob2nd"
         },
