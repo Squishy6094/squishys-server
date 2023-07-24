@@ -357,7 +357,9 @@ menuTable = {
 themeTable = {
     [0] = {
         name = "Default",
-        texture = get_texture_info("theme-default")
+        texture = get_texture_info("theme-default"),
+        hasHeader = true,
+        headerColor = {r = 0, g = 131, b = 0}
     }
 }
 
@@ -391,7 +393,7 @@ for i = 1, #menuTable[3] do
     end
 end
 
-for i = 1, 3 do
+for i = 1, 4 do
     if mod_storage_load("UnlockedTheme-"..i) == nil then
         mod_storage_save("UnlockedTheme-"..i, "nil")
     end
@@ -419,10 +421,10 @@ end
 
 local maxThemeNum = 0
 function theme_load()
-    for i = 1, 3 do
+    for i = 1, 4 do
         themeTable[i] = nil
     end
-    for i = 1, 3 do
+    for i = 1, 4 do
         if mod_storage_load("UnlockedTheme-"..i) == "Uoker" then
             themeTable[#themeTable + 1] = {
                 name = "Uoker",
@@ -448,6 +450,14 @@ function theme_load()
                 hoverColor = {r = 227, g = 97, b = 109},
                 texture = get_texture_info("theme-plus")
             }
+        elseif mod_storage_load("UnlockedTheme-"..i) == "Under" then
+            themeTable[#themeTable + 1] = {
+                name = "Underworld",
+                saveName = "Under",
+                color = "\\#19ffff\\",
+                hoverColor = {r = 25, g = 255, b = 255},
+                texture = get_texture_info("theme-underworld")
+            }
         end
         if mod_storage_load("UnlockedTheme-1") == "nil" then
             themeTable[0].name = "No Themes Unlocked"
@@ -462,7 +472,7 @@ theme_load()
 
 function theme_unlock(themestring)
     local m = gMarioStates[0]
-    for i = 1, 3 do
+    for i = 1, 4 do
         if mod_storage_load("UnlockedTheme-"..i) == themestring or mod_storage_load("UnlockedTheme-"..i-1) == themestring or mod_storage_load("UnlockedTheme-"..i+1) == themestring then return end
         if mod_storage_load("UnlockedTheme-"..i) == "nil" or mod_storage_load("UnlockedTheme-"..i) == nil then
             mod_storage_save("UnlockedTheme-"..i, themestring)
@@ -542,12 +552,20 @@ function displaymenu()
             descSlide = -1
         end
 
+        if themeTable[menuTable[2][3].status].hoverColor == nil then
+            themeTable[menuTable[2][3].status].hoverColor = {r = 150, g = 150, b = 150}
+        end
+
+        if themeTable[menuTable[2][3].status].headerColor == nil then
+            themeTable[menuTable[2][3].status].headerColor = themeTable[menuTable[2][3].status].hoverColor
+        end
+
         if menuTable[2][4].status == 1 then
             djui_hud_set_color(255, 255, 255, 200)
             djui_hud_render_texture_tile(themeTable[menuTable[2][3].status].texture, (halfScreenWidth + 91) + descSlide, ((djui_hud_get_screen_height()*0.5) - 42) - bobbing, 1.3, 1.3, 176, 0, 80, 80)
             djui_hud_set_color(0, 0, 0, 220)
             djui_hud_render_rect((halfScreenWidth + 93) + descSlide, ((djui_hud_get_screen_height()*0.5) - 40) - bobbing, 100, 100)
-            djui_hud_set_color(0, 150, 0, 255)
+            djui_hud_set_color(themeTable[menuTable[2][3].status].headerColor.r, themeTable[menuTable[2][3].status].headerColor.g, themeTable[menuTable[2][3].status].headerColor.b, 255)
             djui_hud_print_text(menuTable[optionTab][optionHover].name, (halfScreenWidth + 100) + descSlide, 85 - bobbing, 0.35)
             djui_hud_set_color(255, 255, 255, 255)
             for i = 1, 9 do
@@ -570,15 +588,13 @@ function displaymenu()
         djui_hud_render_texture_tile(themeTable[menuTable[2][3].status].texture, (halfScreenWidth - 88), ((djui_hud_get_screen_height()*0.5) - 93) + bobbing, 1.17045454545, 1, 0, 0, 176, 205)
         djui_hud_set_color(0, 0, 0, 220)
         djui_hud_render_rect((halfScreenWidth - 85), ((djui_hud_get_screen_height()*0.5) - 90) + bobbing, 170, 199)
-        djui_hud_set_color(0, 150, 0, 255)
-        djui_hud_print_text("Squishys", (halfScreenWidth - (djui_hud_measure_text("Squishys")* 0.3 / 2)), 35 + bobbing, 0.3)
-        djui_hud_print_text("'", (halfScreenWidth + 24), 35 + bobbing, 0.3)      
-        djui_hud_print_text("Server", (halfScreenWidth - (djui_hud_measure_text("Server")* 0.3 / 2)), 50 + bobbing, 0.3)
-
-
-        if themeTable[menuTable[2][3].status].hoverColor == nil then
-            themeTable[menuTable[2][3].status].hoverColor = {r = 150, g = 150, b = 150}
+        djui_hud_set_color(themeTable[menuTable[2][3].status].headerColor.r, themeTable[menuTable[2][3].status].headerColor.g, themeTable[menuTable[2][3].status].headerColor.b, 255)
+        if themeTable[menuTable[2][3].status].hasHeader then
+            djui_hud_render_texture_tile(themeTable[menuTable[2][3].status].texture, (halfScreenWidth - 53), ((djui_hud_get_screen_height()*0.5) - 85) + bobbing, 0.16666666666, 0.58666666666, 0, 206, 176, 50)
+        else
+            djui_hud_render_texture_tile(themeTable[0].texture, (halfScreenWidth - 53), ((djui_hud_get_screen_height()*0.5) - 85) + bobbing, 0.16666666666, 0.58666666666, 0, 206, 176, 50)
         end
+
 
         --Toggles--
         djui_hud_set_font(FONT_NORMAL)
@@ -678,6 +694,12 @@ function displaymenu()
     --Fucking Dead Check
     if (m.action == ACT_SHOCKED or m.action == ACT_WATER_SHOCKED) and m.health == 255 then
         theme_unlock("Plus")
+    end
+    --Underworld Win Check
+    for i in pairs(gActiveMods) do
+        if (gActiveMods[i].name:find("Super Mario 64: The Underworld")) and m.action == ACT_JUMBO_STAR_CUTSCENE then
+            theme_unlock("Under")
+        end
     end
 end
 
