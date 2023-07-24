@@ -185,7 +185,7 @@ popupTable = {
 local popupTimer = get_time()
 local noLoop = false
 function mario_update_msgtimer(m)
-    if get_time() - popupTimer >= math.random(60,180) and menuTable[3][5].status then
+    if get_time() - popupTimer >= math.random(60,180) and menuTable[3][5].status == 1 then
         popupTimer = get_time()
         popupNum = math.random(1,11)
         if lastpopupNum == popupNum then
