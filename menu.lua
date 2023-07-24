@@ -173,30 +173,16 @@ menuTable = {
             Line5 = "menu."
         },
         [5] = {
-            name = "Server Popups",
-            nameSave = "notifSave",
-            status = tonumber(mod_storage_load("notifSave")),
+            name = "Menu Animations",
+            nameSave = "MenuAnimSave",
+            status = tonumber(mod_storage_load("MenuAnimSave")),
             statusMax = 1,
             statusDefault = 1,
             --Description
-            Line1 = "Shows Tips/Hints about the",
-            Line2 = "server every 3-5 minutes.",
-            Line3 = "Recommended for if you're",
-            Line4 = "new to the server."
-        },
-        [6] = {
-            name = "Show Rules",
-            nameSave = "RulesSave",
-            status = tonumber(mod_storage_load("RulesSave")),
-            statusMax = 1,
-            statusDefault = 1,
-            --Description
-            Line1 = "Toggles if the Rules Screen",
-            Line2 = "Displays upon joining. By",
-            Line3 = "turning this option off,",
-            Line4 = "You're confirming that you",
-            Line5 = "have Read and Understand",
-            Line6 = "the Rules."
+            Line1 = "Toggles Menu Animations like",
+            Line2 = "Transitions and Bobbing.",
+            Line3 = "(Might save Performance if",
+            Line4 = "Toggled Off)"
         },
     },
     [3] = {
@@ -262,6 +248,32 @@ menuTable = {
             Line2 = "Cutscenes play, Recommended",
             Line3 = "if you don't know where a",
             Line4 = "star spawns."
+        },
+        [5] = {
+            name = "Server Popups",
+            nameSave = "notifSave",
+            status = tonumber(mod_storage_load("notifSave")),
+            statusMax = 1,
+            statusDefault = 1,
+            --Description
+            Line1 = "Shows Tips/Hints about the",
+            Line2 = "server every 3-5 minutes.",
+            Line3 = "Recommended for if you're",
+            Line4 = "new to the server."
+        },
+        [6] = {
+            name = "Show Rules",
+            nameSave = "RulesSave",
+            status = tonumber(mod_storage_load("RulesSave")),
+            statusMax = 1,
+            statusDefault = 1,
+            --Description
+            Line1 = "Toggles if the Rules Screen",
+            Line2 = "Displays upon joining. By",
+            Line3 = "turning this option off,",
+            Line4 = "You're confirming that you",
+            Line5 = "have Read and Understand",
+            Line6 = "the Rules."
         },
     },
     [4] = {
@@ -466,6 +478,11 @@ end
 
 local stallScriptTimer = 10
 local noLoopSound = true
+
+local descSlide = -100
+local bobbingVar = 0
+local bobbingStatus = true
+local bobbing = -2.1
 function displaymenu()
     local m = gMarioStates[0]
     
@@ -507,6 +524,41 @@ function displaymenu()
             audio_sample_play(themeTable[menuTable[2][3].status].sound, m.pos, 1)
             noLoopSound = false
         end
+
+        if menuTable[2][5].status == 1 then
+            if math.abs(bobbingVar) > 100 then
+                bobbingStatus = not bobbingStatus
+            end
+            if bobbingStatus then
+                bobbingVar = bobbingVar + 1
+            else
+                bobbingVar = bobbingVar - 1
+            end
+            bobbing = bobbing + bobbingVar*0.00041666666
+            if descSlide < -1 then
+                descSlide = descSlide*0.83333333333
+            end
+        else
+            descSlide = -1
+        end
+
+        if menuTable[2][4].status == 1 then
+            djui_hud_set_color(255, 255, 255, 200)
+            djui_hud_render_texture_tile(themeTable[menuTable[2][3].status].texture, (halfScreenWidth + 91) + descSlide, ((djui_hud_get_screen_height()*0.5) - 42) - bobbing, 1.3, 1.3, 176, 0, 80, 80)
+            djui_hud_set_color(0, 0, 0, 220)
+            djui_hud_render_rect((halfScreenWidth + 93) + descSlide, ((djui_hud_get_screen_height()*0.5) - 40) - bobbing, 100, 100)
+            djui_hud_set_color(0, 150, 0, 255)
+            djui_hud_print_text(menuTable[optionTab][optionHover].name, (halfScreenWidth + 100) + descSlide, 85 - bobbing, 0.35)
+            djui_hud_set_color(255, 255, 255, 255)
+            for i = 1, 9 do
+                local line = menuTable[optionTab][optionHover]["Line" .. i]
+                if line ~= nil then
+                    djui_hud_set_color(255, 255, 255, 255)
+                    djui_hud_print_text(line, halfScreenWidth + 100 + descSlide, (100 + (i - 1) * 8) - bobbing, 0.3)
+                end
+            end
+        end
+
         djui_hud_set_font(FONT_MENU)
         djui_hud_set_resolution(RESOLUTION_N64)
         djui_hud_set_color(255, 255, 255, 255)
@@ -515,13 +567,13 @@ function displaymenu()
             mod_storage_save("ThemeSave", "0")
         end
         djui_hud_set_color(255, 255, 255, 200)
-        djui_hud_render_texture_tile(themeTable[menuTable[2][3].status].texture, (halfScreenWidth - 88), ((djui_hud_get_screen_height()*0.5) - 93), 1.17045454545, 1, 0, 0, 176, 205)
+        djui_hud_render_texture_tile(themeTable[menuTable[2][3].status].texture, (halfScreenWidth - 88), ((djui_hud_get_screen_height()*0.5) - 93) + bobbing, 1.17045454545, 1, 0, 0, 176, 205)
         djui_hud_set_color(0, 0, 0, 220)
-        djui_hud_render_rect((halfScreenWidth - 85), ((djui_hud_get_screen_height()*0.5) - 90), 170, 199)
+        djui_hud_render_rect((halfScreenWidth - 85), ((djui_hud_get_screen_height()*0.5) - 90) + bobbing, 170, 199)
         djui_hud_set_color(0, 150, 0, 255)
-        djui_hud_print_text("Squishys", (halfScreenWidth - (djui_hud_measure_text("Squishys")* 0.3 / 2)), 35, 0.3)
-        djui_hud_print_text("'", (halfScreenWidth + 24), 35, 0.3)      
-        djui_hud_print_text("Server", (halfScreenWidth - (djui_hud_measure_text("Server")* 0.3 / 2)), 50, 0.3)
+        djui_hud_print_text("Squishys", (halfScreenWidth - (djui_hud_measure_text("Squishys")* 0.3 / 2)), 35 + bobbing, 0.3)
+        djui_hud_print_text("'", (halfScreenWidth + 24), 35 + bobbing, 0.3)      
+        djui_hud_print_text("Server", (halfScreenWidth - (djui_hud_measure_text("Server")* 0.3 / 2)), 50 + bobbing, 0.3)
 
 
         if themeTable[menuTable[2][3].status].hoverColor == nil then
@@ -533,31 +585,31 @@ function displaymenu()
         djui_hud_set_resolution(RESOLUTION_N64)
         if network_is_server() or network_is_moderator() then
             djui_hud_set_color(themeTable[menuTable[2][3].status].hoverColor.r, themeTable[menuTable[2][3].status].hoverColor.g, themeTable[menuTable[2][3].status].hoverColor.b, 200)
-            djui_hud_render_rect((halfScreenWidth - 60 + (optionTab * 30 - 30)), 70, 30, 9)
+            djui_hud_render_rect((halfScreenWidth - 60 + (optionTab * 30 - 30)), 70 + bobbing, 30, 9)
             djui_hud_set_color(255, 255, 255, 255)
-            djui_hud_print_text("Movement", (halfScreenWidth - (djui_hud_measure_text("Movement")* 0.3 / 2) - 45), 70, 0.3)
-            djui_hud_print_text("HUD", (halfScreenWidth - (djui_hud_measure_text("HUD")* 0.3 / 2) - 15), 70, 0.3)
-            djui_hud_print_text("Misc.", (halfScreenWidth - (djui_hud_measure_text("Misc.")* 0.3 / 2) + 15), 70, 0.3)
-            djui_hud_print_text("Server", (halfScreenWidth - (djui_hud_measure_text("Server")* 0.3 / 2) + 45), 70, 0.3)
+            djui_hud_print_text("Movement", (halfScreenWidth - (djui_hud_measure_text("Movement")* 0.3 / 2) - 45), 70 + bobbing, 0.3)
+            djui_hud_print_text("HUD", (halfScreenWidth - (djui_hud_measure_text("HUD")* 0.3 / 2) - 15), 70 + bobbing, 0.3)
+            djui_hud_print_text("Misc.", (halfScreenWidth - (djui_hud_measure_text("Misc.")* 0.3 / 2) + 15), 70 + bobbing, 0.3)
+            djui_hud_print_text("Server", (halfScreenWidth - (djui_hud_measure_text("Server")* 0.3 / 2) + 45), 70 + bobbing, 0.3)
         else
             djui_hud_set_color(themeTable[menuTable[2][3].status].hoverColor.r, themeTable[menuTable[2][3].status].hoverColor.g, themeTable[menuTable[2][3].status].hoverColor.b, 200)
-            djui_hud_render_rect((halfScreenWidth - 60 + (optionTab * 30 - 30) + 15), 70, 30, 9)
+            djui_hud_render_rect((halfScreenWidth - 60 + (optionTab * 30 - 30) + 15), 70 + bobbing, 30, 9)
             djui_hud_set_color(255, 255, 255, 255)
-            djui_hud_print_text("Movement", (halfScreenWidth - (djui_hud_measure_text("Movement")* 0.3 / 2) - 30), 70, 0.3)
-            djui_hud_print_text("HUD", (halfScreenWidth - (djui_hud_measure_text("HUD")* 0.3 / 2)), 70, 0.3)
-            djui_hud_print_text("Misc.", (halfScreenWidth - (djui_hud_measure_text("Misc.")* 0.3 / 2) + 30), 70, 0.3)
+            djui_hud_print_text("Movement", (halfScreenWidth - (djui_hud_measure_text("Movement")* 0.3 / 2) - 30), 70 + bobbing, 0.3)
+            djui_hud_print_text("HUD", (halfScreenWidth - (djui_hud_measure_text("HUD")* 0.3 / 2)), 70 + bobbing, 0.3)
+            djui_hud_print_text("Misc.", (halfScreenWidth - (djui_hud_measure_text("Misc.")* 0.3 / 2) + 30), 70 + bobbing, 0.3)
         end
         if discordID ~= "0" then
             djui_hud_set_color(150, 150, 150, 255)
-            djui_hud_print_text("Registered as "..modelTable[discordID].nickname.. " via Name-2-Model", (halfScreenWidth - 80), 216, 0.3)
+            djui_hud_print_text("Registered as "..modelTable[discordID].nickname.. " via Name-2-Model", (halfScreenWidth - 80), 216 + bobbing, 0.3)
         else
             djui_hud_set_color(150, 150, 150, 255)
-            djui_hud_print_text("Unregistered via Name-2-Model / ".. menuErrorMsg, (halfScreenWidth - 80), 216, 0.3)
+            djui_hud_print_text("Unregistered via Name-2-Model / ".. menuErrorMsg, (halfScreenWidth - 80), 216 + bobbing, 0.3)
           
         end
 
         djui_hud_set_color(themeTable[menuTable[2][3].status].hoverColor.r, themeTable[menuTable[2][3].status].hoverColor.g, themeTable[menuTable[2][3].status].hoverColor.b, 200)
-        djui_hud_render_rect((halfScreenWidth - 72), 80 + (optionHover * 10 - 10), 70, 9)
+        djui_hud_render_rect((halfScreenWidth - 72), 80 + (optionHover * 10 - 10) + bobbing, 70, 9)
         djui_hud_set_color(255, 255, 255, 255)
         
         if optionHover < 1 then
@@ -569,31 +621,31 @@ function displaymenu()
         if menuTable[optionTab][optionHover].status ~= nil then
             if menuTable[optionTab][optionHover].unlocked == nil then menuTable[optionTab][optionHover].unlocked = 1 end
             if menuTable[optionTab][optionHover].unlocked ~= 1 then
-                djui_hud_print_text(menuTable[optionTab][optionHover][-1], (halfScreenWidth), 70 + (optionHover * 10), 0.3)
+                djui_hud_print_text(menuTable[optionTab][optionHover][-1], (halfScreenWidth), 70 + (optionHover * 10) + bobbing, 0.3)
                 menuTable[optionTab][optionHover].status = menuTable[optionTab][optionHover].lockTo
             elseif menuTable[optionTab][optionHover][menuTable[optionTab][optionHover].status] ~= nil then
-                djui_hud_print_text(menuTable[optionTab][optionHover][menuTable[optionTab][optionHover].status], (halfScreenWidth), 70 + (optionHover * 10), 0.3)
+                djui_hud_print_text(menuTable[optionTab][optionHover][menuTable[optionTab][optionHover].status], (halfScreenWidth), 70 + (optionHover * 10) + bobbing, 0.3)
             else
                 if optionTab == 3 and optionHover == 1 then
-                    djui_hud_print_text(modelTable[discordID][menuTable[3][1].status].modelName, (halfScreenWidth), 70 + (optionHover * 10), 0.3)
+                    djui_hud_print_text(modelTable[discordID][menuTable[3][1].status].modelName, (halfScreenWidth), 70 + (optionHover * 10) + bobbing, 0.3)
                     if menuTable[3][1].statusMax == nil then
                         menuTable[3][1].statusMax = maxModelNum
                     end
                     if modelTable[discordID][menuTable[3][1].status].credit ~= nil then
                         djui_hud_set_color(150, 150, 150, 255)
-                        djui_hud_print_text("Model by " .. modelTable[discordID][menuTable[3][1].status].credit, (halfScreenWidth), 80 + (optionHover * 10), 0.225)
+                        djui_hud_print_text("Model by " .. modelTable[discordID][menuTable[3][1].status].credit, (halfScreenWidth), 80 + (optionHover * 10) + bobbing, 0.225)
                     end
                 elseif optionTab == 2 and optionHover == 3 then
-                    djui_hud_print_text(themeTable[menuTable[2][3].status].name, (halfScreenWidth), 70 + (optionHover * 10), 0.3)
+                    djui_hud_print_text(themeTable[menuTable[2][3].status].name, (halfScreenWidth), 70 + (optionHover * 10) + bobbing, 0.3)
                     if menuTable[2][3].statusMax == nil then
                         menuTable[2][3].statusMax = maxThemeNum
                     end
                 else
                     if menuTable[optionTab][optionHover].status > 0 then
                         djui_hud_set_color(255, 255, 255, 255)
-                        djui_hud_print_text("On", (halfScreenWidth), 70 + (optionHover * 10), 0.3)
+                        djui_hud_print_text("On", (halfScreenWidth), 70 + (optionHover * 10) + bobbing, 0.3)
                     else
-                        djui_hud_print_text("Off", (halfScreenWidth), 70 + (optionHover * 10), 0.3)
+                        djui_hud_print_text("Off", (halfScreenWidth), 70 + (optionHover * 10) + bobbing, 0.3)
                     end
                 end
             end
@@ -603,34 +655,18 @@ function displaymenu()
             else
                 menuTable[optionTab][optionHover].status = 1
             end
-            djui_hud_print_text("Making Save Data...", (halfScreenWidth), 70 + (optionHover * 10), 0.3)
+            djui_hud_print_text("Making Save Data...", (halfScreenWidth), 70 + (optionHover * 10) + bobbing, 0.3)
             mod_storage_save(menuTable[optionTab][optionHover].nameSave, tostring(menuTable[optionTab][optionHover].status))
             print("Autofilled Toggle for '" ..menuTable[optionTab][optionHover].nameSave "' created.")
         end
 
         for i = 1, #menuTable[optionTab] do
             djui_hud_set_color(255, 255, 255, 255)
-            djui_hud_print_text(menuTable[optionTab][i].name, halfScreenWidth - 70, 80 + (i - 1) * 10, 0.3)
-        end
-
-        if menuTable[2][4].status == 1 then
-            djui_hud_set_color(255, 255, 255, 200)
-            djui_hud_render_texture_tile(themeTable[menuTable[2][3].status].texture, (halfScreenWidth + 91), ((djui_hud_get_screen_height()*0.5) - 42), 1.3, 1.3, 176, 0, 80, 80)
-            djui_hud_set_color(0, 0, 0, 220)
-            djui_hud_render_rect((halfScreenWidth + 93), ((djui_hud_get_screen_height()*0.5) - 40), 100, 100)
-            djui_hud_set_color(0, 150, 0, 255)
-            djui_hud_print_text(menuTable[optionTab][optionHover].name, (halfScreenWidth + 100), 85, 0.35)
-            djui_hud_set_color(255, 255, 255, 255)
-            for i = 1, 9 do
-                local line = menuTable[optionTab][optionHover]["Line" .. i]
-                if line ~= nil then
-                    djui_hud_set_color(255, 255, 255, 255)
-                    djui_hud_print_text(line, halfScreenWidth + 100, 100 + (i - 1) * 8, 0.3)
-                end
-            end
+            djui_hud_print_text(menuTable[optionTab][i].name, halfScreenWidth - 70, (80 + (i - 1) * 10) + bobbing, 0.3)
         end
     else
         noLoopSound = true
+        descSlide = -100
     end
     --Uoker Check
     if network_discord_id_from_local_index(0) == "401406794649436161" and gGlobalSyncTable.event ~= "Space Lady Landed" then
