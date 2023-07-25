@@ -431,6 +431,7 @@ function theme_load()
                 saveName = "Uoker",
                 color = "\\#5b35ec\\",
                 hoverColor = {r = 91, g = 53, b = 236},
+                hasHeader = true,
                 texture = get_texture_info("theme-uoker"),
                 sound = audio_sample_load("tadahh.mp3")
             }
