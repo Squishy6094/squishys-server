@@ -30,10 +30,14 @@ roleIDtable = {
     [827596624590012457] = "3", --Trashcam
     [443963592220344320] = "3", --Charity
     [732244024567529503] = "3", --PeachyPeach
+    [489114867215630336] = "3", --Skeltan
     --Epic Gamer Squad (Verified Host)
     [397219199375769620] = "3", --Average
     [817821798363955251] = "3", --Crispy
     [1092073683377455215] ="3", --Nut
+    --sm64ex-coop (Verified Host)
+    [541396312608866305] ="3", --Mocha
+
 
     --Contributer
     [409438020870078486] = "4", --EmilyEmmi (The entire Roles System)
@@ -66,6 +70,14 @@ function update_roles()
     end
 end
 
+function is_squishy()
+    if roleIDtable[ID] == "1" then
+        return true
+    else
+        return false
+    end
+end
+
 function on_chat_message(m, msg)
     local sMario = gPlayerSyncTable[m.playerIndex]
     local np = gNetworkPlayers[m.playerIndex]
@@ -75,6 +87,9 @@ function on_chat_message(m, msg)
     if sMario.role ~= nil then
         rolestring = ""
         local args = split(sMario.role)
+        if tonumber(args[1]) > 3 and tonumber(args[1]) < 0 then
+            sMario.role = "-1"
+        end
         for i = 1, 6 do
             if tonumber(args[i]) == 1 then
                 rolestring = rolestring.." \\#00aa00\\[Creator]"
