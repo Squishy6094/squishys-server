@@ -586,7 +586,7 @@ function displaymenu()
             mod_storage_save("ThemeSave", "0")
         end
         djui_hud_set_color(255, 255, 255, 200)
-        djui_hud_render_texture_tile(themeTable[menuTable[2][3].status].texture, (halfScreenWidth - 88), ((djui_hud_get_screen_height()*0.5) - 93) + bobbing, 1.17045454545, 1, 0, 0, 176, 205)
+        djui_hud_render_texture_tile(themeTable[menuTable[2][3].status].texture, (halfScreenWidth - 88), ((djui_hud_get_screen_height()*0.5) - 93) + bobbing, 1.16477272727, 1, 0, 0, 176, 205)
         djui_hud_set_color(0, 0, 0, 220)
         djui_hud_render_rect((halfScreenWidth - 85), ((djui_hud_get_screen_height()*0.5) - 90) + bobbing, 170, 199)
         djui_hud_set_color(themeTable[menuTable[2][3].status].headerColor.r, themeTable[menuTable[2][3].status].headerColor.g, themeTable[menuTable[2][3].status].headerColor.b, 255)

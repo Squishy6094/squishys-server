@@ -51,8 +51,9 @@ function displayrules(m)
         return
     end
     djui_hud_set_resolution(RESOLUTION_N64)
-    djui_hud_set_color(0, 0, 0, 200)
-    djui_hud_render_rect(0 + offsetX, 0, 195, djui_hud_get_screen_height())
+    djui_hud_set_color(255, 255, 255, 200)
+    djui_hud_render_texture_tile(themeTable[menuTable[2][3].status].texture, 0 + offsetX, 0, 1.2905152376, 1.17073170732, 0, 0, 176, 205)
+    djui_hud_set_color(0, 0, 0, 220)
     djui_hud_render_rect(3 + offsetX, 2, 190, djui_hud_get_screen_height() - 4)
 
     djui_hud_set_font(FONT_NORMAL)
@@ -73,17 +74,29 @@ function displayrules(m)
         djui_hud_print_text("Moderator Access Granted", 190 - (djui_hud_measure_text("Moderator Access Granted")*0.2) + offsetX, 17, 0.2)
     end
 
-    djui_hud_set_font(FONT_MENU)
+    if themeTable[menuTable[2][3].status].hoverColor == nil then
+        themeTable[menuTable[2][3].status].hoverColor = {r = 150, g = 150, b = 150}
+    end
+
+    if themeTable[menuTable[2][3].status].headerColor == nil then
+        themeTable[menuTable[2][3].status].headerColor = themeTable[menuTable[2][3].status].hoverColor
+    end
+
+    djui_hud_set_color(themeTable[menuTable[2][3].status].headerColor.r, themeTable[menuTable[2][3].status].headerColor.g, themeTable[menuTable[2][3].status].headerColor.b, 255)
+    if themeTable[menuTable[2][3].status].hasHeader then
+        djui_hud_render_texture_tile(themeTable[menuTable[2][3].status].texture, offsetX, 18, 0.16666666666, 0.58666666666, 0, 206, 176, 50)
+    else
+        djui_hud_render_texture_tile(themeTable[0].texture, offsetX, 18, 0.16666666666, 0.58666666666, 0, 206, 176, 50)
+    end
+
+    djui_hud_set_font(FONT_NORMAL)
     djui_hud_set_color(255, 255, 255, 255)
-    djui_hud_print_text("Welcome to", 12 + offsetX, 7, 0.25)
-    djui_hud_set_color(0, 155, 0, 255)
-    djui_hud_print_text("Squishys Server", 10 + offsetX, 20, 0.3)
-    djui_hud_print_text("'", 68 + offsetX, 20, 0.3)
+    djui_hud_print_text("Welcome to", 12 + offsetX, 7, 0.4)
 
     djui_hud_set_font(FONT_HUD)
     djui_hud_set_color(255, 255, 255, 255)
     djui_hud_print_text("Rules", 15 + offsetX, 50, 0.6)
-    djui_hud_set_color(255, 255, 255, 255)
+    djui_hud_set_color(themeTable[menuTable[2][3].status].hoverColor.r, themeTable[menuTable[2][3].status].hoverColor.g, themeTable[menuTable[2][3].status].hoverColor.b, 255)
     djui_hud_render_rect(15 + offsetX, 61, (djui_hud_measure_text("Rules")*0.6), 1)
     djui_hud_set_font(FONT_NORMAL)
     djui_hud_set_color(255, 255, 255, 255)
@@ -95,7 +108,7 @@ function displayrules(m)
     djui_hud_set_font(FONT_HUD)
     djui_hud_set_color(255, 255, 255, 255)
     djui_hud_print_text("Basic Info and Tips", 15 + offsetX, 105, 0.6)
-    djui_hud_set_color(255, 255, 255, 255)
+    djui_hud_set_color(themeTable[menuTable[2][3].status].hoverColor.r, themeTable[menuTable[2][3].status].hoverColor.g, themeTable[menuTable[2][3].status].hoverColor.b, 255)
     djui_hud_render_rect(15 + offsetX, 116, (djui_hud_measure_text("Basic Info and Tips")*0.6), 1)
     djui_hud_set_font(FONT_NORMAL)
     djui_hud_set_color(255, 255, 255, 255)
@@ -107,7 +120,7 @@ function displayrules(m)
     djui_hud_set_font(FONT_HUD)
     djui_hud_set_color(255, 255, 255, 255)
     djui_hud_print_text("Support and Contribution", 15 + offsetX, 165, 0.6)
-    djui_hud_set_color(255, 255, 255, 255)
+    djui_hud_set_color(themeTable[menuTable[2][3].status].hoverColor.r, themeTable[menuTable[2][3].status].hoverColor.g, themeTable[menuTable[2][3].status].hoverColor.b, 255)
     djui_hud_render_rect(15 + offsetX, 176, (djui_hud_measure_text("Support and Contribution")*0.6), 1)
     djui_hud_set_font(FONT_NORMAL)
     djui_hud_set_color(255, 255, 255, 255)
