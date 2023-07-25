@@ -704,6 +704,7 @@ function displaymenu()
     end
 end
 
+
 function before_update(m)
     if m.playerIndex ~= 0 then return end
     if menu then
@@ -720,23 +721,11 @@ function before_update(m)
         if optionHoverTimer == -1 then
             if (stickX < -10 or (buttonDown & L_JPAD ~= 0)) then
                 play_sound(SOUND_MENU_MESSAGE_NEXT_PAGE, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-                if optionTab == 1 and not (network_is_server() or network_is_moderator()) then
-                    optionTab = 3
-                elseif optionTab == 1 and (network_is_server() or network_is_moderator()) then
-                    optionTab = 4
-                else
-                    optionTab = optionTab - 1
-                end
+                optionTab = optionTab - 1
                 optionHoverTimer = 0
             elseif (stickX > 10 or (buttonDown & R_JPAD ~= 0)) then
                 play_sound(SOUND_MENU_MESSAGE_NEXT_PAGE, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-                if optionTab == 3 and not (network_is_server() or network_is_moderator()) then
-                    optionTab = 1
-                elseif optionTab == 4 and (network_is_server() or network_is_moderator()) then
-                    optionTab = 1
-                else
-                    optionTab = optionTab + 1
-                end
+                optionTab = optionTab + 1
                 optionHoverTimer = 0
             end
         end
@@ -752,6 +741,17 @@ function before_update(m)
                 optionHoverTimer = 0
             end
         end
+
+        local maxTabLimit = 3
+        if (network_is_server() or network_is_moderator()) then
+            maxTabLimit = 4
+        end
+
+        if optionTab > maxTabLimit then optionTab = 1 end
+        if optionTab < 1 then optionTab = maxTabLimit end
+        if optionHover > #menuTable[optionTab] then optionHover = 1 end        
+        if optionHover < 1 then optionHover = #menuTable[optionTab] end
+
         if optionHoverTimer == -1 and m.controller.buttonDown & A_BUTTON ~= 0 then
             optionHoverTimer = 0
             if menuTable[optionTab][optionHover].unlocked ~= 1 then
