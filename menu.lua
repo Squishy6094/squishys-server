@@ -393,7 +393,7 @@ for i = 1, #menuTable[3] do
     end
 end
 
-for i = 1, 4 do
+for i = 1, 5 do
     if mod_storage_load("UnlockedTheme-"..i) == nil then
         mod_storage_save("UnlockedTheme-"..i, "nil")
     end
@@ -421,10 +421,10 @@ end
 
 local maxThemeNum = 0
 function theme_load()
-    for i = 1, 4 do
+    for i = 1, 5 do
         themeTable[i] = nil
     end
-    for i = 1, 4 do
+    for i = 1, 5 do
         if mod_storage_load("UnlockedTheme-"..i) == "Uoker" then
             themeTable[#themeTable + 1] = {
                 name = "Uoker",
@@ -459,6 +459,14 @@ function theme_load()
                 hoverColor = {r = 25, g = 255, b = 255},
                 texture = get_texture_info("theme-underworld")
             }
+        elseif mod_storage_load("UnlockedTheme-"..i) == "Crudelo" then
+            themeTable[#themeTable + 1] = {
+                name = "Crudelo Sphere",
+                saveName = "Crudelo",
+                color = "\\#910002\\",
+                hoverColor = {r = 145, g = 0, b = 2},
+                texture = get_texture_info("theme-crudelo")
+            }
         end
         if mod_storage_load("UnlockedTheme-1") == "nil" then
             themeTable[0].name = "No Themes Unlocked"
@@ -473,7 +481,7 @@ theme_load()
 
 function theme_unlock(themestring)
     local m = gMarioStates[0]
-    for i = 1, 4 do
+    for i = 1, 5 do
         if mod_storage_load("UnlockedTheme-"..i) == themestring or mod_storage_load("UnlockedTheme-"..i-1) == themestring or mod_storage_load("UnlockedTheme-"..i+1) == themestring then return end
         if mod_storage_load("UnlockedTheme-"..i) == "nil" or mod_storage_load("UnlockedTheme-"..i) == nil then
             mod_storage_save("UnlockedTheme-"..i, themestring)
@@ -494,6 +502,7 @@ local descSlide = -100
 local bobbingVar = 0
 local bobbingStatus = true
 local bobbing = -2.1
+
 function displaymenu()
     local m = gMarioStates[0]
     
@@ -685,23 +694,6 @@ function displaymenu()
         noLoopSound = true
         descSlide = -100
     end
-    --Uoker Check
-    if network_discord_id_from_local_index(0) == "401406794649436161" and gGlobalSyncTable.event ~= "Space Lady Landed" then
-        gGlobalSyncTable.event = "Space Lady Landed"
-    end
-    if gGlobalSyncTable.event == "Space Lady Landed" then
-        theme_unlock("Uoker")
-    end
-    --Fucking Dead Check
-    if (m.action == ACT_SHOCKED or m.action == ACT_WATER_SHOCKED) and m.health == 255 then
-        theme_unlock("Plus")
-    end
-    --Underworld Win Check
-    for i in pairs(gActiveMods) do
-        if (gActiveMods[i].name:find("Super Mario 64: The Underworld")) and m.action == ACT_JUMBO_STAR_CUTSCENE then
-            theme_unlock("Under")
-        end
-    end
 end
 
 
@@ -834,6 +826,56 @@ function on_menu_command(msg)
     return true
 end
 
+
+local crudeloChallenge = false
+local noLoopChallenge = true
+local currHack = 0
+for i in pairs(gActiveMods) do
+    if (gActiveMods[i].name:find ("Super Mario 74")) then
+        currHack = 1
+    elseif (gActiveMods[i].name:find("Super Mario 64: The Underworld")) then
+        currHack = 2
+    end
+end
+function update_theme_requirements(m)
+    if m.playerIndex ~= 0 then return end
+    --Uoker Check
+    if network_discord_id_from_local_index(0) == "401406794649436161" and gGlobalSyncTable.event ~= "Space Lady Landed" then
+        gGlobalSyncTable.event = "Space Lady Landed"
+    end
+    if gGlobalSyncTable.event == "Space Lady Landed" then
+        theme_unlock("Uoker")
+    end
+    --Fucking Dead Check
+    if (m.action == ACT_SHOCKED or m.action == ACT_WATER_SHOCKED) and m.health == 255 then
+        theme_unlock("Plus")
+    end
+
+    --Underworld Win Check
+    if currHack == 2 and m.action == ACT_JUMBO_STAR_CUTSCENE then
+        theme_unlock("Under")
+    end
+
+    --Crudelo Challenge Check
+    if currHack == 1 and gNetworkPlayers[0].currCourseNum == COURSE_RR and gNetworkPlayers[0].currAreaIndex == 2 then
+        if crudeloChallenge and (m.action == ACT_STAR_DANCE_EXIT or m.action == ACT_STAR_DANCE_NO_EXIT or m.action == ACT_STAR_DANCE_WATER) then
+            theme_unlock("Crudelo")
+        end
+        for i = 1, #menuTable[1] do
+            if menuTable[1][i].status > 0 and crudeloChallenge then
+                crudeloChallenge = false
+            end
+            if not crudeloChallenge and noLoopChallenge then
+                djui_popup_create("\n\\#ff0000\\Crudelo Challenge\n Requirements not met!\\#dcdcdc\\\n\nYou must have everything in the\nMovement Tab Off/Default and\nRestart the Level to Unlock\nthe Crudelo Theme!", 6)
+                noLoopChallenge = false
+            end
+        end
+    else
+        crudeloChallenge = true
+        noLoopChallenge = true
+    end
+end
+
 function on_event_command(msg)
     if not network_is_server() then
         djui_chat_message_create("This command is only avalible to the Host.")
@@ -900,4 +942,5 @@ end
 
 hook_event(HOOK_ON_HUD_RENDER, displaymenu)
 hook_event(HOOK_BEFORE_MARIO_UPDATE, before_update)
+hook_event(HOOK_MARIO_UPDATE, update_theme_requirements)
 hook_event(HOOK_UPDATE, update)
