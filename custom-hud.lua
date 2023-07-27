@@ -5,8 +5,13 @@ local FourThreeLock = 1
 local Compact = 2
 local Off = 3
 
-_G.StarCounter = nil
-_G.TotalStarCounter = nil
+-- Optimizations
+local obj_get_nearest_object_with_behavior_id = obj_get_nearest_object_with_behavior_id
+local djui_hud_set_color = djui_hud_set_color
+local djui_hud_render_texture = djui_hud_render_texture
+local djui_hud_set_rotation = djui_hud_set_rotation
+local djui_hud_get_screen_width = djui_hud_get_screen_width
+local djui_hud_get_screen_height = djui_hud_get_screen_height
 
 local hudTable = {
     [DefaultHUD] = {
@@ -53,20 +58,12 @@ local hudTable = {
             xOffset = {x = -61, y = 51},
             numOffset = {x = -46.8, y = 51},
         },
-        ["RedRadar"] = {
-            alignment = {x = 0, y = 2},
-            shownElements = {icon = true, div = false, num = true},
-            iconColor = {r = 255, g = 0, b = 0, o = 255},
-            iconOffset = {x = 21, y = -25},
-            xOffset = {x = 37, y = -25},
-            numOffset = {x = 37, y = -25},
-        },
-        ["SecretRadar"] = {
-            alignment = {x = 0, y = 2},
-            shownElements = {icon = true, div = false, num = true},
-            iconOffset = {x = 21, y = -45},
-            xOffset = {x = 37, y = -45},
-            numOffset = {x = 37, y = -45},
+        ["Compass"] = {
+            alignment = { x = 2, y = 2 },
+            color = { r = 255, g = 255, b = 255, o = 255},
+            scale = 1,
+            compassShow = true,
+            compassOffset = {x = -52, y = -52},
         },
         ["Health"] = {
             alignment = { x = 1, y = 0 },
@@ -120,20 +117,12 @@ local hudTable = {
             xOffset = {x = 98, y = 51},
             numOffset = {x = 112.2, y = 51},
         },
-        ["RedRadar"] = {
-            alignment = {x = 1, y = 2},
-            shownElements = {icon = true, div = false, num = true},
-            iconColor = {r = 255, g = 0, b = 0, o = 255},
-            iconOffset = {x = -138, y = -25},
-            xOffset = {x = -122, y = -25},
-            numOffset = {x = 37, y = -25},
-        },
-        ["SecretRadar"] = {
-            alignment = {x = 1, y = 2},
-            shownElements = {icon = true, div = false, num = true},
-            iconOffset = {x = -138, y = -45},
-            xOffset = {x = -122, y = -45},
-            numOffset = {x = 37, y = -45},
+        ["Compass"] = {
+            alignment = { x = 1, y = 2 },
+            color = { r = 255, g = 255, b = 255, o = 255},
+            scale = 1,
+            compassShow = true,
+            compassOffset = {x = -52, y = -52},
         },
         ["Health"] = {
             alignment = { x = 1, y = 0 },
@@ -186,20 +175,12 @@ local hudTable = {
             xOffset = {x = 0, y = 0},
             numOffset = {x = 25, y = 87},
         },
-        ["RedRadar"] = {
-            alignment = {x = 1, y = 0},
-            shownElements = {icon = true, div = false, num = true},
-            iconColor = {r = 255, g = 0, b = 0, o = 255},
-            iconOffset = {x = -60, y = 10},
-            xOffset = {x = 0, y = 0},
-            numOffset = {x = -50, y = 15},
-        },
-        ["SecretRadar"] = {
-            alignment = {x = 1, y = 0},
-            shownElements = {icon = true, div = false, num = true},
-            iconOffset = {x = 10, y = 10},
-            xOffset = {x = 0, y = 0},
-            numOffset = {x = 20, y = 15},
+        ["Compass"] = {
+            alignment = { x = 2, y = 0 },
+            color = { r = 255, g = 255, b = 255, o = 255},
+            scale = 0.8,
+            compassShow = true,
+            compassOffset = {x = -92, y = 10},
         },
         ["Health"] = {
             alignment = { x = 2, y = 0},
@@ -253,23 +234,12 @@ local hudTable = {
             xOffset = {x = -61, y = 51},
             numOffset = {x = -46.8, y = 51},
         },
-        ["RedRadar"] = {
-            alignment = {x = 0, y = 2},
-            shownElements = {icon = false, div = false, num = false},
-            hideOnTriple = true,
-            iconColor = {r = 255, g = 0, b = 0, o = 255},
-            iconOffset = {x = 21, y = -25},
-            xOffset = {x = 37, y = -25},
-            numOffset = {x = 37, y = -25},
-        },
-        ["SecretRadar"] = {
-            alignment = {x = 0, y = 2},
-            shownElements = {icon = false, div = false, num = false},
-            hideOnTriple = true,
-            iconColor = {r = 255, g = 255, b = 255, o = 255},
-            iconOffset = {x = 21, y = -45},
-            xOffset = {x = 37, y = -45},
-            numOffset = {x = 37, y = -45},
+        ["Compass"] = {
+            alignment = { x = 2, y = 2 },
+            color = { r = 255, g = 255, b = 255, o = 255},
+            scale = 1,
+            compassShow = false,
+            compassOffset = {x = -52, y = -52},
         },
         ["Health"] = {
             alignment = { x = 1, y = 0 },
@@ -357,6 +327,37 @@ local function djui_hud_render_element(element, number, icon)
     end
 end
 
+function s16(num)
+    num = math.floor(num) & 0xFFFF
+    if num >= 32768 then return num - 65536 end
+    return num
+end
+
+--- @param target Object
+--- @param iconTexture TextureInfo
+function render_hud_radar(target, iconTexture, scale, x, y)
+    local m = gMarioStates[0]
+
+    -- direction
+    local angle = s16(
+        atan2s(
+            target.oPosZ - m.pos.z,
+            target.oPosX - m.pos.x
+        )
+    )
+    
+    local dist = vec3f_dist({ x = target.oPosX, y = target.oPosY, z = target.oPosZ }, m.pos)
+
+    local distToScale = 100 - math.floor(dist*0.01)
+    if distToScale < 0 then distToScale = 0 end
+    if distToScale > 100 then distToScale = 100 end
+    distToScale = distToScale*0.01*scale
+
+    djui_hud_set_rotation(angle, 0.5/distToScale*scale, 2.5/distToScale*scale)
+    djui_hud_render_texture(iconTexture, x + 4, y - 12, distToScale*0.5*scale, distToScale*0.5*scale)
+    djui_hud_set_rotation(0, 0, 0)
+end
+
 local stallScriptTimer = 3
 
 function hud_render()
@@ -401,6 +402,71 @@ function hud_render()
         hud_render_power_meter(gMarioStates[0].health, x, y, scale, scale)
     end
 
+    --Cumpiss
+    local r = 255
+    local g = 255
+    local b = 255
+    local o = 255
+
+    if hudTable[currHUD]["Compass"].color.r ~= nil then
+        r = hudTable[currHUD]["Compass"].color.r
+    end
+    if hudTable[currHUD]["Compass"].color.g ~= nil then
+        g = hudTable[currHUD]["Compass"].color.g
+    end
+    if hudTable[currHUD]["Compass"].color.b ~= nil then
+        b = hudTable[currHUD]["Compass"].color.b
+    end
+    if hudTable[currHUD]["Compass"].color.o ~= nil then
+        o = hudTable[currHUD]["Compass"].color.o
+    end
+
+    local x = hudTable[currHUD]["Compass"].compassOffset.x + djui_hud_get_screen_width()*0.5 * hudTable[currHUD]["Compass"].alignment.x
+    local y = hudTable[currHUD]["Compass"].compassOffset.y + djui_hud_get_screen_height()*0.5 * hudTable[currHUD]["Compass"].alignment.y
+    local scale = hudTable[currHUD]["Compass"].scale
+    djui_hud_set_adjusted_color(r, g, b, o)
+    if hudTable[currHUD]["Compass"].compassShow then
+        djui_hud_render_texture(get_texture_info("back"), x, y, scale, scale)
+        if gLakituState.yaw ~= nil then
+            djui_hud_set_rotation(gLakituState.yaw , 0.5, 0.5)
+            djui_hud_render_texture(get_texture_info("camera-dial"), x, y, scale, scale)
+        end
+        if m.faceAngle.y ~= nil then
+            djui_hud_set_rotation(m.faceAngle.y , 0.5, 0.5)
+            djui_hud_render_texture(get_texture_info("player-dial"), x, y, scale, scale)
+        end
+        djui_hud_set_rotation(0, 0, 0)
+        
+        -- red coin
+        if obj_get_nearest_object_with_behavior_id(gMarioStates[0].marioObj, id_bhvRedCoin) ~= nil then
+            local r = obj_get_nearest_object_with_behavior_id(gMarioStates[0].marioObj, id_bhvRedCoin)
+            djui_hud_set_adjusted_color(255, 0, 0, 255)
+            render_hud_radar(r, gTextures.coin, scale, x + 8, y + 8)
+        end
+        djui_hud_set_adjusted_color(255, 255, 255, 255)
+        -- spawnable star
+        if obj_get_nearest_object_with_behavior_id(gMarioStates[0].marioObj, 412) ~= nil then
+            local s = obj_get_nearest_object_with_behavior_id(gMarioStates[0].marioObj, 412)
+            render_hud_radar(s, gTextures.star, scale, x + 8, y + 8)
+        -- star from a box
+        elseif obj_get_nearest_object_with_behavior_id(gMarioStates[0].marioObj, 538) ~= nil then
+            local s = obj_get_nearest_object_with_behavior_id(gMarioStates[0].marioObj, 538)
+            render_hud_radar(s, gTextures.star, scale, x + 8, y + 8)
+        -- regular star
+        elseif obj_get_nearest_object_with_behavior_id(gMarioStates[0].marioObj, 409) ~= nil then
+            local s = obj_get_nearest_object_with_behavior_id(gMarioStates[0].marioObj, 409)
+            render_hud_radar(s, gTextures.star, scale, x + 8, y + 8)
+        end
+        -- secret
+        if obj_get_nearest_object_with_behavior_id(gMarioStates[0].marioObj, id_bhvHiddenStarTrigger) ~= nil then
+            local sc = obj_get_nearest_object_with_behavior_id(gMarioStates[0].marioObj, id_bhvHiddenStarTrigger)
+            djui_hud_set_adjusted_color(255, 255, 0, 255)
+            render_hud_radar(sc, get_texture_info("secret"), scale, x + 8, y + 8)
+        end
+    end
+
+    
+
     djui_hud_render_element("Lives", m.numLives, lifeIcon)
     djui_hud_render_element("Coins", m.numCoins, gTextures.coin)
     djui_hud_render_element("Stars", m.numStars, gTextures.star)
@@ -409,12 +475,6 @@ function hud_render()
     end
     if _G.TotalStarCounter ~= nil then
         djui_hud_render_element("GreenStars", _G.TotalStarCounter, gTextures.star)
-    end
-    if _G.red_coin_distance ~= nil and _G.red_coin_distance ~= 0 then
-        djui_hud_render_element("RedRadar", math.floor(_G.red_coin_distance*0.1), gTextures.coin)
-    end
-    if _G.secret_distance ~= nil and _G.secret_distance ~= 0 then
-        djui_hud_render_element("SecretRadar", math.floor(_G.secret_distance*0.1), get_texture_info("secret"))
     end
 end
 
