@@ -524,6 +524,13 @@ modelTable = {
             forcePlayer = CT_MARIO,
             icon = "Default",
             credit = "Floralys"
+        },
+        [2] = {
+            model = smlua_model_util_get_id("casino_luigi_geo"),
+            modelName = "Casino Luigi",
+            forcePlayer = CT_LUIGI,
+            icon = "Default",
+            credit = "FluffaMario, CheesyNacho"
         }
     },
     [KitKat] = {
