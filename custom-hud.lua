@@ -468,11 +468,10 @@ function hud_render()
     djui_hud_render_element("Lives", m.numLives, lifeIcon)
     djui_hud_render_element("Coins", m.numCoins, gTextures.coin)
     djui_hud_render_element("Stars", m.numStars, gTextures.star)
-    if _G.StarCounter ~= nil then
-        djui_hud_render_element("RedStars", _G.StarCounter, gTextures.star)
-    end
-    if _G.TotalStarCounter ~= nil then
-        djui_hud_render_element("GreenStars", _G.TotalStarCounter, gTextures.star)
+    if _G.PersonalStarCounter ~= nil then
+        _G.PersonalStarCounter.hide_star_counters(true)
+        djui_hud_render_element("RedStars", _G.PersonalStarCounter.get_star_counter(), gTextures.star)
+        djui_hud_render_element("GreenStars", _G.PersonalStarCounter.get_total_star_counter(), gTextures.star)
     end
 end
 

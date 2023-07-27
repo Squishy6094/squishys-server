@@ -408,7 +408,7 @@ for i in pairs(gActiveMods) do
     end
     --Mod Check Preventing HUD Overlapping
     if menuTable[2][2].status ~= 0 then
-        if (gActiveMods[i].incompatible ~= nil and gActiveMods[i].incompatible:find("gamemode")) and menuTable[2][2].status > 0 then
+        if (gActiveMods[i].incompatible ~= nil and gActiveMods[i].incompatible:find("gamemode")) and not (gActiveMods[i].name:find("Personal Star Counter EX+")) and menuTable[2][2].status > 0 then
             menuTable[2][1].status = 3
             menuTable[2][1][3] = "External HUD"
         end
