@@ -393,7 +393,7 @@ for i = 1, #menuTable[3] do
     end
 end
 
-for i = 1, 5 do
+for i = 1, 6 do
     if mod_storage_load("UnlockedTheme-"..i) == nil then
         mod_storage_save("UnlockedTheme-"..i, "nil")
     end
@@ -489,9 +489,18 @@ theme_load()
 
 function theme_unlock(themestring)
     local m = gMarioStates[0]
+    local unlocked = false
+
     for i = 1, 6 do
-        if mod_storage_load("UnlockedTheme-"..i) == themestring or mod_storage_load("UnlockedTheme-"..i-1) == themestring or mod_storage_load("UnlockedTheme-"..i+1) == themestring then return end
-        if mod_storage_load("UnlockedTheme-"..i) == "nil" or mod_storage_load("UnlockedTheme-"..i) == nil then
+        local currentTheme = mod_storage_load("UnlockedTheme-"..i)
+
+        if currentTheme == themestring then
+            -- Theme is already unlocked, stop the loop
+            break
+        end
+
+        if currentTheme == "nil" or currentTheme == nil then
+            -- Save themestring to the current UnlockedTheme slot and stop the loop
             mod_storage_save("UnlockedTheme-"..i, themestring)
             theme_load()
             local theme = #themeTable
@@ -499,9 +508,11 @@ function theme_unlock(themestring)
             if themeTable[theme].sound ~= nil then
                 audio_sample_play(themeTable[theme].sound, m.pos, 1)
             end
+            break
         end
     end
 end
+
 
 local stallScriptTimer = 10
 local noLoopSound = true
