@@ -421,10 +421,10 @@ end
 
 local maxThemeNum = 0
 function theme_load()
-    for i = 1, 5 do
+    for i = 1, 6 do
         themeTable[i] = nil
     end
-    for i = 1, 5 do
+    for i = 1, 6 do
         if mod_storage_load("UnlockedTheme-"..i) == "Uoker" then
             themeTable[#themeTable + 1] = {
                 name = "Uoker",
@@ -467,6 +467,14 @@ function theme_load()
                 hoverColor = {r = 145, g = 0, b = 2},
                 texture = get_texture_info("theme-crudelo")
             }
+        elseif mod_storage_load("UnlockedTheme-"..i) == "StarRoad" then
+            themeTable[#themeTable + 1] = {
+                name = "Star Road",
+                saveName = "StarRoad",
+                color = "\\#ffff00\\",
+                hoverColor = {r = 255, g = 255, b = 0},
+                texture = get_texture_info("theme-starroad")
+            }
         end
         if mod_storage_load("UnlockedTheme-1") == "nil" then
             themeTable[0].name = "No Themes Unlocked"
@@ -481,7 +489,7 @@ theme_load()
 
 function theme_unlock(themestring)
     local m = gMarioStates[0]
-    for i = 1, 5 do
+    for i = 1, 6 do
         if mod_storage_load("UnlockedTheme-"..i) == themestring or mod_storage_load("UnlockedTheme-"..i-1) == themestring or mod_storage_load("UnlockedTheme-"..i+1) == themestring then return end
         if mod_storage_load("UnlockedTheme-"..i) == "nil" or mod_storage_load("UnlockedTheme-"..i) == nil then
             mod_storage_save("UnlockedTheme-"..i, themestring)
@@ -835,6 +843,8 @@ for i in pairs(gActiveMods) do
         currHack = 1
     elseif (gActiveMods[i].name:find("Super Mario 64: The Underworld")) then
         currHack = 2
+    elseif (gActiveMods[i].name:find("Star Road")) then
+        currHack = 3
     end
 end
 function update_theme_requirements(m)
@@ -854,6 +864,11 @@ function update_theme_requirements(m)
     --Underworld Win Check
     if currHack == 2 and m.action == ACT_JUMBO_STAR_CUTSCENE then
         theme_unlock("Under")
+    end
+
+    --Star Road 130 Stars Completion Check
+    if currHack == 3 and m.numStars >= 130 then
+        theme_unlock("StarRoad")
     end
 
     --Crudelo Challenge Check
