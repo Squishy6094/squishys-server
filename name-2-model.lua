@@ -427,6 +427,12 @@ modelTable = {
             forcePlayer = CT_MARIO,
             icon = "Default",
             credit = "CheesyNacho"
+        },
+        [8] = {
+            model = smlua_model_util_get_id("mr_l_geo"),
+            modelName = "Mr. L",
+            forcePlayer = CT_LUIGI,
+            icon = "Default",
         }
     },
     [Butter] = {
@@ -584,45 +590,39 @@ modelTable = {
             icon = "Default"
         },
         [1] = {
-            model = smlua_model_util_get_id("mr_l_geo"),
-            modelName = "Mr. L",
-            forcePlayer = CT_LUIGI,
-            icon = "Default",
-        },
-        [2] = {
             model = smlua_model_util_get_id("veph_geo"),
             modelName = "Veph the Dolphin-Fox",
             forcePlayer = CT_LUIGI,
             credit = "Yuyake"
         },
-        [3] = {
+        [2] = {
             model = smlua_model_util_get_id("boshi_geo"),
             modelName = "Boshi",
             forcePlayer = CT_MARIO,
             credit = "CheesyNacho"
         },
-        [4] = {
+        [3] = {
             model = smlua_model_util_get_id("kirby_geo"),
             modelName = "Kirby",
             forcePlayer = CT_TOAD,
             icon = 10,
             credit = "MSatiro & 6b"
         },
-        [5] = {
+        [4] = {
             model = smlua_model_util_get_id("sonic_geo"),
             modelName = "Sonic",
             forcePlayer = CT_TOAD,
             icon = 5,
             credit = "Steven"
         },
-        [6] = {
+        [5] = {
             model = smlua_model_util_get_id("tails_geo"),
             modelName = "Tails",
             forcePlayer = CT_TOAD,
             icon = 4,
             credit = "brob2nd"
         },
-        [7] = {
+        [6] = {
             model = smlua_model_util_get_id("yoshi_player_geo"),
             modelName = "Yoshi",
             forcePlayer = CT_MARIO,
