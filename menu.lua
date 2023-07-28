@@ -847,6 +847,7 @@ end
 
 
 local crudeloChallenge = false
+local warioChallenge = 0
 local noLoopChallenge = true
 local currHack = 0
 for i in pairs(gActiveMods) do
@@ -884,9 +885,6 @@ function update_theme_requirements(m)
 
     --Crudelo Challenge Check
     if currHack == 1 and gNetworkPlayers[0].currCourseNum == COURSE_RR and gNetworkPlayers[0].currAreaIndex == 2 then
-        if crudeloChallenge and (m.action == ACT_STAR_DANCE_EXIT or m.action == ACT_STAR_DANCE_NO_EXIT or m.action == ACT_STAR_DANCE_WATER) then
-            theme_unlock("Crudelo")
-        end
         for i = 1, #menuTable[1] do
             if menuTable[1][i].status > 0 and crudeloChallenge then
                 crudeloChallenge = false
@@ -899,6 +897,41 @@ function update_theme_requirements(m)
     else
         crudeloChallenge = true
         noLoopChallenge = true
+    end
+
+    --Wario Challenge
+    if warioChallenge >= 1000 then
+
+    end
+end
+
+local blueCoinBhvs = {
+    [id_bhvBlueCoinJumping] = true,
+    [id_bhvBlueCoinNumber] = true,
+    [id_bhvBlueCoinSliding] = true,
+    [id_bhvHiddenBlueCoin] = true,
+    [id_bhvMovingBlueCoin] = true,
+    [id_bhvMrIBlueCoin] = true,
+}
+
+function theme_interact_requirements(m, o, type)
+    if m.playerIndex ~= 0 then return end
+	if (type == INTERACT_STAR_OR_KEY) then
+		--This ensures that it increments ONLY if a star is collected.
+		if get_id_from_behavior(o.behavior) ~= id_bhvBowserKey and crudeloChallenge and gNetworkPlayers[0].currCourseNum == COURSE_RR and gNetworkPlayers[0].currAreaIndex == 2 then
+            theme_unlock("Crudelo")
+		end
+	end
+
+    if (type == INTERACT_COIN) and gNetworkPlayers[0].modelIndex == 4 then
+        if get_id_from_behavior(o.behavior) == id_bhvRedCoin then
+            warioChallenge = warioChallenge + 2
+        elseif blueCoinBhvs[get_id_from_behavior(o.behavior)] then
+            warioChallenge = warioChallenge + 5
+        else
+            warioChallenge = warioChallenge + 1
+        end
+        djui_chat_message_create(tostring(warioChallenge))
     end
 end
 
@@ -969,4 +1002,5 @@ end
 hook_event(HOOK_ON_HUD_RENDER, displaymenu)
 hook_event(HOOK_BEFORE_MARIO_UPDATE, before_update)
 hook_event(HOOK_MARIO_UPDATE, update_theme_requirements)
+hook_event(HOOK_ON_INTERACT, theme_interact_requirements)
 hook_event(HOOK_UPDATE, update)
