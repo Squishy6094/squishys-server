@@ -357,7 +357,9 @@ menuTable = {
 themeTable = {
     [0] = {
         name = "Default",
-        texture = get_texture_info("theme-default")
+        texture = get_texture_info("theme-default"),
+        hasHeader = true,
+        headerColor = {r = 0, g = 131, b = 0}
     }
 }
 
@@ -391,7 +393,7 @@ for i = 1, #menuTable[3] do
     end
 end
 
-for i = 1, 3 do
+for i = 1, 6 do
     if mod_storage_load("UnlockedTheme-"..i) == nil then
         mod_storage_save("UnlockedTheme-"..i, "nil")
     end
@@ -406,7 +408,7 @@ for i in pairs(gActiveMods) do
     end
     --Mod Check Preventing HUD Overlapping
     if menuTable[2][2].status ~= 0 then
-        if (gActiveMods[i].incompatible ~= nil and gActiveMods[i].incompatible:find("gamemode")) and menuTable[2][2].status > 0 then
+        if (gActiveMods[i].incompatible ~= nil and gActiveMods[i].incompatible:find("gamemode")) and not (gActiveMods[i].name:find("Personal Star Counter EX+")) and menuTable[2][2].status > 0 then
             menuTable[2][1].status = 3
             menuTable[2][1][3] = "External HUD"
         end
@@ -419,16 +421,17 @@ end
 
 local maxThemeNum = 0
 function theme_load()
-    for i = 1, 3 do
+    for i = 1, 6 do
         themeTable[i] = nil
     end
-    for i = 1, 3 do
+    for i = 1, 6 do
         if mod_storage_load("UnlockedTheme-"..i) == "Uoker" then
             themeTable[#themeTable + 1] = {
                 name = "Uoker",
                 saveName = "Uoker",
                 color = "\\#5b35ec\\",
                 hoverColor = {r = 91, g = 53, b = 236},
+                hasHeader = true,
                 texture = get_texture_info("theme-uoker"),
                 sound = audio_sample_load("tadahh.mp3")
             }
@@ -448,6 +451,30 @@ function theme_load()
                 hoverColor = {r = 227, g = 97, b = 109},
                 texture = get_texture_info("theme-plus")
             }
+        elseif mod_storage_load("UnlockedTheme-"..i) == "Under" then
+            themeTable[#themeTable + 1] = {
+                name = "Underworld",
+                saveName = "Under",
+                color = "\\#19ffff\\",
+                hoverColor = {r = 25, g = 255, b = 255},
+                texture = get_texture_info("theme-underworld")
+            }
+        elseif mod_storage_load("UnlockedTheme-"..i) == "Crudelo" then
+            themeTable[#themeTable + 1] = {
+                name = "Crudelo Sphere",
+                saveName = "Crudelo",
+                color = "\\#910002\\",
+                hoverColor = {r = 145, g = 0, b = 2},
+                texture = get_texture_info("theme-crudelo")
+            }
+        elseif mod_storage_load("UnlockedTheme-"..i) == "StarRoad" then
+            themeTable[#themeTable + 1] = {
+                name = "Star Road",
+                saveName = "StarRoad",
+                color = "\\#ffff00\\",
+                hoverColor = {r = 255, g = 255, b = 0},
+                texture = get_texture_info("theme-starroad")
+            }
         end
         if mod_storage_load("UnlockedTheme-1") == "nil" then
             themeTable[0].name = "No Themes Unlocked"
@@ -462,9 +489,18 @@ theme_load()
 
 function theme_unlock(themestring)
     local m = gMarioStates[0]
-    for i = 1, 3 do
-        if mod_storage_load("UnlockedTheme-"..i) == themestring or mod_storage_load("UnlockedTheme-"..i-1) == themestring or mod_storage_load("UnlockedTheme-"..i+1) == themestring then return end
-        if mod_storage_load("UnlockedTheme-"..i) == "nil" or mod_storage_load("UnlockedTheme-"..i) == nil then
+    local unlocked = false
+
+    for i = 1, 6 do
+        local currentTheme = mod_storage_load("UnlockedTheme-"..i)
+
+        if currentTheme == themestring then
+            -- Theme is already unlocked, stop the loop
+            break
+        end
+
+        if currentTheme == "nil" or currentTheme == nil then
+            -- Save themestring to the current UnlockedTheme slot and stop the loop
             mod_storage_save("UnlockedTheme-"..i, themestring)
             theme_load()
             local theme = #themeTable
@@ -472,9 +508,11 @@ function theme_unlock(themestring)
             if themeTable[theme].sound ~= nil then
                 audio_sample_play(themeTable[theme].sound, m.pos, 1)
             end
+            break
         end
     end
 end
+
 
 local stallScriptTimer = 10
 local noLoopSound = true
@@ -483,6 +521,7 @@ local descSlide = -100
 local bobbingVar = 0
 local bobbingStatus = true
 local bobbing = -2.1
+
 function displaymenu()
     local m = gMarioStates[0]
     
@@ -542,12 +581,20 @@ function displaymenu()
             descSlide = -1
         end
 
+        if themeTable[menuTable[2][3].status].hoverColor == nil then
+            themeTable[menuTable[2][3].status].hoverColor = {r = 150, g = 150, b = 150}
+        end
+
+        if themeTable[menuTable[2][3].status].headerColor == nil then
+            themeTable[menuTable[2][3].status].headerColor = themeTable[menuTable[2][3].status].hoverColor
+        end
+
         if menuTable[2][4].status == 1 then
             djui_hud_set_color(255, 255, 255, 200)
             djui_hud_render_texture_tile(themeTable[menuTable[2][3].status].texture, (halfScreenWidth + 91) + descSlide, ((djui_hud_get_screen_height()*0.5) - 42) - bobbing, 1.3, 1.3, 176, 0, 80, 80)
             djui_hud_set_color(0, 0, 0, 220)
             djui_hud_render_rect((halfScreenWidth + 93) + descSlide, ((djui_hud_get_screen_height()*0.5) - 40) - bobbing, 100, 100)
-            djui_hud_set_color(0, 150, 0, 255)
+            djui_hud_set_color(themeTable[menuTable[2][3].status].headerColor.r, themeTable[menuTable[2][3].status].headerColor.g, themeTable[menuTable[2][3].status].headerColor.b, 255)
             djui_hud_print_text(menuTable[optionTab][optionHover].name, (halfScreenWidth + 100) + descSlide, 85 - bobbing, 0.35)
             djui_hud_set_color(255, 255, 255, 255)
             for i = 1, 9 do
@@ -567,18 +614,16 @@ function displaymenu()
             mod_storage_save("ThemeSave", "0")
         end
         djui_hud_set_color(255, 255, 255, 200)
-        djui_hud_render_texture_tile(themeTable[menuTable[2][3].status].texture, (halfScreenWidth - 88), ((djui_hud_get_screen_height()*0.5) - 93) + bobbing, 1.17045454545, 1, 0, 0, 176, 205)
+        djui_hud_render_texture_tile(themeTable[menuTable[2][3].status].texture, (halfScreenWidth - 88), ((djui_hud_get_screen_height()*0.5) - 93) + bobbing, 1.16477272727, 1, 0, 0, 176, 205)
         djui_hud_set_color(0, 0, 0, 220)
         djui_hud_render_rect((halfScreenWidth - 85), ((djui_hud_get_screen_height()*0.5) - 90) + bobbing, 170, 199)
-        djui_hud_set_color(0, 150, 0, 255)
-        djui_hud_print_text("Squishys", (halfScreenWidth - (djui_hud_measure_text("Squishys")* 0.3 / 2)), 35 + bobbing, 0.3)
-        djui_hud_print_text("'", (halfScreenWidth + 24), 35 + bobbing, 0.3)      
-        djui_hud_print_text("Server", (halfScreenWidth - (djui_hud_measure_text("Server")* 0.3 / 2)), 50 + bobbing, 0.3)
-
-
-        if themeTable[menuTable[2][3].status].hoverColor == nil then
-            themeTable[menuTable[2][3].status].hoverColor = {r = 150, g = 150, b = 150}
+        djui_hud_set_color(themeTable[menuTable[2][3].status].headerColor.r, themeTable[menuTable[2][3].status].headerColor.g, themeTable[menuTable[2][3].status].headerColor.b, 255)
+        if themeTable[menuTable[2][3].status].hasHeader then
+            djui_hud_render_texture_tile(themeTable[menuTable[2][3].status].texture, (halfScreenWidth - 53), ((djui_hud_get_screen_height()*0.5) - 85) + bobbing, 0.16666666666, 0.58666666666, 0, 206, 176, 50)
+        else
+            djui_hud_render_texture_tile(themeTable[0].texture, (halfScreenWidth - 53), ((djui_hud_get_screen_height()*0.5) - 85) + bobbing, 0.16666666666, 0.58666666666, 0, 206, 176, 50)
         end
+
 
         --Toggles--
         djui_hud_set_font(FONT_NORMAL)
@@ -668,18 +713,8 @@ function displaymenu()
         noLoopSound = true
         descSlide = -100
     end
-    --Uoker Check
-    if network_discord_id_from_local_index(0) == "401406794649436161" and gGlobalSyncTable.event ~= "Space Lady Landed" then
-        gGlobalSyncTable.event = "Space Lady Landed"
-    end
-    if gGlobalSyncTable.event == "Space Lady Landed" then
-        theme_unlock("Uoker")
-    end
-    --Fucking Dead Check
-    if (m.action == ACT_SHOCKED or m.action == ACT_WATER_SHOCKED) and m.health == 255 then
-        theme_unlock("Plus")
-    end
 end
+
 
 function before_update(m)
     if m.playerIndex ~= 0 then return end
@@ -697,23 +732,11 @@ function before_update(m)
         if optionHoverTimer == -1 then
             if (stickX < -10 or (buttonDown & L_JPAD ~= 0)) then
                 play_sound(SOUND_MENU_MESSAGE_NEXT_PAGE, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-                if optionTab == 1 and not (network_is_server() or network_is_moderator()) then
-                    optionTab = 3
-                elseif optionTab == 1 and (network_is_server() or network_is_moderator()) then
-                    optionTab = 4
-                else
-                    optionTab = optionTab - 1
-                end
+                optionTab = optionTab - 1
                 optionHoverTimer = 0
             elseif (stickX > 10 or (buttonDown & R_JPAD ~= 0)) then
                 play_sound(SOUND_MENU_MESSAGE_NEXT_PAGE, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-                if optionTab == 3 and not (network_is_server() or network_is_moderator()) then
-                    optionTab = 1
-                elseif optionTab == 4 and (network_is_server() or network_is_moderator()) then
-                    optionTab = 1
-                else
-                    optionTab = optionTab + 1
-                end
+                optionTab = optionTab + 1
                 optionHoverTimer = 0
             end
         end
@@ -729,6 +752,17 @@ function before_update(m)
                 optionHoverTimer = 0
             end
         end
+
+        local maxTabLimit = 3
+        if (network_is_server() or network_is_moderator()) then
+            maxTabLimit = 4
+        end
+
+        if optionTab > maxTabLimit then optionTab = 1 end
+        if optionTab < 1 then optionTab = maxTabLimit end
+        if optionHover > #menuTable[optionTab] then optionHover = 1 end        
+        if optionHover < 1 then optionHover = #menuTable[optionTab] end
+
         if optionHoverTimer == -1 and m.controller.buttonDown & A_BUTTON ~= 0 then
             optionHoverTimer = 0
             if menuTable[optionTab][optionHover].unlocked ~= 1 then
@@ -811,6 +845,63 @@ function on_menu_command(msg)
     return true
 end
 
+
+local crudeloChallenge = false
+local noLoopChallenge = true
+local currHack = 0
+for i in pairs(gActiveMods) do
+    if (gActiveMods[i].name:find ("Super Mario 74")) then
+        currHack = 1
+    elseif (gActiveMods[i].name:find("Super Mario 64: The Underworld")) then
+        currHack = 2
+    elseif (gActiveMods[i].name:find("Star Road")) then
+        currHack = 3
+    end
+end
+function update_theme_requirements(m)
+    if m.playerIndex ~= 0 then return end
+    --Uoker Check
+    if network_discord_id_from_local_index(0) == "401406794649436161" and gGlobalSyncTable.event ~= "Space Lady Landed" then
+        gGlobalSyncTable.event = "Space Lady Landed"
+    end
+    if gGlobalSyncTable.event == "Space Lady Landed" then
+        theme_unlock("Uoker")
+    end
+    --Fucking Dead Check
+    if (m.action == ACT_SHOCKED or m.action == ACT_WATER_SHOCKED) and m.health == 255 then
+        theme_unlock("Plus")
+    end
+
+    --Underworld Win Check
+    if currHack == 2 and m.action == ACT_JUMBO_STAR_CUTSCENE then
+        theme_unlock("Under")
+    end
+
+    --Star Road 130 Stars Completion Check
+    if currHack == 3 and m.numStars >= 130 then
+        theme_unlock("StarRoad")
+    end
+
+    --Crudelo Challenge Check
+    if currHack == 1 and gNetworkPlayers[0].currCourseNum == COURSE_RR and gNetworkPlayers[0].currAreaIndex == 2 then
+        if crudeloChallenge and (m.action == ACT_STAR_DANCE_EXIT or m.action == ACT_STAR_DANCE_NO_EXIT or m.action == ACT_STAR_DANCE_WATER) then
+            theme_unlock("Crudelo")
+        end
+        for i = 1, #menuTable[1] do
+            if menuTable[1][i].status > 0 and crudeloChallenge then
+                crudeloChallenge = false
+            end
+            if not crudeloChallenge and noLoopChallenge then
+                djui_popup_create("\n\\#ff0000\\Crudelo Challenge\n Requirements not met!\\#dcdcdc\\\n\nYou must have everything in the\nMovement Tab Off/Default and\nRestart the Level to Unlock\nthe Crudelo Theme!", 6)
+                noLoopChallenge = false
+            end
+        end
+    else
+        crudeloChallenge = true
+        noLoopChallenge = true
+    end
+end
+
 function on_event_command(msg)
     if not network_is_server() then
         djui_chat_message_create("This command is only avalible to the Host.")
@@ -877,4 +968,5 @@ end
 
 hook_event(HOOK_ON_HUD_RENDER, displaymenu)
 hook_event(HOOK_BEFORE_MARIO_UPDATE, before_update)
+hook_event(HOOK_MARIO_UPDATE, update_theme_requirements)
 hook_event(HOOK_UPDATE, update)
