@@ -73,6 +73,13 @@ modelTable = {
             forcePlayer = CT_TOAD,
             credit = "BBPanzu / Port by SunSpirit",
         },
+        [4] = {
+            model = smlua_model_util_get_id("mawio_geo"),
+            modelName = "Mawio :3",
+            forcePlayer = CT_MARIO,
+            icon = 8,
+            credit = "sm64rise"
+        }
     },
     [Spoomples] = {
         nickname = "Spoomples",
