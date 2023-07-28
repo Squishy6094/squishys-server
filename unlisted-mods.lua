@@ -381,7 +381,7 @@ function mario_update(m)
         play_sound(SOUND_GENERAL_METAL_POUND, m.marioObj.header.gfx.cameraToObject)
         if m.actionTimer == 6 then
             djui_chat_message_create("\\#fbfb7d\\Lakitu:\\#ffffff\\ OH SH-")
-            theme_unlock("Upper")
+            theme_unlock("Upper", "Break the 50 Star Door with a BLJ")
         end
     end
 

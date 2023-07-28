@@ -487,9 +487,9 @@ end
 
 theme_load()
 
-function theme_unlock(themestring)
+function theme_unlock(themestring, themeexplain)
     local m = gMarioStates[0]
-    local unlocked = false
+    if themeexplain == nil then themeexplain = "No condition provided" end
 
     for i = 1, 6 do
         local currentTheme = mod_storage_load("UnlockedTheme-"..i)
@@ -504,7 +504,7 @@ function theme_unlock(themestring)
             mod_storage_save("UnlockedTheme-"..i, themestring)
             theme_load()
             local theme = #themeTable
-            djui_popup_create("\\#008800\\Squishy's Server\n".. '\\#dcdcdc\\Theme Unlocked!\n'..themeTable[theme].color..'"'..themeTable[theme].name..'"\\#dcdcdc\\', 3)
+            djui_popup_create("\\#008800\\Squishy's Server\n".. '\\#dcdcdc\\Theme Unlocked!\n'..themeTable[theme].color..'"'..themeTable[theme].name..'"\n\n\\#8c8c8c\\'..themeexplain, 5)
             if themeTable[theme].sound ~= nil then
                 audio_sample_play(themeTable[theme].sound, m.pos, 1)
             end
@@ -866,21 +866,21 @@ function update_theme_requirements(m)
         gGlobalSyncTable.event = "Space Lady Landed"
     end
     if gGlobalSyncTable.event == "Space Lady Landed" then
-        theme_unlock("Uoker")
+        theme_unlock("Uoker", "Smile and wait for her arrival and wait and wa wai  smile and sm SMILESMILESMILESMILEthe stars")
     end
     --Fucking Dead Check
     if (m.action == ACT_SHOCKED or m.action == ACT_WATER_SHOCKED) and m.health == 255 then
-        theme_unlock("Plus")
+        theme_unlock("Plus", "Die via Electricity")
     end
 
     --Underworld Win Check
     if currHack == 2 and m.action == ACT_JUMBO_STAR_CUTSCENE then
-        theme_unlock("Under")
+        theme_unlock("Under", "Defeat the Shitilizer")
     end
 
     --Star Road 130 Stars Completion Check
     if currHack == 3 and m.numStars >= 130 then
-        theme_unlock("StarRoad")
+        theme_unlock("StarRoad", "Collect 130 Stars in Star Road")
     end
 
     --Crudelo Challenge Check
@@ -919,7 +919,7 @@ function theme_interact_requirements(m, o, type)
 	if (type == INTERACT_STAR_OR_KEY) then
 		--This ensures that it increments ONLY if a star is collected.
 		if get_id_from_behavior(o.behavior) ~= id_bhvBowserKey and crudeloChallenge and gNetworkPlayers[0].currCourseNum == COURSE_RR and gNetworkPlayers[0].currAreaIndex == 2 then
-            theme_unlock("Crudelo")
+            theme_unlock("Crudelo", "Collect a star in Crudelo-Sphere\nwithout any Movement Buffs")
 		end
 	end
 
@@ -931,7 +931,6 @@ function theme_interact_requirements(m, o, type)
         else
             warioChallenge = warioChallenge + 1
         end
-        djui_chat_message_create(tostring(warioChallenge))
     end
 end
 
