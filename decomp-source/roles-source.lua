@@ -90,7 +90,7 @@ function on_chat_message(m, msg)
         if tonumber(args[1]) > 3 and tonumber(args[1]) < 0 then
             sMario.role = "-1"
         end
-        for i = 1, 6 do
+        for i = 1, #args do
             if tonumber(args[i]) == 1 then
                 rolestring = rolestring.." \\#00aa00\\[Creator]"
             end 
