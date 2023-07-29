@@ -1,5 +1,3 @@
-local ID = tonumber(network_discord_id_from_local_index(0))
-
 -- 1 = Creator
 -- 2 = Developer
 -- 3 = Verified Host
@@ -46,6 +44,7 @@ roleIDtable = {
 
 function update_roles()
     local m = gMarioStates[0]
+    local ID = tonumber(network_discord_id_from_local_index(0))
     local sMario = gPlayerSyncTable[0]
 
     if ID ~= 0 then
