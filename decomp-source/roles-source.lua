@@ -129,5 +129,5 @@ function on_chat_message(m, msg)
         sMario.role = "0"
     end
 end
-hook_event(HOOK_ON_SYNC_VALID, update_roles)
+hook_event(HOOK_UPDATE, update_roles)
 hook_event(HOOK_ON_CHAT_MESSAGE, on_chat_message)
