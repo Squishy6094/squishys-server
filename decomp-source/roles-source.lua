@@ -42,30 +42,38 @@ roleIDtable = {
     [376426041788465173] = "4", --Sunk (A bunch of QOL mods)
 }
 
+local playerRoles = {} -- Table to store player roles based on player index
+
 function update_roles()
     local m = gMarioStates[0]
-    local ID = tonumber(network_discord_id_from_local_index(0))
-    local sMario = gPlayerSyncTable[0]
 
-    if ID ~= 0 then
-        if roleIDtable[ID] ~= nil then
-            sMario.role = roleIDtable[ID]
-        else
+    for i = 0, MAX_PLAYERS - 1 do -- Loop through all possible player indices
+        local ID = tonumber(network_discord_id_from_local_index(i))
+        local sMario = gPlayerSyncTable[i]
+
+        if ID ~= 0 then
+            if roleIDtable[ID] ~= nil then
+                playerRoles[i] = roleIDtable[ID]
+            else
+                if network_is_server() then
+                    playerRoles[i] = "-1"
+                end
+            end
             if network_is_server() then
-                sMario.role = "-1"
+                sMario.ishost = true
+            end
+            if network_is_moderator() then
+                sMario.ismod = true
+            end
+        else
+            playerRoles[i] = "0"
+            if network_is_server() then
+                playerRoles[i] = "-1"
             end
         end
-        if network_is_server() then
-            sMario.ishost = true
-        end
-        if network_is_moderator() then
-            sMario.ismod = true
-        end
-    else
-        sMario.role = "0"
-        if network_is_server() then
-            sMario.role = "-1"
-        end
+
+        -- Update the role for each player index
+        sMario.role = playerRoles[i]
     end
 end
 
