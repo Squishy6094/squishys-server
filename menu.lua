@@ -606,6 +606,9 @@ function displaymenu()
             end
         end
 
+        djui_hud_set_color(0, 0, 0, 150)
+        djui_hud_render_rect(0, 0, djui_hud_get_screen_width()+5, 240)
+
         djui_hud_set_font(FONT_MENU)
         djui_hud_set_resolution(RESOLUTION_N64)
         djui_hud_set_color(255, 255, 255, 255)
