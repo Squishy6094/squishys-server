@@ -802,12 +802,12 @@ function before_update(m)
         end
         if (m.controller.buttonDown & B_BUTTON) ~= 0 or (m.controller.buttonDown & START_BUTTON) ~= 0 and menu then
             print("Saving configuration to 'squishys-server.sav'")
-            if (m.controller.buttonDown & START_BUTTON ~= 0) then
+            menu = false
+            if is_game_paused() then
                 m.controller.buttonPressed = START_BUTTON
-            elseif (m.controller.buttonDown & B_BUTTON ~= 0) then
+            else
                 m.action = ACT_IDLE
             end
-            menu = false
         end
         m.controller.rawStickY = 0
         m.controller.rawStickX = 0
