@@ -492,7 +492,7 @@ function theme_load()
             themeTable[#themeTable + 1] = {
                 name = "Delicious Cake",
                 saveName = "Cake",
-                color = "\\#ff7700\\",
+                color = "\\#ff6666\\",
                 hoverColor = {r = 255, g = 100, b = 100},
                 texture = get_texture_info("theme-120s")
             }
