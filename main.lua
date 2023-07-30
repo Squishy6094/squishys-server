@@ -38,7 +38,7 @@ function displayrules(m)
     if offsetX <= -200 and not rules and not noLoop then
         djui_chat_message_create("Welcome to \\#008800\\Squishy's Server\\#dcdcdc\\! You can use \\#00ffff\\/ss help \\#dcdcdc\\for a list of commands!")
         if network_is_server() then
-            if roleIDtable[discordID] ~= "-1" then
+            if network_is_bestie() then
                 djui_popup_create("You are now hosting\n\\#005500\\Squishy's Server\\#dcdcdc\\,\nCheck your mods list and\nsend an Invite!",4)
             else
                 djui_popup_create("\n\\#ffff00\\Warning:\n\\#dcdcdc\\You are not a Verified Host,\nand will be marked as such\nto other players.\n\nDo not host publicly with this\nmod to avoid being banned\nfrom both the\n\\#7289DA\\Sm64ex-coop Discord \\#dcdcdc\\& \\#ff3333\\Coopnet!",8)

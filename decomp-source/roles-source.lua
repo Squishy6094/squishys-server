@@ -7,7 +7,33 @@
 -- 0 = Default User
 -- -1 = Unverified Host
 
-roleIDtable = {
+local rolestringTable = {
+    [1] = function ()
+        return "\\#00aa00\\[Creator]"
+    end,
+    [2] = function ()
+        return "\\#FF2400\\[Developer]"
+    end,
+    [3] = function ()
+        if gPlayerSyncTable[0].ishost then
+            return "\\#7FFFD4\\[Verified Host]"
+        else
+            return "\\#f23064\\[Bestie]"
+        end
+    end,
+    [4] = function ()
+        return "\\#0568e3\\[Contributor]"
+    end,
+    [5] = function ()
+        return "\\#fcef42\\[Moderator]"
+    end,
+
+    [-1] = function ()
+        return "\\#ff0000\\[Unverified Host]"
+    end,
+}
+
+local roleIDtable = {
     --Creator
     [678794043018182675] = "1", --Squishy
 
@@ -42,43 +68,46 @@ roleIDtable = {
     [376426041788465173] = "4", --Sunk (A bunch of QOL mods)
 }
 
-local playerRoles = {} -- Table to store player roles based on player index
-
-function update_roles()
-    local m = gMarioStates[0]
-
-    for i = 0, MAX_PLAYERS - 1 do -- Loop through all possible player indices
-        local ID = tonumber(network_discord_id_from_local_index(i))
-        local sMario = gPlayerSyncTable[i]
-
-        if ID ~= 0 then
-            if roleIDtable[ID] ~= nil then
-                playerRoles[i] = roleIDtable[ID]
-            else
-                if network_is_server() then
-                    playerRoles[i] = "-1"
-                end
-            end
-            if network_is_server() then
-                sMario.ishost = true
-            end
-            if network_is_moderator() then
-                sMario.ismod = true
-            end
-        else
-            playerRoles[i] = "0"
-            if network_is_server() then
-                playerRoles[i] = "-1"
-            end
-        end
-
-        -- Update the role for each player index
-        sMario.role = playerRoles[i]
+function reset_roles()
+    for i = 0, MAX_PLAYERS - 1 do
+        gPlayerSyncTable[i].role = nil
+        gPlayerSyncTable[i].ishost = nil
+        gPlayerSyncTable[i].ismod = nil
+        rolestring = ""
     end
 end
 
-function is_squishy()
-    if roleIDtable[ID] == "1" then
+function update_roles()
+    local ID = tonumber(network_discord_id_from_local_index(0))
+    local sMario = gPlayerSyncTable[0]
+
+    if ID ~= 0 and roleIDtable[ID] ~= nil then
+        sMario.role = roleIDtable[ID]
+    else
+        sMario.role = nil
+        if network_is_server() then
+            sMario.role = "-1"
+        end
+    end
+    if network_is_server() then
+        sMario.ishost = true
+    end
+    if network_is_moderator() then
+        sMario.ismod = true
+    end
+end
+
+function network_is_squishy()
+    if tonumber(network_discord_id_from_local_index(0)) == 678794043018182675 then
+        return true
+    else
+        return false
+    end
+end
+
+function network_is_bestie()
+    local args = split(roleIDtable[tonumber(network_discord_id_from_local_index(0))])
+    if tonumber(args[1]) <= 3 and tonumber(args[1]) >= 1 then
         return true
     else
         return false
@@ -92,49 +121,35 @@ function on_chat_message(m, msg)
     local name = playerColor .. np.name
 
     if sMario.role ~= nil then
-        rolestring = ""
         local args = split(sMario.role)
         if tonumber(args[1]) > 3 and tonumber(args[1]) < 0 then
             sMario.role = "-1"
         end
-        for i = 1, #args do
-            if tonumber(args[i]) == 1 then
-                rolestring = rolestring.." \\#00aa00\\[Creator]"
-            end 
-            if tonumber(args[i]) == 2 then
-                rolestring = rolestring.." \\#FF2400\\[Developer]"
-            end
-            if tonumber(args[i]) == 3 then
-                if sMario.ishost then
-                    rolestring = rolestring.." \\#7FFFD4\\[Verified Host]"
-                else
-                    rolestring = rolestring.." \\#f23064\\[Bestie]"
-                end
-            end 
-            if tonumber(args[i]) == 4 then
-                rolestring = rolestring.." \\#0568e3\\[Contributor]"
-            end 
-        end
         if sMario.ismod then
-            rolestring = rolestring.." \\#fcef42\\[Moderator]"
+            args[#args + 1] = "5"
         end
-        if sMario.role == "-1" then
-            rolestring = " \\#ff0000\\[Unverified Host]"
-        end 
-        if rolestring ~= "0" then
-            djui_chat_message_create(name..""..rolestring..": \\#dcdcdc\\"..msg)
+
+        local rolestring = ""
+        for i = 1, #args do
+            rolestring = rolestring .. " " .. rolestringTable[tonumber(args[i])]()
+        end
+
+        if rolestring ~= "" then
+            djui_chat_message_create(name .. "" .. rolestring .. ": \\#dcdcdc\\" .. msg)
         end
 
         if m.playerIndex == 0 then
             play_sound(SOUND_MENU_MESSAGE_DISAPPEAR, m.marioObj.header.gfx.cameraToObject)
         else
-            local myM = gMarioStates[0]
-            play_sound(SOUND_MENU_MESSAGE_APPEAR, myM.marioObj.header.gfx.cameraToObject)
+            play_sound(SOUND_MENU_MESSAGE_APPEAR, gMarioStates[0].marioObj.header.gfx.cameraToObject)
         end
         return false
     else
-        sMario.role = "0"
+        return true
     end
 end
+
 hook_event(HOOK_UPDATE, update_roles)
 hook_event(HOOK_ON_CHAT_MESSAGE, on_chat_message)
+hook_event(HOOK_ON_PLAYER_CONNECTED, reset_roles)
+hook_event(HOOK_ON_PLAYER_DISCONNECTED, reset_roles)
