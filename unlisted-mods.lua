@@ -158,14 +158,14 @@ IdiotSound = audio_sample_load("Idiot.mp3")
 function mario_update(m)
     if m.playerIndex ~= 0 then return end
     gPlayerSyncTable[m.playerIndex].moveset = menuTable[1][1].status
-    gPlayerSyncTable[m.playerIndex].wallSlide = menuTable[1][4].status
+    gPlayerSyncTable[m.playerIndex].wallSlide = menuTable[1][5].status
     --Wallslide
 
     --Remove Fall Damage
     m.peakHeight = m.pos.y
 
     --Ledge Parkour
-    if menuTable[1][6].status == 1 then
+    if menuTable[1][7].status == 1 then
         if (m.action == ACT_LEDGE_GRAB or m.action == ACT_LEDGE_CLIMB_FAST) then
             ledgeTimer = ledgeTimer + 1
         else
@@ -252,7 +252,7 @@ function mario_update(m)
     end
 
     --Strafing--
-    if menuTable[1][5].status == 1 then
+    if menuTable[1][6].status == 1 then
         if m.playerIndex ~= 0 then return end
         m.marioObj.header.gfx.angle.y = m.area.camera.yaw + 32250
     end
@@ -604,7 +604,7 @@ function on_set_mario_action(m)
     end
 
     --Lava Groundpound--
-    if menuTable[1][2].status == 1 then
+    if menuTable[1][3].status == 1 then
         if m.prevAction == ACT_GROUND_POUND_LAND and m.action == ACT_LAVA_BOOST then
             m.vel.y = m.vel.y * 1.1
             m.forwardVel = 70
@@ -613,7 +613,7 @@ function on_set_mario_action(m)
     end
     
     --Anti quicksand--
-    if menuTable[1][3].status == 1 then
+    if menuTable[1][4].status == 1 then
         if m.action == ACT_QUICKSAND_DEATH then
             set_mario_action(m, ACT_LAVA_BOOST, 0)
             if m.flags & MARIO_METAL_CAP ~= 0 then
@@ -645,7 +645,7 @@ function on_set_mario_action(m)
     end
 
     --Strafing--
-    if menuTable[1][5].status == 1 then
+    if menuTable[1][6].status == 1 then
         if not noStrafeActs[m.action] then
             m.faceAngle.y = m.area.camera.yaw + 32250
         end
@@ -766,6 +766,584 @@ function custom_toad_loop(obj)
   return
 end
 hook_behavior(id_bhvToadMessage, OBJ_LIST_GENACTOR, false, custom_toad_init, custom_toad_loop)
+
+--Better Swimming
+local ACT_SIS_WATER_IDLE = allocate_mario_action(ACT_GROUP_SUBMERGED | ACT_FLAG_STATIONARY | ACT_FLAG_WATER_OR_TEXT |
+ACT_FLAG_SWIMMING_OR_FLYING | ACT_FLAG_METAL_WATER)
+
+local ACT_SIS_SWIMMING = allocate_mario_action(ACT_GROUP_SUBMERGED | ACT_FLAG_MOVING | ACT_FLAG_WATER_OR_TEXT | ACT_FLAG_SWIMMING_OR_FLYING |
+ACT_FLAG_METAL_WATER)
+
+local ACT_SIS_WATER_SKID = allocate_mario_action(ACT_GROUP_SUBMERGED | ACT_FLAG_MOVING | ACT_FLAG_WATER_OR_TEXT | ACT_FLAG_SWIMMING_OR_FLYING |
+ACT_FLAG_METAL_WATER)
+
+local ACT_SIS_WATER_GRAB = allocate_mario_action(ACT_GROUP_SUBMERGED | ACT_FLAG_MOVING | ACT_FLAG_WATER_OR_TEXT | ACT_FLAG_SWIMMING_OR_FLYING |
+ACT_FLAG_METAL_WATER)
+
+local ACT_SIS_WATER_THROW = allocate_mario_action(ACT_GROUP_SUBMERGED | ACT_FLAG_MOVING | ACT_FLAG_WATER_OR_TEXT | ACT_FLAG_SWIMMING_OR_FLYING |
+ACT_FLAG_METAL_WATER | ACT_FLAG_THROWING)
+
+local SHELL_DURATION = 30 * 30
+
+local toIdleAction = {
+    [ACT_WATER_IDLE] = true,
+    [ACT_HOLD_WATER_IDLE] = true,
+    [ACT_WATER_ACTION_END] = true,
+    [ACT_HOLD_WATER_ACTION_END] = true,
+    [ACT_METAL_WATER_FALL_LAND] = true,
+    [ACT_METAL_WATER_JUMP_LAND] = true,
+    [ACT_METAL_WATER_STANDING] = true,
+    [ACT_HOLD_METAL_WATER_STANDING] = true,
+    [ACT_HOLD_METAL_WATER_FALL_LAND] = true,
+    [ACT_HOLD_METAL_WATER_JUMP_LAND] = true,
+}
+
+local toSwimAction = {
+    [ACT_BREASTSTROKE] = true,
+    [ACT_HOLD_BREASTSTROKE] = true,
+    [ACT_FLUTTER_KICK] = true,
+    [ACT_HOLD_FLUTTER_KICK] = true,
+    [ACT_WATER_PUNCH] = true,
+    [ACT_METAL_WATER_FALLING] = true,
+    [ACT_METAL_WATER_JUMP] = true,
+    [ACT_METAL_WATER_WALKING] = true,
+}
+
+local improvedSwimming = true
+local shellTimer = 0
+
+-- optimization
+local set_mario_action, is_anim_at_end, mario_grab_used_object, set_mario_animation, set_mario_anim_with_accel, perform_ground_step,
+perform_air_step, apply_water_current, set_mario_particle_flags, math_abs, set_swimming_at_surface_particles, approach_f32, play_sound,
+play_mario_sound, mario_get_collided_object =
+
+set_mario_action, is_anim_at_end, mario_grab_used_object, set_mario_animation, set_mario_anim_with_accel, perform_ground_step,
+perform_air_step, apply_water_current, set_mario_particle_flags, math.abs, set_swimming_at_surface_particles, approach_f32, play_sound,
+play_mario_sound, mario_get_collided_object
+
+local s16 = function(x)
+    x = (math.floor(x) & 0xFFFF)
+    if x >= 32768 then return x - 65536 end
+    return x
+end
+
+local clamp = function(x, min, max)
+    if x < min then return min end
+    if x > max then return max end
+    return x
+end
+
+local set_anim_hold_or_normal = function(m, normalAnim, holdAnim, accel)
+    if not accel then
+        accel = 0x10000
+    end
+    if m.heldObj then
+        return set_mario_anim_with_accel(m, holdAnim, accel)
+    else
+        return set_mario_anim_with_accel(m, normalAnim, accel)
+    end
+end
+
+local set_act_hold_or_normal = function(m, normalAct, holdAct, actArg)
+    if m.heldObj then
+        return set_mario_action(m, holdAct, actArg)
+    else
+        return set_mario_action(m, normalAct, actArg)
+    end
+end
+
+local get_v_dir = function(m)
+    local vDir = 0
+    local goalAngle = 0x4000
+
+    if (m.input & INPUT_A_DOWN) ~= 0 and (m.pos.y < m.waterLevel - 80 and m.pos.y < m.ceilHeight - 160) then
+        vDir = vDir + 1
+    end
+
+    if (m.input & INPUT_Z_DOWN) ~= 0 and m.pos.y > m.floorHeight then
+        vDir = vDir - 1
+    end
+
+    vDir = vDir * (1 - m.intendedMag / 64)
+
+    return goalAngle * vDir
+end
+
+local common_water_update = function(m)
+    local step
+    local snowyTerrain = (m.area.terrainType & TERRAIN_MASK) == TERRAIN_SNOW
+    local metalSink = (m.flags & MARIO_METAL_CAP) ~= 0 and -12 or 0
+
+    if m.pos.y <= m.floorHeight and m.vel.y <= 0 then
+        step = perform_ground_step(m)
+    else
+        step = perform_air_step(m, 0)
+    end
+
+    m.vel.x = m.forwardVel * sins(m.faceAngle.y) * coss(m.faceAngle.x)
+    m.vel.y = m.forwardVel * sins(m.faceAngle.x) + metalSink
+    m.vel.z = m.forwardVel * coss(m.faceAngle.y) * coss(m.faceAngle.x)
+
+    -- not letting you heal on the surface just because of the metal cap is pretty annoying
+    if m.pos.y >= m.waterLevel - 140 and not snowyTerrain then
+        m.health = m.health + 0x1A
+    end
+
+    if (m.flags & MARIO_METAL_CAP) == 0 then
+        set_mario_particle_flags(m, PARTICLE_BUBBLE, 0)
+
+        apply_water_current(m, m.vel)
+
+        if m.pos.y < m.waterLevel - 140 then
+            if snowyTerrain then
+                m.health = m.health - 3
+            else
+                m.health = m.health - 1
+            end
+        end
+    end
+
+    return step
+end
+
+local headDir = 0
+
+---@param m MarioState
+local act_sis_water_idle = function(m)
+    local vDir = get_v_dir(m)
+    local buoyancy = 0
+    local shellMul = obj_has_behavior_id(m.heldObj, id_bhvKoopaShellUnderwater) ~= 0 and 1.82 or 1
+
+    if (m.input & INPUT_A_PRESSED) ~= 0 and m.pos.y >= m.waterLevel - 100 then
+        return set_act_hold_or_normal(m, ACT_WATER_JUMP, ACT_HOLD_WATER_JUMP, 0)
+    end
+
+    if (m.input & INPUT_B_PRESSED) ~= 0 then
+        return set_act_hold_or_normal(m, ACT_SIS_WATER_GRAB, ACT_SIS_WATER_THROW, 0)
+    end
+
+    if vDir ~= 0 or (m.input & INPUT_NONZERO_ANALOG) ~= 0 then
+        if math_abs(m.forwardVel) < 16 then
+            m.faceAngle.y = m.intendedYaw
+            m.forwardVel = 8
+        end
+        return set_mario_action(m, ACT_SIS_SWIMMING, 0)
+    end
+
+    if m.forwardVel > 12 then
+        return set_mario_action(m, ACT_SIS_WATER_SKID, 0)
+    end
+
+    if not improvedSwimming then
+        return set_mario_action(m, ACT_WATER_ACTION_END, 0)
+    end
+
+    m.forwardVel = clamp(m.forwardVel, -48 * shellMul, 48 * shellMul)
+
+    if (m.flags & MARIO_METAL_CAP) == 0 then
+        if m.waterLevel - 80 - m.pos.y < 400 then
+            buoyancy = 1.25
+        else
+            buoyancy = -2
+        end
+    end
+
+    common_water_update(m)
+
+    m.vel.y = m.vel.y + buoyancy
+
+    m.faceAngle.x = approach_s32(m.faceAngle.x, 0, 0x450, 0x450)
+
+    if m.actionArg == 1 then
+        set_anim_hold_or_normal(m, MARIO_ANIM_SWIM_PART1, MARIO_ANIM_SWIM_WITH_OBJ_PART1)
+        if is_anim_past_end(m) ~= 0 then
+            play_sound(SOUND_ACTION_SWIM, m.marioObj.header.gfx.cameraToObject)
+            m.actionArg = 0
+        end
+    elseif m.actionState == 0 then
+        set_anim_hold_or_normal(m, MARIO_ANIM_SWIM_PART2, MARIO_ANIM_SWIM_WITH_OBJ_PART2)
+        if is_anim_past_end(m) ~= 0 then
+            m.actionState = 1
+        end
+    elseif m.actionState == 1 then
+        set_anim_hold_or_normal(m, MARIO_ANIM_WATER_ACTION_END, MARIO_ANIM_WATER_ACTION_END_WITH_OBJ)
+        if is_anim_past_end(m) ~= 0 then
+            m.actionState = 2
+        end
+    else
+        set_anim_hold_or_normal(m, MARIO_ANIM_WATER_IDLE, MARIO_ANIM_WATER_IDLE_WITH_OBJ)
+    end
+
+    m.marioBodyState.handState = MARIO_HAND_OPEN
+
+    m.forwardVel = approach_f32(m.forwardVel, 0, 1 * shellMul, 1 * shellMul)
+
+    set_swimming_at_surface_particles(m, PARTICLE_WAVE_TRAIL)
+
+    m.faceAngle.z = approach_f32(m.faceAngle.z, 0, 0x180, 0x180)
+
+    m.marioObj.header.gfx.angle.x = m.marioObj.header.gfx.angle.x - m.faceAngle.x
+    m.marioObj.header.gfx.angle.z = -m.faceAngle.z
+
+    m.marioBodyState.headAngle.x = approach_f32(m.marioBodyState.headAngle.x, 0, 0x400, 0x400)
+    --apparently i have to rely on this headDir variable because using approach_f32 on headAngle.y directly doesnt work properly
+    -- god i love this fucking game
+    if m.playerIndex == 0 then
+        if m.actionState > 0 and m.actionArg == 0 then
+            headDir = approach_f32(headDir, 0, 0x400, 0x400)
+        end
+        m.marioBodyState.headAngle.y = headDir
+    end
+    m.marioBodyState.headAngle.z = m.faceAngle.z
+
+    return 0
+end
+
+---@param m MarioState
+local update_swim_speed = function(m)
+    local vDir = get_v_dir(m)
+    local intendedDYaw = s16(m.intendedYaw - m.faceAngle.y)
+    local shellMul = obj_has_behavior_id(m.heldObj, id_bhvKoopaShellUnderwater) ~= 0 and 1.82 or 1
+
+    local speedGain = m.forwardVel < 28 * shellMul and 2.4 * shellMul or 0.8
+
+    if m.actionTimer > 0 then
+        m.forwardVel = m.forwardVel + speedGain * (1 - m.actionTimer / 10)
+        set_mario_particle_flags(m, PARTICLE_PLUNGE_BUBBLE, 0)
+
+        m.actionTimer = m.actionTimer - 1
+    else
+        if m.forwardVel >= 0.29 then
+            m.forwardVel = m.forwardVel - 0.29
+        end
+    end
+
+    m.forwardVel = clamp(m.forwardVel, -48 * shellMul, 48 * shellMul)
+
+    common_water_update(m)
+
+    m.faceAngle.y = m.intendedYaw - approach_s32(intendedDYaw, 0, 0x450, 0x450)
+    m.faceAngle.x = approach_s32(m.faceAngle.x, vDir, 0x450, 0x450)
+    m.faceAngle.z = approach_f32(m.faceAngle.z, clamp(intendedDYaw, -0xD00, 0xD00), 0x260, 0x260)
+
+    m.marioBodyState.headAngle.x = approach_f32(m.marioBodyState.headAngle.x, clamp(m.faceAngle.x - vDir, -0x1800, 0x5C00), 0x6A0, 0x6A0)
+    if m.playerIndex == 0 then
+        headDir = approach_f32(headDir, clamp(intendedDYaw, -0x2400, 0x2400), 0x6A0, 0x6A0)
+        m.marioBodyState.headAngle.y = headDir
+    end
+    m.marioBodyState.headAngle.z = m.faceAngle.z
+
+    m.marioObj.header.gfx.angle.z = -m.faceAngle.z
+
+    return step
+end
+
+---@param m MarioState
+local act_sis_swimming = function(m)
+    local vDir = get_v_dir(m)
+    local intendedDYaw = s16(m.intendedYaw - m.faceAngle.y)
+    local actArg = 0
+    local marioAnim = m.marioObj.header.gfx.animInfo
+
+    if m.actionState == 0 then
+        actArg = 1
+        set_anim_hold_or_normal(m, MARIO_ANIM_SWIM_PART1, MARIO_ANIM_SWIM_WITH_OBJ_PART1)
+        if marioAnim.animFrame >= marioAnim.curAnim.loopEnd - 6 then
+            m.actionTimer = 4
+        end
+
+        if is_anim_past_end(m) ~= 0 then
+            m.actionState = 1
+            if m.forwardVel < 28 then
+                play_sound(SOUND_ACTION_SWIM, m.marioObj.header.gfx.cameraToObject)
+            else
+                play_sound(SOUND_ACTION_SWIM_FAST, m.marioObj.header.gfx.cameraToObject)
+            end
+        end
+    else
+        set_anim_hold_or_normal(m, MARIO_ANIM_SWIM_PART2, MARIO_ANIM_SWIM_WITH_OBJ_PART2)
+        if is_anim_past_end(m) ~= 0 and math_abs(m.faceAngle.x - vDir) <= 0x1800 and math_abs(intendedDYaw) <= 0x1800 then
+            m.actionState = 0
+        end
+    end
+
+    if (m.input & INPUT_A_PRESSED) ~= 0 and m.pos.y >= m.waterLevel - 100 then
+        return set_act_hold_or_normal(m, ACT_WATER_JUMP, ACT_HOLD_WATER_JUMP, 0)
+    end
+
+    if (m.input & INPUT_B_PRESSED) ~= 0 then
+        return set_act_hold_or_normal(m, ACT_SIS_WATER_GRAB, ACT_SIS_WATER_THROW, 0)
+    end
+
+    if ((m.input & INPUT_NONZERO_ANALOG) == 0 or analog_stick_held_back(m) ~= 0) and vDir == 0 then
+        if m.forwardVel > 12 then
+            return set_mario_action(m, ACT_SIS_WATER_SKID, 0)
+        else
+            return set_mario_action(m, ACT_SIS_WATER_IDLE, actArg)
+        end
+    end
+
+    if not improvedSwimming then
+        return set_mario_action(m, ACT_WATER_ACTION_END, 0)
+    end
+
+    local step = update_swim_speed(m)
+
+    if step == GROUND_STEP_HIT_WALL or step == AIR_STEP_HIT_WALL then
+        m.forwardVel = 0
+    end
+
+    m.marioBodyState.handState = MARIO_HAND_OPEN
+    set_swimming_at_surface_particles(m, PARTICLE_WAVE_TRAIL)
+
+    m.marioObj.header.gfx.angle.x = m.marioObj.header.gfx.angle.x - m.faceAngle.x
+
+    return 0
+end
+
+---@param m MarioState
+local act_sis_water_skid = function(m)
+    local step
+    local vDir = get_v_dir(m)
+    local shellMul = obj_has_behavior_id(m.heldObj, id_bhvKoopaShellUnderwater) ~= 0 and 1.82 or 1
+
+    if m.forwardVel <= 6 then
+        return set_mario_action(m, ACT_SIS_WATER_IDLE, 0)
+    end
+
+    if ((m.input & INPUT_NONZERO_ANALOG) ~= 0 and analog_stick_held_back(m) == 0) or vDir ~= 0 then
+        if math_abs(m.forwardVel) < 16 then
+            m.faceAngle.y = m.intendedYaw
+            m.forwardVel = 8
+        end
+        return set_mario_action(m, ACT_SIS_SWIMMING, 0)
+    end
+
+    if (m.input & INPUT_B_PRESSED) ~= 0 then
+        return set_act_hold_or_normal(m, ACT_SIS_WATER_GRAB, ACT_SIS_WATER_THROW, 0)
+    end
+
+    if not improvedSwimming then
+        return set_mario_action(m, ACT_WATER_ACTION_END, 0)
+    end
+
+    m.forwardVel = clamp(approach_s32(m.forwardVel, 0, 2.4 * shellMul, 2.4 * shellMul), -48, 48)
+
+    common_water_update(m)
+
+    set_mario_animation(m, MARIO_ANIM_SKID_ON_GROUND)
+
+    set_swimming_at_surface_particles(m, PARTICLE_WAVE_TRAIL)
+    set_mario_particle_flags(m, PARTICLE_PLUNGE_BUBBLE, 0)
+
+    play_sound(SOUND_ACTION_SWIM, m.marioObj.header.gfx.cameraToObject)
+
+    m.faceAngle.z = approach_f32(m.faceAngle.z, 0, 0x240, 0x240)
+
+    m.marioObj.header.gfx.angle.x = m.marioObj.header.gfx.angle.x - m.faceAngle.x
+    m.marioObj.header.gfx.angle.z = -m.faceAngle.z
+
+    m.marioBodyState.headAngle.x = approach_f32(m.marioBodyState.headAngle.x, 0, 0x4A0, 0x4A0)
+    if m.playerIndex == 0 then
+        headDir = approach_f32(headDir, 0, 0x4A0, 0x4A0)
+        m.marioBodyState.headAngle.y = headDir
+    end
+    m.marioBodyState.headAngle.z = m.faceAngle.z
+
+    return 0
+end
+
+---@param m MarioState
+local grab_obj_in_water = function(m)
+    if m.playerIndex ~= 0 then return end
+
+    if (m.marioObj.collidedObjInteractTypes & INTERACT_GRABBABLE) ~= 0 then
+        local o = mario_get_collided_object(m, INTERACT_GRABBABLE)
+        local dx = o.oPosX - m.pos.x
+        local dz = o.oPosZ - m.pos.z
+        local angleToObj = atan2s(dz, dx) - m.faceAngle.y
+
+        if math_abs(angleToObj) <= 0x2AAA then
+            m.usedObj = o
+            mario_grab_used_object(m)
+            if m.heldObj ~= nil then
+                m.marioBodyState.grabPos = GRAB_POS_LIGHT_OBJ
+                return true
+            end
+        end
+    end
+
+    return false
+end
+
+---@param m MarioState
+local act_sis_water_grab = function(m)
+    if m.actionState == 0 then
+        set_mario_animation(m, MARIO_ANIM_WATER_GRAB_OBJ_PART1)
+
+        if m.forwardVel < 56 then
+            m.forwardVel = m.forwardVel + 3.7
+        end
+
+        grab_obj_in_water(m)
+
+        if is_anim_at_end(m) ~= 0 then
+            if m.heldObj ~= nil then
+                m.actionState = 2
+                if m.playerIndex == 0 and obj_has_behavior_id(m.heldObj, id_bhvKoopaShellUnderwater) ~= 0 then
+                    shellTimer = SHELL_DURATION
+                    play_shell_music()
+                end
+            else
+                m.actionState = 1
+            end
+        end
+
+    elseif m.actionState == 1 then
+        set_mario_animation(m, MARIO_ANIM_WATER_GRAB_OBJ_PART2)
+
+        if m.forwardVel > 30 then
+            m.forwardVel = m.forwardVel - 1.6
+        end
+
+        grab_obj_in_water(m)
+
+        if m.heldObj ~= nil then
+            m.actionState = 2
+            if m.playerIndex == 0 and obj_has_behavior_id(m.heldObj, id_bhvKoopaShellUnderwater) ~= 0 then
+                shellTimer = SHELL_DURATION
+                play_shell_music()
+            end
+        end
+
+        if is_anim_at_end(m) ~= 0 then
+            return set_mario_action(m, ACT_SIS_SWIMMING, 0)
+        end
+
+    elseif m.actionState == 2 then
+        set_mario_animation(m, MARIO_ANIM_WATER_PICK_UP_OBJ)
+
+        if m.forwardVel > 45 then
+            m.forwardVel = m.forwardVel - 0.42
+        end
+
+        if is_anim_at_end(m) ~= 0 then
+            return set_mario_action(m, ACT_SIS_SWIMMING, 0)
+        end
+    end
+
+    common_water_update(m)
+
+    set_swimming_at_surface_particles(m, PARTICLE_WAVE_TRAIL)
+    set_mario_particle_flags(m, PARTICLE_PLUNGE_BUBBLE, 0)
+
+    play_mario_sound(m, SOUND_ACTION_SWIM, CHAR_SOUND_YAH_WAH_HOO)
+
+    m.faceAngle.z = approach_f32(m.faceAngle.z, 0, 0x240, 0x240)
+
+    m.marioObj.header.gfx.angle.x = m.marioObj.header.gfx.angle.x - m.faceAngle.x
+    m.marioObj.header.gfx.angle.z = -m.faceAngle.z
+
+    m.marioBodyState.headAngle.x = approach_f32(m.marioBodyState.headAngle.x, 0, 0x4A0, 0x4A0)
+    if m.playerIndex == 0 then
+        headDir = approach_f32(headDir, 0, 0x4A0, 0x4A0)
+        m.marioBodyState.headAngle.y = headDir
+    end
+    m.marioBodyState.headAngle.z = m.faceAngle.z
+end
+
+---@param m MarioState
+local act_sis_water_throw = function(m)
+    set_mario_animation(m, MARIO_ANIM_WATER_THROW_OBJ)
+    play_mario_sound(m, SOUND_ACTION_SWIM, CHAR_SOUND_YAH_WAH_HOO)
+
+    if is_anim_at_end(m) ~= 0 then
+        return set_mario_action(m, ACT_SIS_SWIMMING, 0)
+    end
+
+    m.actionTimer = m.actionTimer + 1
+
+    if m.actionTimer == 5 then
+        if m.playerIndex == 0 then
+            stop_shell_music()
+            shellTimer = 0
+        end
+        mario_throw_held_object(m)
+        queue_rumble_data_mario(m, 3, 50)
+    end
+
+    if m.forwardVel >= 0.29 then
+        m.forwardVel = m.forwardVel - 0.29
+    end
+
+    common_water_update(m)
+
+    set_swimming_at_surface_particles(m, PARTICLE_WAVE_TRAIL)
+
+    m.faceAngle.z = approach_f32(m.faceAngle.z, 0, 0x240, 0x240)
+
+    m.marioObj.header.gfx.angle.x = m.marioObj.header.gfx.angle.x - m.faceAngle.x
+    m.marioObj.header.gfx.angle.z = -m.faceAngle.z
+
+    m.marioBodyState.headAngle.x = approach_f32(m.marioBodyState.headAngle.x, 0, 0x4A0, 0x4A0)
+    if m.playerIndex == 0 then
+        headDir = approach_f32(headDir, 0, 0x4A0, 0x4A0)
+        m.marioBodyState.headAngle.y = headDir
+    end
+    m.marioBodyState.headAngle.z = m.faceAngle.z
+end
+
+hook_mario_action(ACT_SIS_WATER_IDLE, act_sis_water_idle)
+hook_mario_action(ACT_SIS_SWIMMING, act_sis_swimming)
+hook_mario_action(ACT_SIS_WATER_SKID, act_sis_water_skid)
+hook_mario_action(ACT_SIS_WATER_GRAB, act_sis_water_grab, INT_PUNCH)
+hook_mario_action(ACT_SIS_WATER_THROW, act_sis_water_throw)
+
+hook_event(HOOK_MARIO_UPDATE, function(m)
+    if menuTable[1][2].status == 0 then return end
+
+    if toIdleAction[m.action] then
+        set_mario_action(m, ACT_SIS_WATER_IDLE, 0)
+    elseif toSwimAction[m.action] then
+        set_mario_action(m, ACT_SIS_SWIMMING, 0)
+    end
+
+    if obj_has_behavior_id(m.heldObj, id_bhvKoopaShellUnderwater) ~= 0 and m.playerIndex == 0 and m.action ~= ACT_SIS_WATER_GRAB then
+        shellTimer = shellTimer - 1
+
+        if shellTimer == 60 then
+            --fadeout_shell_music() doesnt exist so i replicated what fadeout_cap_music() does but with the shell's sequence id
+            fadeout_background_music(SEQ_EVENT_POWERUP | SEQ_VARIATION, 600)
+        end
+
+        if shellTimer <= 0 then
+            stop_shell_music()
+            spawn_mist_particles()
+            m.heldObj.oInteractStatus = INT_STATUS_STOP_RIDING
+            m.heldObj = nil
+        end
+    end
+end)
+
+hook_event(HOOK_ON_SET_MARIO_ACTION, function(m)
+    if menuTable[1][2].status == 0 then return end
+
+    if m.action == ACT_WATER_PLUNGE then
+        m.vel.y = m.vel.y * 0.75
+        m.forwardVel = m.forwardVel * 2.2
+
+        m.faceAngle.x = atan2s(m.forwardVel, m.vel.y)
+        if m.forwardVel < 0 then
+            m.faceAngle.y = m.faceAngle.y + 0x8000
+        end
+        m.forwardVel = math.abs(m.forwardVel) + math_abs(m.vel.y)
+        m.actionTimer = 21
+    end
+
+    if m.action == ACT_WATER_JUMP or m.action == ACT_HOLD_WATER_JUMP then
+        vec3f_set(m.marioBodyState.headAngle, 0, 0, 0)
+    end
+end)
 
 --All Hooks
 hook_event(HOOK_MARIO_UPDATE, mario_update)

@@ -47,6 +47,17 @@ menuTable = {
             Line3 = "movement feel better"
         },
         [2] = {
+            name = "Better Swimming",
+            nameSave = "BSSave",
+            status = tonumber(mod_storage_load("BSSave")),
+            statusMax = 1,
+            --Description
+            Line1 = "Makes water movement similar",
+            Line2 = "to ground movement, using",
+            Line3 = "Analog for Horozontal Movement",
+            Line4 = "and A & Z for Vertical Movement."
+        },
+        [3] = {
             name = "Lava Groundpound",
             nameSave = "LGPSave",
             status = tonumber(mod_storage_load("LGPSave")),
@@ -56,7 +67,7 @@ menuTable = {
             Line2 = "give you a speed and height",
             Line3 = "boost, at the cost of health."
         },
-        [3] = {
+        [4] = {
             name = "Anti-Quicksand",
             nameSave = "AQSSave",
             status = tonumber(mod_storage_load("AQSSave")),
@@ -72,7 +83,7 @@ menuTable = {
             Line4 = "deaths. (Does not include",
             Line5 = "Lava Groundpound functions)"
         },
-        [4] = {
+        [5] = {
             name = "Modded Wallkick",
             nameSave = "WKSave",
             status = tonumber(mod_storage_load("WKSave")),
@@ -83,7 +94,7 @@ menuTable = {
             Line3 = "you can wall kick at, best",
             Line4 = "for a more modern experience."
         },
-        [5] = {
+        [6] = {
             name = "Strafing",
             nameSave = "StrafeSave",
             status = tonumber(mod_storage_load("StrafeSave")),
@@ -96,7 +107,7 @@ menuTable = {
             Line4 = "Blast 2. Recommended if you",
             Line5 = "play with Mouse and Keyboard."
         },
-        [6] = {
+        [7] = {
             name = "Ledge Parkour",
             nameSave = "LedgeSave",
             status = tonumber(mod_storage_load("LedgeSave")),
@@ -372,7 +383,7 @@ local function set_status_and_save(table, index, status)
 end
 
 for i = 1, #menuTable[1] do
-    if i == 1 or i == 5 then
+    if i == 1 or i == 6 then
         set_status_and_save(menuTable[1], i, 0)
     else
         set_status_and_save(menuTable[1], i, 1)
@@ -414,7 +425,7 @@ for i in pairs(gActiveMods) do
             menuTable[2][1].status = 3
             menuTable[2][1][3] = "External HUD"
         end
-        if (gActiveMods[i].name:find("OMM Rebirth")) or (gActiveMods[i].name:find("Super Mario 64: The Underworld")) and menuTable[2][2].status == 1 then
+        if (gActiveMods[i].name:find("OMM Rebirth")) or (gActiveMods[i].name:find("Super Mario 64: The Underworld")) or (gActiveMods[i].name:find("Super Mario Parallel Stars")) and menuTable[2][2].status == 1 then
             menuTable[2][1].status = 3
             menuTable[2][1][3] = "External HUD"
         end
@@ -995,9 +1006,9 @@ function update()
     if menuTable[1][1].unlocked ~= 1 then
         menuTable[1][1].status = menuTable[1][1].lockTo
     end
-    menuTable[1][3].unlocked = tonumber(args[6])
-    if menuTable[1][3].unlocked ~= 1 then
-        menuTable[1][3].status = menuTable[1][3].lockTo
+    menuTable[1][4].unlocked = tonumber(args[6])
+    if menuTable[1][4].unlocked ~= 1 then
+        menuTable[1][4].status = menuTable[1][4].lockTo
     end
 end
 
