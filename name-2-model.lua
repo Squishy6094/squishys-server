@@ -544,6 +544,13 @@ modelTable = {
             forcePlayer = CT_LUIGI,
             icon = "Default",
             credit = "FluffaMario, CheesyNacho"
+        },
+        [3] = {
+            model = smlua_model_util_get_id("mawio_geo"),
+            modelName = "Mawio :3",
+            forcePlayer = CT_MARIO,
+            icon = "Default",
+            credit = "sm64rise"
         }
     },
     [KitKat] = {
