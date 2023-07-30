@@ -363,6 +363,8 @@ themeTable = {
     }
 }
 
+local maxThemes = 6
+
 local function set_status_and_save(table, index, status)
     if mod_storage_load(table[index].nameSave) ~= nil and table[index].status ~= nil then return end
     table[index].status = status
@@ -393,7 +395,7 @@ for i = 1, #menuTable[3] do
     end
 end
 
-for i = 1, 6 do
+for i = 1, maxThemes do
     if mod_storage_load("UnlockedTheme-"..i) == nil then
         mod_storage_save("UnlockedTheme-"..i, "nil")
     end
@@ -421,10 +423,10 @@ end
 
 local maxThemeNum = 0
 function theme_load()
-    for i = 1, 6 do
+    for i = 1, maxThemes do
         themeTable[i] = nil
     end
-    for i = 1, 6 do
+    for i = 1, maxThemes do
         if mod_storage_load("UnlockedTheme-"..i) == "Uoker" then
             themeTable[#themeTable + 1] = {
                 name = "Uoker",
@@ -491,7 +493,7 @@ function theme_unlock(themestring, themeexplain)
     local m = gMarioStates[0]
     if themeexplain == nil then themeexplain = "No condition provided" end
 
-    for i = 1, 6 do
+    for i = 1, maxThemes do
         local currentTheme = mod_storage_load("UnlockedTheme-"..i)
 
         if currentTheme == themestring then
@@ -529,8 +531,6 @@ function displaymenu()
         mod_storage_save("ThemeSave", "0")
     end
 
-    djui_hud_set_render_behind_hud(false)
-
     if stallScriptTimer < 0 then stallScriptTimer = stallScriptTimer - 1 return end
     if is_game_paused() or rules then
         RoomTime = string.format("%s:%s:%s", string.format("%02d", math.floor((get_time() - gGlobalSyncTable.RoomStart)/60/60)), string.format("%02d", math.floor((get_time() - gGlobalSyncTable.RoomStart)/60)%60), string.format("%02d", math.floor(get_time() - gGlobalSyncTable.RoomStart)%60))
@@ -541,6 +541,7 @@ function displaymenu()
     halfScreenWidth = djui_hud_get_screen_width()*0.5
 
     if is_game_paused() and not djui_hud_is_pause_menu_created() then
+        djui_hud_set_render_behind_hud(false)
         if m.action == ACT_EXIT_LAND_SAVE_DIALOG then
             djui_hud_set_color(0, 0, 0, 255)
             djui_hud_print_text("Room has been Open for:", (halfScreenWidth - 33), 31, 0.3)
@@ -561,8 +562,8 @@ function displaymenu()
     if menu then
         if noLoopSound and themeTable[menuTable[2][3].status].sound ~= nil then
             audio_sample_play(themeTable[menuTable[2][3].status].sound, m.pos, 1)
-            noLoopSound = false
         end
+        noLoopSound = false
 
         if menuTable[2][5].status == 1 then
             if math.abs(bobbingVar) > 100 then
@@ -588,6 +589,9 @@ function displaymenu()
         if themeTable[menuTable[2][3].status].headerColor == nil then
             themeTable[menuTable[2][3].status].headerColor = themeTable[menuTable[2][3].status].hoverColor
         end
+        
+        djui_hud_set_color(0, 0, 0, 150)
+        djui_hud_render_rect(0, 0, djui_hud_get_screen_width()+5, 240)
 
         if menuTable[2][4].status == 1 then
             djui_hud_set_color(255, 255, 255, 200)
@@ -605,9 +609,6 @@ function displaymenu()
                 end
             end
         end
-
-        djui_hud_set_color(0, 0, 0, 150)
-        djui_hud_render_rect(0, 0, djui_hud_get_screen_width()+5, 240)
 
         djui_hud_set_font(FONT_MENU)
         djui_hud_set_resolution(RESOLUTION_N64)
