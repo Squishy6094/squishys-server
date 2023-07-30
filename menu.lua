@@ -374,7 +374,7 @@ themeTable = {
     }
 }
 
-local maxThemes = 6
+local maxThemes = 7
 
 local function set_status_and_save(table, index, status)
     if mod_storage_load(table[index].nameSave) ~= nil and table[index].status ~= nil then return end
@@ -487,6 +487,14 @@ function theme_load()
                 color = "\\#ffff00\\",
                 hoverColor = {r = 255, g = 255, b = 0},
                 texture = get_texture_info("theme-starroad")
+            }
+        elseif mod_storage_load("UnlockedTheme-"..i) == "Cake" then
+            themeTable[#themeTable + 1] = {
+                name = "Delicious Cake",
+                saveName = "Cake",
+                color = "\\#ff7700\\",
+                hoverColor = {r = 255, g = 100, b = 100},
+                texture = get_texture_info("theme-120s")
             }
         end
         if mod_storage_load("UnlockedTheme-1") == "nil" then
@@ -897,6 +905,11 @@ function update_theme_requirements(m)
     --Star Road 130 Stars Completion Check
     if currHack == 3 and m.numStars >= 130 then
         theme_unlock("StarRoad", "Collect 130 Stars in Star Road")
+    end
+
+    --Vanilla 120 Stars Check
+    if currHack == 0 and m.numStars >= 120 then
+        theme_unlock("Cake", "Collect all 120 Stars in Vanilla SM64")
     end
 
     --Crudelo Challenge Check
