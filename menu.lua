@@ -800,15 +800,13 @@ function before_update(m)
                 end
             end
         end
-        if (m.controller.buttonDown & B_BUTTON) ~= 0 or (m.controller.buttonDown & START_BUTTON) ~= 0 and menu then
+
+        if (m.controller.buttonDown & B_BUTTON) ~= 0 or (m.controller.buttonDown & START_BUTTON) ~= 0 or (m.controller.buttonPressed & L_TRIG) ~= 0 and menu then
             print("Saving configuration to 'squishys-server.sav'")
             menu = false
-            if is_game_paused() then
-                m.controller.buttonPressed = START_BUTTON
-            else
-                m.action = ACT_IDLE
-            end
+            play_sound(SOUND_MENU_MESSAGE_DISAPPEAR, m.marioObj.header.gfx.cameraToObject)
         end
+
         m.controller.rawStickY = 0
         m.controller.rawStickX = 0
         m.controller.stickX = 0
@@ -828,6 +826,7 @@ function before_update(m)
         if (m.controller.buttonDown & L_TRIG) ~= 0 and not menu then
             m.controller.buttonPressed = START_BUTTON
             menu = true
+            play_sound(SOUND_MENU_MESSAGE_APPEAR, m.marioObj.header.gfx.cameraToObject)
         end
     end
 end
@@ -835,6 +834,11 @@ end
 function on_menu_command(msg)
     args = split(msg)
     if args[2] == nil then
+        if menu then
+            play_sound(SOUND_MENU_MESSAGE_DISAPPEAR, gMarioStates[0].marioObj.header.gfx.cameraToObject)
+        else
+            play_sound(SOUND_MENU_MESSAGE_APPEAR, gMarioStates[0].marioObj.header.gfx.cameraToObject)
+        end
         menu = not menu
         return true
     end
@@ -854,6 +858,7 @@ function on_menu_command(msg)
             if tonumber(args[2]) > 0 and tonumber(args[2]) <= 4 then
                 optionTab = tonumber(args[2])
                 djui_chat_message_create("Redirected Tab to "..menuTable[optionTab].name)
+                play_sound(SOUND_MENU_MESSAGE_APPEAR, gMarioStates[0].marioObj.header.gfx.cameraToObject)
                 menu = true
             else
                 djui_chat_message_create("Invalid Tab Entered")
@@ -864,6 +869,7 @@ function on_menu_command(msg)
             if tonumber(args[3]) > 0 and tonumber(args[3]) <= #menuTable[optionTab] then
                 optionHover = tonumber(args[3])
                 djui_chat_message_create("Redirected Option to "..menuTable[optionTab][optionHover].name)
+                play_sound(SOUND_MENU_MESSAGE_APPEAR, gMarioStates[0].marioObj.header.gfx.cameraToObject)
                 menu = true
             else
                 djui_chat_message_create("Invalid Option Entered")
