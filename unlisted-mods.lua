@@ -395,6 +395,7 @@ end
 --- @param m MarioState
 --- @param o Object
 local function allow_interact(m, o)
+    if _G.mhExists and not _G.mhApi.interactionIsValid(m, o, type) then return false end
     if get_id_from_behavior(o.behavior) == id_bhvBrokenDoor and gNetworkPlayers[m.playerIndex].globalIndex == o.oDoorBuster then return false end
     return true
 end

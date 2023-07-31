@@ -414,14 +414,14 @@ end
 
 for i in pairs(gActiveMods) do
     --Mod Check Preventing Moveset Clashing
-    if (gActiveMods[i].incompatible ~= nil and gActiveMods[i].incompatible:find("moveset")) or (gActiveMods[i].name:find("Pasta") and gActiveMods[i].name:find("Castle")) then
+    if (gActiveMods[i].incompatible ~= nil and gActiveMods[i].incompatible:find("moveset")) or gActiveMods[i].name:find("Pasta Castle") then
         menuTable[4][5].status = 0
         menuTable[1][1][-1] = "External Moveset"
         gGlobalSyncTable.syncData = tostring(gServerSettings.bubbleDeath) .. " " .. tostring(gServerSettings.playerInteractions) .. " " .. tostring(KBTranslate) .. " " .. tostring(gServerSettings.stayInLevelAfterStar) .. " " .. tostring(0) .. " " .. tostring(1)
     end
     --Mod Check Preventing HUD Overlapping
     if menuTable[2][2].status ~= 0 then
-        if (gActiveMods[i].incompatible ~= nil and gActiveMods[i].incompatible:find("gamemode")) and not (gActiveMods[i].name:find("Personal Star Counter EX+")) and menuTable[2][2].status > 0 then
+        if (gActiveMods[i].incompatible ~= nil and gActiveMods[i].incompatible:find("gamemode")) and not (gActiveMods[i].name:find("Personal Star Counter EX+")) and not (gActiveMods[i].name:find("\\#00ffff\\Mario\\#ff5a5a\\Hun\\\\t")) and menuTable[2][2].status > 0 then
             menuTable[2][1].status = 3
             menuTable[2][1][3] = "External HUD"
         end

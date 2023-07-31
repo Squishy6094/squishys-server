@@ -134,6 +134,10 @@ function on_chat_message(m, msg)
             rolestring = rolestring .. " " .. rolestringTable[tonumber(args[i])]()
         end
 
+        if _G.mhExists and _G.mhApi.get_tag(m.playerIndex) ~= nil then
+            rolestring = rolestring .. " \\#dcdcdc\\| \\#00ffff\\M\\#ff5a5a\\H " .. _G.mhApi.get_tag(m.playerIndex)
+        end
+
         if rolestring ~= "" then
             djui_chat_message_create(name .. "" .. rolestring .. ": \\#dcdcdc\\" .. msg)
         end
@@ -150,6 +154,11 @@ function on_chat_message(m, msg)
 end
 
 hook_event(HOOK_UPDATE, update_roles)
-hook_event(HOOK_ON_CHAT_MESSAGE, on_chat_message)
+-- here, we only hook the function if MarioHunt does not exist
+if _G.mhExists then
+  _G.mhApi.chatValidFunction = on_chat_message -- don't worry, it will still run
+else
+  hook_event(HOOK_ON_CHAT_MESSAGE, on_chat_message)
+end
 hook_event(HOOK_ON_PLAYER_CONNECTED, reset_roles)
 hook_event(HOOK_ON_PLAYER_DISCONNECTED, reset_roles)
