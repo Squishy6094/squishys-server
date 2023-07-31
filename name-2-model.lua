@@ -31,6 +31,7 @@ Plusle = "635629441678180362"
 Frosty = "541396312608866305"
 Shard = "1064980922371420313"
 Isaackie = "1093357396920901643"
+TroopaParaKoopa = "984667169738600479"
 
 local m = gMarioStates[0]
 
@@ -694,6 +695,20 @@ modelTable = {
             credit = "By CheesyNacho",
         },
     },
+    [TroopaParaKoopa] = {
+        nickname = "TroopaParaKoopa",
+        [0] = {
+            model = nil,
+            modelName = "Default",
+            icon = "Default"
+        },
+        [1] = {
+            model = smlua_model_util_get_id("koopa_geo"),
+            modelName = "Koopa Shell Mario",
+            forcePlayer = CT_MARIO,
+            credit = "By sm64mods, Brob2nd",
+        },
+    }
 }
 
 menuErrorMsg = "Error not found"
