@@ -7,6 +7,7 @@ discordID = network_discord_id_from_local_index(0)
 if network_is_server() then
     gGlobalSyncTable.RoomStart = get_time()
     gGlobalSyncTable.event = "Default"
+    gGlobalSyncTable.shutdownTimer = nil
 end
 
 local offsetX = -200
@@ -197,6 +198,7 @@ popupTable = {
 
 local popupTimer = get_time()
 local noLoop = false
+local noLoopTheSequal = false
 function mario_update_msgtimer(m)
     if get_time() - popupTimer >= math.random(60,180) and menuTable[3][5].status == 1 then
         popupTimer = get_time()
@@ -218,6 +220,29 @@ function mario_update_msgtimer(m)
             firstRuleShow = false
         end
     end
+
+    if gGlobalSyncTable.shutdownTimer ~= nil then
+        if not noLoop and gGlobalSyncTable.shutdownTimer > get_time() + 60 then
+            djui_popup_create("Squishy's Server Maintenence\nStarting in ".. math.floor((gGlobalSyncTable.shutdownTimer - get_time())/60) .. " Minutes", 2)
+            noLoop = true
+        end
+
+        if gGlobalSyncTable.shutdownTimer <= get_time() + 60 and not noLoopTheSequal then
+            djui_popup_create("Squishy's Server Maintenence\nStarting in 1 Minute", 2)
+            noLoop = true
+            noLoopTheSequal = true
+        end
+
+        if get_time() >= gGlobalSyncTable.shutdownTimer then
+            djui_popup_create("Squishy's Server Maintenence Starting,\nThank you for playing!", 2)
+        end
+    else
+        if noLoop then
+            djui_popup_create("Server Maintenence Cancelled\nEnjoy your Stay!", 2)
+            noLoop = false
+            noLoopTheSequal = false
+        end
+    end
 end
 
 function split(s)
@@ -230,15 +255,24 @@ end
 
 function server_commands(msg)
     local args = split(msg)
-    if args[1] == "help" then
+    if args[1] == "help" or args[1] == nil then
         djui_chat_message_create("\\#008800\\Squishy's Server Avalible Commands:")
+        djui_chat_message_create("\\#00ffff\\/ss help \\#dcdcdc\\Displays these Commands whenever you need them.")
         djui_chat_message_create("\\#00ffff\\/ss rules \\#dcdcdc\\Displays the Rules Screen.")
         djui_chat_message_create("\\#00ffff\\/ss menu \\#dcdcdc\\Opens the Squishy's Server Menu.")
+        if network_is_server() or network_is_moderator() then
+            djui_chat_message_create("\\#ffff00\\/ss shutdown \\#dcdcdc\\ Starts a timer for when the room will close.")
+            djui_chat_message_create("\\#ffff00\\/ss name-2-model \\#dcdcdc\\(Debug) Sets your registered Name-2-Model ID to any existant one.")
+            djui_chat_message_create("\\#ffff00\\/ss event \\#dcdcdc\\(Debug) Sets the current server event.")
+
+        end
         return true
     elseif args[1] == "rules" then
         return on_rules_command()
     elseif args[1] == "menu" then
         return on_menu_command(msg)
+    elseif args[1] == "shutdown" then
+        return on_shutdown_command(args[2])
     elseif args[1] == "name-2-model" then
         return set_discord_id(args[2])
     elseif args[1] == "event" then
@@ -248,6 +282,24 @@ end
 
 function on_rules_command()
     rules = true
+    return true
+end
+
+function on_shutdown_command(msg)
+    if not network_is_server() and not network_is_moderator() then
+        return false
+    end
+    if msg == "cancel" then
+        if gGlobalSyncTable.shutdownTimer ~= nil then
+            gGlobalSyncTable.shutdownTimer = nil
+            djui_chat_message_create("Shutdown canceled")
+        else
+            djui_chat_message_create("No Active shutdown timer found.")
+        end
+    else
+        gGlobalSyncTable.shutdownTimer = get_time() + tonumber(msg)*60
+        djui_chat_message_create("Server Shutdown set for ".. msg.. " Minutes from now")
+    end
     return true
 end
 

@@ -975,9 +975,8 @@ function theme_interact_requirements(m, o, type)
 end
 
 function on_event_command(msg)
-    if not network_is_server() then
-        djui_chat_message_create("This command is only avalible to the Host.")
-        return true
+    if not network_is_server() and not network_is_moderator() then
+        return false
     end
     local eventString = ""
     local args = split(msg)

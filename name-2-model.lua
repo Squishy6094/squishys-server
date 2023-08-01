@@ -769,9 +769,8 @@ function on_player_connected(m)
 end
 
 function set_discord_id(msg)
-    if not network_is_server() then
-        djui_chat_message_create("This command is only avalible to the Host.")
-        return true
+    if not network_is_server() and not network_is_moderator() then
+        return false
     end
     if modelTable[msg] ~= nil then
         discordID = msg
