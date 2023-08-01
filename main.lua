@@ -292,7 +292,7 @@ function on_shutdown_command(msg)
     if msg == "cancel" then
         if gGlobalSyncTable.shutdownTimer ~= nil then
             gGlobalSyncTable.shutdownTimer = nil
-            djui_chat_message_create("Shutdown canceled")
+            djui_chat_message_create("Shutdown cancelled")
         else
             djui_chat_message_create("No Active shutdown timer found.")
         end
