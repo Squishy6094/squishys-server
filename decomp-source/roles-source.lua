@@ -60,7 +60,8 @@ local roleIDtable = {
     [817821798363955251] = "3", --Crispy
     [1092073683377455215] ="3", --Nut
     --sm64ex-coop (Verified Host)
-    [541396312608866305] ="3", --Mocha
+    [541396312608866305] = "3", --Mocha
+    [164574042479656962] = "3", --Chilly
 
 
     --Contributer
