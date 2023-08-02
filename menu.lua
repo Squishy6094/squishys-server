@@ -798,6 +798,11 @@ function before_update(m)
                 if menuTable[optionTab][optionHover].nameSave ~= nil then
                     mod_storage_save(menuTable[optionTab][optionHover].nameSave, tostring(menuTable[optionTab][optionHover].status))
                 end
+                if network_is_server() or network_is_moderator() then
+                    if optionTab == 4 and optionHover >= 1 then
+                        djui_popup_create_global("\\#00aa00\\[SS Update]\n\\#ffff77\\"..menuTable[optionTab][optionHover].name.."\\#dcdcdc\\ has been set to \\#ffff00\\"..tostring(menuTable[optionTab][optionHover].status.."\\#dcdcdc\\!"), 3)
+                    end
+                end
             end
         end
 
@@ -848,6 +853,11 @@ function on_menu_command(msg)
             djui_chat_message_create(menuTable[tonumber(args[2])][tonumber(args[3])].name.." set to "..tostring(menuTable[tonumber(args[2])][tonumber(args[3])].status))
             mod_storage_save(menuTable[tonumber(args[2])][tonumber(args[3])].nameSave, tostring(menuTable[tonumber(args[2])][tonumber(args[3])].status))
             menu = false
+            if network_is_server() or network_is_moderator() then
+                if tonumber(args[2]) == 4 and tonumber(args[4]) <= menuTable[tonumber(args[2])][tonumber(args[3])].statusMax then
+                    djui_popup_create_global("\\#00aa00\\[SS Update]\n\\#ffff77\\"..menuTable[optionTab][optionHover].name.."\\#dcdcdc\\ has been set to \\#ffff00\\"..tostring(menuTable[optionTab][optionHover].status.."\\#dcdcdc\\!"), 3)
+                end
+            end
             return true
         else
             djui_chat_message_create("Invalid Status Entered")
