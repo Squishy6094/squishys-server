@@ -855,7 +855,7 @@ function on_menu_command(msg)
             menu = false
             if network_is_server() or network_is_moderator() then
                 if tonumber(args[2]) == 4 and tonumber(args[4]) <= menuTable[tonumber(args[2])][tonumber(args[3])].statusMax then
-                    djui_popup_create_global("\\#00aa00\\[SS Update]\n\\#ffff77\\"..menuTable[optionTab][optionHover].name.."\\#dcdcdc\\ has been set to \\#ffff00\\"..tostring(menuTable[optionTab][optionHover].status.."\\#dcdcdc\\!"), 3)
+                    djui_popup_create_global("\\#00aa00\\[SS Update]\n\\#ffff77\\"..menuTable[tonumber(args[2])][tonumber(args[3])].name.."\\#dcdcdc\\ has been set to \\#ffff00\\"..tostring(menuTable[tonumber(args[2])][tonumber(args[3])].status.."\\#dcdcdc\\!"), 3)
                 end
             end
             return true
