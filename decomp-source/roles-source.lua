@@ -8,27 +8,27 @@
 -- -1 = Unverified Host
 
 local rolestringTable = {
-    [1] = function ()
+    [1] = function (index)
         return "\\#00aa00\\[Creator]"
     end,
-    [2] = function ()
+    [2] = function (index)
         return "\\#FF2400\\[Developer]"
     end,
-    [3] = function ()
-        if gPlayerSyncTable[0].ishost then
+    [3] = function (index)
+        if gPlayerSyncTable[index].ishost then
             return "\\#7FFFD4\\[Verified Host]"
         else
             return "\\#f23064\\[Bestie]"
         end
     end,
-    [4] = function ()
+    [4] = function (index)
         return "\\#0568e3\\[Contributor]"
     end,
-    [5] = function ()
+    [5] = function (index)
         return "\\#fcef42\\[Moderator]"
     end,
 
-    [-1] = function ()
+    [-1] = function (index)
         return "\\#ff0000\\[Unverified Host]"
     end,
 }
@@ -132,7 +132,7 @@ function on_chat_message(m, msg)
 
         local rolestring = ""
         for i = 1, #args do
-            rolestring = rolestring .. " " .. rolestringTable[tonumber(args[i])]()
+            rolestring = rolestring .. " " .. rolestringTable[tonumber(args[i])](m.playerIndex)
         end
 
         if _G.mhExists and _G.mhApi.get_tag(m.playerIndex) ~= nil then
