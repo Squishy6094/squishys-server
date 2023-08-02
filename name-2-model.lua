@@ -32,6 +32,7 @@ Frosty = "541396312608866305"
 Shard = "1064980922371420313"
 Isaackie = "1093357396920901643"
 TroopaParaKoopa = "984667169738600479"
+floofyxd = "1091528175575642122"
 
 local m = gMarioStates[0]
 
@@ -51,11 +52,6 @@ modelTable = {
     },
     [Squishy] = {
         nickname = "Squishy",
-        [0] = {
-            model = nil,
-            modelName = "Default",
-            icon = "Default"
-        },
         [1] = {
             model = smlua_model_util_get_id("squishy_geo"),
             modelName = "Squishy",
@@ -84,11 +80,6 @@ modelTable = {
     },
     [Spoomples] = {
         nickname = "Spoomples",
-        [0] = {
-            model = nil,
-            modelName = "Default",
-            icon = "Default",
-        },
         [1] = {
             model = smlua_model_util_get_id("ss_toad_player_geo"),
             modelName = "Super Show Toad",
@@ -112,11 +103,6 @@ modelTable = {
     },
     [Nut] = {
         nickname = "Nut",
-        [0] = {
-            model = nil,
-            modelName = "Default",
-            icon = "Default"
-        },
         [1] = {
             model = smlua_model_util_get_id("n64_goomba_player_geo"),
             modelName = "N64 Goomba",
@@ -152,11 +138,6 @@ modelTable = {
     },
     [Cosmic] = {
         nickname = "Cosmic",
-        [0] = {
-            model = nil,
-            modelName = "Default",
-            icon = "Default"
-        },
         [1] = {
             model = smlua_model_util_get_id("cosmic_geo"),
             modelName = "Weedcat",
@@ -167,11 +148,6 @@ modelTable = {
     },
     [Trashcam] = {
         nickname = "Trashcam",
-        [0] = {
-            model = nil,
-            modelName = "Default",
-            icon = "Default"
-        },
         [1] = {
             model = smlua_model_util_get_id("trashcam_geo"),
             modelName = "Trashcam",
@@ -196,11 +172,6 @@ modelTable = {
     },
     [Skeltan] = {
         nickname = "Skeltan",
-        [0] = {
-            model = nil,
-            modelName = "Default",
-            icon = "Default"
-        },
         [1] = {
             model = smlua_model_util_get_id("woop_geo"),
             modelName = "Wizard Wooper",
@@ -211,11 +182,6 @@ modelTable = {
     },
     [AgentX] = {
         nickname = "Agent X",
-        [0] = {
-            model = nil,
-            modelName = "Default",
-            icon = "Default"
-        },
         [1] = {
             model = smlua_model_util_get_id("gordon_geo"),
             modelName = "Gordon Freeman",
@@ -231,11 +197,6 @@ modelTable = {
     },
     [DepressedYoshi] = {
         nickname = "Depressed Yoshi",
-        [0] = {
-            model = nil,
-            modelName = "Default",
-            icon = "Default"
-        },
         [1] = {
             model = smlua_model_util_get_id("yoshi_player_geo"),
             modelName = "Yoshi",
@@ -251,11 +212,6 @@ modelTable = {
     },
     [Yosho] = {
         nickname = "Yosho",
-        [0] = {
-            model = nil,
-            modelName = "Default",
-            icon = "Default"
-        },
         [1] = {
             model = smlua_model_util_get_id("yoshi_player_geo"),
             modelName = "Yoshi",
@@ -265,11 +221,6 @@ modelTable = {
     },
     [KanHeaven] = {
         nickname = "KanHeaven",
-        [0] = {
-            model = nil,
-            modelName = "Default",
-            icon = "Default"
-        },
         [1] = {
             model = smlua_model_util_get_id("kan_geo"),
             modelName = "KanHeaven",
@@ -286,11 +237,6 @@ modelTable = {
     },
     [Bloxxel64Nya] = {
         nickname = "Bloxxel",
-        [0] = {
-            model = nil,
-            modelName = "Default",
-            icon = "Default"
-        },
         [1] = {
             model = smlua_model_util_get_id("nya_geo"),
             modelName = "Hatsune Maiku",
@@ -300,11 +246,6 @@ modelTable = {
     },
     [Vince] = {
         nickname = "0x2480",
-        [0] = {
-            model = nil,
-            modelName = "Default",
-            icon = "Default"
-        },
         [1] = {
             model = smlua_model_util_get_id("croc_geo"),
             modelName = "Croc",
@@ -315,11 +256,6 @@ modelTable = {
     },
     [Average] = {
         nickname = "Average <3",
-        [0] = {
-            model = nil,
-            modelName = "Default",
-            icon = "Default"
-        },
         [1] = {
             model = smlua_model_util_get_id("natsuki_geo"),
             modelName = "Natsuki",
@@ -342,11 +278,6 @@ modelTable = {
     },
     [Elby] = {
         nickname = "Elby",
-        [0] = {
-            model = nil,
-            modelName = "Default",
-            icon = "Default"
-        },
         [1] = {
             model = smlua_model_util_get_id("protogen_geo"),
             modelName = "Protogen",
@@ -388,11 +319,6 @@ modelTable = {
     },
     [Crispyman] = {
         nickname = "Crispy",
-        [0] = {
-            model = nil,
-            modelName = "Default",
-            icon = "Default"
-        },
         [1] = {
             model = smlua_model_util_get_id("wario_man_geo"),
             modelName = "Wario Man",
@@ -445,11 +371,6 @@ modelTable = {
     },
     [Butter] = {
         nickname = "Butter",
-        [0] = {
-            model = nil,
-            modelName = "Default",
-            icon = "Default"
-        },
         [1] = {
             model = smlua_model_util_get_id("nya_geo"),
             modelName = "Hatsune Maiku",
@@ -458,11 +379,6 @@ modelTable = {
     },
     [Mathew] = {
         nickname = "Mathew",
-        [0] = {
-            model = nil,
-            modelName = "Default",
-            icon = "Default"
-        },
         [1] = {
             model = smlua_model_util_get_id("mathew_geo"),
             modelName = "Mathew",
@@ -472,11 +388,6 @@ modelTable = {
     },
     [Peachy] = {
         nickname = "PeachyPeach",
-        [0] = {
-            model = nil,
-            modelName = "Default",
-            icon = "Default"
-        },
         [1] = {
             model = smlua_model_util_get_id("peach_player_geo"),
             modelName = "Princess Peach",
@@ -485,11 +396,6 @@ modelTable = {
     },
     [Eros] = {
         nickname = "Eros71",
-        [0] = {
-            model = nil,
-            modelName = "Default",
-            icon = "Default"
-        },
         [1] = {
             model = smlua_model_util_get_id("eros_geo"),
             modelName = "Eros",
@@ -499,11 +405,6 @@ modelTable = {
     },
     [Oquanaut] = {
         nickname = "Oqua",
-        [0] = {
-            model = nil,
-            modelName = "Default",
-            icon = "Default"
-        },
         [1] = {
             model = smlua_model_util_get_id("oqua_geo"),
             modelName = "Oqua",
@@ -513,11 +414,6 @@ modelTable = {
     },
     [RedBun] = {
         nickname = "Jonch",
-        [0] = {
-            model = nil,
-            modelName = "Default",
-            icon = "Default"
-        },
         [1] = {
             model = smlua_model_util_get_id("yoshi_player_geo"),
             modelName = "Yoshi",
@@ -527,11 +423,6 @@ modelTable = {
     },
     [Dvk] = {
         nickname = "Floralys",
-        [0] = {
-            model = nil,
-            modelName = "Default",
-            icon = "Default"
-        },
         [1] = {
             model = smlua_model_util_get_id("crudelo_geo"),
             modelName = "Crudelo Badge",
@@ -556,11 +447,6 @@ modelTable = {
     },
     [KitKat] = {
         nickname = "KitKat",
-        [0] = {
-            model = nil,
-            modelName = "Default",
-            icon = "Default"
-        },
         [1] = {
             model = smlua_model_util_get_id("pepperman_geo"),
             modelName = "Pepperman",
@@ -571,11 +457,6 @@ modelTable = {
     },
     [Rise] = {
         nickname = "sm64rise",
-        [0] = {
-            model = nil,
-            modelName = "Default",
-            icon = "Default"
-        },
         [1] = {
             model = smlua_model_util_get_id("mawio_geo"),
             modelName = "Mawio :3",
@@ -586,11 +467,6 @@ modelTable = {
     },
     [Yuyake] = {
         nickname = "Yuyake",
-        [0] = {
-            model = nil,
-            modelName = "Default",
-            icon = "Default"
-        },
         [1] = {
             model = smlua_model_util_get_id("yuyake_geo"),
             modelName = "Yuyake",
@@ -606,11 +482,6 @@ modelTable = {
     },
     [Plusle] = {
         nickname = "Plus",
-        [0] = {
-            model = nil,
-            modelName = "Default",
-            icon = "Default"
-        },
         [1] = {
             model = smlua_model_util_get_id("veph_geo"),
             modelName = "Veph the Dolphin-Fox",
@@ -654,11 +525,6 @@ modelTable = {
     },
     [Frosty] = {
         nickname = "Frosty",
-        [0] = {
-            model = nil,
-            modelName = "Default",
-            icon = "Default"
-        },
         [1] = {
             model = smlua_model_util_get_id("ski_geo"),
             modelName = "Ski",
@@ -668,11 +534,6 @@ modelTable = {
     },
     [Shard] = {
         nickname = "Archie",
-        [0] = {
-            model = nil,
-            modelName = "Default",
-            icon = "Default"
-        },
         [1] = {
             model = smlua_model_util_get_id("archie_geo"),
             modelName = "Archie",
@@ -681,32 +542,22 @@ modelTable = {
             credit = "Trashcam",
         },
     },
-    [Isaackie] = {
-        nickname = "Isaackie",
-        [0] = {
-            model = nil,
-            modelName = "Default",
-            icon = "Default"
-        },
-        [1] = {
-            model = smlua_model_util_get_id("net64toad_player_geo"),
-            modelName = "Net64 Toad",
-            forcePlayer = CT_TOAD,
-            credit = "By CheesyNacho",
-        },
-    },
     [TroopaParaKoopa] = {
         nickname = "TroopaParaKoopa",
-        [0] = {
-            model = nil,
-            modelName = "Default",
-            icon = "Default"
-        },
         [1] = {
             model = smlua_model_util_get_id("koopa_geo"),
             modelName = "Koopa Shell Mario",
             forcePlayer = CT_MARIO,
-            credit = "By sm64mods, Brob2nd",
+            credit = "sm64mods & Brob2nd",
+        },
+    },
+    [floofyxd] = {
+        nickname = "Boyfriend",
+        [1] = {
+            model = smlua_model_util_get_id("boyfriend_geo"),
+            modelName = "Boyfriend",
+            forcePlayer = CT_MARIO,
+            credit = "KuroButt",
         },
     }
 }
@@ -725,6 +576,14 @@ if modelTable[discordID] == nil then
     print("Sign-in Failed, No Models Found")
 elseif discordID ~= "0" then
     print("Signed into Name-2-Model as ".. modelTable[discordID].nickname)
+end
+
+if modelTable[discordID][0] == nil then
+    modelTable[discordID][0] = {
+        model = nil,
+        modelName = "Default",
+        icon = "Default"
+    }
 end
 
 if menuTable[3][1].status == nil then
