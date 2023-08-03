@@ -374,7 +374,7 @@ themeTable = {
     }
 }
 
-local maxThemes = 8
+local maxThemes = 9
 
 local function set_status_and_save(table, index, status)
     if mod_storage_load(table[index].nameSave) ~= nil and table[index].status ~= nil then return end
@@ -504,6 +504,14 @@ function theme_load()
                 hoverColor = {r = 136, g = 119, b = 86},
                 texture = get_texture_info("theme-heaven")
             }
+        elseif mod_storage_load("UnlockedTheme-"..i) == "Care" then
+            themeTable[#themeTable + 1] = {
+                name = "The Caretaker",
+                saveName = "Care",
+                color = "\\#c1417e\\",
+                hoverColor = {r = 193, g = 65, b = 126},
+                texture = get_texture_info("theme-care")
+            }
         end
         if mod_storage_load("UnlockedTheme-1") == "nil" then
             themeTable[0].name = "No Themes Unlocked"
@@ -517,6 +525,12 @@ end
 theme_load()
 
 function theme_unlock(themestring, themeexplain)
+    for i = 1, #themeTable do
+        if themestring == themeTable[i].saveName then
+            return
+        end
+    end
+
     local m = gMarioStates[0]
     if themeexplain == nil then themeexplain = "No condition provided" end
 
@@ -969,7 +983,7 @@ function update_theme_requirements(m)
         heavanlyChallenge = 0
     end
 
-    if heavanlyChallenge >= 1800 and heavanlyChallenge <= 1803 then
+    if heavanlyChallenge >= 1800 then
         theme_unlock("Heavenly", "Stay airborne for 60 seconds")
     end
 end
