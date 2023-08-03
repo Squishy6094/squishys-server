@@ -510,6 +510,8 @@ function theme_load()
                 saveName = "Care",
                 color = "\\#c1417e\\",
                 hoverColor = {r = 193, g = 65, b = 126},
+                hasHeader = true,
+                headerColor = {r = 255, g = 255, b = 255},
                 texture = get_texture_info("theme-care")
             }
         end
@@ -709,6 +711,9 @@ function displaymenu()
 
         if menuTable[optionTab][optionHover].status ~= nil then
             if menuTable[optionTab][optionHover].unlocked == nil then menuTable[optionTab][optionHover].unlocked = 1 end
+            if menuTable[optionTab][optionHover][1] == nil then menuTable[optionTab][optionHover][1] = "On" end
+            if menuTable[optionTab][optionHover][0] == nil then menuTable[optionTab][optionHover][0] = "Off" end
+
             if menuTable[optionTab][optionHover].unlocked ~= 1 then
                 djui_hud_print_text(menuTable[optionTab][optionHover][-1], (halfScreenWidth), 70 + (optionHover * 10) + bobbing, 0.3)
                 menuTable[optionTab][optionHover].status = menuTable[optionTab][optionHover].lockTo
@@ -728,13 +733,6 @@ function displaymenu()
                     djui_hud_print_text(themeTable[menuTable[2][3].status].name, (halfScreenWidth), 70 + (optionHover * 10) + bobbing, 0.3)
                     if menuTable[2][3].statusMax == nil then
                         menuTable[2][3].statusMax = maxThemeNum
-                    end
-                else
-                    if menuTable[optionTab][optionHover].status > 0 then
-                        djui_hud_set_color(255, 255, 255, 255)
-                        djui_hud_print_text("On", (halfScreenWidth), 70 + (optionHover * 10) + bobbing, 0.3)
-                    else
-                        djui_hud_print_text("Off", (halfScreenWidth), 70 + (optionHover * 10) + bobbing, 0.3)
                     end
                 end
             end
@@ -821,7 +819,7 @@ function before_update(m)
                 end
                 if network_is_server() or network_is_moderator() then
                     if optionTab == 4 and optionHover >= 1 then
-                        djui_popup_create_global("\\#00aa00\\[SS Update]\n\\#ffff77\\"..menuTable[optionTab][optionHover].name.."\\#dcdcdc\\ has been set to \\#ffff00\\"..tostring(menuTable[optionTab][optionHover].status.."\\#dcdcdc\\!"), 3)
+                        djui_popup_create_global("\\#00aa00\\Squishy's Server Ruleset:\n\\#ffff77\\"..menuTable[optionTab][optionHover].name.."\\#dcdcdc\\ was set to \\#ffff00\\"..tostring(menuTable[optionTab][optionHover][menuTable[optionTab][optionHover].status].."\\#dcdcdc\\!"), 3)
                     end
                 end
             end
@@ -869,14 +867,18 @@ function on_menu_command(msg)
         return true
     end
     if args[4] ~= nil then
+        if menuTable[tonumber(args[2])][tonumber(args[3])][1] == nil then menuTable[tonumber(args[2])][tonumber(args[3])][1] = "On" end
+        if menuTable[tonumber(args[2])][tonumber(args[3])][0] == nil then menuTable[tonumber(args[2])][tonumber(args[3])][0] = "Off" end
         if tonumber(args[4]) >= 0 and tonumber(args[4]) <= menuTable[tonumber(args[2])][tonumber(args[3])].statusMax then
             menuTable[tonumber(args[2])][tonumber(args[3])].status = tonumber(args[4])
-            djui_chat_message_create(menuTable[tonumber(args[2])][tonumber(args[3])].name.." set to "..tostring(menuTable[tonumber(args[2])][tonumber(args[3])].status))
-            mod_storage_save(menuTable[tonumber(args[2])][tonumber(args[3])].nameSave, tostring(menuTable[tonumber(args[2])][tonumber(args[3])].status))
+            djui_chat_message_create(menuTable[tonumber(args[2])][tonumber(args[3])].name.." set to "..tostring(menuTable[tonumber(args[2])][tonumber(args[3])][menuTable[tonumber(args[2])][tonumber(args[3])].status]))
+            if menuTable[tonumber(args[2])][tonumber(args[3])].nameSave ~= nil then
+                mod_storage_save(menuTable[tonumber(args[2])][tonumber(args[3])].nameSave, tostring(menuTable[tonumber(args[2])][tonumber(args[3])].status))
+            end
             menu = false
             if network_is_server() or network_is_moderator() then
                 if tonumber(args[2]) == 4 and tonumber(args[4]) <= menuTable[tonumber(args[2])][tonumber(args[3])].statusMax then
-                    djui_popup_create_global("\\#00aa00\\[SS Update]\n\\#ffff77\\"..menuTable[tonumber(args[2])][tonumber(args[3])].name.."\\#dcdcdc\\ has been set to \\#ffff00\\"..tostring(menuTable[tonumber(args[2])][tonumber(args[3])].status.."\\#dcdcdc\\!"), 3)
+                    djui_popup_create_global("\\#00aa00\\Squishy's Server Ruleset:\n\\#ffff77\\"..menuTable[tonumber(args[2])][tonumber(args[3])].name.."\\#dcdcdc\\ was set to \\#ffff00\\"..tostring(menuTable[tonumber(args[2])][tonumber(args[3])][menuTable[tonumber(args[2])][tonumber(args[3])].status].."\\#dcdcdc\\!"), 3)
                 end
             end
             return true
