@@ -374,7 +374,7 @@ themeTable = {
     }
 }
 
-local maxThemes = 7
+local maxThemes = 8
 
 local function set_status_and_save(table, index, status)
     if mod_storage_load(table[index].nameSave) ~= nil and table[index].status ~= nil then return end
@@ -496,6 +496,14 @@ function theme_load()
                 hoverColor = {r = 255, g = 100, b = 100},
                 texture = get_texture_info("theme-120s")
             }
+        elseif mod_storage_load("UnlockedTheme-"..i) == "Heavenly" then
+            themeTable[#themeTable + 1] = {
+                name = "Heaven's Blessing",
+                saveName = "Heavenly",
+                color = "\\#ffffff\\",
+                hoverColor = {r = 136, g = 119, b = 86},
+                texture = get_texture_info("theme-heaven")
+            }
         end
         if mod_storage_load("UnlockedTheme-1") == "nil" then
             themeTable[0].name = "No Themes Unlocked"
@@ -524,10 +532,9 @@ function theme_unlock(themestring, themeexplain)
             -- Save themestring to the current UnlockedTheme slot and stop the loop
             mod_storage_save("UnlockedTheme-"..i, themestring)
             theme_load()
-            local theme = #themeTable
-            djui_popup_create("\\#008800\\Squishy's Server\n".. '\\#dcdcdc\\Theme Unlocked!\n'..themeTable[theme].color..'"'..themeTable[theme].name..'"\n\n\\#8c8c8c\\'..themeexplain, 5)
-            if themeTable[theme].sound ~= nil then
-                audio_sample_play(themeTable[theme].sound, m.pos, 1)
+            djui_popup_create("\\#008800\\Squishy's Server\n".. '\\#dcdcdc\\Theme Unlocked!\n'..themeTable[i].color..'"'..themeTable[i].name..'"\n\n\\#8c8c8c\\'..themeexplain, 5)
+            if themeTable[i].sound ~= nil then
+                audio_sample_play(themeTable[i].sound, m.pos, 1)
             end
             break
         end
@@ -882,8 +889,9 @@ end
 
 
 local crudeloChallenge = false
+local noLoopCrudeloChallenge = true
 local warioChallenge = 0
-local noLoopChallenge = true
+local heavanlyChallenge = 0
 local currHack = 0
 for i in pairs(gActiveMods) do
     if (gActiveMods[i].name:find ("Super Mario 74")) then
@@ -929,19 +937,30 @@ function update_theme_requirements(m)
             if menuTable[1][i].status > 0 and crudeloChallenge then
                 crudeloChallenge = false
             end
-            if not crudeloChallenge and noLoopChallenge then
+            if not crudeloChallenge and noLoopCrudeloChallenge then
                 djui_popup_create("\n\\#ff0000\\Crudelo Challenge\n Requirements not met!\\#dcdcdc\\\n\nYou must have everything in the\nMovement Tab Off/Default and\nRestart the Level to Unlock\nthe Crudelo Theme!", 6)
-                noLoopChallenge = false
+                noLoopCrudeloChallenge = false
             end
         end
     else
         crudeloChallenge = true
-        noLoopChallenge = true
+        noLoopCrudeloChallenge = true
     end
 
     --Wario Challenge
     if warioChallenge >= 1000 then
 
+    end
+
+    --Heavenly Challenge
+    if m.pos.y > m.floorHeight and m.pos.y > m.waterLevel then
+        heavanlyChallenge = heavanlyChallenge + 1
+    else
+        heavanlyChallenge = 0
+    end
+
+    if heavanlyChallenge >= 1800 and heavanlyChallenge <= 1803 then
+        theme_unlock("Heavenly", "Stay airborne for 60 seconds")
     end
 end
 
