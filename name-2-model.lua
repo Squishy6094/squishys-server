@@ -586,6 +586,11 @@ if modelTable[discordID][0] == nil then
     }
 end
 
+for i = 0, #modelTable[discordID] do
+    menuTable[3][1].statusNames[i] = modelTable[discordID][i].modelName
+end
+menuTable[3][1].statusMax = #modelTable[discordID]
+
 if menuTable[3][1].status == nil then
     menuTable[3][1].status = 0
 end
@@ -600,11 +605,6 @@ function mario_update(m)
     if maxModelNum == nil then
         maxModelNum = #modelTable[discordID]
     end
-    if menuTable[3][1].status > maxModelNum then
-        menuTable[3][1].status = 0
-        mod_storage_save(menuTable[3][1].nameSave, "0")
-    end
-
 
     if menuTable[3][2].status == 0 then return end
     if m.playerIndex == 0 then
@@ -633,7 +633,7 @@ function set_discord_id(msg)
     end
     if modelTable[msg] ~= nil then
         discordID = msg
-        menuTable[3][1].statusMax = modelTable[discordID].maxNum
+        menuTable[3][1].statusMax = #modelTable[discordID]
         menuTable[3][1].status = 0
         maxModelNum = #modelTable[discordID]
         djui_chat_message_create('ID set to "'.. modelTable[msg].nickname ..'" ('.. msg ..') Successfully!')

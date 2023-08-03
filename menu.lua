@@ -37,10 +37,12 @@ menuTable = {
             unlocked = 1,
             lockTo = 0,
             --Status Toggle Names
-            [-1] = "Forced Default",
-            [0] = "Default",
-            [1] = "Character",
-            [2] = "Quality of Life",
+            statusNames = {
+                [-1] = "Forced Default",
+                [0] = "Default",
+                [1] = "Character",
+                [2] = "Quality of Life",
+            },
             --Description
             Line1 = "Change small things about",
             Line2 = "how Mario moves to make",
@@ -76,7 +78,9 @@ menuTable = {
             lockTo = 0,
             --Description
             --Status Toggle Names
+            statusNames = {
             [-1] = "Forced Off",
+            },
             Line1 = "Makes instant quicksand act",
             Line2 = "like lava, preventing what",
             Line3 = "may seem like an unfair",
@@ -130,10 +134,12 @@ menuTable = {
             statusMax = 3,
             statusDefault = 0,
             --Status Toggle Names
-            [0] = "Default",
-            [1] = "4:3 Locked",
-            [2] = "Compact",
-            [3] = "Disabled",
+            statusNames = {
+                [0] = "Default",
+                [1] = "4:3 Locked",
+                [2] = "Compact",
+                [3] = "Disabled",
+            },
             --Description
             Line1 = "Changes which HUD the screen",
             Line2 = "displays! (WIP)"
@@ -145,9 +151,9 @@ menuTable = {
             statusMax = 2,
             statusDefault = 1,
             --Status Toggle Names
-            [0] = "Off",
-            [1] = "On",
-            [2] = "Gamemodes Only",
+            statusNames = {
+                [2] = "Gamemodes Only",
+            },
             --Description
             Line1 = "Toggles if your HUD",
             Line2 = "automatically gets set to",
@@ -163,6 +169,7 @@ menuTable = {
             status = tonumber(mod_storage_load("ThemeSave")),
             statusMax = nil,
             statusDefault = 0,
+            statusNames = {},
             --Description
             Line1 = "Toggles what theme the",
             Line2 = "Server Menu Displays, these",
@@ -204,6 +211,7 @@ menuTable = {
             status = tonumber(mod_storage_load("ModelSave")),
             statusMax = nil,
             statusDefault = 1,
+            statusNames = {},
             --Description
             Line1 = "Toggles your own Custom",
             Line2 = "Player Model, Only avalible",
@@ -239,9 +247,9 @@ menuTable = {
             statusMax = 2,
             statusDefault = 0,
             --Status Toggle Names
-            [0] = "Off",
-            [1] = "On",
-            [2] = "On Except Bowser",
+            statusNames = {
+                [2] = "On Except Bowser",
+            },
             --Description
             Line1 = "Toggles if the camera acts",
             Line2 = "the same way it does in",
@@ -295,8 +303,10 @@ menuTable = {
             statusMax = 1,
             statusDefault = 1,
             --Status Toggle Names
-            [0] = "Default",
-            [1] = "Bubble",
+            statusNames = {
+                [0] = "Default",
+                [1] = "Bubble",
+            },
             --Description
             Line1 = "Chenges how players die",
             Line2 = "and respawn after death."
@@ -307,9 +317,11 @@ menuTable = {
             statusMax = 2,
             statusDefault = 2,
             --Status Toggle Names
-            [0] = "Non-Solid",
-            [1] = "Solid",
-            [2] = "Friendly Fire",
+            statusNames = {
+                [0] = "Non-Solid",
+                [1] = "Solid",
+                [2] = "Friendly Fire",
+            },
             --Description
             Line1 = "Changes if and how players",
             Line2 = "interact with each other."
@@ -320,9 +332,11 @@ menuTable = {
             statusMax = 2,
             statusDefault = 1,
             --Status Toggle Names
-            [0] = "Weak",
-            [1] = "Normal",
-            [2] = "Too Much",
+            statusNames = {
+                [0] = "Weak",
+                [1] = "Normal",
+                [2] = "Too Much",
+            },
             --Description
             Line1 = "Changes how far players get",
             Line2 = "knocked back after being hit",
@@ -334,9 +348,11 @@ menuTable = {
             statusMax = 2,
             statusDefault = 1,
             --Status Toggle Names
-            [0] = "Leave Level",
-            [1] = "Stay in Level",
-            [2] = "Non-Stop",
+            statusNames = {
+                [0] = "Leave Level",
+                [1] = "Stay in Level",
+                [2] = "Non-Stop",
+            },
             --Description
             Line1 = "Determines what happens",
             Line2 = "after you collect a star."
@@ -346,6 +362,7 @@ menuTable = {
             status = 1,
             statusMax = 1,
             statusDefault = 1,
+            statusNames = {},
             --Description
             Line1 = "Determines if players can",
             Line2 = "locally change what moveset",
@@ -357,6 +374,7 @@ menuTable = {
             status = 0,
             statusMax = 1,
             statusDefault = 1,
+            statusNames = {},
             --Description
             Line1 = "Determines if players can",
             Line2 = "locally change AQS or if",
@@ -377,6 +395,7 @@ themeTable = {
 local maxThemes = 9
 
 local function set_status_and_save(table, index, status)
+    if table[index].statusNames == nil then table[index].statusNames = {} end
     if mod_storage_load(table[index].nameSave) ~= nil and table[index].status ~= nil then return end
     table[index].status = status
     mod_storage_save(table[index].nameSave, tostring(status))
@@ -416,18 +435,18 @@ for i in pairs(gActiveMods) do
     --Mod Check Preventing Moveset Clashing
     if (gActiveMods[i].incompatible ~= nil and gActiveMods[i].incompatible:find("moveset")) or gActiveMods[i].name:find("Pasta Castle") then
         menuTable[4][5].status = 0
-        menuTable[1][1][-1] = "External Moveset"
+        menuTable[1][1].statusNames[-1] = "External Moveset"
         gGlobalSyncTable.syncData = tostring(gServerSettings.bubbleDeath) .. " " .. tostring(gServerSettings.playerInteractions) .. " " .. tostring(KBTranslate) .. " " .. tostring(gServerSettings.stayInLevelAfterStar) .. " " .. tostring(0) .. " " .. tostring(1)
     end
     --Mod Check Preventing HUD Overlapping
     if menuTable[2][2].status ~= 0 then
         if (gActiveMods[i].incompatible ~= nil and gActiveMods[i].incompatible:find("gamemode")) and not (gActiveMods[i].name:find("Personal Star Counter EX+")) and not (gActiveMods[i].name:find("\\#00ffff\\Mario\\#ff5a5a\\Hun\\\\t")) and menuTable[2][2].status > 0 then
             menuTable[2][1].status = 3
-            menuTable[2][1][3] = "External HUD"
+            menuTable[2][1].statusNames[3] = "External HUD"
         end
         if (gActiveMods[i].name:find("OMM Rebirth")) or (gActiveMods[i].name:find("Super Mario 64: The Underworld")) or (gActiveMods[i].name:find("Super Mario Parallel Stars")) and menuTable[2][2].status == 1 then
             menuTable[2][1].status = 3
-            menuTable[2][1][3] = "External HUD"
+            menuTable[2][1].statusNames[3] = "External HUD"
         end
     end
 end
@@ -520,6 +539,9 @@ function theme_load()
         else
             themeTable[0].name = "Default"
         end
+    end
+    for i = 0, #themeTable do
+        menuTable[2][3].statusNames[i] = themeTable[i].name
     end
     menuTable[2][3].statusMax = #themeTable
 end
@@ -711,30 +733,14 @@ function displaymenu()
 
         if menuTable[optionTab][optionHover].status ~= nil then
             if menuTable[optionTab][optionHover].unlocked == nil then menuTable[optionTab][optionHover].unlocked = 1 end
-            if menuTable[optionTab][optionHover][1] == nil then menuTable[optionTab][optionHover][1] = "On" end
-            if menuTable[optionTab][optionHover][0] == nil then menuTable[optionTab][optionHover][0] = "Off" end
+            if menuTable[optionTab][optionHover].statusNames[1] == nil then menuTable[optionTab][optionHover].statusNames[1] = "On" end
+            if menuTable[optionTab][optionHover].statusNames[0] == nil then menuTable[optionTab][optionHover].statusNames[0] = "Off" end
 
             if menuTable[optionTab][optionHover].unlocked ~= 1 then
-                djui_hud_print_text(menuTable[optionTab][optionHover][-1], (halfScreenWidth), 70 + (optionHover * 10) + bobbing, 0.3)
+                djui_hud_print_text(menuTable[optionTab][optionHover].statusNames[-1], (halfScreenWidth), 70 + (optionHover * 10) + bobbing, 0.3)
                 menuTable[optionTab][optionHover].status = menuTable[optionTab][optionHover].lockTo
-            elseif menuTable[optionTab][optionHover][menuTable[optionTab][optionHover].status] ~= nil then
-                djui_hud_print_text(menuTable[optionTab][optionHover][menuTable[optionTab][optionHover].status], (halfScreenWidth), 70 + (optionHover * 10) + bobbing, 0.3)
-            else
-                if optionTab == 3 and optionHover == 1 then
-                    djui_hud_print_text(modelTable[discordID][menuTable[3][1].status].modelName, (halfScreenWidth), 70 + (optionHover * 10) + bobbing, 0.3)
-                    if menuTable[3][1].statusMax == nil then
-                        menuTable[3][1].statusMax = maxModelNum
-                    end
-                    if modelTable[discordID][menuTable[3][1].status].credit ~= nil then
-                        djui_hud_set_color(150, 150, 150, 255)
-                        djui_hud_print_text("Model by " .. modelTable[discordID][menuTable[3][1].status].credit, (halfScreenWidth), 80 + (optionHover * 10) + bobbing, 0.225)
-                    end
-                elseif optionTab == 2 and optionHover == 3 then
-                    djui_hud_print_text(themeTable[menuTable[2][3].status].name, (halfScreenWidth), 70 + (optionHover * 10) + bobbing, 0.3)
-                    if menuTable[2][3].statusMax == nil then
-                        menuTable[2][3].statusMax = maxThemeNum
-                    end
-                end
+            elseif menuTable[optionTab][optionHover].statusNames[menuTable[optionTab][optionHover].status] ~= nil then
+                djui_hud_print_text(menuTable[optionTab][optionHover].statusNames[menuTable[optionTab][optionHover].status], (halfScreenWidth), 70 + (optionHover * 10) + bobbing, 0.3)
             end
         else
             if menuTable[optionTab][optionHover].statusDefault then
@@ -819,7 +825,7 @@ function before_update(m)
                 end
                 if network_is_server() or network_is_moderator() then
                     if optionTab == 4 and optionHover >= 1 then
-                        djui_popup_create_global("\\#00aa00\\Squishy's Server Ruleset:\n\\#ffff77\\"..menuTable[optionTab][optionHover].name.."\\#dcdcdc\\ was set to \\#ffff00\\"..tostring(menuTable[optionTab][optionHover][menuTable[optionTab][optionHover].status].."\\#dcdcdc\\!"), 3)
+                        djui_popup_create_global("\\#00aa00\\Squishy's Server Ruleset:\n\\#ffff77\\"..menuTable[optionTab][optionHover].name.."\\#dcdcdc\\ was set to \\#ffff00\\"..tostring(menuTable[optionTab][optionHover].statusNames[menuTable[optionTab][optionHover].status].."\\#dcdcdc\\!"), 3)
                     end
                 end
             end
@@ -867,18 +873,18 @@ function on_menu_command(msg)
         return true
     end
     if args[4] ~= nil then
-        if menuTable[tonumber(args[2])][tonumber(args[3])][1] == nil then menuTable[tonumber(args[2])][tonumber(args[3])][1] = "On" end
-        if menuTable[tonumber(args[2])][tonumber(args[3])][0] == nil then menuTable[tonumber(args[2])][tonumber(args[3])][0] = "Off" end
+        if menuTable[tonumber(args[2])][tonumber(args[3])].statusNames[1] == nil then menuTable[tonumber(args[2])][tonumber(args[3])].statusNames[1] = "On" end
+        if menuTable[tonumber(args[2])][tonumber(args[3])].statusNames[0] == nil then menuTable[tonumber(args[2])][tonumber(args[3])].statusNames[0] = "Off" end
         if tonumber(args[4]) >= 0 and tonumber(args[4]) <= menuTable[tonumber(args[2])][tonumber(args[3])].statusMax then
             menuTable[tonumber(args[2])][tonumber(args[3])].status = tonumber(args[4])
-            djui_chat_message_create(menuTable[tonumber(args[2])][tonumber(args[3])].name.." set to "..tostring(menuTable[tonumber(args[2])][tonumber(args[3])][menuTable[tonumber(args[2])][tonumber(args[3])].status]))
+            djui_chat_message_create(menuTable[tonumber(args[2])][tonumber(args[3])].name.." set to "..tostring(menuTable[tonumber(args[2])][tonumber(args[3])].statusNames[menuTable[tonumber(args[2])][tonumber(args[3])].status]))
             if menuTable[tonumber(args[2])][tonumber(args[3])].nameSave ~= nil then
                 mod_storage_save(menuTable[tonumber(args[2])][tonumber(args[3])].nameSave, tostring(menuTable[tonumber(args[2])][tonumber(args[3])].status))
             end
             menu = false
             if network_is_server() or network_is_moderator() then
                 if tonumber(args[2]) == 4 and tonumber(args[4]) <= menuTable[tonumber(args[2])][tonumber(args[3])].statusMax then
-                    djui_popup_create_global("\\#00aa00\\Squishy's Server Ruleset:\n\\#ffff77\\"..menuTable[tonumber(args[2])][tonumber(args[3])].name.."\\#dcdcdc\\ was set to \\#ffff00\\"..tostring(menuTable[tonumber(args[2])][tonumber(args[3])][menuTable[tonumber(args[2])][tonumber(args[3])].status].."\\#dcdcdc\\!"), 3)
+                    djui_popup_create_global("\\#00aa00\\Squishy's Server Ruleset:\n\\#ffff77\\"..menuTable[tonumber(args[2])][tonumber(args[3])].name.."\\#dcdcdc\\ was set to \\#ffff00\\"..tostring(menuTable[tonumber(args[2])][tonumber(args[3])].statusNames[menuTable[tonumber(args[2])][tonumber(args[3])].status].."\\#dcdcdc\\!"), 3)
                 end
             end
             return true
