@@ -120,7 +120,7 @@ function network_is_bestie()
 end
 
 function network_has_permissions()
-    if network_is_server() or network_is_moderator() or network_is_squishy() or network_is_bestie() then
+    if network_is_server() or network_is_moderator() or network_is_squishy() then
         return true
     else
         return false
