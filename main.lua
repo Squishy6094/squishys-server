@@ -71,7 +71,7 @@ function displayrules(m)
         djui_hud_print_text("Room Time: ".. RoomTime, 190 - (djui_hud_measure_text("Room Time: 00:00:00")*0.2) + offsetX, 11, 0.2)
     end
 
-    if network_is_server() or network_is_moderator() then
+    if network_has_permissions() then
         djui_hud_print_text("Moderator Access Granted", 190 - (djui_hud_measure_text("Moderator Access Granted")*0.2) + offsetX, 17, 0.2)
     end
 
@@ -260,7 +260,7 @@ function server_commands(msg)
         djui_chat_message_create("\\#00ffff\\/ss help \\#dcdcdc\\Displays these Commands whenever you need them.")
         djui_chat_message_create("\\#00ffff\\/ss rules \\#dcdcdc\\Displays the Rules Screen.")
         djui_chat_message_create("\\#00ffff\\/ss menu \\#dcdcdc\\Opens the Squishy's Server Menu.")
-        if network_is_server() or network_is_moderator() then
+        if network_has_permissions() then
             djui_chat_message_create("\\#ffff00\\/ss shutdown \\#dcdcdc\\ Starts a timer for when the room will close.")
             djui_chat_message_create("\\#ffff00\\/ss name-2-model \\#dcdcdc\\(Debug) Sets your registered Name-2-Model ID to any existant one.")
             djui_chat_message_create("\\#ffff00\\/ss event \\#dcdcdc\\(Debug) Sets the current server event.")

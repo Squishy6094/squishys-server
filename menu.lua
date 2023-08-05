@@ -696,7 +696,7 @@ function displaymenu()
         --Toggles--
         djui_hud_set_font(FONT_NORMAL)
         djui_hud_set_resolution(RESOLUTION_N64)
-        if network_is_server() or network_is_moderator() then
+        if network_has_permissions() then
             djui_hud_set_color(themeTable[menuTable[2][3].status].hoverColor.r, themeTable[menuTable[2][3].status].hoverColor.g, themeTable[menuTable[2][3].status].hoverColor.b, 200)
             djui_hud_render_rect((halfScreenWidth - 60 + (optionTab * 30 - 30)), 70 + bobbing, 30, 9)
             djui_hud_set_color(255, 255, 255, 255)
@@ -802,7 +802,7 @@ function before_update(m)
         end
 
         local maxTabLimit = 3
-        if (network_is_server() or network_is_moderator()) then
+        if (network_has_permissions()) then
             maxTabLimit = 4
         end
 
@@ -823,7 +823,7 @@ function before_update(m)
                 if menuTable[optionTab][optionHover].nameSave ~= nil then
                     mod_storage_save(menuTable[optionTab][optionHover].nameSave, tostring(menuTable[optionTab][optionHover].status))
                 end
-                if network_is_server() or network_is_moderator() then
+                if network_has_permissions() then
                     if optionTab == 4 and optionHover >= 1 then
                         djui_popup_create_global("\\#00aa00\\Squishy's Server Ruleset:\n\\#ffff77\\"..menuTable[optionTab][optionHover].name.."\\#dcdcdc\\ was set to \\#ffff00\\"..tostring(menuTable[optionTab][optionHover].statusNames[menuTable[optionTab][optionHover].status].."\\#dcdcdc\\!"), 3)
                     end
@@ -873,18 +873,19 @@ function on_menu_command(msg)
         return true
     end
     if args[4] ~= nil then
-        if menuTable[tonumber(args[2])][tonumber(args[3])].statusNames[1] == nil then menuTable[tonumber(args[2])][tonumber(args[3])].statusNames[1] = "On" end
-        if menuTable[tonumber(args[2])][tonumber(args[3])].statusNames[0] == nil then menuTable[tonumber(args[2])][tonumber(args[3])].statusNames[0] = "Off" end
-        if tonumber(args[4]) >= 0 and tonumber(args[4]) <= menuTable[tonumber(args[2])][tonumber(args[3])].statusMax then
-            menuTable[tonumber(args[2])][tonumber(args[3])].status = tonumber(args[4])
-            djui_chat_message_create(menuTable[tonumber(args[2])][tonumber(args[3])].name.." set to "..tostring(menuTable[tonumber(args[2])][tonumber(args[3])].statusNames[menuTable[tonumber(args[2])][tonumber(args[3])].status]))
-            if menuTable[tonumber(args[2])][tonumber(args[3])].nameSave ~= nil then
-                mod_storage_save(menuTable[tonumber(args[2])][tonumber(args[3])].nameSave, tostring(menuTable[tonumber(args[2])][tonumber(args[3])].status))
+        local table = menuTable[tonumber(args[2])][tonumber(args[3])]
+        if table.statusNames[1] == nil then table.statusNames[1] = "On" end
+        if table.statusNames[0] == nil then table.statusNames[0] = "Off" end
+        if tonumber(args[4]) >= 0 and tonumber(args[4]) <= table.statusMax then
+            table.status = tonumber(args[4])
+            djui_chat_message_create(table.name.." set to "..tostring(table.statusNames[table.status]))
+            if table.nameSave ~= nil then
+                mod_storage_save(table.nameSave, tostring(table.status))
             end
             menu = false
-            if network_is_server() or network_is_moderator() then
-                if tonumber(args[2]) == 4 and tonumber(args[4]) <= menuTable[tonumber(args[2])][tonumber(args[3])].statusMax then
-                    djui_popup_create_global("\\#00aa00\\Squishy's Server Ruleset:\n\\#ffff77\\"..menuTable[tonumber(args[2])][tonumber(args[3])].name.."\\#dcdcdc\\ was set to \\#ffff00\\"..tostring(menuTable[tonumber(args[2])][tonumber(args[3])].statusNames[menuTable[tonumber(args[2])][tonumber(args[3])].status].."\\#dcdcdc\\!"), 3)
+            if network_has_permissions() then
+                if tonumber(args[2]) == 4 and tonumber(args[4]) <= table.statusMax then
+                    djui_popup_create_global("\\#00aa00\\Squishy's Server Ruleset:\n\\#ffff77\\"..table.name.."\\#dcdcdc\\ was set to \\#ffff00\\"..tostring(table.statusNames[table.status].."\\#dcdcdc\\!"), 3)
                 end
             end
             return true

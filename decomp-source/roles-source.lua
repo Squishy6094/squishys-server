@@ -7,6 +7,10 @@
 -- 0 = Default User
 -- -1 = Unverified Host
 
+-- optimization
+local network_is_server = network_is_server
+local network_is_moderator = network_is_moderator
+
 local rolestringTable = {
     [1] = function (index)
         return "\\#00aa00\\[Creator]"
@@ -115,6 +119,14 @@ function network_is_bestie()
     end
 end
 
+function network_has_permissions()
+    if network_is_server() or network_is_moderator() or network_is_squishy() or network_is_bestie() then
+        return true
+    else
+        return false
+    end
+end
+
 function on_chat_message(m, msg)
     local sMario = gPlayerSyncTable[m.playerIndex]
     local np = gNetworkPlayers[m.playerIndex]
@@ -157,9 +169,9 @@ end
 hook_event(HOOK_UPDATE, update_roles)
 -- here, we only hook the function if MarioHunt does not exist
 if _G.mhExists then
-  _G.mhApi.chatValidFunction = on_chat_message -- don't worry, it will still run
+    _G.mhApi.chatValidFunction = on_chat_message -- don't worry, it will still run
 else
-  hook_event(HOOK_ON_CHAT_MESSAGE, on_chat_message)
+    hook_event(HOOK_ON_CHAT_MESSAGE, on_chat_message)
 end
-hook_event(HOOK_ON_PLAYER_CONNECTED, reset_roles)
+hook_event(HOOK_JOINED_GAME, reset_roles)
 hook_event(HOOK_ON_PLAYER_DISCONNECTED, reset_roles)
