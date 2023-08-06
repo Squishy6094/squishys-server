@@ -34,8 +34,8 @@ Isaackie = "1093357396920901643"
 TroopaParaKoopa = "984667169738600479"
 floofyxd = "1091528175575642122"
 flipflop = "603198923120574494"
-
-local m = gMarioStates[0]
+Koffee = "397847847283720193"
+Uoker = "401406794649436161"
 
 modelTable = {
     [Default] = {
@@ -568,6 +568,24 @@ modelTable = {
             modelName = "Amy",
             forcePlayer = CT_MARIO,
         },
+    },
+    [Koffee] = {
+        nickname = "KoffeeMood",
+        [1] = {
+            model = smlua_model_util_get_id("lime_geo"),
+            modelName = "Lime",
+            forcePlayer = CT_LUIGI,
+            icon = 15,
+        },
+    },
+    [Uoker] = {
+        nickname = "Uoker",
+        [1] = {
+            model = smlua_model_util_get_id("ari_geo"),
+            modelName = "Ari",
+            forcePlayer = CT_LUIGI,
+            icon = 16,
+        },
     }
 }
 
@@ -642,8 +660,18 @@ function set_discord_id(msg)
     end
     if modelTable[msg] ~= nil then
         discordID = msg
+        if modelTable[discordID][0] == nil then
+            modelTable[discordID][0] = {
+                model = nil,
+                modelName = "Default",
+                icon = "Default"
+            }
+        end
+        for i = 0, #modelTable[discordID] do
+            menuTable[3][1].statusNames[i] = modelTable[discordID][i].modelName
+        end
         menuTable[3][1].statusMax = #modelTable[discordID]
-        menuTable[3][1].status = 0
+        menuTable[3][1].status = 1
         maxModelNum = #modelTable[discordID]
         djui_chat_message_create('ID set to "'.. modelTable[msg].nickname ..'" ('.. msg ..') Successfully!')
     else
