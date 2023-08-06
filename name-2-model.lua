@@ -33,6 +33,7 @@ Shard = "1064980922371420313"
 Isaackie = "1093357396920901643"
 TroopaParaKoopa = "984667169738600479"
 floofyxd = "1091528175575642122"
+flipflop = "603198923120574494"
 
 local m = gMarioStates[0]
 
@@ -552,12 +553,20 @@ modelTable = {
         },
     },
     [floofyxd] = {
-        nickname = "Boyfriend",
+        nickname = "Floofy",
         [1] = {
             model = smlua_model_util_get_id("boyfriend_geo"),
             modelName = "Boyfriend",
             forcePlayer = CT_MARIO,
             credit = "KuroButt",
+        },
+    },
+    [flipflop] = {
+        nickname = "Flipflop Bell",
+        [1] = {
+            model = smlua_model_util_get_id("amy_geo"),
+            modelName = "Amy",
+            forcePlayer = CT_MARIO,
         },
     }
 }
