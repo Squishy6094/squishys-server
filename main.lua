@@ -262,8 +262,9 @@ function server_commands(msg)
         djui_chat_message_create("\\#00ffff\\/ss menu \\#dcdcdc\\Opens the Squishy's Server Menu.")
         if network_has_permissions() then
             djui_chat_message_create("\\#ffff00\\/ss shutdown \\#dcdcdc\\ Starts a timer for when the room will close.")
-            djui_chat_message_create("\\#ffff00\\/ss name-2-model \\#dcdcdc\\(Debug) Sets your registered Name-2-Model ID to any existant one.")
-            djui_chat_message_create("\\#ffff00\\/ss event \\#dcdcdc\\(Debug) Sets the current server event.")
+            djui_chat_message_create("\\#ffff00\\/ss vote \\#dcdcdc\\ Start a vote with any Yes/No prompt.")
+            djui_chat_message_create("\\#ffff00\\/ss name-2-model\\#ff0000\\ (Debug) \\#dcdcdc\\ Sets your registered Name-2-Model ID to any existant one.")
+            djui_chat_message_create("\\#ffff00\\/ss event\\#ff0000\\ (Debug) \\#dcdcdc\\ Sets the current server event.")
 
         end
         return true
@@ -277,6 +278,8 @@ function server_commands(msg)
         return set_discord_id(args[2])
     elseif args[1] == "event" then
         return on_event_command(msg)
+    elseif args[1] == "vote" then
+        return on_vote_command(msg)
     end
 end
 

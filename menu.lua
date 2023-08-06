@@ -588,6 +588,7 @@ local bobbingVar = 0
 local bobbingStatus = true
 local bobbing = -2.1
 
+local voteTimer = 3600
 function displaymenu()
     local m = gMarioStates[0]
     
@@ -760,6 +761,52 @@ function displaymenu()
     else
         noLoopSound = true
         descSlide = -100
+    end
+
+    if gGlobalSyncTable.vote ~= nil then
+        voteTimer = voteTimer - 1
+        djui_hud_set_color(255, 255, 255, 200)
+        djui_hud_render_texture_tile(themeTable[menuTable[2][3].status].texture, 10, 100, 1, 1, 176, 0, 80, 80)
+        djui_hud_set_color(0, 0, 0, 220)
+        djui_hud_render_rect(12, 102, 76, 76)
+        djui_hud_set_color(themeTable[menuTable[2][3].status].headerColor.r, themeTable[menuTable[2][3].status].headerColor.g, themeTable[menuTable[2][3].status].headerColor.b, 255)
+        djui_hud_print_text("Vote:", 15, 105, 0.35)
+        if voteTimer > 0 then
+            djui_hud_print_text(tostring(math.ceil(voteTimer/30)).."s left", 84 - djui_hud_measure_text(tostring(math.ceil(voteTimer/30)).."s left")*0.35, 105, 0.35)
+        else
+            djui_hud_print_text("Ended", 84 - djui_hud_measure_text("Ended")*0.35, 105, 0.35)
+        end
+        djui_hud_print_text(gGlobalSyncTable.vote, 15, 115, 0.3)
+        local votedYes = 0
+        local votedNo = 0
+        local votedTotal = 0
+        for i = 0, MAX_PLAYERS - 1 do
+            if gPlayerSyncTable[i].vote == true then
+                votedYes = votedYes + 1
+                votedTotal = votedTotal + 1
+            elseif gPlayerSyncTable[i].vote == false then
+                votedNo = votedNo + 1
+                votedTotal = votedTotal + 1
+            end
+        end
+        if votedTotal == network_player_connected_count() and voteTimer > 0 then
+            voteTimer = 0
+        end
+        djui_hud_set_color(255, 255, 255, 255)
+        djui_hud_print_text("Yes: "..tostring(votedYes), 15, 135, 0.32)
+        djui_hud_print_text("No: "..tostring(votedNo), 15, 145, 0.32)
+        djui_hud_set_color(150, 150, 150, 255)
+        djui_hud_print_text('Use "/ss vote" to vote!', 15, 164, 0.2)
+        djui_hud_print_text(tostring(votedTotal).."/"..tostring(network_player_connected_count()).." players have voted", 15, 170, 0.2)
+
+        if voteTimer == -300 then
+            gGlobalSyncTable.vote = nil
+            for i = 0, MAX_PLAYERS - 1 do
+                gPlayerSyncTable[i].vote = nil
+            end
+        end
+    else
+        voteTimer = 3600
     end
 end
 
@@ -1045,6 +1092,45 @@ function on_event_command(msg)
     else
         djui_chat_message_create('Invalid Event String')
         return true
+    end
+end
+
+function on_vote_command(msg)
+    local args = split(msg)
+    if network_has_permissions() and gGlobalSyncTable.vote == nil then
+        local promptString = ""
+        for i = 2, #args do
+            if i ~= #args + 1 and i ~= 2 then
+                promptString = promptString.." "
+            end
+            promptString = promptString..args[i]
+            gGlobalSyncTable.vote = promptString
+        end
+        djui_chat_message_create('Started a vote: "'..gGlobalSyncTable.vote..'"')
+        return true
+    else
+        if gGlobalSyncTable.vote == nil then
+            djui_chat_message_create("A vote is not taking place at the moment")
+            return true
+        end
+        if gPlayerSyncTable[0].vote ~= nil then
+            djui_chat_message_create("You've already voted")
+            return true
+        end
+        local response = string.lower(tostring(args[2]))
+        if response == "true" or response == "yes" or response == "1" or response == "y" then
+            gPlayerSyncTable[0].vote = true
+            djui_chat_message_create('You voted Yes for "'..gGlobalSyncTable.vote..'"')
+            return true
+        elseif response == "false" or response == "no" or response == "0" or response == "n" then
+            gPlayerSyncTable[0].vote = false
+            djui_chat_message_create('You voted No for "'..gGlobalSyncTable.vote..'"')
+            return true
+        else
+            djui_chat_message_create('Invalid Option Entered')
+            djui_chat_message_create('Use Yes/No When voting!')
+            return true
+        end
     end
 end
 
