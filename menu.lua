@@ -589,6 +589,8 @@ local bobbingStatus = true
 local bobbing = -2.1
 
 local voteTimer = 3600
+local voteSlide = -150
+local prevVote = ""
 function displaymenu()
     local m = gMarioStates[0]
     
@@ -764,19 +766,35 @@ function displaymenu()
     end
 
     if gGlobalSyncTable.vote ~= nil then
+        if voteSlide < -1 then
+            voteSlide = voteSlide/1.1
+        end
+        prevVote = gGlobalSyncTable.vote
+    else
+        if voteSlide > -150 then
+            voteSlide = voteSlide*1.1
+        else
+            for i = 0, MAX_PLAYERS - 1 do
+                if gPlayerSyncTable[i].vote ~= nil then
+                    gPlayerSyncTable[i].vote = nil
+                end
+            end
+        end
+    end
+    if voteSlide > -150 then
         voteTimer = voteTimer - 1
         djui_hud_set_color(255, 255, 255, 200)
-        djui_hud_render_texture_tile(themeTable[menuTable[2][3].status].texture, 10, 100, 1, 1, 176, 0, 80, 80)
+        djui_hud_render_texture_tile(themeTable[menuTable[2][3].status].texture, 10 + voteSlide, 100, 1, 1, 176, 0, 80, 80)
         djui_hud_set_color(0, 0, 0, 220)
-        djui_hud_render_rect(12, 102, 76, 76)
+        djui_hud_render_rect(12 + voteSlide, 102, 76, 76)
         djui_hud_set_color(themeTable[menuTable[2][3].status].headerColor.r, themeTable[menuTable[2][3].status].headerColor.g, themeTable[menuTable[2][3].status].headerColor.b, 255)
-        djui_hud_print_text("Vote:", 15, 105, 0.35)
+        djui_hud_print_text("Vote:", 15 + voteSlide, 105, 0.35)
         if voteTimer > 0 then
-            djui_hud_print_text(tostring(math.ceil(voteTimer/30)).."s left", 84 - djui_hud_measure_text(tostring(math.ceil(voteTimer/30)).."s left")*0.35, 105, 0.35)
+            djui_hud_print_text(tostring(math.ceil(voteTimer/30)).."s left", 84 - djui_hud_measure_text(tostring(math.ceil(voteTimer/30)).."s left")*0.35 + voteSlide, 105, 0.35)
         else
-            djui_hud_print_text("Ended", 84 - djui_hud_measure_text("Ended")*0.35, 105, 0.35)
+            djui_hud_print_text("Ended", 84 - djui_hud_measure_text("Ended")*0.35 + voteSlide, 105, 0.35)
         end
-        djui_hud_print_text(gGlobalSyncTable.vote, 15, 115, 0.3)
+        djui_hud_print_text(prevVote, 15 + voteSlide, 115, 0.3)
         local votedYes = 0
         local votedNo = 0
         local votedTotal = 0
@@ -793,17 +811,14 @@ function displaymenu()
             voteTimer = 0
         end
         djui_hud_set_color(255, 255, 255, 255)
-        djui_hud_print_text("Yes: "..tostring(votedYes), 15, 135, 0.32)
-        djui_hud_print_text("No: "..tostring(votedNo), 15, 145, 0.32)
+        djui_hud_print_text("Yes: "..tostring(votedYes), 15 + voteSlide, 135, 0.32)
+        djui_hud_print_text("No: "..tostring(votedNo), 15 + voteSlide, 145, 0.32)
         djui_hud_set_color(150, 150, 150, 255)
-        djui_hud_print_text('Use "/ss vote" to vote!', 15, 164, 0.2)
-        djui_hud_print_text(tostring(votedTotal).."/"..tostring(network_player_connected_count()).." players have voted", 15, 170, 0.2)
+        djui_hud_print_text('Use "/ss vote" to vote!', 15 + voteSlide, 164, 0.2)
+        djui_hud_print_text(tostring(votedTotal).."/"..tostring(network_player_connected_count()).." players have voted", 15 + voteSlide, 170, 0.2)
 
         if voteTimer == -300 then
             gGlobalSyncTable.vote = nil
-            for i = 0, MAX_PLAYERS - 1 do
-                gPlayerSyncTable[i].vote = nil
-            end
         end
     else
         voteTimer = 3600
@@ -1115,6 +1130,10 @@ function on_vote_command(msg)
         end
         if gPlayerSyncTable[0].vote ~= nil then
             djui_chat_message_create("You've already voted")
+            return true
+        end
+        if voteTimer <= 0 then
+            djui_chat_message_create("The vote has already ended")
             return true
         end
         local response = string.lower(tostring(args[2]))
