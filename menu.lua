@@ -32,7 +32,7 @@ menuTable = {
             name = "Moveset",
             nameSave = "MoveSave",
             status = tonumber(mod_storage_load("MoveSave")),
-            statusMax = 3,
+            statusMax = 2,
             statusDefault = 0,
             unlocked = 1,
             lockTo = 0,
@@ -41,8 +41,7 @@ menuTable = {
                 [-1] = "Forced Default",
                 [0] = "Default",
                 [1] = "Character",
-                [2] = "Extended",
-                [3] = "Quality of Life",
+                [2] = "Quality of Life",
             },
             --Description
             Line1 = "Change small things about",
@@ -834,8 +833,8 @@ function displaymenu()
             voteTimer = 0
         end
         djui_hud_set_color(themeTable[menuTable[2][3].status].hoverColor.r, themeTable[menuTable[2][3].status].hoverColor.g, themeTable[menuTable[2][3].status].hoverColor.b, 255)
-        djui_hud_render_rect(14 + voteSlide, 135.5, 72/votedYes/votedTotal, 9)
-        djui_hud_render_rect(14 + voteSlide, 145.5, 72/votedNo/votedTotal, 9)
+        djui_hud_render_rect(14 + voteSlide, 135.5, 72*votedYes/votedTotal, 9)
+        djui_hud_render_rect(14 + voteSlide, 145.5, 72*votedNo/votedTotal, 9)
         djui_hud_set_color(255, 255, 255, 255)
         djui_hud_print_text("Yes: "..tostring(votedYes), 16 + voteSlide, 135, 0.32)
         djui_hud_print_text("No: "..tostring(votedNo), 16 + voteSlide, 145, 0.32)
