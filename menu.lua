@@ -32,7 +32,7 @@ menuTable = {
             name = "Moveset",
             nameSave = "MoveSave",
             status = tonumber(mod_storage_load("MoveSave")),
-            statusMax = 2,
+            statusMax = 3,
             statusDefault = 0,
             unlocked = 1,
             lockTo = 0,
@@ -41,7 +41,8 @@ menuTable = {
                 [-1] = "Forced Default",
                 [0] = "Default",
                 [1] = "Character",
-                [2] = "Quality of Life",
+                [2] = "Extended",
+                [3] = "Quality of Life",
             },
             --Description
             Line1 = "Change small things about",

@@ -159,6 +159,7 @@ function mario_update(m)
     if m.playerIndex ~= 0 then return end
     gPlayerSyncTable[m.playerIndex].moveset = menuTable[1][1].status
     gPlayerSyncTable[m.playerIndex].wallSlide = menuTable[1][5].status
+    gPlayerSyncTable[m.playerIndex].betterswim = menuTable[1][2].status
     --Wallslide
 
     --Remove Fall Damage
@@ -1301,7 +1302,7 @@ hook_mario_action(ACT_SIS_WATER_GRAB, act_sis_water_grab, INT_PUNCH)
 hook_mario_action(ACT_SIS_WATER_THROW, act_sis_water_throw)
 
 hook_event(HOOK_MARIO_UPDATE, function(m)
-    if menuTable[1][2].status == 0 then return end
+    if gPlayerSyncTable[m.playerIndex].betterswim == 0 then return end
 
     if toIdleAction[m.action] then
         set_mario_action(m, ACT_SIS_WATER_IDLE, 0)
@@ -1327,7 +1328,7 @@ hook_event(HOOK_MARIO_UPDATE, function(m)
 end)
 
 hook_event(HOOK_ON_SET_MARIO_ACTION, function(m)
-    if menuTable[1][2].status == 0 then return end
+    if gPlayerSyncTable[m.playerIndex].betterswim == 0 then return end
 
     if m.action == ACT_WATER_PLUNGE then
         m.vel.y = m.vel.y * 0.75
