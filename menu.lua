@@ -19,7 +19,7 @@ elseif gServerSettings.playerKnockbackStrength == 60 then
     KBTranslate = 2
 end
 
-gGlobalSyncTable.syncData = tostring(gServerSettings.bubbleDeath) .. " " .. tostring(gServerSettings.playerInteractions) .. " " .. tostring(KBTranslate) .. " " .. tostring(gServerSettings.stayInLevelAfterStar) .. " " .. tostring(1) .. " " .. tostring(1)
+gGlobalSyncTable.syncData = tostring(gServerSettings.bubbleDeath) .. " " .. tostring(gServerSettings.playerInteractions) .. " " .. tostring(KBTranslate) .. " " .. tostring(gServerSettings.stayInLevelAfterStar) .. " " .. tostring(1) .. " " .. tostring(1) .. " " .. tostring(1)
 
 gLevelValues.extendedPauseDisplay = true
 
@@ -54,6 +54,11 @@ menuTable = {
             nameSave = "BSSave",
             status = tonumber(mod_storage_load("BSSave")),
             statusMax = 1,
+            unlocked = 1,
+            lockTo = 0,
+            statusNames = {
+                [-1] = "Forced Off",
+            },
             --Description
             Line1 = "Makes water movement similar",
             Line2 = "to ground movement, using",
@@ -380,6 +385,17 @@ menuTable = {
             Line1 = "Determines if players can",
             Line2 = "locally change AQS or if",
             Line3 = "it's forced off."
+        },
+        [7] = {
+            name = "Global Better Swimming",
+            status = 1,
+            statusMax = 1,
+            statusDefault = 1,
+            statusNames = {},
+            Line1 = "Determines if players can",
+            Line2 = "enable Better Swimming or",
+            Line3 = "not. Recommended off when",
+            Line4 = "playing gamemodes."
         },
     }
 }
@@ -892,6 +908,7 @@ function before_update(m)
         if optionHoverTimer == -1 and m.controller.buttonDown & A_BUTTON ~= 0 then
             optionHoverTimer = 0
             if menuTable[optionTab][optionHover].unlocked ~= 1 then
+                play_sound(SOUND_MENU_CAMERA_BUZZ, m.marioObj.header.gfx.cameraToObject)
                 print("Could not change status")
             else
                 play_sound(SOUND_MENU_CLICK_FILE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
@@ -1174,7 +1191,7 @@ function update()
     local args = split(gGlobalSyncTable.syncData)
 
     if menu and optionTab == 4 then
-        gGlobalSyncTable.syncData = tostring(menuTable[4][1].status) .. " " .. tostring(menuTable[4][2].status) .. " " .. tostring(menuTable[4][3].status) .. " " .. tostring(menuTable[4][4].status) .. " " .. tostring(menuTable[4][5].status) .. " " .. tostring(menuTable[4][6].status)
+        gGlobalSyncTable.syncData = tostring(menuTable[4][1].status) .. " " .. tostring(menuTable[4][2].status) .. " " .. tostring(menuTable[4][3].status) .. " " .. tostring(menuTable[4][4].status) .. " " .. tostring(menuTable[4][5].status) .. " " .. tostring(menuTable[4][6].status) .. " " .. tostring(menuTable[4][7].status)
     else
         --Death Type
         menuTable[4][1].status = tonumber(args[1])
@@ -1188,6 +1205,8 @@ function update()
         menuTable[4][5].status = tonumber(args[5])
         --Global AQS
         menuTable[4][6].status = tonumber(args[6])
+        --Global BS
+        menuTable[4][7].status = tonumber(args[7])
     end
     gServerSettings.bubbleDeath = tonumber(args[1])
     gServerSettings.playerInteractions = tonumber(args[2])
@@ -1206,6 +1225,10 @@ function update()
     menuTable[1][4].unlocked = tonumber(args[6])
     if menuTable[1][4].unlocked ~= 1 then
         menuTable[1][4].status = menuTable[1][4].lockTo
+    end
+    menuTable[1][2].unlocked = tonumber(args[7])
+    if menuTable[1][2].unlocked ~= 1 then
+        menuTable[1][2].status = menuTable[1][2].lockTo
     end
 end
 
