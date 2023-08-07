@@ -591,6 +591,7 @@ local bobbing = -2.1
 local voteTimer = 3600
 local voteSlide = -150
 local prevVote = ""
+local voteScale = 1
 function displaymenu()
     local m = gMarioStates[0]
     
@@ -794,7 +795,12 @@ function displaymenu()
         else
             djui_hud_print_text("Ended", 84 - djui_hud_measure_text("Ended")*0.35 + voteSlide, 105, 0.35)
         end
-        djui_hud_print_text(prevVote, 15 + voteSlide, 115, 0.3)
+        if djui_hud_measure_text(prevVote)*0.32 > 70 then
+            voteScale = djui_hud_measure_text(prevVote)*0.32 / 70
+        else
+            voteScale = 1
+        end
+        djui_hud_print_text(prevVote, 15 + voteSlide, 115, 0.32 / voteScale)
         local votedYes = 0
         local votedNo = 0
         local votedTotal = 0
@@ -810,13 +816,22 @@ function displaymenu()
         if votedTotal == network_player_connected_count() and voteTimer > 0 then
             voteTimer = 0
         end
+        djui_hud_set_color(themeTable[menuTable[2][3].status].hoverColor.r, themeTable[menuTable[2][3].status].hoverColor.g, themeTable[menuTable[2][3].status].hoverColor.b, 255)
+        djui_hud_render_rect(14 + voteSlide, 135.5, 72/votedYes/votedTotal, 9)
+        djui_hud_render_rect(14 + voteSlide, 145.5, 72/votedNo/votedTotal, 9)
         djui_hud_set_color(255, 255, 255, 255)
-        djui_hud_print_text("Yes: "..tostring(votedYes), 15 + voteSlide, 135, 0.32)
-        djui_hud_print_text("No: "..tostring(votedNo), 15 + voteSlide, 145, 0.32)
+        djui_hud_print_text("Yes: "..tostring(votedYes), 16 + voteSlide, 135, 0.32)
+        djui_hud_print_text("No: "..tostring(votedNo), 16 + voteSlide, 145, 0.32)
         djui_hud_set_color(150, 150, 150, 255)
         djui_hud_print_text('Use "/ss vote" to vote!', 15 + voteSlide, 164, 0.2)
         djui_hud_print_text(tostring(votedTotal).."/"..tostring(network_player_connected_count()).." players have voted", 15 + voteSlide, 170, 0.2)
-
+        if voteTimer == 0 then
+            if votedYes > votedNo then
+                play_sound(SOUND_GENERAL2_RIGHT_ANSWER, gMarioStates[0].marioObj.header.gfx.cameraToObject)
+            elseif votedYes < votedNo then
+                play_sound(SOUND_OBJ2_BOWSER_ROAR, gMarioStates[0].marioObj.header.gfx.cameraToObject)
+            end
+        end
         if voteTimer == -300 then
             gGlobalSyncTable.vote = nil
         end
@@ -878,6 +893,7 @@ function before_update(m)
             if menuTable[optionTab][optionHover].unlocked ~= 1 then
                 print("Could not change status")
             else
+                play_sound(SOUND_MENU_CLICK_FILE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
                 menuTable[optionTab][optionHover].status = menuTable[optionTab][optionHover].status + 1
                 if menuTable[optionTab][optionHover].status > menuTable[optionTab][optionHover].statusMax then
                     menuTable[optionTab][optionHover].status = 0
