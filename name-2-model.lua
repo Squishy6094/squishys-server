@@ -651,11 +651,6 @@ function mario_update(m)
     end
 end
 
---- @param m MarioState
-function on_player_connected(m)
-    gPlayerSyncTable[m.playerIndex].modelId = nil
-end
-
 function set_discord_id(msg)
     if not network_is_server() and not network_is_moderator() then
         return false
