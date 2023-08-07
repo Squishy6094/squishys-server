@@ -358,7 +358,7 @@ function render_hud_radar(target, iconTexture, scale, x, y)
     djui_hud_set_rotation(0, 0, 0)
 end
 
-local stallScriptTimer = 3
+local stallScriptTimer = 5
 
 function hud_render()
     if stallScriptTimer > 0 then stallScriptTimer = stallScriptTimer - 1 return end
@@ -473,6 +473,8 @@ function hud_render()
         djui_hud_render_element("RedStars", _G.PersonalStarCounter.get_star_counter(), gTextures.star)
         djui_hud_render_element("GreenStars", _G.PersonalStarCounter.get_total_star_counter(), gTextures.star)
     end
+
+    djui_hud_get_screen_height()
 end
 
 hook_event(HOOK_ON_HUD_RENDER, hud_render)
