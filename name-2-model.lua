@@ -576,6 +576,14 @@ modelTable = {
             modelName = "Lime",
             forcePlayer = CT_LUIGI,
             icon = 15,
+            credit = "Trashcam",
+        },
+        [2] = {
+            model = smlua_model_util_get_id("lime_but_awesome_geo"),
+            modelName = "Lime (Shades)",
+            forcePlayer = CT_LUIGI,
+            icon = 15,
+            credit = "Trashcam",
         },
     },
     [Uoker] = {
@@ -585,6 +593,7 @@ modelTable = {
             modelName = "Ari",
             forcePlayer = CT_LUIGI,
             icon = 16,
+            credit = "Trashcam",
         },
     }
 }
