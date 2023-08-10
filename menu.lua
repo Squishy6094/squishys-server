@@ -54,7 +54,6 @@ menuTable = {
             status = tonumber(mod_storage_load("BSSave")),
             statusMax = 1,
             unlocked = 1,
-            lockTo = 0,
             statusNames = {
                 [-1] = "Forced Off",
             },
