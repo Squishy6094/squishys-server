@@ -74,25 +74,22 @@ local roleIDtable = {
 }
 
 function reset_roles()
-    for i = 0, MAX_PLAYERS - 1 do
-        gPlayerSyncTable[i].role = nil
-        gPlayerSyncTable[i].ishost = nil
-        gPlayerSyncTable[i].ismod = nil
-        rolestring = ""
-    end
+    gPlayerSyncTable[0].role = nil
+    gPlayerSyncTable[0].ishost = nil
+    gPlayerSyncTable[0].ismod = nil
+    rolestring = ""
+    update_roles()
 end
 
+local stallScriptTimer = 10
 function update_roles()
+    if stallScriptTimer > 0 then stallScriptTimer = stallScriptTimer - 1 return end
     local ID = tonumber(network_discord_id_from_local_index(0))
     local sMario = gPlayerSyncTable[0]
 
-    if ID ~= 0 and roleIDtable[ID] ~= nil then
-        sMario.role = roleIDtable[ID]
-    else
-        sMario.role = nil
-        if network_is_server() then
-            sMario.role = "-1"
-        end
+    sMario.role = roleIDtable[ID]
+    if network_is_server() and sMario.role == nil then
+        sMario.role = "-1"
     end
     if network_is_server() then
         sMario.ishost = true

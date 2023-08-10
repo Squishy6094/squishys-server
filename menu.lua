@@ -610,10 +610,6 @@ local prevVote = ""
 local voteScale = 1
 function displaymenu()
     local m = gMarioStates[0]
-    
-    if tonumber(mod_storage_load("ThemeSave")) > #themeTable then
-        mod_storage_save("ThemeSave", "0")
-    end
 
     if stallScriptTimer < 0 then stallScriptTimer = stallScriptTimer - 1 return end
     if is_game_paused() or rules then
@@ -696,11 +692,6 @@ function displaymenu()
 
         djui_hud_set_font(FONT_MENU)
         djui_hud_set_resolution(RESOLUTION_N64)
-        djui_hud_set_color(255, 255, 255, 255)
-        if menuTable[2][3].status == nil or themeTable[menuTable[2][3].status] == nil or mod_storage_load("ThemeSave") == nil then
-            menuTable[2][3].status = 0
-            mod_storage_save("ThemeSave", "0")
-        end
         djui_hud_set_color(255, 255, 255, 200)
         djui_hud_render_texture_tile(themeTable[menuTable[2][3].status].texture, (halfScreenWidth - 88), ((djui_hud_get_screen_height()*0.5) - 93) + bobbing, 1.16477272727, 1, 0, 0, 176, 205)
         djui_hud_set_color(0, 0, 0, 220)
