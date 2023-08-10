@@ -1020,7 +1020,7 @@ local update_swim_speed = function(m)
         end
     end
 
-    m.forwardVel = clamp(m.forwardVel, -48 * shellMul, 48 * shellMul)
+    m.forwardVel = clamp(m.forwardVel, -25 * shellMul, 25 * shellMul)
 
     common_water_update(m)
 
@@ -1085,7 +1085,7 @@ local act_sis_swimming = function(m)
         end
     end
 
-    if not improvedSwimming then
+    if gPlayerSyncTable[m.playerIndex].betterswim == 0 then
         return set_mario_action(m, ACT_WATER_ACTION_END, 0)
     end
 
@@ -1184,7 +1184,7 @@ local act_sis_water_grab = function(m)
         set_mario_animation(m, MARIO_ANIM_WATER_GRAB_OBJ_PART1)
 
         if m.forwardVel < 56 then
-            m.forwardVel = m.forwardVel + 3.7
+            m.forwardVel = m.forwardVel + 2
         end
 
         grab_obj_in_water(m)
