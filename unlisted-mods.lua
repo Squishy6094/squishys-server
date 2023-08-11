@@ -741,8 +741,6 @@ function update()
     if menuTable[3][3].status == 1 and BaseGame then
         romhack_camera(m)
         camera_set_use_course_specific_settings(false)
-    else
-        camera_set_use_course_specific_settings(true)
     end
 
 end

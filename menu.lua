@@ -1170,7 +1170,9 @@ function update()
         end
     else
         for i = 1, #menuTable[4] do
-            menuTable[4][i].status = tonumber(args[i])
+            if menuTable[4][i].status ~= tonumber(args[i]) then
+                menuTable[4][i].status = tonumber(args[i])
+            end
         end
     end
     gServerSettings.bubbleDeath = tonumber(args[1])
