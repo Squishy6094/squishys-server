@@ -248,17 +248,12 @@ menuTable = {
             name = "Rom-Hack Camera",
             nameSave = "HackCamSave",
             status = tonumber(mod_storage_load("HackCamSave")),
-            statusMax = 2,
+            statusMax = 1,
             statusDefault = 0,
-            --Status Toggle Names
-            statusNames = {
-                [2] = "On Except Bowser",
-            },
             --Description
             Line1 = "Toggles if the camera acts",
             Line2 = "the same way it does in",
             Line3 = "Rom-Hacks. (8 directional)",
-            Line4 = "[Non-functional as of now]"
         },
         [4] = {
             name = "Star Spawn Cutscene",

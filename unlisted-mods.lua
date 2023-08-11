@@ -677,6 +677,36 @@ function on_set_mario_action(m)
     end
 end
 
+local sOverrideCameraModes = {
+    [CAMERA_MODE_RADIAL]            = true,
+    [CAMERA_MODE_OUTWARD_RADIAL]    = true,
+    [CAMERA_MODE_CLOSE]             = true,
+    [CAMERA_MODE_SLIDE_HOOT]        = true,
+    [CAMERA_MODE_PARALLEL_TRACKING] = true,
+    [CAMERA_MODE_FIXED]             = true,
+    [CAMERA_MODE_8_DIRECTIONS]      = true,
+    [CAMERA_MODE_FREE_ROAM]         = true,
+    [CAMERA_MODE_SPIRAL_STAIRS]     = true,
+}
+
+local BaseGame = true
+for i in pairs(gActiveMods) do
+    if gActiveMods[i].incompatible ~= nil and gActiveMods[i].incompatible:find("rom-hack") then
+        BaseGame = false
+    end
+end
+
+--- @param m MarioState
+function romhack_camera(m)
+    if sOverrideCameraModes[m.area.camera.mode] == nil then return end
+
+    if (m.controller.buttonPressed & L_TRIG) ~= 0 then center_rom_hack_camera() end
+
+    set_camera_mode(m.area.camera, CAMERA_MODE_ROM_HACK, 0)
+end
+
+rom_hack_cam_set_collisions(false)
+
 function update()
     ---@type MarioState
     local m = gMarioStates[0]
@@ -706,6 +736,15 @@ function update()
         prevPos.y = m.pos.y
         prevPos.z = m.pos.z
     end
+
+    --Romhack Cam
+    if menuTable[3][3].status == 1 and BaseGame then
+        romhack_camera(m)
+        camera_set_use_course_specific_settings(false)
+    else
+        camera_set_use_course_specific_settings(true)
+    end
+
 end
 
 hook_event(HOOK_ON_WARP, function()
