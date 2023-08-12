@@ -42,11 +42,12 @@ menuTable = {
                 [0] = "Default",
                 [1] = "Character",
                 [2] = "Quality of Life",
+            }, 
+            description = {
+                "Change small things about",
+                "how Mario moves to make",
+                "movement feel better"
             },
-            --Description
-            Line1 = "Change small things about",
-            Line2 = "how Mario moves to make",
-            Line3 = "movement feel better"
         },
         [2] = {
             name = "Better Swimming",
@@ -57,21 +58,23 @@ menuTable = {
             statusNames = {
                 [-1] = "Forced Off",
             },
-            --Description
-            Line1 = "Makes water movement similar",
-            Line2 = "to ground movement, using",
-            Line3 = "Analog for Horozontal Movement",
-            Line4 = "and A & Z for Vertical Movement."
+            description = {
+                "Makes water movement similar",
+                "to ground movement, using",
+                "Analog for Horozontal Movement",
+                "and A & Z for Vertical Movement."
+            },
         },
         [3] = {
             name = "Lava Groundpound",
             nameSave = "LGPSave",
             status = tonumber(mod_storage_load("LGPSave")),
             statusMax = 1,
-            --Description
-            Line1 = "Ground-Pounding on lava will",
-            Line2 = "give you a speed and height",
-            Line3 = "boost, at the cost of health."
+            description = {
+                "Ground-Pounding on lava will",
+                "give you a speed and height",
+                "boost, at the cost of health."
+            },
         },
         [4] = {
             name = "Anti-Quicksand",
@@ -79,54 +82,58 @@ menuTable = {
             status = tonumber(mod_storage_load("AQSSave")),
             statusMax = 1,
             unlocked = 1,
-            lockTo = 0,
-            --Description
+            lockTo = 0, 
             --Status Toggle Names
             statusNames = {
             [-1] = "Forced Off",
             },
-            Line1 = "Makes instant quicksand act",
-            Line2 = "like lava, preventing what",
-            Line3 = "may seem like an unfair",
-            Line4 = "deaths. (Does not include",
-            Line5 = "Lava Groundpound functions)"
+            description = {
+                "Makes instant quicksand act",
+                "like lava, preventing what",
+                "may seem like an unfair",
+                "deaths. (Does not include",
+                "Lava Groundpound functions)"
+            },
         },
         [5] = {
             name = "Modded Wallkick",
             nameSave = "WKSave",
             status = tonumber(mod_storage_load("WKSave")),
-            statusMax = 1,
-            --Description
-            Line1 = "Adds Wallsliding and more",
-            Line2 = "Lenient Angles and Timings",
-            Line3 = "you can wall kick at, best",
-            Line4 = "for a more modern experience."
+            statusMax = 1, 
+            description = {
+                "Adds Wallsliding and more",
+                "Lenient Angles and Timings",
+                "you can wall kick at, best",
+                "for a more modern experience."
+            },
         },
         [6] = {
             name = "Strafing",
             nameSave = "StrafeSave",
             status = tonumber(mod_storage_load("StrafeSave")),
             statusMax = 1,
-            statusDefault = 0,
-            --Description
-            Line1 = "Forces Mario to face the",
-            Line2 = "direction the Camera is",
-            Line3 = "facing, similar to Sonic Robo",
-            Line4 = "Blast 2. Recommended if you",
-            Line5 = "play with Mouse and Keyboard."
+            statusDefault = 0, 
+            description = {
+                "Forces Mario to face the",
+                "direction the Camera is",
+                "facing, similar to Sonic Robo",
+                "Blast 2. Recommended if you",
+                "play with Mouse and Keyboard."
+            },
         },
         [7] = {
             name = "Ledge Parkour",
             nameSave = "LedgeSave",
             status = tonumber(mod_storage_load("LedgeSave")),
-            statusMax = 1,
-            --Description
-            Line1 = "Toggles the ability to press",
-            Line2 = "A or B while moving fast onto",
-            Line3 = "a ledge to trick off of it!",
-            Line4 = "Recommended if you want",
-            Line5 = "to retain your speed going",
-            Line6 = "off a ledge."
+            statusMax = 1, 
+            description = {
+                "Toggles the ability to press",
+                "A or B while moving fast onto",
+                "a ledge to trick off of it!",
+                "Recommended if you want",
+                "to retain your speed going",
+                "off a ledge."
+            },
         },
     },
     [2] = {
@@ -137,16 +144,16 @@ menuTable = {
             status = tonumber(mod_storage_load("HUDSave")),
             statusMax = 3,
             statusDefault = 0,
-            --Status Toggle Names
             statusNames = {
                 [0] = "Default",
                 [1] = "4:3 Locked",
                 [2] = "Compact",
                 [3] = "Disabled",
             },
-            --Description
-            Line1 = "Changes which HUD the screen",
-            Line2 = "displays! (WIP)"
+            description = {
+                "Changes which HUD the screen",
+                "displays! (WIP)"
+            }
         },
         [2] = {
             name = "Prevent HUD Clashing",
@@ -154,18 +161,17 @@ menuTable = {
             status = tonumber(mod_storage_load("HUDDisableSave")),
             statusMax = 2,
             statusDefault = 1,
-            --Status Toggle Names
             statusNames = {
                 [2] = "Gamemodes Only",
             },
-            --Description
-            Line1 = "Toggles if your HUD",
-            Line2 = "automatically gets set to",
-            Line3 = "Disabled if another mod",
-            Line4 = "has a Custom HUD, This",
-            Line5 = "does not force the HUD to",
-            Line6 = "Disabled."
-
+            description = {
+                "Toggles if your HUD",
+                "automatically gets set to",
+                "Disabled if another mod",
+                "has a Custom HUD, This",
+                "does not force the HUD to",
+                "Disabled."
+            }
         },
         [3] = {
             name = "Menu Theme",
@@ -174,12 +180,13 @@ menuTable = {
             statusMax = nil,
             statusDefault = 0,
             statusNames = {},
-            --Description
-            Line1 = "Toggles what theme the",
-            Line2 = "Server Menu Displays, these",
-            Line3 = "are unlocked via doing",
-            Line4 = "specific tasks or joining",
-            Line5 = "specific events."
+            description = {
+                "Toggles what theme the",
+                "Server Menu Displays, these",
+                "are unlocked via doing",
+                "specific tasks or joining",
+                "specific events."
+            }
         },
         [4] = {
             name = "Menu Descriptions",
@@ -187,12 +194,13 @@ menuTable = {
             status = tonumber(mod_storage_load("DescSave")),
             statusMax = 1,
             statusDefault = 1,
-            --Description
-            Line1 = "Toggles these descriptions",
-            Line2 = "you see on the right,",
-            Line3 = "Recommended to turn Off if",
-            Line4 = "you like a more minimalistic",
-            Line5 = "menu."
+            description = {
+                "Toggles these descriptions",
+                "you see on the right,",
+                "Recommended to turn Off if",
+                "you like a more minimalistic",
+                "menu."
+            }
         },
         [5] = {
             name = "Menu Animations",
@@ -200,11 +208,12 @@ menuTable = {
             status = tonumber(mod_storage_load("MenuAnimSave")),
             statusMax = 1,
             statusDefault = 1,
-            --Description
-            Line1 = "Toggles Menu Animations like",
-            Line2 = "Transitions and Bobbing.",
-            Line3 = "(Might save Performance if",
-            Line4 = "Toggled Off)"
+            description = {
+                "Toggles Menu Animations like",
+                "Transitions and Bobbing.",
+                "(Might save Performance if",
+                "Toggled Off)"
+            }
         },
     },
     [3] = {
@@ -214,84 +223,89 @@ menuTable = {
             nameSave = "ModelSave",
             status = tonumber(mod_storage_load("ModelSave")),
             statusMax = nil,
-            statusDefault = 1,
-            statusNames = {},
-            --Description
-            Line1 = "Toggles your own Custom",
-            Line2 = "Player Model, Only avalible",
-            Line3 = "for users with at least",
-            Line4 = "one Custom Model.",
-            Line5 = "",
-            Line6 = "",
-            Line7 = "Contact The Host for more",
-            Line8 = "information about",
-            Line9 = "Custom Models and DynOS"
+            statusDefault = 1, 
+            description = {
+                "Toggles your own Custom",
+                "Player Model, Only available",
+                "for users with at least",
+                "one Custom Model.",
+                "",
+                "",
+                "Contact The Host for more",
+                "information about",
+                "Custom Models and DynOS"
+            }
         },
         [2] = {
             name = "Locally Display Models",
             nameSave = "ModelDisplaySave",
             status = tonumber(mod_storage_load("ModelDisplaySave")),
             statusMax = 1,
-            statusDefault = 1,
-            --Description
-            Line1 = "Toggles if Custom Player",
-            Line2 = "Models Display locally,",
-            Line3 = "Recommended if other people's",
-            Line4 = "Custom models are getting",
-            Line5 = "in the way.",
-            Line6 = "",
-            Line7 = "Contact The Host for more",
-            Line8 = "information about",
-            Line9 = "Custom Models and DynOS"
+            statusDefault = 1, 
+            description = {
+                "Toggles if Custom Player",
+                "Models Display locally,",
+                "Recommended if other people's",
+                "Custom models are getting",
+                "in the way.",
+                "",
+                "Contact The Host for more",
+                "information about",
+                "Custom Models and DynOS"
+            }
         },
         [3] = {
             name = "Rom-Hack Camera",
             nameSave = "HackCamSave",
             status = tonumber(mod_storage_load("HackCamSave")),
             statusMax = 1,
-            statusDefault = 0,
-            --Description
-            Line1 = "Toggles if the camera acts",
-            Line2 = "the same way it does in",
-            Line3 = "Rom-Hacks. (8 directional)",
+            statusDefault = 0, 
+            description = {
+                "Toggles if the camera acts",
+                "the same way it does in",
+                "Rom-Hacks. (8 directional)"
+            }
         },
         [4] = {
             name = "Star Spawn Cutscene",
             nameSave = "SSCSave",
             status = tonumber(mod_storage_load("SSCSave")),
             statusMax = 1,
-            statusDefault = 1,
-            --Description
-            Line1 = "Toggles if Star Spawning",
-            Line2 = "Cutscenes play, Recommended",
-            Line3 = "if you don't know where a",
-            Line4 = "star spawns."
+            statusDefault = 1, 
+            description = {
+                "Toggles if Star Spawning",
+                "Cutscenes play, Recommended",
+                "if you don't know where a",
+                "star spawns."
+            }
         },
         [5] = {
             name = "Server Popups",
             nameSave = "notifSave",
             status = tonumber(mod_storage_load("notifSave")),
             statusMax = 1,
-            statusDefault = 1,
-            --Description
-            Line1 = "Shows Tips/Hints about the",
-            Line2 = "server every 3-5 minutes.",
-            Line3 = "Recommended for if you're",
-            Line4 = "new to the server."
+            statusDefault = 1, 
+            description = {
+                "Shows Tips/Hints about the",
+                "server every 3-5 minutes.",
+                "Recommended for if you're",
+                "new to the server."
+            }
         },
         [6] = {
             name = "Show Rules",
             nameSave = "RulesSave",
             status = tonumber(mod_storage_load("RulesSave")),
             statusMax = 1,
-            statusDefault = 1,
-            --Description
-            Line1 = "Toggles if the Rules Screen",
-            Line2 = "Displays upon joining. By",
-            Line3 = "turning this option off,",
-            Line4 = "You're confirming that you",
-            Line5 = "have Read and Understand",
-            Line6 = "the Rules."
+            statusDefault = 1, 
+            description = {
+                "Toggles if the Rules Screen",
+                "Displays upon joining. By",
+                "turning this option off,",
+                "You're confirming that you",
+                "have Read and Understand",
+                "the Rules."
+            }
         },
     },
     [4] = {
@@ -305,10 +319,11 @@ menuTable = {
             statusNames = {
                 [0] = "Default",
                 [1] = "Bubble",
+            }, 
+            description = {
+                "Chenges how players die",
+                "and respawn after death."
             },
-            --Description
-            Line1 = "Chenges how players die",
-            Line2 = "and respawn after death."
         },
         [2] = {
             name = "Player Interactions",
@@ -320,10 +335,11 @@ menuTable = {
                 [0] = "Non-Solid",
                 [1] = "Solid",
                 [2] = "Friendly Fire",
+            }, 
+            description = {
+                "Changes if and how players",
+                "interact with each other."
             },
-            --Description
-            Line1 = "Changes if and how players",
-            Line2 = "interact with each other."
         },
         [3] = {
             name = "Player Knockback",
@@ -335,11 +351,12 @@ menuTable = {
                 [0] = "Weak",
                 [1] = "Normal",
                 [2] = "Too Much",
+            }, 
+            description = {
+                "Changes how far players get",
+                "knocked back after being hit",
+                "by another player."
             },
-            --Description
-            Line1 = "Changes how far players get",
-            Line2 = "knocked back after being hit",
-            Line3 = "by another player."
         },
         [4] = {
             name = "On Star Collection",
@@ -351,35 +368,38 @@ menuTable = {
                 [0] = "Leave Level",
                 [1] = "Stay in Level",
                 [2] = "Non-Stop",
+            }, 
+            description = {
+                "Determines what happens",
+                "after you collect a star."
             },
-            --Description
-            Line1 = "Determines what happens",
-            Line2 = "after you collect a star."
         },
         [5] = {
             name = "Global Movesets",
             status = 1,
             statusMax = 1,
             statusDefault = 1,
-            statusNames = {},
-            --Description
-            Line1 = "Determines if players can",
-            Line2 = "locally change what moveset",
-            Line3 = "they're using, Off forces",
-            Line4 = "everyone to default."
+            statusNames = {}, 
+            description = {
+                "Determines if players can",
+                "locally change what moveset",
+                "they're using, Off forces",
+                "everyone to default."
+            },
         },
         [6] = {
             name = "Global Anti-Quicksand",
             status = 0,
             statusMax = 1,
             statusDefault = 1,
-            statusNames = {},
-            --Description
-            Line1 = "Determines if players can",
-            Line2 = "locally change AQS or if",
-            Line3 = "it's forced off."
+            statusNames = {}, 
+            description = {
+                "Determines if players can",
+                "locally change AQS or if",
+                "it's forced off."
+            },
         },
-    }
+    },
 }
 
 themeTable = {
@@ -665,7 +685,7 @@ function displaymenu()
             djui_hud_print_text(menuTable[optionTab][optionHover].name, (halfScreenWidth + 100) + descSlide, 85 - bobbing, 0.35)
             djui_hud_set_color(255, 255, 255, 255)
             for i = 1, 9 do
-                local line = menuTable[optionTab][optionHover]["Line" .. i]
+                local line = menuTable[optionTab][optionHover].description[i]
                 if line ~= nil then
                     djui_hud_set_color(255, 255, 255, 255)
                     djui_hud_print_text(line, halfScreenWidth + 100 + descSlide, (100 + (i - 1) * 8) - bobbing, 0.3)
