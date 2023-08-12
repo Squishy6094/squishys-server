@@ -443,7 +443,7 @@ modelTable = {
             model = smlua_model_util_get_id("mawio_geo"),
             modelName = "Mawio :3",
             forcePlayer = CT_MARIO,
-            icon = "Default",
+            icon = 8,
             credit = "sm64rise"
         }
     },
@@ -598,11 +598,12 @@ modelTable = {
         },
     },
     [Dani] = {
+        nickname = "Dani",
         [1] = {
             model = smlua_model_util_get_id("mawio_geo"),
             modelName = "Mawio :3",
             forcePlayer = CT_MARIO,
-            icon = "Default",
+            icon = 8,
             credit = "sm64rise"
         }
     }

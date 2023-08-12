@@ -1184,16 +1184,20 @@ function update()
     local args = split(gGlobalSyncTable.syncData)
 
     if menu and optionTab == 4 then
-        gGlobalSyncTable.syncData = ""
-        for i = 1, #menuTable[4] do
-            gGlobalSyncTable.syncData = gGlobalSyncTable.syncData .. tostring(menuTable[4][i].status) .. " "
-        end
+        gGlobalSyncTable.syncData = tostring(menuTable[4][1].status) .. " " .. tostring(menuTable[4][2].status) .. " " .. tostring(menuTable[4][3].status) .. " " .. tostring(menuTable[4][4].status) .. " " .. tostring(menuTable[4][5].status) .. " " .. tostring(menuTable[4][6].status)
     else
-        for i = 1, #menuTable[4] do
-            if menuTable[4][i].status ~= tonumber(args[i]) then
-                menuTable[4][i].status = tonumber(args[i])
-            end
-        end
+        --Death Type
+        menuTable[4][1].status = tonumber(args[1])
+        --Player Interactions
+        menuTable[4][2].status = tonumber(args[2])
+        --Player Knockback
+        menuTable[4][3].status = tonumber(args[3])
+        --On Star Collection
+        menuTable[4][4].status = tonumber(args[4])
+        --Global Movesets
+        menuTable[4][5].status = tonumber(args[5])
+        --Global AQS
+        menuTable[4][6].status = tonumber(args[6])
     end
     gServerSettings.bubbleDeath = tonumber(args[1])
     gServerSettings.playerInteractions = tonumber(args[2])
