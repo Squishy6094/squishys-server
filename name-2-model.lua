@@ -523,6 +523,13 @@ modelTable = {
             forcePlayer = CT_MARIO,
             icon = "Default",
             credit = "CheesyNacho"
+        },
+        [7] = {
+            model = smlua_model_util_get_id("tiremario_geo"),
+            modelName = "Tired",
+            forcePlayer = CT_MARIO,
+            credit = "Endood,AquariusAlexx and Brobgonal"
+            
         }
     },
     [Frosty] = {
