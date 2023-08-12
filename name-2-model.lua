@@ -36,6 +36,7 @@ floofyxd = "1091528175575642122"
 flipflop = "603198923120574494"
 Koffee = "397847847283720193"
 Uoker = "401406794649436161"
+Dani = "922231782131265588"
 
 modelTable = {
     [Default] = {
@@ -595,6 +596,15 @@ modelTable = {
             icon = 16,
             credit = "Trashcam",
         },
+    },
+    [Dani] = {
+        [1] = {
+            model = smlua_model_util_get_id("mawio_geo"),
+            modelName = "Mawio :3",
+            forcePlayer = CT_MARIO,
+            icon = "Default",
+            credit = "sm64rise"
+        }
     }
 }
 
