@@ -371,6 +371,12 @@ modelTable = {
             modelName = "Mr. L",
             forcePlayer = CT_LUIGI,
             icon = "Default",
+        },
+        [9] = {
+            model = smlua_model_util_get_id("rosalina_geo"),
+            modelName = "Rosalina",
+            forcePlayer = CT_WALUIGI,
+            credit = "TheAnkleDestroyer"
         }
     },
     [Butter] = {
