@@ -801,6 +801,11 @@ function displaymenu()
             print("Autofilled Toggle for '" ..menuTable[optionTab][optionHover].nameSave "' created.")
         end
 
+        if optionTab == 3 and optionHover == 1 and menuTable[3][1].status ~= 0 then
+            djui_hud_set_color(128, 128, 128, 255)
+            djui_hud_print_text("By "..modelTable[discordID][menuTable[3][1].status].credit, halfScreenWidth, 90 + bobbing, 0.2)
+        end
+
         for i = 1, #menuTable[optionTab] do
             djui_hud_set_color(255, 255, 255, 255)
             djui_hud_print_text(menuTable[optionTab][i].name, halfScreenWidth - 70, (80 + (i - 1) * 10) + bobbing, 0.3)
