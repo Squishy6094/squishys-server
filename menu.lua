@@ -309,6 +309,9 @@ menuTable = {
         },
     },
     [4] = {
+        name = "External"
+    },
+    [5] = {
         name = "Server",
         [1] = {
             name = "Death Type",
@@ -453,7 +456,7 @@ end
 for i in pairs(gActiveMods) do
     --Mod Check Preventing Moveset Clashing
     if (gActiveMods[i].incompatible ~= nil and gActiveMods[i].incompatible:find("moveset")) or gActiveMods[i].name:find("Pasta Castle") then
-        menuTable[4][5].status = 0
+        menuTable[5][5].status = 0
         menuTable[1][1].statusNames[-1] = "External Moveset"
         gGlobalSyncTable.syncData = tostring(gServerSettings.bubbleDeath) .. " " .. tostring(gServerSettings.playerInteractions) .. " " .. tostring(KBTranslate) .. " " .. tostring(gServerSettings.stayInLevelAfterStar) .. " " .. tostring(0) .. " " .. tostring(1)
     end
@@ -712,19 +715,50 @@ function displaymenu()
         djui_hud_set_resolution(RESOLUTION_N64)
         if network_has_permissions() then
             djui_hud_set_color(themeTable[menuTable[2][3].status].hoverColor.r, themeTable[menuTable[2][3].status].hoverColor.g, themeTable[menuTable[2][3].status].hoverColor.b, 200)
-            djui_hud_render_rect((halfScreenWidth - 60 + (optionTab * 30 - 30)), 70 + bobbing, 30, 9)
+            if menuTable[4][1] ~= nil then
+                djui_hud_render_rect((halfScreenWidth - 60 + (optionTab * 30 - 30) - 15), 70 + bobbing, 30, 9)
+            else
+                n = optionTab
+                if optionTab == 5 then
+                    n = 4
+                end
+                djui_hud_render_rect((halfScreenWidth - 60 + (n * 30 - 30)), 70 + bobbing, 30, 9)
+            end
             djui_hud_set_color(255, 255, 255, 255)
-            djui_hud_print_text("Movement", (halfScreenWidth - (djui_hud_measure_text("Movement")* 0.3 / 2) - 45), 70 + bobbing, 0.3)
-            djui_hud_print_text("HUD", (halfScreenWidth - (djui_hud_measure_text("HUD")* 0.3 / 2) - 15), 70 + bobbing, 0.3)
-            djui_hud_print_text("Misc.", (halfScreenWidth - (djui_hud_measure_text("Misc.")* 0.3 / 2) + 15), 70 + bobbing, 0.3)
-            djui_hud_print_text("Server", (halfScreenWidth - (djui_hud_measure_text("Server")* 0.3 / 2) + 45), 70 + bobbing, 0.3)
+            if menuTable[4][1] ~= nil then
+                djui_hud_print_text("Movement", (halfScreenWidth - (djui_hud_measure_text("Movement")* 0.3 / 2) - 60), 70 + bobbing, 0.3)
+                djui_hud_print_text("HUD", (halfScreenWidth - (djui_hud_measure_text("HUD")* 0.3 / 2) - 30), 70 + bobbing, 0.3)
+                djui_hud_print_text("Misc.", (halfScreenWidth - (djui_hud_measure_text("Misc.")* 0.3 / 2)), 70 + bobbing, 0.3)
+                djui_hud_print_text("External", (halfScreenWidth - (djui_hud_measure_text("External")* 0.3 / 2) + 30), 70 + bobbing, 0.3)
+                djui_hud_print_text("Server", (halfScreenWidth - (djui_hud_measure_text("Server")* 0.3 / 2) + 60), 70 + bobbing, 0.3)
+            else
+                djui_hud_print_text("Movement", (halfScreenWidth - (djui_hud_measure_text("Movement")* 0.3 / 2) - 45), 70 + bobbing, 0.3)
+                djui_hud_print_text("HUD", (halfScreenWidth - (djui_hud_measure_text("HUD")* 0.3 / 2) - 15), 70 + bobbing, 0.3)
+                djui_hud_print_text("Misc.", (halfScreenWidth - (djui_hud_measure_text("Misc.")* 0.3 / 2) + 15), 70 + bobbing, 0.3)
+                djui_hud_print_text("Server", (halfScreenWidth - (djui_hud_measure_text("External")* 0.3 / 2) + 45), 70 + bobbing, 0.3)
+            end
         else
             djui_hud_set_color(themeTable[menuTable[2][3].status].hoverColor.r, themeTable[menuTable[2][3].status].hoverColor.g, themeTable[menuTable[2][3].status].hoverColor.b, 200)
-            djui_hud_render_rect((halfScreenWidth - 60 + (optionTab * 30 - 30) + 15), 70 + bobbing, 30, 9)
+            if menuTable[4][1] ~= nil then
+                djui_hud_render_rect((halfScreenWidth - 60 + (optionTab * 30 - 30)), 70 + bobbing, 30, 9)
+            else
+                n = optionTab
+                if optionTab == 5 then
+                    n = 4
+                end
+                djui_hud_render_rect((halfScreenWidth - 60 + (n * 30 - 30) + 15), 70 + bobbing, 30, 9)
+            end
             djui_hud_set_color(255, 255, 255, 255)
-            djui_hud_print_text("Movement", (halfScreenWidth - (djui_hud_measure_text("Movement")* 0.3 / 2) - 30), 70 + bobbing, 0.3)
-            djui_hud_print_text("HUD", (halfScreenWidth - (djui_hud_measure_text("HUD")* 0.3 / 2)), 70 + bobbing, 0.3)
-            djui_hud_print_text("Misc.", (halfScreenWidth - (djui_hud_measure_text("Misc.")* 0.3 / 2) + 30), 70 + bobbing, 0.3)
+            if menuTable[4][1] ~= nil then
+                djui_hud_print_text("Movement", (halfScreenWidth - (djui_hud_measure_text("Movement")* 0.3 / 2) - 45), 70 + bobbing, 0.3)
+                djui_hud_print_text("HUD", (halfScreenWidth - (djui_hud_measure_text("HUD")* 0.3 / 2) - 15), 70 + bobbing, 0.3)
+                djui_hud_print_text("Misc.", (halfScreenWidth - (djui_hud_measure_text("Misc.")* 0.3 / 2) + 15), 70 + bobbing, 0.3)
+                djui_hud_print_text("External", (halfScreenWidth - (djui_hud_measure_text("External")* 0.3 / 2) + 45), 70 + bobbing, 0.3)
+            else
+                djui_hud_print_text("Movement", (halfScreenWidth - (djui_hud_measure_text("Movement")* 0.3 / 2) - 30), 70 + bobbing, 0.3)
+                djui_hud_print_text("HUD", (halfScreenWidth - (djui_hud_measure_text("HUD")* 0.3 / 2)), 70 + bobbing, 0.3)
+                djui_hud_print_text("Misc.", (halfScreenWidth - (djui_hud_measure_text("Misc.")* 0.3 / 2) + 30), 70 + bobbing, 0.3)
+            end
         end
         if discordID ~= "0" then
             djui_hud_set_color(150, 150, 150, 255)
@@ -868,10 +902,16 @@ function before_update(m)
             if (stickX < -10 or (buttonDown & L_JPAD ~= 0)) then
                 play_sound(SOUND_MENU_MESSAGE_NEXT_PAGE, gMarioStates[0].marioObj.header.gfx.cameraToObject)
                 optionTab = optionTab - 1
+                if optionTab == 4 and menuTable[4][1] == nil then
+                    optionTab = 3
+                end
                 optionHoverTimer = 0
             elseif (stickX > 10 or (buttonDown & R_JPAD ~= 0)) then
                 play_sound(SOUND_MENU_MESSAGE_NEXT_PAGE, gMarioStates[0].marioObj.header.gfx.cameraToObject)
                 optionTab = optionTab + 1
+                if optionTab == 4 and menuTable[4][1] == nil then
+                    optionTab = 5
+                end
                 optionHoverTimer = 0
             end
         end
@@ -888,9 +928,9 @@ function before_update(m)
             end
         end
 
-        local maxTabLimit = 3
+        local maxTabLimit = 4
         if (network_has_permissions()) then
-            maxTabLimit = 4
+            maxTabLimit = 5
         end
 
         if optionTab > maxTabLimit then optionTab = 1 end
@@ -913,7 +953,7 @@ function before_update(m)
                     mod_storage_save(menuTable[optionTab][optionHover].nameSave, tostring(menuTable[optionTab][optionHover].status))
                 end
                 if network_has_permissions() then
-                    if optionTab == 4 and optionHover >= 1 then
+                    if optionTab == 5 and optionHover >= 1 then
                         djui_popup_create_global("\\#00aa00\\Squishy's Server Ruleset:\n\\#ffff77\\"..menuTable[optionTab][optionHover].name.."\\#dcdcdc\\ was set to \\#ffff00\\"..tostring(menuTable[optionTab][optionHover].statusNames[menuTable[optionTab][optionHover].status].."\\#dcdcdc\\!"), 3)
                     end
                 end
@@ -973,7 +1013,7 @@ function on_menu_command(msg)
             end
             menu = false
             if network_has_permissions() then
-                if tonumber(args[2]) == 4 and tonumber(args[4]) <= table.statusMax then
+                if tonumber(args[2]) == 5 and tonumber(args[4]) <= table.statusMax then
                     djui_popup_create_global("\\#00aa00\\Squishy's Server Ruleset:\n\\#ffff77\\"..table.name.."\\#dcdcdc\\ was set to \\#ffff00\\"..tostring(table.statusNames[table.status].."\\#dcdcdc\\!"), 3)
                 end
             end
@@ -1183,21 +1223,17 @@ end
 function update()
     local args = split(gGlobalSyncTable.syncData)
 
-    if menu and optionTab == 4 then
-        gGlobalSyncTable.syncData = tostring(menuTable[4][1].status) .. " " .. tostring(menuTable[4][2].status) .. " " .. tostring(menuTable[4][3].status) .. " " .. tostring(menuTable[4][4].status) .. " " .. tostring(menuTable[4][5].status) .. " " .. tostring(menuTable[4][6].status)
+    if menu and optionTab == 5 then
+        gGlobalSyncTable.syncData = ""
+        for i = 1, #menuTable[5] do
+            gGlobalSyncTable.syncData = gGlobalSyncTable.syncData .. tostring(menuTable[5][i].status) .. " "
+        end
     else
-        --Death Type
-        menuTable[4][1].status = tonumber(args[1])
-        --Player Interactions
-        menuTable[4][2].status = tonumber(args[2])
-        --Player Knockback
-        menuTable[4][3].status = tonumber(args[3])
-        --On Star Collection
-        menuTable[4][4].status = tonumber(args[4])
-        --Global Movesets
-        menuTable[4][5].status = tonumber(args[5])
-        --Global AQS
-        menuTable[4][6].status = tonumber(args[6])
+        for i = 1, #menuTable[5] do
+            if menuTable[5][i].status ~= tonumber(args[i]) then
+                menuTable[5][i].status = tonumber(args[i])
+            end
+        end
     end
     gServerSettings.bubbleDeath = tonumber(args[1])
     gServerSettings.playerInteractions = tonumber(args[2])
