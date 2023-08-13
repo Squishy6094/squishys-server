@@ -38,6 +38,7 @@ Koffee = "397847847283720193"
 Uoker = "401406794649436161"
 Dani = "922231782131265588"
 Brob = "1000555727942865036"
+Dakun = "358779634625806347"
 
 modelTable = {
     [Default] = {
@@ -654,6 +655,21 @@ modelTable = {
             forcePlayer = CT_MARIO,
             credit = "Endood, AquariusAlexx and Brobgonal"
         },
+    },
+    [Dakun] = {
+        nickname = "Dakun",
+        [1] = {
+            model = smlua_model_util_get_id("ds_geo"),
+            modelName = "SM64DS Mario",
+            forcePlayer = CT_MARIO,
+            credit = "FluffaMario"
+        },
+        [2] = {
+            model = smlua_model_util_get_id("mawio_geo"),
+            modelName = "Mawio :3",
+            forcePlayer = CT_MARIO,
+            credit = "sm64rise"
+        }
     }
 }
 
