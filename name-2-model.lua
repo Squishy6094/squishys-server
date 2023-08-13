@@ -37,6 +37,7 @@ flipflop = "603198923120574494"
 Koffee = "397847847283720193"
 Uoker = "401406794649436161"
 Dani = "922231782131265588"
+Brob = "1000555727942865036"
 
 modelTable = {
     [Default] = {
@@ -529,7 +530,12 @@ modelTable = {
             modelName = "Tired",
             forcePlayer = CT_MARIO,
             credit = "Endood,AquariusAlexx and Brobgonal"
-            
+        },
+        [8] = {
+            model = smlua_model_util_get_id("rosalina_geo"),
+            modelName = "Rosalina",
+            forcePlayer = CT_LUIGI,
+            credit = "TheAnkleDestroyer"
         }
     },
     [Frosty] = {
@@ -612,7 +618,42 @@ modelTable = {
             forcePlayer = CT_MARIO,
             icon = 8,
             credit = "sm64rise"
-        }
+        },
+    },
+    [Brob] = {
+        nickname = "Brob",
+        [1] = {
+            model = smlua_model_util_get_id("dk_geo"),
+            modelName = "Donkey Kong",
+            forcePlayer = CT_WARIO,
+            icon = 16,
+            credit = "Brob2nd",
+        },
+        [2] = {
+            model = smlua_model_util_get_id("koopa_geo"),
+            modelName = "Koopa Shell Mario",
+            forcePlayer = CT_MARIO,
+            credit = "sm64mods & Brob2nd",
+        },
+        [3] = {
+            model = smlua_model_util_get_id("boshi_geo"),
+            modelName = "Boshi",
+            forcePlayer = CT_MARIO,
+            credit = "CheesyNacho"
+        },
+        [4] = {
+            model = smlua_model_util_get_id("tails_geo"),
+            modelName = "Tails",
+            forcePlayer = CT_TOAD,
+            icon = 4,
+            credit = "Brob2nd"
+        },
+        [5] = {
+            model = smlua_model_util_get_id("tiremario_geo"),
+            modelName = "Tired",
+            forcePlayer = CT_MARIO,
+            credit = "Endood,AquariusAlexx and Brobgonal"
+        },
     }
 }
 
