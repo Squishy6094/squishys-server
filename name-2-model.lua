@@ -445,8 +445,22 @@ modelTable = {
             model = smlua_model_util_get_id("mawio_geo"),
             modelName = "Mawio :3",
             forcePlayer = CT_MARIO,
-            icon = 8,
+            icon = "Default", -- I keep this icon disabled on purpose by the way
             credit = "sm64rise"
+        },
+        [4] = {
+            model = smlua_model_util_get_id("paper_mario_geo"),
+            modelName = "Paper Mario",
+            forcePlayer = CT_MARIO,
+            icon = "Default",
+            credit = "6b"
+        },
+        [5] = {
+            model = smlua_model_util_get_id("builder_geo"),
+            modelName = "Builder Mario",
+            forcePlayer = CT_MARIO,
+            icon = "Default",
+            credit = "MSatiro"
         }
     },
     [KitKat] = {
