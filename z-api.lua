@@ -37,8 +37,12 @@ end
 
 
 -- Menu Info --
-_G.ssApi.menu_open = function ()
-    return menu
+_G.ssApi.menu_open = function (boolean)
+    if boolean ~= nil then
+        menu = boolean
+    else
+        return menu
+    end
 end
 
 
