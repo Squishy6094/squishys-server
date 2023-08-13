@@ -621,7 +621,7 @@ modelTable = {
         },
     },
     [Brob] = {
-        nickname = "Brob",
+        nickname = "Brob2nd",
         [1] = {
             model = smlua_model_util_get_id("dk_geo"),
             modelName = "Donkey Kong",
@@ -652,7 +652,7 @@ modelTable = {
             model = smlua_model_util_get_id("tiremario_geo"),
             modelName = "Tired",
             forcePlayer = CT_MARIO,
-            credit = "Endood,AquariusAlexx and Brobgonal"
+            credit = "Endood, AquariusAlexx and Brobgonal"
         },
     }
 }
