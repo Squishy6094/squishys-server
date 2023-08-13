@@ -332,7 +332,7 @@ modelTable = {
         [2] = {
             model = smlua_model_util_get_id("hat_kid_geo"),
             modelName = "Hat Kid",
-            forcePlayer = CT_TOAD,
+            forcePlayer = CT_LUIGI,
             icon = 11,
         },
         [3] = {
