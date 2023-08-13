@@ -1,4 +1,4 @@
-local menu = false
+menu = false
 local optionTab = 1
 local optionHover = 1
 local optionHoverTimer = -1

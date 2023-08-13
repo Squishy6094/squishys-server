@@ -124,6 +124,8 @@ function network_has_permissions()
     end
 end
 
+local rolestring = ""
+
 function on_chat_message(m, msg)
     local sMario = gPlayerSyncTable[m.playerIndex]
     local np = gNetworkPlayers[m.playerIndex]
@@ -139,7 +141,7 @@ function on_chat_message(m, msg)
             args[#args + 1] = "5"
         end
 
-        local rolestring = ""
+        rolestring = ""
         for i = 1, #args do
             rolestring = rolestring .. " " .. rolestringTable[tonumber(args[i])](m.playerIndex)
         end
@@ -161,6 +163,10 @@ function on_chat_message(m, msg)
     else
         return true
     end
+end
+
+function roles_get_tag()
+    return rolestring
 end
 
 hook_event(HOOK_UPDATE, update_roles)
