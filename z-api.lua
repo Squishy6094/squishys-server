@@ -4,7 +4,7 @@ _G.ssApi = {}
 _G.ssApi.option_add = function(name, statusDefault, statusMax, statusNames, description)
     if statusNames == nil then statusNames = {} end
     if description == nil then description = {"Added via the SS Api"} end
-    menuTable[3][#menuTable[3]+1] = {
+    menuTable[4][#menuTable[4]+1] = {
         name = name,
         status = statusDefault,
         statusMax = statusMax,
