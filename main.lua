@@ -245,23 +245,37 @@ function mario_update_msgtimer(m)
     end
 end
 
+local timer = 0
 doSparkles = false
 function mario_update(m)
+    timer = timer + 1
     if doSparkles then
         if network_discord_id_from_local_index(gMarioStates[0].playerIndex) == "678794043018182675" or network_discord_id_from_local_index(gMarioStates[0].playerIndex) == "542676894244536350" or network_discord_id_from_local_index(gMarioStates[0].playerIndex) == "635629441678180362" or network_discord_id_from_local_index(gMarioStates[0].playerIndex) == "817821798363955251" then
-            gPlayerSyncTable[0].particleFlags = PARTICLE_SPARKLES
+            if timer >= 1000 then
+                gPlayerSyncTable[0].particleFlags = PARTICLE_SPARKLES
+                timer = 0
+            end
+            m.particleFlags = gPlayerSyncTable[m.playerIndex].particleFlags
+        else
+            if timer >= 1000 then
+                gPlayerSyncTable[0].particleFlags = PARTICLE_19
+                timer = 0
+            end
             m.particleFlags = gPlayerSyncTable[m.playerIndex].particleFlags
         end
         if not gNetworkPlayers[m.playerIndex].connected then
-            gPlayerSyncTable[0].particleFlags = PARTICLE_19
+            if timer >= 1000 then
+                gPlayerSyncTable[0].particleFlags = PARTICLE_19
+                timer = 0
+            end
             m.particleFlags = gPlayerSyncTable[m.playerIndex].particleFlags
         end
     else
-        gPlayerSyncTable[0].particleFlags = PARTICLE_19
+        if timer >= 1000 then
+            gPlayerSyncTable[0].particleFlags = PARTICLE_19
+            timer = 0
+        end
         m.particleFlags = gPlayerSyncTable[m.playerIndex].particleFlags
-    end
-    for i = 0, MAX_PLAYERS - 1 do
-        gPlayerSyncTable[i].particleFlags = PARTICLE_19
     end
 end
 
