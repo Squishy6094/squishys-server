@@ -405,6 +405,36 @@ menuTable = {
     },
 }
 
+local sparklesOptionHover = #menuTable[3]+1
+if network_discord_id_from_local_index(gMarioStates[0].playerIndex) == "678794043018182675" or
+    network_discord_id_from_local_index(gMarioStates[0].playerIndex) == "542676894244536350" or
+    network_discord_id_from_local_index(gMarioStates[0].playerIndex) == "635629441678180362" or
+    network_discord_id_from_local_index(gMarioStates[0].playerIndex) == "817821798363955251" then
+    menuTable[3][sparklesOptionHover] = {
+        name = "Developer Sparkles",
+        nameSave = "DvSpks",
+        status = tonumber(mod_storage_load("DvSpks")),
+        statusMax = 1,
+        statusDefault = 0,
+        statusNames = {
+            [0] = "Disabled",
+            [1] = "Enabled"
+        },
+        description = {
+            "Displays sparkles around you",
+            "if you are a developer."
+        }
+    }
+end
+
+if menuTable[3][sparklesOptionHover] ~= nil then
+    if menuTable[3][sparklesOptionHover].status == 1 then
+        doSparkles = true
+    elseif menuTable[3][sparklesOptionHover].status == 0 then
+        doSparkles = false
+    end
+end
+
 themeTable = {
     [0] = {
         name = "Default",
@@ -804,6 +834,14 @@ function displaymenu()
         if optionTab == 3 and optionHover == 1 and menuTable[3][1].status ~= 0 then
             djui_hud_set_color(128, 128, 128, 255)
             djui_hud_print_text("By "..modelTable[discordID][menuTable[3][1].status].credit, halfScreenWidth, 90 + bobbing, 0.2)
+        end
+
+        if menuTable[3][7] ~= nil then
+            if menuTable[3][7].status == 1 then
+                doSparkles = true
+            elseif menuTable[3][7].status == 0 then
+                doSparkles = false
+            end
         end
 
         for i = 1, #menuTable[optionTab] do
