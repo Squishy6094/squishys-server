@@ -1343,16 +1343,18 @@ function sonic_update(m)
     return 0
 end
 
-_G.ssApi.option_add("Sonic: Rebooted", 0, 1, nil, 
-{"The Sonic character mod",
-"remade with a couple of",
-"improvement in controls.,",
-"",
-"Credits:", 
-"Coding and modelling: steven.", 
-"Ball model: king the memer", 
-"Sonic VA: Yuyake Kasarion", 
-"Voice system: SMS Alfredo."})
+if _G.ssExists then
+    _G.ssApi.option_add("Sonic: Rebooted", 0, 1, nil, 
+    {"The Sonic character mod",
+    "remade with a couple of",
+    "improvement in controls.,",
+    "",
+    "Credits:", 
+    "Coding and modelling: steven.", 
+    "Ball model: king the memer", 
+    "Sonic VA: Yuyake Kasarion", 
+    "Voice system: SMS Alfredo."})
+end
 
 -- This is where the actual hook functions are.
 function mario_update(m)
