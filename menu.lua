@@ -836,10 +836,10 @@ function displaymenu()
             djui_hud_print_text("By "..modelTable[discordID][menuTable[3][1].status].credit, halfScreenWidth, 90 + bobbing, 0.2)
         end
 
-        if menuTable[3][7] ~= nil then
-            if menuTable[3][7].status == 1 then
+        if menuTable[3][sparklesOptionHover] ~= nil then
+            if menuTable[3][sparklesOptionHover].status == 1 then
                 doSparkles = true
-            elseif menuTable[3][7].status == 0 then
+            elseif menuTable[3][sparklesOptionHover].status == 0 then
                 doSparkles = false
             end
         end
