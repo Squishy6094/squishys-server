@@ -284,37 +284,43 @@ modelTable = {
     [Elby] = {
         nickname = "Elby",
         [1] = {
+            model = smlua_model_util_get_id("Elby_geo"),
+            modelName = "Elby",
+            forcePlayer = CT_LUIGI,
+            credit = "Trashcam"
+        },
+        [2] = {
             model = smlua_model_util_get_id("protogen_geo"),
             modelName = "Protogen",
             forcePlayer = CT_TOAD,
             credit = "SolonelyCapybara"
         },
-        [2] = {
+        [3] = {
             model = smlua_model_util_get_id("nya_geo"),
             modelName = "Hatsune Maiku",
             forcePlayer = CT_MARIO,
             icon = "Default",
         },
-        [3] = {
+        [4] = {
             model = smlua_model_util_get_id("noelle_geo"),
             modelName = "Noelle",
             forcePlayer = CT_LUIGI,
             credit = "misfiremf & deltomx3"
         },
-        [4] = {
+        [5] = {
             model = smlua_model_util_get_id("boshi_geo"),
             modelName = "Boshi",
             forcePlayer = CT_MARIO,
             credit = "CheesyNacho"
         },
-        [5] = {
+        [6] = {
             model = smlua_model_util_get_id("sonic_geo"),
             modelName = "Sonic",
             forcePlayer = CT_MARIO,
             icon = 5,
             credit = "Steven"
         },
-        [6] = {
+        [7] = {
             model = smlua_model_util_get_id("tails_geo"),
             modelName = "Tails",
             forcePlayer = CT_LUIGI,
