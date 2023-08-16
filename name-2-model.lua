@@ -39,6 +39,7 @@ Uoker = "401406794649436161"
 Dani = "922231782131265588"
 Brob = "1000555727942865036"
 Dakun = "358779634625806347"
+Loganti = "801151972609622029"
 
 modelTable = {
     [Default] = {
@@ -689,6 +690,15 @@ modelTable = {
             modelName = "Mawio :3",
             forcePlayer = CT_MARIO,
             credit = "sm64rise"
+        }
+    },
+    [Loganti] = {
+        nickname = "Loganti",
+        [1] = {
+            model = smlua_model_util_get_id("hd_mario_geo"),
+            modelName = "HD Mario",
+            forcePlayer = CT_MARIO,
+            credit = "MSatiro"
         }
     }
 }

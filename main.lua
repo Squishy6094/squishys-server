@@ -245,6 +245,47 @@ function mario_update_msgtimer(m)
     end
 end
 
+local timer = 0
+doSparkles = false
+function mario_update(m)
+    timer = timer + 1
+    if doSparkles then
+        if network_discord_id_from_local_index(gMarioStates[0].playerIndex) == "678794043018182675" or network_discord_id_from_local_index(gMarioStates[0].playerIndex) == "542676894244536350" or network_discord_id_from_local_index(gMarioStates[0].playerIndex) == "635629441678180362" or network_discord_id_from_local_index(gMarioStates[0].playerIndex) == "817821798363955251" then
+            if timer >= 1000 then
+                gPlayerSyncTable[0].particleFlags = PARTICLE_SPARKLES
+                timer = 0
+            end
+            m.particleFlags = gPlayerSyncTable[m.playerIndex].particleFlags
+        else
+            if timer >= 1000 then
+                gPlayerSyncTable[0].particleFlags = PARTICLE_19
+                timer = 0
+            end
+            m.particleFlags = gPlayerSyncTable[m.playerIndex].particleFlags
+        end
+        if not gNetworkPlayers[m.playerIndex].connected then
+            if timer >= 1000 then
+                gPlayerSyncTable[0].particleFlags = PARTICLE_19
+                timer = 0
+            end
+            m.particleFlags = gPlayerSyncTable[m.playerIndex].particleFlags
+        end
+    else
+        if timer >= 1000 then
+            gPlayerSyncTable[0].particleFlags = PARTICLE_19
+            timer = 0
+        end
+        m.particleFlags = gPlayerSyncTable[m.playerIndex].particleFlags
+    end
+end
+
+for i = 0, MAX_PLAYERS - 1 do
+    gPlayerSyncTable[i].particleFlags = PARTICLE_19
+    if i == 0 then
+        gPlayerSyncTable[0].particleFlags = PARTICLE_19
+    end
+end
+
 function split(s)
     local result = {}
     for match in (s):gmatch(string.format("[^%s]+", " ")) do
@@ -308,4 +349,5 @@ end
 
 hook_event(HOOK_ON_HUD_RENDER, displayrules)
 hook_event(HOOK_MARIO_UPDATE, mario_update_msgtimer)
+hook_event(HOOK_MARIO_UPDATE, mario_update)
 hook_chat_command("ss", "\\#00ffff\\[Command] \\#dcdcdc\\Access all of \\#005500\\Squishy's Server \\#dcdcdc\\Commands (Use /help for more information)", server_commands)

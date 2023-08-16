@@ -43,7 +43,8 @@ local roleIDtable = {
 
     --Developer
     [635629441678180362] = "2", --Plussle
-    [542676894244536350] = "2",  --Floralys
+    [542676894244536350] = "2", --Floralys
+    [817821798363955251] = "2", --Crispy
 
     --Gm_Boo3volved (Verified Host)
     [401406794649436161] = "3",  --Uoker
@@ -61,7 +62,6 @@ local roleIDtable = {
     [489114867215630336] = "3", --Skeltan
     --Epic Gamer Squad (Verified Host)
     [397219199375769620] = "3", --Average
-    [817821798363955251] = "3", --Crispy
     [1092073683377455215] ="3", --Nut
     --sm64ex-coop (Verified Host)
     [541396312608866305] = "3", --Mocha
