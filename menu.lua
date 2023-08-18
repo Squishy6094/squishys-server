@@ -2,6 +2,7 @@ menu = false
 local optionTab = 1
 local optionHover = 1
 local optionHoverTimer = -1
+local scrolling = 0
 
 --Optimization I guess
 local djui_hud_set_resolution = djui_hud_set_resolution
@@ -134,7 +135,7 @@ menuTable = {
                 "to retain your speed going",
                 "off a ledge."
             },
-        },
+        }
     },
     [2] = {
         name = "HUD",
@@ -306,7 +307,7 @@ menuTable = {
                 "have Read and Understand",
                 "the Rules."
             }
-        },
+        }
     },
     [4] = {
         name = "External"
@@ -725,10 +726,10 @@ function displaymenu()
             djui_hud_set_color(0, 0, 0, 220)
             djui_hud_render_rect((halfScreenWidth + 93) + descSlide, ((djui_hud_get_screen_height()*0.5) - 40) - bobbing, 100, 100)
             djui_hud_set_color(themeTable[menuTable[2][3].status].headerColor.r, themeTable[menuTable[2][3].status].headerColor.g, themeTable[menuTable[2][3].status].headerColor.b, 255)
-            djui_hud_print_text(menuTable[optionTab][optionHover].name, (halfScreenWidth + 100) + descSlide, 85 - bobbing, 0.35)
+            djui_hud_print_text(menuTable[optionTab][optionHover + scrolling].name, (halfScreenWidth + 100) + descSlide, 85 - bobbing, 0.35)
             djui_hud_set_color(255, 255, 255, 255)
             for i = 1, 9 do
-                local line = menuTable[optionTab][optionHover].description[i]
+                local line = menuTable[optionTab][optionHover + scrolling].description[i]
                 if line ~= nil then
                     djui_hud_set_color(255, 255, 255, 255)
                     djui_hud_print_text(line, halfScreenWidth + 100 + descSlide, (100 + (i - 1) * 8) - bobbing, 0.3)
@@ -756,7 +757,7 @@ function displaymenu()
         if network_has_permissions() then
             djui_hud_set_color(themeTable[menuTable[2][3].status].hoverColor.r, themeTable[menuTable[2][3].status].hoverColor.g, themeTable[menuTable[2][3].status].hoverColor.b, 200)
             if menuTable[4][1] ~= nil then
-                djui_hud_render_rect((halfScreenWidth - 60 + (optionTab * 30 - 30) - 15), 70 + bobbing, 30, 9)
+                djui_hud_render_rect((halfScreenWidth - 60 + ((optionTab * 30 - 30) - 15)), 70 + bobbing, 30, 9)
             else
                 n = optionTab
                 if optionTab == 5 then
@@ -814,31 +815,31 @@ function displaymenu()
         djui_hud_set_color(255, 255, 255, 255)
         
         if optionHover < 1 then
-            optionHover = #menuTable[optionTab]
+            optionHover = #menuTable[optionTab] - scrolling
         elseif optionHover > #menuTable[optionTab] then
             optionHover = 1
         end
 
-        if menuTable[optionTab][optionHover].status ~= nil then
-            if menuTable[optionTab][optionHover].unlocked == nil then menuTable[optionTab][optionHover].unlocked = 1 end
-            if menuTable[optionTab][optionHover].statusNames[1] == nil then menuTable[optionTab][optionHover].statusNames[1] = "On" end
-            if menuTable[optionTab][optionHover].statusNames[0] == nil then menuTable[optionTab][optionHover].statusNames[0] = "Off" end
+        if menuTable[optionTab][optionHover + scrolling].status ~= nil then
+            if menuTable[optionTab][optionHover + scrolling].unlocked == nil then menuTable[optionTab][optionHover + scrolling].unlocked = 1 end
+            if menuTable[optionTab][optionHover + scrolling].statusNames[1] == nil then menuTable[optionTab][optionHover + scrolling].statusNames[1] = "On" end
+            if menuTable[optionTab][optionHover + scrolling].statusNames[0] == nil then menuTable[optionTab][optionHover + scrolling].statusNames[0] = "Off" end
 
-            if menuTable[optionTab][optionHover].unlocked ~= 1 then
-                djui_hud_print_text(menuTable[optionTab][optionHover].statusNames[-1], (halfScreenWidth), 70 + (optionHover * 10) + bobbing, 0.3)
-                menuTable[optionTab][optionHover].status = menuTable[optionTab][optionHover].lockTo
-            elseif menuTable[optionTab][optionHover].statusNames[menuTable[optionTab][optionHover].status] ~= nil then
-                djui_hud_print_text(menuTable[optionTab][optionHover].statusNames[menuTable[optionTab][optionHover].status], (halfScreenWidth), 70 + (optionHover * 10) + bobbing, 0.3)
+            if menuTable[optionTab][optionHover + scrolling].unlocked ~= 1 then
+                djui_hud_print_text(menuTable[optionTab][optionHover + scrolling].statusNames[-1], (halfScreenWidth), 70 + (optionHover * 10) + bobbing, 0.3)
+                menuTable[optionTab][optionHover + scrolling].status = menuTable[optionTab][optionHover + scrolling].lockTo
+            elseif menuTable[optionTab][optionHover + scrolling].statusNames[menuTable[optionTab][optionHover + scrolling].status] ~= nil then
+                djui_hud_print_text(menuTable[optionTab][optionHover + scrolling].statusNames[menuTable[optionTab][optionHover + scrolling].status], (halfScreenWidth), 70 + (optionHover * 10) + bobbing, 0.3)
             end
         else
-            if menuTable[optionTab][optionHover].statusDefault then
-                menuTable[optionTab][optionHover].status = menuTable[optionTab][optionHover].statusDefault
+            if menuTable[optionTab][optionHover + scrolling].statusDefault then
+                menuTable[optionTab][optionHover + scrolling].status = menuTable[optionTab][optionHover + scrolling].statusDefault
             else
-                menuTable[optionTab][optionHover].status = 1
+                menuTable[optionTab][optionHover + scrolling].status = 1
             end
             djui_hud_print_text("Making Save Data...", (halfScreenWidth), 70 + (optionHover * 10) + bobbing, 0.3)
-            mod_storage_save(menuTable[optionTab][optionHover].nameSave, tostring(menuTable[optionTab][optionHover].status))
-            print("Autofilled Toggle for '" ..menuTable[optionTab][optionHover].nameSave "' created.")
+            mod_storage_save(menuTable[optionTab][optionHover + scrolling].nameSave, tostring(menuTable[optionTab][optionHover + scrolling].status))
+            print("Autofilled Toggle for '" ..menuTable[optionTab][optionHover + scrolling].nameSave "' created.")
         end
 
         if optionTab == 3 and optionHover == 1 and menuTable[3][1].status ~= 0 then
@@ -855,9 +856,19 @@ function displaymenu()
         end
 
         for i = 1, #menuTable[optionTab] do
-            djui_hud_set_color(255, 255, 255, 255)
-            djui_hud_print_text(menuTable[optionTab][i].name, halfScreenWidth - 70, (80 + (i - 1) * 10) + bobbing, 0.3)
+            if i < 14 then
+                djui_hud_set_color(255, 255, 255, 255)
+                djui_hud_print_text(menuTable[optionTab][i + scrolling].name, halfScreenWidth - 70, (80 + (i - 1) * 10) + bobbing, 0.3)
+            end
         end
+
+        djui_hud_set_color(128, 128, 128, 255)
+        djui_hud_print_text("Selected Option:", halfScreenWidth + 45, 212 + bobbing, 0.25)
+        djui_hud_set_color(255, 255, 255, 255)
+        local x = 0
+        if (optionHover + scrolling) >= 10 then x = x + 1 end
+        if #menuTable[optionTab] >= 10 then x = x + 1 end
+        djui_hud_print_text(tostring(optionHover + scrolling).." / "..tostring(#menuTable[optionTab]), halfScreenWidth + 55 - x, 220 + bobbing, 0.25)
     else
         noLoopSound = true
         descSlide = -100
@@ -954,6 +965,7 @@ function before_update(m)
         if optionHoverTimer == -1 then
             if (stickX < -10 or (buttonDown & L_JPAD ~= 0)) then
                 play_sound(SOUND_MENU_MESSAGE_NEXT_PAGE, gMarioStates[0].marioObj.header.gfx.cameraToObject)
+                scrolling = 0
                 optionTab = optionTab - 1
                 if optionTab == 4 and menuTable[4][1] == nil then
                     optionTab = 3
@@ -961,6 +973,7 @@ function before_update(m)
                 optionHoverTimer = 0
             elseif (stickX > 10 or (buttonDown & R_JPAD ~= 0)) then
                 play_sound(SOUND_MENU_MESSAGE_NEXT_PAGE, gMarioStates[0].marioObj.header.gfx.cameraToObject)
+                scrolling = 0
                 optionTab = optionTab + 1
                 if optionTab == 4 and menuTable[4][1] == nil then
                     optionTab = 5
@@ -988,26 +1001,54 @@ function before_update(m)
 
         if optionTab > maxTabLimit then optionTab = 1 end
         if optionTab < 1 then optionTab = maxTabLimit end
-        if optionHover > #menuTable[optionTab] then optionHover = 1 end        
-        if optionHover < 1 then optionHover = #menuTable[optionTab] end
+        if optionHover > #menuTable[optionTab] then
+            optionHover = 1
+        end
+        if optionHover > (#menuTable[optionTab] - scrolling) and scrolling > 0 then
+            if optionHover > 12 and scrolling <= (#menuTable[optionTab] - 14) then
+                scrolling = scrolling + 1
+                optionHover = #menuTable[optionTab] - scrolling
+            elseif optionHover > 12 and scrolling > (#menuTable[optionTab] - 14) then
+                optionHover = 1
+                scrolling = 0
+            else
+                optionHover = 1
+            end
+        elseif optionHover > (#menuTable[optionTab] - scrolling - 1) and scrolling == 0 then
+            if optionHover > 12 and scrolling <= (#menuTable[optionTab] - 14) then
+                scrolling = scrolling + 1
+                optionHover = #menuTable[optionTab] - scrolling
+            end
+        end
+        if optionHover < 1 then
+            if #menuTable[optionTab] > 13 and scrolling == 0 then
+                scrolling = #menuTable[optionTab] - 13
+                optionHover = #menuTable[optionTab] - scrolling
+            elseif #menuTable[optionTab] > 13 and scrolling > 0 then
+                scrolling = scrolling - 1
+                optionHover = 1
+            else
+                optionHover = #menuTable[optionTab]
+            end
+        end
 
         if optionHoverTimer == -1 and m.controller.buttonDown & A_BUTTON ~= 0 then
             optionHoverTimer = 0
-            if menuTable[optionTab][optionHover].unlocked ~= 1 then
+            if menuTable[optionTab][optionHover + scrolling].unlocked ~= 1 then
                 play_sound(SOUND_MENU_CAMERA_BUZZ, m.marioObj.header.gfx.cameraToObject)
                 print("Could not change status")
             else
                 play_sound(SOUND_MENU_CLICK_FILE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-                menuTable[optionTab][optionHover].status = menuTable[optionTab][optionHover].status + 1
-                if menuTable[optionTab][optionHover].status > menuTable[optionTab][optionHover].statusMax then
-                    menuTable[optionTab][optionHover].status = 0
+                menuTable[optionTab][optionHover + scrolling].status = menuTable[optionTab][optionHover + scrolling].status + 1
+                if menuTable[optionTab][optionHover + scrolling].status > menuTable[optionTab][optionHover + scrolling].statusMax then
+                    menuTable[optionTab][optionHover + scrolling].status = 0
                 end
-                if menuTable[optionTab][optionHover].nameSave ~= nil then
-                    mod_storage_save(menuTable[optionTab][optionHover].nameSave, tostring(menuTable[optionTab][optionHover].status))
+                if menuTable[optionTab][optionHover + scrolling].nameSave ~= nil then
+                    mod_storage_save(menuTable[optionTab][optionHover + scrolling].nameSave, tostring(menuTable[optionTab][optionHover + scrolling].status))
                 end
                 if network_has_permissions() then
                     if optionTab == 5 and optionHover >= 1 then
-                        djui_popup_create_global("\\#00aa00\\Squishy's Server Ruleset:\n\\#ffff77\\"..menuTable[optionTab][optionHover].name.."\\#dcdcdc\\ was set to \\#ffff00\\"..tostring(menuTable[optionTab][optionHover].statusNames[menuTable[optionTab][optionHover].status].."\\#dcdcdc\\!"), 3)
+                        djui_popup_create_global("\\#00aa00\\Squishy's Server Ruleset:\n\\#ffff77\\"..menuTable[optionTab][optionHover + scrolling].name.."\\#dcdcdc\\ was set to \\#ffff00\\"..tostring(menuTable[optionTab][optionHover + scrolling].statusNames[menuTable[optionTab][optionHover + scrolling].status].."\\#dcdcdc\\!"), 3)
                     end
                 end
             end
@@ -1090,7 +1131,7 @@ function on_menu_command(msg)
         if args[3] ~= nil then
             if tonumber(args[3]) > 0 and tonumber(args[3]) <= #menuTable[optionTab] then
                 optionHover = tonumber(args[3])
-                djui_chat_message_create("Redirected Option to "..menuTable[optionTab][optionHover].name)
+                djui_chat_message_create("Redirected Option to "..menuTable[optionTab][optionHover + scrolling].name)
                 play_sound(SOUND_MENU_MESSAGE_APPEAR, gMarioStates[0].marioObj.header.gfx.cameraToObject)
                 menu = true
             else
@@ -1284,20 +1325,14 @@ function update()
     local args = split(gGlobalSyncTable.syncData)
 
     if menu and optionTab == 5 then
-        gGlobalSyncTable.syncData = tostring(menuTable[5][1].status) .. " " .. tostring(menuTable[5][2].status) .. " " .. tostring(menuTable[5][3].status) .. " " .. tostring(menuTable[5][4].status) .. " " .. tostring(menuTable[5][5].status) .. " " .. tostring(menuTable[5][6].status)
+        gGlobalSyncTable.syncData = ""
+        for i = 1, #menuTable[5] do
+            gGlobalSyncTable.syncData = gGlobalSyncTable.syncData .. tostring(menuTable[5][i].status) .. " "
+        end
     else
-        --Death Type
-        menuTable[5][1].status = tonumber(args[1])
-        --Player Interactions
-        menuTable[5][2].status = tonumber(args[2])
-        --Player Knockback
-        menuTable[5][3].status = tonumber(args[3])
-        --On Star Collection
-        menuTable[5][4].status = tonumber(args[4])
-        --Global Movesets
-        menuTable[5][5].status = tonumber(args[5])
-        --Global AQS
-        menuTable[5][6].status = tonumber(args[6])
+        for i = 1, #menuTable[5] do
+            menuTable[5][i].status = tonumber(args[i])
+        end
     end
     gServerSettings.bubbleDeath = tonumber(args[1])
     gServerSettings.playerInteractions = tonumber(args[2])
