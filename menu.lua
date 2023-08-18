@@ -444,7 +444,7 @@ themeTable = {
     }
 }
 
-local maxThemes = 9
+local maxThemes = 10
 
 local function set_status_and_save(table, index, status)
     if table[index].statusNames == nil then table[index].statusNames = {} end
@@ -584,6 +584,16 @@ function theme_load()
                 hasHeader = true,
                 headerColor = {r = 255, g = 255, b = 255},
                 texture = get_texture_info("theme-care")
+            }
+        elseif mod_storage_load("UnlockedTheme-"..i) == "Poly" then
+            themeTable[#themeTable + 1] = {
+                name = "Polygonal Chaos",
+                saveName = "PolyC",
+                color = "\\#ff7700\\",
+                hoverColor = {r = 255, g = 128, b = 0},
+                hasHeader = true,
+                headerColor = {r = 255, g = 255, b = 255},
+                texture = get_texture_info("theme-poly")
             }
         end
         if mod_storage_load("UnlockedTheme-1") == "nil" then
@@ -1105,6 +1115,8 @@ for i in pairs(gActiveMods) do
         currHack = 2
     elseif (gActiveMods[i].name:find("Star Road")) then
         currHack = 3
+    elseif (gActiveMods[i].name:find("B3313 (v0.7)")) or (gActiveMods[i].name:find("B3313 v0.7")) or (gActiveMods[i].name:find("(EPILESY WARNING!) B3313 v0.7 in SM64ex-coop")) then
+        currHack = 4
     end
 end
 function update_theme_requirements(m)
@@ -1166,6 +1178,11 @@ function update_theme_requirements(m)
 
     if heavanlyChallenge >= 1800 then
         theme_unlock("Heavenly", "Stay airborne for 60 seconds")
+    end
+
+    --B3313 Grand Star Check
+    if currHack == 4 and gNetworkPlayers[0].currLevelNum == LEVEL_BOWSER_3 and gNetworkPlayers[0].currAreaIndex == 1 and m.action == ACT_JUMBO_STAR_CUTSCENE then
+        theme_unlock("Poly", "Defeat Bowser in the Eternal Fort")
     end
 end
 
