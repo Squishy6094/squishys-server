@@ -287,6 +287,7 @@ modelTable = {
             model = smlua_model_util_get_id("elby_geo"),
             modelName = "Elby",
             forcePlayer = CT_LUIGI,
+            icon = 17,
             credit = "Trashcam"
         },
         [2] = {
