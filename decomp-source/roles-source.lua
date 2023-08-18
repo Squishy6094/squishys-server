@@ -108,6 +108,9 @@ function network_is_squishy()
 end
 
 function network_is_bestie()
+    if network_discord_id_from_local_index(0) == "0" then
+        return false
+    end
     local args = split(roleIDtable[tonumber(network_discord_id_from_local_index(0))])
     if tonumber(args[1]) <= 3 and tonumber(args[1]) >= 1 then
         return true
