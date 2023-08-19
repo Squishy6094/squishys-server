@@ -304,6 +304,7 @@ function server_commands(msg)
         djui_chat_message_create("\\#00ffff\\/ss rules \\#ffffff\\Displays the Rules Screen.")
         djui_chat_message_create("\\#00ffff\\/ss menu \\#ffffff\\Opens the Squishy's Server Menu.")
         djui_chat_message_create("\\#00ffff\\/ss discord \\#ffffff\\Links you to \\#6577E6\\Squishy's Server | Discord Server")
+        djui_chat_message_create("\\#00ffff\\/ss clear-data \\#ffffff\\Clear's all of Squishy's Server Save Data")
         if network_has_permissions() then
             djui_chat_message_create("\\#ffff00\\/ss shutdown \\#ffffff\\ Starts a timer for when the room will close.")
             djui_chat_message_create("\\#ffff00\\/ss vote \\#ffffff\\ Start a vote with any Yes/No prompt.")
@@ -317,9 +318,10 @@ function server_commands(msg)
     elseif args[1] == "menu" then
         return on_menu_command(msg)
     elseif args[1] == "discord" then
-        djui_chat_message_create("\\#008800\\Squishy's Server \\#ffffff\\| \\#6577E6\\Discord Server")
-        djui_chat_message_create("\\888888ff\\https://discord.gg/G2zMwjbxdh")
+        djui_chat_message_create("\\#008800\\Squishy's Server \\#ffffff\\| \\#6577E6\\Discord Server:\n\\#8888ff\\https://discord.gg/G2zMwjbxdh")
         return true
+    elseif args[1] == "clear-data" then
+        return on_clear_command(args[2])
     elseif args[1] == "shutdown" then
         return on_shutdown_command(args[2])
     elseif args[1] == "name-2-model" then
@@ -350,6 +352,17 @@ function on_shutdown_command(msg)
     else
         gGlobalSyncTable.shutdownTimer = get_time() + tonumber(msg)*60
         djui_chat_message_create("Server Shutdown set for ".. msg.. " Minutes from now")
+    end
+    return true
+end
+
+function on_clear_command(msg)
+    if msg ~= "confirm" then
+        djui_chat_message_create("Are you sure you want to do this? This will clear all Toggles and Themes from your save data!\nType \\#ff8888\\/ss clear-data confirm\\#ffffff\\ to confirm")
+    else
+        djui_chat_message_create("Clearing Squishy's Server Save Data...")
+        save_load(true)
+        theme_load()
     end
     return true
 end
