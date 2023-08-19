@@ -409,13 +409,13 @@ menuTable = {
 local sparklesOptionHover = #menuTable[3]+1
 if network_is_developer() then
     menuTable[3][sparklesOptionHover] = {
-        name = "Developer Sparkles",
+        name = "Developer Particles",
         nameSave = "DvSpks",
         status = tonumber(mod_storage_load("DvSpks")),
         statusMax = 1,
         statusDefault = 0,
         description = {
-            "Displays sparkles around you",
+            "Displays particles around you",
             "if you are a developer."
         }
     }
