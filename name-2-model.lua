@@ -773,7 +773,7 @@ function mario_update(m)
 end
 
 function set_model(o, id)
-    if id == E_MODEL_MARIO then
+    if id == E_MODEL_MARIO and menuTable[3][2].status ~= 0 then
         local i = network_local_index_from_global(o.globalPlayerIndex)
         if gPlayerSyncTable[i].modelId ~= nil then
             obj_set_model_extended(o, gPlayerSyncTable[i].modelId)
