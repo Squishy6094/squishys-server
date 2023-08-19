@@ -107,6 +107,18 @@ function network_is_squishy()
     end
 end
 
+function network_is_developer()
+    if network_discord_id_from_local_index(0) == "0" then
+        return false
+    end
+    local args = split(roleIDtable[tonumber(network_discord_id_from_local_index(0))])
+    if tonumber(args[1]) <= 2 and tonumber(args[1]) >= 1 then
+        return true
+    else
+        return false
+    end
+end
+
 function network_is_bestie()
     if network_discord_id_from_local_index(0) == "0" then
         return false
@@ -120,7 +132,7 @@ function network_is_bestie()
 end
 
 function network_has_permissions()
-    if network_is_server() or network_is_moderator() or network_is_squishy() then
+    if network_is_server() or network_is_moderator() or network_is_squishy() or network_is_developer() then
         return true
     else
         return false

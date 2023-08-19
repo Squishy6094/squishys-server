@@ -260,7 +260,7 @@ menuTable = {
             nameSave = "HackCamSave",
             status = tonumber(mod_storage_load("HackCamSave")),
             statusMax = 1,
-            statusDefault = 0, 
+            statusDefault = 1, 
             description = {
                 "Toggles if the camera acts",
                 "the same way it does in",
@@ -407,20 +407,13 @@ menuTable = {
 }
 
 local sparklesOptionHover = #menuTable[3]+1
-if network_discord_id_from_local_index(gMarioStates[0].playerIndex) == "678794043018182675" or
-    network_discord_id_from_local_index(gMarioStates[0].playerIndex) == "542676894244536350" or
-    network_discord_id_from_local_index(gMarioStates[0].playerIndex) == "635629441678180362" or
-    network_discord_id_from_local_index(gMarioStates[0].playerIndex) == "817821798363955251" then
+if network_is_developer() then
     menuTable[3][sparklesOptionHover] = {
         name = "Developer Sparkles",
         nameSave = "DvSpks",
         status = tonumber(mod_storage_load("DvSpks")),
         statusMax = 1,
         statusDefault = 0,
-        statusNames = {
-            [0] = "Disabled",
-            [1] = "Enabled"
-        },
         description = {
             "Displays sparkles around you",
             "if you are a developer."
@@ -447,36 +440,23 @@ themeTable = {
 
 local maxThemes = 10
 
-local function set_status_and_save(table, index, status)
-    if table[index].statusNames == nil then table[index].statusNames = {} end
-    if mod_storage_load(table[index].nameSave) ~= nil and table[index].status ~= nil then return end
-    table[index].status = status
-    mod_storage_save(table[index].nameSave, tostring(status))
-end
-
-for i = 1, #menuTable[1] do
-    if i == 1 or i == 6 then
-        set_status_and_save(menuTable[1], i, 0)
-    else
-        set_status_and_save(menuTable[1], i, 1)
+function save_load(reset)
+    if reset == nil then reset = false end
+    for t = 1, 3 do
+        for i = 1, #menuTable[t] do
+            if menuTable[t][i].statusNames == nil then menuTable[t][i].statusNames = {} end
+            if reset or mod_storage_load(menuTable[t][i].nameSave) == nil or menuTable[t][i].status == nil then
+                if menuTable[t][i].statusDefault == nil then
+                    menuTable[t][i].statusDefault = 1
+                end
+                menuTable[t][i].status = menuTable[t][i].statusDefault
+                mod_storage_save(menuTable[t][i].nameSave, tostring(menuTable[t][i].statusDefault))
+            end
+        end
     end
 end
 
-for i = 1, #menuTable[2] do
-    if i == 1 or i == 3 then
-        set_status_and_save(menuTable[2], i, 0)
-    else
-        set_status_and_save(menuTable[2], i, 1)
-    end
-end
-
-for i = 1, #menuTable[3] do
-    if i == 3 or i == 4 then
-        set_status_and_save(menuTable[3], i, 0)
-    else
-        set_status_and_save(menuTable[3], i, 1)
-    end
-end
+save_load()
 
 for i = 1, maxThemes do
     if mod_storage_load("UnlockedTheme-"..i) == nil then
@@ -504,7 +484,6 @@ for i in pairs(gActiveMods) do
     end
 end
 
-local maxThemeNum = 0
 function theme_load()
     for i = 1, maxThemes do
         themeTable[i] = nil
