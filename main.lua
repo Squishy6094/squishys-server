@@ -12,7 +12,7 @@ end
 
 local offsetX = -200
 local opacity = 255
-local rulesTimer = get_time() + 5
+local rulesTimer = get_time() + 10
 local lastpopupNum = 0
 local firstRuleShow = true
 
@@ -193,18 +193,24 @@ popupTable = {
     [12] = {
         text = "\nPersonal Model not added?\nDM me with the models you want\nand I'll add them as soon as\npossible!",
         lines = 4
+    },
+    [13] = {
+        text = "Join \\#008800\\Squishy's Server\\#dcdcdc\\ | \\#6577E6\\Discord Server\n\\#dcdcdc\\Use\\#6577E6\\ /ss discord\\#dcdcdc\\ for an invite link!",
+        lines = 2
     }
 }
 
 local popupTimer = get_time()
 local noLoop = false
 local noLoopTheSequal = false
+local timer = 0
+doSparkles = false
 function mario_update_msgtimer(m)
-    if get_time() - popupTimer >= math.random(60,180) and menuTable[3][5].status == 1 then
+    if get_time() - popupTimer >= math.random(6,18) and menuTable[3][5].status == 1 then
         popupTimer = get_time()
-        popupNum = math.random(1,11)
+        popupNum = math.random(1,#popupTable)
         if lastpopupNum == popupNum then
-            popupNum = math.random(1,11)
+            popupNum = math.random(1,#popupTable)
         end
         lastpopupNum = popupNum
         djui_popup_create(popupTable[popupNum].text, popupTable[popupNum].lines)
@@ -243,11 +249,7 @@ function mario_update_msgtimer(m)
             noLoopTheSequal = false
         end
     end
-end
 
-local timer = 0
-doSparkles = false
-function mario_update(m)
     timer = timer + 1
     if doSparkles then
         if network_is_developer() then
@@ -298,14 +300,15 @@ function server_commands(msg)
     local args = split(msg)
     if args[1] == "help" or args[1] == nil then
         djui_chat_message_create("\\#008800\\Squishy's Server Avalible Commands:")
-        djui_chat_message_create("\\#00ffff\\/ss help \\#dcdcdc\\Displays these Commands whenever you need them.")
-        djui_chat_message_create("\\#00ffff\\/ss rules \\#dcdcdc\\Displays the Rules Screen.")
-        djui_chat_message_create("\\#00ffff\\/ss menu \\#dcdcdc\\Opens the Squishy's Server Menu.")
+        djui_chat_message_create("\\#00ffff\\/ss help \\#ffffff\\Displays these Commands whenever you need them.")
+        djui_chat_message_create("\\#00ffff\\/ss rules \\#ffffff\\Displays the Rules Screen.")
+        djui_chat_message_create("\\#00ffff\\/ss menu \\#ffffff\\Opens the Squishy's Server Menu.")
+        djui_chat_message_create("\\#00ffff\\/ss discord \\#ffffff\\Links you to \\#6577E6\\Squishy's Server | Discord Server")
         if network_has_permissions() then
-            djui_chat_message_create("\\#ffff00\\/ss shutdown \\#dcdcdc\\ Starts a timer for when the room will close.")
-            djui_chat_message_create("\\#ffff00\\/ss vote \\#dcdcdc\\ Start a vote with any Yes/No prompt.")
-            djui_chat_message_create("\\#ffff00\\/ss name-2-model\\#ff0000\\ (Debug) \\#dcdcdc\\ Sets your registered Name-2-Model ID to any existant one.")
-            djui_chat_message_create("\\#ffff00\\/ss event\\#ff0000\\ (Debug) \\#dcdcdc\\ Sets the current server event.")
+            djui_chat_message_create("\\#ffff00\\/ss shutdown \\#ffffff\\ Starts a timer for when the room will close.")
+            djui_chat_message_create("\\#ffff00\\/ss vote \\#ffffff\\ Start a vote with any Yes/No prompt.")
+            djui_chat_message_create("\\#ffff00\\/ss name-2-model\\#ff0000\\ (Debug) \\#ffffff\\ Sets your registered Name-2-Model ID to any existant one.")
+            djui_chat_message_create("\\#ffff00\\/ss event\\#ff0000\\ (Debug) \\#ffffff\\ Sets the current server event.")
 
         end
         return true
@@ -313,6 +316,10 @@ function server_commands(msg)
         return on_rules_command()
     elseif args[1] == "menu" then
         return on_menu_command(msg)
+    elseif args[1] == "discord" then
+        djui_chat_message_create("\\#008800\\Squishy's Server \\#ffffff\\| \\#6577E6\\Discord Server")
+        djui_chat_message_create("\\888888ff\\https://discord.gg/G2zMwjbxdh")
+        return true
     elseif args[1] == "shutdown" then
         return on_shutdown_command(args[2])
     elseif args[1] == "name-2-model" then
@@ -349,5 +356,4 @@ end
 
 hook_event(HOOK_ON_HUD_RENDER, displayrules)
 hook_event(HOOK_MARIO_UPDATE, mario_update_msgtimer)
-hook_event(HOOK_MARIO_UPDATE, mario_update)
 hook_chat_command("ss", "\\#00ffff\\[Command] \\#dcdcdc\\Access all of \\#005500\\Squishy's Server \\#dcdcdc\\Commands (Use /help for more information)", server_commands)
