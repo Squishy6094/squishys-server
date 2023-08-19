@@ -454,15 +454,16 @@ function save_load(reset)
             end
         end
     end
+
+    for i = 1, maxThemes do
+        if mod_storage_load("UnlockedTheme-"..i) == nil or reset then
+            mod_storage_save("UnlockedTheme-"..i, "nil")
+        end
+    end
 end
 
 save_load()
 
-for i = 1, maxThemes do
-    if mod_storage_load("UnlockedTheme-"..i) == nil then
-        mod_storage_save("UnlockedTheme-"..i, "nil")
-    end
-end
 
 for i in pairs(gActiveMods) do
     --Mod Check Preventing Moveset Clashing
@@ -620,7 +621,6 @@ function theme_unlock(themestring, themeexplain)
         end
     end
 end
-
 
 local stallScriptTimer = 10
 local noLoopSound = true
