@@ -180,7 +180,7 @@ modelTable = {
         [1] = {
             model = smlua_model_util_get_id("woop_geo"),
             modelName = "Wizard Wooper",
-            forcePlayer = CT_TOAD,
+            forcePlayer = CT_MARIO,
             icon = 1,
             credit = "6b"
         }
@@ -409,7 +409,7 @@ modelTable = {
         [1] = {
             model = smlua_model_util_get_id("peach_player_geo"),
             modelName = "Princess Peach",
-            forcePlayer = CT_LUIGI
+            forcePlayer = CT_MARIO
         },
     },
     [Eros] = {
