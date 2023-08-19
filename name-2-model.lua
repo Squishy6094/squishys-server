@@ -772,6 +772,15 @@ function mario_update(m)
     end
 end
 
+function set_model(o, id)
+    if id == E_MODEL_MARIO then
+        local i = network_local_index_from_global(o.globalPlayerIndex)
+        if gPlayerSyncTable[i].modelId ~= nil then
+            obj_set_model_extended(o, gPlayerSyncTable[i].modelId)
+        end
+    end
+end
+
 function set_discord_id(msg)
     if not network_is_server() and not network_is_moderator() then
         return false
@@ -799,3 +808,4 @@ function set_discord_id(msg)
 end
 
 hook_event(HOOK_MARIO_UPDATE, mario_update)
+hook_event(HOOK_OBJECT_SET_MODEL, set_model)
