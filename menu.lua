@@ -861,12 +861,6 @@ function displaymenu()
     else
         if voteSlide > -150 then
             voteSlide = voteSlide*1.1
-        else
-            for i = 0, MAX_PLAYERS - 1 do
-                if gPlayerSyncTable[i].vote ~= nil then
-                    gPlayerSyncTable[i].vote = nil
-                end
-            end
         end
     end
     if voteSlide > -150 then
@@ -921,6 +915,11 @@ function displaymenu()
         end
         if voteTimer == -300 then
             gGlobalSyncTable.vote = nil
+            for i = 0, MAX_PLAYERS - 1 do
+                if gPlayerSyncTable[i].vote ~= nil then
+                    gPlayerSyncTable[i].vote = nil
+                end
+            end
         end
     else
         voteTimer = 3600
@@ -1259,7 +1258,7 @@ end
 
 function on_vote_command(msg)
     local args = split(msg)
-    if network_has_permissions() and gGlobalSyncTable.vote == nil then
+    if network_has_permissions() and gGlobalSyncTable.vote == nil and voteTimer == 3600 then
         local promptString = ""
         for i = 2, #args do
             if i ~= #args + 1 and i ~= 2 then
