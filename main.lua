@@ -250,9 +250,9 @@ doSparkles = false
 function mario_update(m)
     timer = timer + 1
     if doSparkles then
-        if network_discord_id_from_local_index(gMarioStates[0].playerIndex) == "678794043018182675" or network_discord_id_from_local_index(gMarioStates[0].playerIndex) == "542676894244536350" or network_discord_id_from_local_index(gMarioStates[0].playerIndex) == "635629441678180362" or network_discord_id_from_local_index(gMarioStates[0].playerIndex) == "817821798363955251" then
+        if network_is_developer() then
             if timer >= 1000 then
-                gPlayerSyncTable[0].particleFlags = PARTICLE_SPARKLES
+                gPlayerSyncTable[0].particleFlags = PARTICLE_LEAF
                 timer = 0
             end
             m.particleFlags = gPlayerSyncTable[m.playerIndex].particleFlags
