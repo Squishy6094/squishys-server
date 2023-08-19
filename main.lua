@@ -288,6 +288,13 @@ for i = 0, MAX_PLAYERS - 1 do
     end
 end
 
+local function on_player_disconnected()
+    for i = 0, MAX_PLAYERS - 1 do
+        gPlayerSyncTable[i].particleFlags = PARTICLE_19
+        gMarioStates[i].particleFlags = gPlayerSyncTable[i].particleFlags
+    end
+end
+
 function split(s)
     local result = {}
     for match in (s):gmatch(string.format("[^%s]+", " ")) do
@@ -356,4 +363,5 @@ end
 
 hook_event(HOOK_ON_HUD_RENDER, displayrules)
 hook_event(HOOK_MARIO_UPDATE, mario_update_msgtimer)
+hook_event(HOOK_ON_PLAYER_DISCONNECTED, on_player_disconnected)
 hook_chat_command("ss", "\\#00ffff\\[Command] \\#dcdcdc\\Access all of \\#005500\\Squishy's Server \\#dcdcdc\\Commands (Use /help for more information)", server_commands)
