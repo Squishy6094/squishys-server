@@ -765,6 +765,9 @@ function mario_update(m)
             end
         else
             gPlayerSyncTable[0].modelId = nil
+            if menuTable[3][1].status ~= 0 then
+                menuTable[3][1].status = 0
+            end
         end
     end
     if gPlayerSyncTable[m.playerIndex].modelId ~= nil then
