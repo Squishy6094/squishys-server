@@ -114,10 +114,9 @@ local opacity = 255
 local rulesTimer = get_time() + 10
 local lastpopupNum = 0
 local firstRuleShow = true
+local rules = true
 
-if mod_storage_load("RulesSave") == nil or mod_storage_load("RulesSave") == "1" then
-    rules = true
-else
+if mod_storage_load("RulesSave") ~= nil and mod_storage_load("RulesSave") ~= "1" then
     rules = false
     firstRuleShow = false
 end

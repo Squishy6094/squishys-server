@@ -845,13 +845,14 @@ function displaymenu()
             end
         end
 
+        local hoverText = tostring(optionHover + scrolling).." / "..tostring(#menuTable[optionTab])
         djui_hud_set_color(128, 128, 128, 255)
-        djui_hud_print_text("Selected Option:", halfScreenWidth + 45, 212 + bobbing, 0.25)
+        djui_hud_print_text("Option:", halfScreenWidth + 80 - djui_hud_measure_text("Option: "..hoverText)*0.25, 35 + bobbing, 0.25)
         djui_hud_set_color(255, 255, 255, 255)
         local x = 0
         if (optionHover + scrolling) >= 10 then x = x + 1 end
         if #menuTable[optionTab] >= 10 then x = x + 1 end
-        djui_hud_print_text(tostring(optionHover + scrolling).." / "..tostring(#menuTable[optionTab]), halfScreenWidth + 55 - x, 220 + bobbing, 0.25)
+        djui_hud_print_text(hoverText, halfScreenWidth + 80 - x - djui_hud_measure_text(hoverText)*0.25, 35 + bobbing, 0.25)
     else
         noLoopSound = true
         descSlide = -100
