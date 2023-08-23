@@ -9,11 +9,45 @@ if network_is_server() then
     gGlobalSyncTable.event = "Default"
     gGlobalSyncTable.shutdownTimer = nil
 end
-
+RoomTime = string.format("%s:%s:%s", string.format("%02d", math.floor((get_time() - gGlobalSyncTable.RoomStart)/60/60)), string.format("%02d", math.floor((get_time() - gGlobalSyncTable.RoomStart)/60)%60), string.format("%02d", math.floor(get_time() - gGlobalSyncTable.RoomStart)%60))
 
 --------------
 -- Commands --
 --------------
+
+function on_rules_command()
+    rules = true
+    return true
+end
+
+function on_shutdown_command(msg)
+    if not network_is_server() and not network_is_moderator() then
+        return false
+    end
+    if msg == "cancel" then
+        if gGlobalSyncTable.shutdownTimer ~= nil then
+            gGlobalSyncTable.shutdownTimer = nil
+            djui_chat_message_create("Shutdown cancelled")
+        else
+            djui_chat_message_create("No Active shutdown timer found.")
+        end
+    else
+        gGlobalSyncTable.shutdownTimer = get_time() + tonumber(msg)*60
+        djui_chat_message_create("Server Shutdown set for ".. msg.. " Minutes from now")
+    end
+    return true
+end
+
+function on_clear_command(msg)
+    if msg ~= "confirm" then
+        djui_chat_message_create("Are you sure you want to do this? This will clear all Toggles and Themes from your save data!\nType \\#ff8888\\/ss clear-data confirm\\#ffffff\\ to confirm")
+    else
+        djui_chat_message_create("Clearing Squishy's Server Save Data...")
+        save_load(true)
+        theme_load()
+    end
+    return true
+end
 
 function split(s)
     local result = {}
@@ -68,41 +102,6 @@ function server_commands(msg)
     end
 end
 
-function on_rules_command()
-    rules = true
-    return true
-end
-
-function on_shutdown_command(msg)
-    if not network_is_server() and not network_is_moderator() then
-        return false
-    end
-    if msg == "cancel" then
-        if gGlobalSyncTable.shutdownTimer ~= nil then
-            gGlobalSyncTable.shutdownTimer = nil
-            djui_chat_message_create("Shutdown cancelled")
-        else
-            djui_chat_message_create("No Active shutdown timer found.")
-        end
-    else
-        gGlobalSyncTable.shutdownTimer = get_time() + tonumber(msg)*60
-        djui_chat_message_create("Server Shutdown set for ".. msg.. " Minutes from now")
-    end
-    return true
-end
-
-function on_clear_command(msg)
-    if msg ~= "confirm" then
-        djui_chat_message_create("Are you sure you want to do this? This will clear all Toggles and Themes from your save data!\nType \\#ff8888\\/ss clear-data confirm\\#ffffff\\ to confirm")
-    else
-        djui_chat_message_create("Clearing Squishy's Server Save Data...")
-        menu_load()
-        save_load(true)
-        theme_load()
-    end
-    return true
-end
-
 hook_chat_command("ss", "\\#00ffff\\[Command] \\#dcdcdc\\Access all of \\#005500\\Squishy's Server \\#dcdcdc\\Commands (Use /help for more information)", server_commands)
 
 -----------
@@ -124,6 +123,9 @@ end
 
 local stallScriptTimer = 15
 function displayrules(m)
+    if (is_game_paused() or rules or menu) and gGlobalSyncTable.RoomStart ~= nil then
+        RoomTime = string.format("%s:%s:%s", string.format("%02d", math.floor((get_time() - gGlobalSyncTable.RoomStart)/60/60)), string.format("%02d", math.floor((get_time() - gGlobalSyncTable.RoomStart)/60)%60), string.format("%02d", math.floor(get_time() - gGlobalSyncTable.RoomStart)%60))
+    end
     if stallScriptTimer > 0 then stallScriptTimer = stallScriptTimer - 1 return end
     
     if rules and offsetX < -1 then
