@@ -70,6 +70,12 @@ function mario_update_local(m)
     if gMarioStates[0].character.type == 3 then
         gPlayerSyncTable[0].modelId = nil
     end
+
+    if _G.ssApi.option_read("Hat Kid") == 1 then
+        gPlayerSyncTable[0].modelId = E_MODEL_HAT_KID
+    else
+        gPlayerSyncTable[0].modelId = nil
+    end
 end
 
 function mario_on_set_action(m)
