@@ -9,7 +9,11 @@ if network_is_server() then
     gGlobalSyncTable.event = "Default"
     gGlobalSyncTable.shutdownTimer = nil
 end
-RoomTime = string.format("%s:%s:%s", string.format("%02d", math.floor((get_time() - gGlobalSyncTable.RoomStart)/60/60)), string.format("%02d", math.floor((get_time() - gGlobalSyncTable.RoomStart)/60)%60), string.format("%02d", math.floor(get_time() - gGlobalSyncTable.RoomStart)%60))
+if gGlobalSyncTable.RoomStart ~= nil then
+    RoomTime = string.format("%s:%s:%s", string.format("%02d", math.floor((get_time() - gGlobalSyncTable.RoomStart)/60/60)), string.format("%02d", math.floor((get_time() - gGlobalSyncTable.RoomStart)/60)%60), string.format("%02d", math.floor(get_time() - gGlobalSyncTable.RoomStart)%60))
+else
+    RoomTime = "Unknown"
+end
 
 --------------
 -- Commands --
@@ -115,8 +119,12 @@ end
 
 local stallScriptTimer = 15
 function displayrules(m)
-    if (is_game_paused() or rules or menu) and gGlobalSyncTable.RoomStart ~= nil then
-        RoomTime = string.format("%s:%s:%s", string.format("%02d", math.floor((get_time() - gGlobalSyncTable.RoomStart)/60/60)), string.format("%02d", math.floor((get_time() - gGlobalSyncTable.RoomStart)/60)%60), string.format("%02d", math.floor(get_time() - gGlobalSyncTable.RoomStart)%60))
+    if (is_game_paused() or rules or menu) then
+        if gGlobalSyncTable.RoomStart ~= nil then
+            RoomTime = string.format("%s:%s:%s", string.format("%02d", math.floor((get_time() - gGlobalSyncTable.RoomStart)/60/60)), string.format("%02d", math.floor((get_time() - gGlobalSyncTable.RoomStart)/60)%60), string.format("%02d", math.floor(get_time() - gGlobalSyncTable.RoomStart)%60))
+        else
+            RoomTime = "Unknown"
+        end
     end
     if stallScriptTimer > 0 then stallScriptTimer = stallScriptTimer - 1 return end
     
@@ -160,7 +168,7 @@ function displayrules(m)
     end
 
     if RoomTime ~= nil then
-        djui_hud_print_text("Room Time: ".. RoomTime, 190 - (djui_hud_measure_text("Room Time: 00:00:00")*0.2) + offsetX, 11, 0.2)
+        djui_hud_print_text("Room Time: ".. RoomTime, 190 - (djui_hud_measure_text(RoomTime)*0.2) + offsetX, 11, 0.2)
     end
 
     if network_has_permissions() then
