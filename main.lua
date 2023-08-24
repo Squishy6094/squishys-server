@@ -168,7 +168,7 @@ function displayrules(m)
     end
 
     if RoomTime ~= nil then
-        djui_hud_print_text("Room Time: ".. RoomTime, 190 - (djui_hud_measure_text(RoomTime)*0.2) + offsetX, 11, 0.2)
+        djui_hud_print_text("Room Time: ".. RoomTime, 190 - (djui_hud_measure_text("Room Time: ".. RoomTime)*0.2) + offsetX, 11, 0.2)
     end
 
     if network_has_permissions() then
