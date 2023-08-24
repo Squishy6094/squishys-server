@@ -812,7 +812,9 @@ function displaymenu()
 
         if optionTab == 3 and optionHover == 1 and menuTable[3][1].status ~= 0 then
             djui_hud_set_color(128, 128, 128, 255)
-            djui_hud_print_text("By "..modelTable[discordID][menuTable[3][1].status].credit, halfScreenWidth, 90 + bobbing, 0.2)
+            if modelTable[discordID][menuTable[3][1].status].credit ~= nil then
+                djui_hud_print_text("By "..modelTable[discordID][menuTable[3][1].status].credit, halfScreenWidth, 90 + bobbing, 0.2)
+            end
         end
 
         if menuTable[3][sparklesOptionHover] ~= nil then
