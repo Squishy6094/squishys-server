@@ -258,8 +258,8 @@ function mario_update(m)
 end
 
 if _G.ssExists then
-    _G.ssApi.option_add("Hat Kid", 0, 1, nil,) 
-    ({" Adds Hat Kid with custom",
+    _G.ssApi.option_add("Hat Kid", 0, 1, nil, 
+    {" Adds Hat Kid with custom",
      "moveset as an echo character",
     "",
     "",
