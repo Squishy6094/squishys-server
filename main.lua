@@ -49,14 +49,6 @@ function on_clear_command(msg)
     return true
 end
 
-function split(s)
-    local result = {}
-    for match in (s):gmatch(string.format("[^%s]+", " ")) do
-        table.insert(result, match)
-    end
-    return result
-end
-
 function server_commands(msg)
     local args = split(msg)
     if args[1] == "help" or args[1] == nil then
