@@ -465,6 +465,9 @@ function hud_render()
         end
     end
 
+    if lifeIcon == nil then
+        lifeIcon = "Default"
+    end
     djui_hud_render_element("Lives", m.numLives, lifeIcon)
     djui_hud_render_element("Coins", m.numCoins, gTextures.coin)
     djui_hud_render_element("Stars", m.numStars, gTextures.star)
