@@ -119,7 +119,7 @@ end
 
 local stallScriptTimer = 15
 function displayrules(m)
-    if (is_game_paused() or rules or menu) then
+    if (rules or menu) then
         if gGlobalSyncTable.RoomStart ~= nil then
             RoomTime = string.format("%s:%s:%s", string.format("%02d", math.floor((get_time() - gGlobalSyncTable.RoomStart)/60/60)), string.format("%02d", math.floor((get_time() - gGlobalSyncTable.RoomStart)/60)%60), string.format("%02d", math.floor(get_time() - gGlobalSyncTable.RoomStart)%60))
         else
@@ -127,6 +127,17 @@ function displayrules(m)
         end
     end
     if stallScriptTimer > 0 then stallScriptTimer = stallScriptTimer - 1 return end
+    if themeTable == nil then
+        themeTable = {
+            [0] = {
+                name = "Default",
+                texture = get_texture_info("theme-default"),
+                hasHeader = true,
+                headerColor = {r = 0, g = 131, b = 0}
+            }
+        }
+        theme_load()
+    end
     
     if rules and offsetX < -1 then
         offsetX = offsetX/1.1
@@ -151,93 +162,95 @@ function displayrules(m)
         noLoop = true
         return
     end
-    djui_hud_set_resolution(RESOLUTION_N64)
-    djui_hud_set_color(255, 255, 255, 200)
-    djui_hud_render_texture_tile(themeTable[menuTable[2][3].status].texture, 0 + offsetX, 0, 1.2905152376, 1.17073170732, 0, 0, 176, 205)
-    djui_hud_set_color(0, 0, 0, 220)
-    djui_hud_render_rect(3 + offsetX, 2, 190, djui_hud_get_screen_height() - 4)
+    if offsetX > -200 then
+        djui_hud_set_resolution(RESOLUTION_N64)
+        djui_hud_set_color(255, 255, 255, 200)
+        djui_hud_render_texture_tile(themeTable[menuTable[2][3].status].texture, 0 + offsetX, 0, 1.2905152376, 1.17073170732, 0, 0, 176, 205)
+        djui_hud_set_color(0, 0, 0, 220)
+        djui_hud_render_rect(3 + offsetX, 2, 190, djui_hud_get_screen_height() - 4)
 
-    djui_hud_set_font(FONT_NORMAL)
-    djui_hud_set_color(255, 255, 255, 50)
-    if discordID ~= "0" then
-        djui_hud_set_color(150, 150, 150, 255)
-        djui_hud_print_text("Registered as "..modelTable[discordID].nickname.. " via Name-2-Model", 190 - (djui_hud_measure_text("Registered as "..modelTable[discordID].nickname.. " via Name-2-Model")*0.2) + offsetX, 5, 0.2)
-    else
-        djui_hud_set_color(150, 150, 150, 255)
-        djui_hud_print_text("Unregistered via Name-2-Model", 190 - (djui_hud_measure_text("Unregistered via Name-2-Model")*0.2) + offsetX, 5, 0.2)
-    end
-
-    if RoomTime ~= nil then
-        djui_hud_print_text("Room Time: ".. RoomTime, 190 - (djui_hud_measure_text("Room Time: ".. RoomTime)*0.2) + offsetX, 11, 0.2)
-    end
-
-    if network_has_permissions() then
-        djui_hud_print_text("Moderator Access Granted", 190 - (djui_hud_measure_text("Moderator Access Granted")*0.2) + offsetX, 17, 0.2)
-    end
-
-    if themeTable[menuTable[2][3].status].hoverColor == nil then
-        themeTable[menuTable[2][3].status].hoverColor = {r = 150, g = 150, b = 150}
-    end
-
-    if themeTable[menuTable[2][3].status].headerColor == nil then
-        themeTable[menuTable[2][3].status].headerColor = themeTable[menuTable[2][3].status].hoverColor
-    end
-
-    djui_hud_set_color(themeTable[menuTable[2][3].status].headerColor.r, themeTable[menuTable[2][3].status].headerColor.g, themeTable[menuTable[2][3].status].headerColor.b, 255)
-    if themeTable[menuTable[2][3].status].hasHeader then
-        djui_hud_render_texture_tile(themeTable[menuTable[2][3].status].texture, offsetX, 18, 0.16666666666, 0.58666666666, 0, 206, 176, 50)
-    else
-        djui_hud_render_texture_tile(themeTable[0].texture, offsetX, 18, 0.16666666666, 0.58666666666, 0, 206, 176, 50)
-    end
-
-    djui_hud_set_font(FONT_NORMAL)
-    djui_hud_set_color(255, 255, 255, 255)
-    djui_hud_print_text("Welcome to", 12 + offsetX, 7, 0.4)
-
-    djui_hud_set_font(FONT_HUD)
-    djui_hud_set_color(255, 255, 255, 255)
-    djui_hud_print_text("Rules", 15 + offsetX, 50, 0.6)
-    djui_hud_set_color(themeTable[menuTable[2][3].status].hoverColor.r, themeTable[menuTable[2][3].status].hoverColor.g, themeTable[menuTable[2][3].status].hoverColor.b, 255)
-    djui_hud_render_rect(15 + offsetX, 61, (djui_hud_measure_text("Rules")*0.6), 1)
-    djui_hud_set_font(FONT_NORMAL)
-    djui_hud_set_color(255, 255, 255, 255)
-    djui_hud_print_text("#1 Don't Harass Other Users", 20 + offsetX, 65, 0.3)
-    djui_hud_print_text("#2 Don't Spam/Beg for Something", 20 + offsetX, 75, 0.3)
-    djui_hud_print_text("#3 Follow the same Rules you would", 20 + offsetX, 85, 0.3)
-    djui_hud_print_text("in the sm64ex-coop Discord Server", 20 + offsetX, 92, 0.3)
-
-    djui_hud_set_font(FONT_HUD)
-    djui_hud_set_color(255, 255, 255, 255)
-    djui_hud_print_text("Basic Info and Tips", 15 + offsetX, 105, 0.6)
-    djui_hud_set_color(themeTable[menuTable[2][3].status].hoverColor.r, themeTable[menuTable[2][3].status].hoverColor.g, themeTable[menuTable[2][3].status].hoverColor.b, 255)
-    djui_hud_render_rect(15 + offsetX, 116, (djui_hud_measure_text("Basic Info and Tips")*0.6), 1)
-    djui_hud_set_font(FONT_NORMAL)
-    djui_hud_set_color(255, 255, 255, 255)
-    djui_hud_print_text("Check your Server Options via", 20 + offsetX, 120, 0.3)
-    djui_hud_print_text("Pausing and Pressing the L button", 20 + offsetX, 127, 0.3)
-    djui_hud_print_text("To avoid lag and clutter, some mods", 20 + offsetX, 137, 0.3)
-    djui_hud_print_text('are built into into "-Squishy'.."'"..'s Server-"', 20 + offsetX, 144, 0.3)
-
-    djui_hud_set_font(FONT_HUD)
-    djui_hud_set_color(255, 255, 255, 255)
-    djui_hud_print_text("Support and Contribution", 15 + offsetX, 165, 0.6)
-    djui_hud_set_color(themeTable[menuTable[2][3].status].hoverColor.r, themeTable[menuTable[2][3].status].hoverColor.g, themeTable[menuTable[2][3].status].hoverColor.b, 255)
-    djui_hud_render_rect(15 + offsetX, 176, (djui_hud_measure_text("Support and Contribution")*0.6), 1)
-    djui_hud_set_font(FONT_NORMAL)
-    djui_hud_set_color(255, 255, 255, 255)
-    djui_hud_print_text("If you have any questions about the server", 20 + offsetX, 181, 0.3)
-    djui_hud_print_text("and/or the mods loaded, Feel free to ask!", 20 + offsetX, 188, 0.3)
-    djui_hud_print_text('If you have any "Quality of life" Mods that', 20 + offsetX, 198, 0.3)
-    djui_hud_print_text('you would like to see when I host, Go ahead and', 20 + offsetX, 205, 0.3)
-    djui_hud_print_text('ask or send me the mod directly on Discord', 20 + offsetX, 212, 0.3)
-
-    if get_time() >= rulesTimer then
-        if opacity >= -1 then
-            opacity = opacity/1.05
+        djui_hud_set_font(FONT_NORMAL)
+        djui_hud_set_color(255, 255, 255, 50)
+        if discordID ~= "0" then
+            djui_hud_set_color(150, 150, 150, 255)
+            djui_hud_print_text("Registered as "..modelTable[discordID].nickname.. " via Name-2-Model", 190 - (djui_hud_measure_text("Registered as "..modelTable[discordID].nickname.. " via Name-2-Model")*0.2) + offsetX, 5, 0.2)
+        else
+            djui_hud_set_color(150, 150, 150, 255)
+            djui_hud_print_text("Unregistered via Name-2-Model", 190 - (djui_hud_measure_text("Unregistered via Name-2-Model")*0.2) + offsetX, 5, 0.2)
         end
-        djui_hud_set_font(FONT_MENU)
-        djui_hud_set_color(255, 255, 255, 255 - opacity)
-        djui_hud_print_text("Press A to continue", 100 + offsetX - (djui_hud_measure_text("Press A to continue")*0.5*0.2), djui_hud_get_screen_height() - 17, 0.2)
+
+        if RoomTime ~= nil then
+            djui_hud_print_text("Room Time: ".. RoomTime, 190 - (djui_hud_measure_text("Room Time: ".. RoomTime)*0.2) + offsetX, 11, 0.2)
+        end
+
+        if network_has_permissions() then
+            djui_hud_print_text("Moderator Access Granted", 190 - (djui_hud_measure_text("Moderator Access Granted")*0.2) + offsetX, 17, 0.2)
+        end
+
+        if themeTable[menuTable[2][3].status].hoverColor == nil then
+            themeTable[menuTable[2][3].status].hoverColor = {r = 150, g = 150, b = 150}
+        end
+
+        if themeTable[menuTable[2][3].status].headerColor == nil then
+            themeTable[menuTable[2][3].status].headerColor = themeTable[menuTable[2][3].status].hoverColor
+        end
+
+        djui_hud_set_color(themeTable[menuTable[2][3].status].headerColor.r, themeTable[menuTable[2][3].status].headerColor.g, themeTable[menuTable[2][3].status].headerColor.b, 255)
+        if themeTable[menuTable[2][3].status].hasHeader then
+            djui_hud_render_texture_tile(themeTable[menuTable[2][3].status].texture, offsetX, 18, 0.16666666666, 0.58666666666, 0, 206, 176, 50)
+        else
+            djui_hud_render_texture_tile(themeTable[0].texture, offsetX, 18, 0.16666666666, 0.58666666666, 0, 206, 176, 50)
+        end
+
+        djui_hud_set_font(FONT_NORMAL)
+        djui_hud_set_color(255, 255, 255, 255)
+        djui_hud_print_text("Welcome to", 12 + offsetX, 7, 0.4)
+
+        djui_hud_set_font(FONT_HUD)
+        djui_hud_set_color(255, 255, 255, 255)
+        djui_hud_print_text("Rules", 15 + offsetX, 50, 0.6)
+        djui_hud_set_color(themeTable[menuTable[2][3].status].hoverColor.r, themeTable[menuTable[2][3].status].hoverColor.g, themeTable[menuTable[2][3].status].hoverColor.b, 255)
+        djui_hud_render_rect(15 + offsetX, 61, (djui_hud_measure_text("Rules")*0.6), 1)
+        djui_hud_set_font(FONT_NORMAL)
+        djui_hud_set_color(255, 255, 255, 255)
+        djui_hud_print_text("#1 Don't Harass Other Users", 20 + offsetX, 65, 0.3)
+        djui_hud_print_text("#2 Don't Spam/Beg for Something", 20 + offsetX, 75, 0.3)
+        djui_hud_print_text("#3 Follow the same Rules you would", 20 + offsetX, 85, 0.3)
+        djui_hud_print_text("in the sm64ex-coop Discord Server", 20 + offsetX, 92, 0.3)
+
+        djui_hud_set_font(FONT_HUD)
+        djui_hud_set_color(255, 255, 255, 255)
+        djui_hud_print_text("Basic Info and Tips", 15 + offsetX, 105, 0.6)
+        djui_hud_set_color(themeTable[menuTable[2][3].status].hoverColor.r, themeTable[menuTable[2][3].status].hoverColor.g, themeTable[menuTable[2][3].status].hoverColor.b, 255)
+        djui_hud_render_rect(15 + offsetX, 116, (djui_hud_measure_text("Basic Info and Tips")*0.6), 1)
+        djui_hud_set_font(FONT_NORMAL)
+        djui_hud_set_color(255, 255, 255, 255)
+        djui_hud_print_text("Check your Server Options via", 20 + offsetX, 120, 0.3)
+        djui_hud_print_text("Pausing and Pressing the L button", 20 + offsetX, 127, 0.3)
+        djui_hud_print_text("To avoid lag and clutter, some mods", 20 + offsetX, 137, 0.3)
+        djui_hud_print_text('are built into into "-Squishy'.."'"..'s Server-"', 20 + offsetX, 144, 0.3)
+
+        djui_hud_set_font(FONT_HUD)
+        djui_hud_set_color(255, 255, 255, 255)
+        djui_hud_print_text("Support and Contribution", 15 + offsetX, 165, 0.6)
+        djui_hud_set_color(themeTable[menuTable[2][3].status].hoverColor.r, themeTable[menuTable[2][3].status].hoverColor.g, themeTable[menuTable[2][3].status].hoverColor.b, 255)
+        djui_hud_render_rect(15 + offsetX, 176, (djui_hud_measure_text("Support and Contribution")*0.6), 1)
+        djui_hud_set_font(FONT_NORMAL)
+        djui_hud_set_color(255, 255, 255, 255)
+        djui_hud_print_text("If you have any questions about the server", 20 + offsetX, 181, 0.3)
+        djui_hud_print_text("and/or the mods loaded, Feel free to ask!", 20 + offsetX, 188, 0.3)
+        djui_hud_print_text('If you have any "Quality of life" Mods that', 20 + offsetX, 198, 0.3)
+        djui_hud_print_text('you would like to see when I host, Go ahead and', 20 + offsetX, 205, 0.3)
+        djui_hud_print_text('ask or send me the mod directly on Discord', 20 + offsetX, 212, 0.3)
+
+        if get_time() >= rulesTimer then
+            if opacity >= -1 then
+                opacity = opacity/1.05
+            end
+            djui_hud_set_font(FONT_MENU)
+            djui_hud_set_color(255, 255, 255, 255 - opacity)
+            djui_hud_print_text("Press A to continue", 100 + offsetX - (djui_hud_measure_text("Press A to continue")*0.5*0.2), djui_hud_get_screen_height() - 17, 0.2)
+        end
     end
 end
 

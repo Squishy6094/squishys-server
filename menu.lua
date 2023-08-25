@@ -427,15 +427,6 @@ if menuTable[3][sparklesOptionHover] ~= nil then
     end
 end
 
-themeTable = {
-    [0] = {
-        name = "Default",
-        texture = get_texture_info("theme-default"),
-        hasHeader = true,
-        headerColor = {r = 0, g = 131, b = 0}
-    }
-}
-
 local maxThemes = 10
 
 function save_load(reset)
@@ -462,7 +453,6 @@ end
 
 save_load()
 
-
 for i in pairs(gActiveMods) do
     --Mod Check Preventing Moveset Clashing
     if (gActiveMods[i].incompatible ~= nil and gActiveMods[i].incompatible:find("moveset")) or gActiveMods[i].name:find("Pasta Castle") then
@@ -482,6 +472,15 @@ for i in pairs(gActiveMods) do
         end
     end
 end
+
+themeTable = {
+    [0] = {
+        name = "Default",
+        texture = get_texture_info("theme-default"),
+        hasHeader = true,
+        headerColor = {r = 0, g = 131, b = 0}
+    }
+}
 
 function theme_load()
     for i = 1, maxThemes do
