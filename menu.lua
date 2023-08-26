@@ -404,6 +404,15 @@ menuTable = {
     },
 }
 
+themeTable = {
+    [0] = {
+        name = "Default",
+        texture = get_texture_info("theme-default"),
+        hasHeader = true,
+        headerColor = {r = 0, g = 131, b = 0}
+    }
+}
+
 local sparklesOptionHover = #menuTable[3]+1
 if network_is_developer() then
     menuTable[3][sparklesOptionHover] = {
