@@ -473,16 +473,26 @@ for i in pairs(gActiveMods) do
     end
 end
 
-themeTable = {
-    [0] = {
-        name = "Default",
-        texture = get_texture_info("theme-default"),
-        hasHeader = true,
-        headerColor = {r = 0, g = 131, b = 0}
-    }
-}
+--themeTable = {
+--    [0] = {
+--        name = "Default",
+--        texture = get_texture_info("theme-default"),
+--        hasHeader = true,
+--        headerColor = {r = 0, g = 131, b = 0}
+--    }
+--}
 
 function theme_load()
+    if themeTable[0] == nil then
+        themeTable = {
+            [0] = {
+                name = "Default",
+                texture = get_texture_info("theme-default"),
+                hasHeader = true,
+                headerColor = {r = 0, g = 131, b = 0}
+            }
+        }
+    end
     for i = 1, maxThemes do
         themeTable[i] = nil
     end
@@ -566,7 +576,7 @@ function theme_load()
         elseif mod_storage_load("UnlockedTheme-"..i) == "Poly" then
             themeTable[#themeTable + 1] = {
                 name = "Polygonal Chaos",
-                saveName = "PolyC",
+                saveName = "Poly",
                 color = "\\#ff7700\\",
                 hoverColor = {r = 255, g = 128, b = 0},
                 hasHeader = true,
@@ -619,7 +629,7 @@ function theme_unlock(themestring, themeexplain)
     end
 end
 
-local stallScriptTimer = 10
+local stallScriptTimer = 15
 local noLoopSound = true
 
 local descSlide = -100
@@ -633,7 +643,6 @@ local prevVote = ""
 local voteScale = 1
 function displaymenu()
     local m = gMarioStates[0]
-
     if stallScriptTimer < 0 then stallScriptTimer = stallScriptTimer - 1 return end
 
     djui_hud_set_font(FONT_NORMAL)

@@ -127,17 +127,6 @@ function displayrules(m)
         end
     end
     if stallScriptTimer > 0 then stallScriptTimer = stallScriptTimer - 1 return end
-    if themeTable == nil then
-        themeTable = {
-            [0] = {
-                name = "Default",
-                texture = get_texture_info("theme-default"),
-                hasHeader = true,
-                headerColor = {r = 0, g = 131, b = 0}
-            }
-        }
-        theme_load()
-    end
     
     if rules and offsetX < -1 then
         offsetX = offsetX/1.1
