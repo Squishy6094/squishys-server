@@ -116,7 +116,6 @@ if mod_storage_load("RulesSave") ~= nil and mod_storage_load("RulesSave") ~= "1"
     firstRuleShow = false
 end
 
-
 local stallScriptTimer = 15
 function displayrules(m)
     if (rules or menu) then
