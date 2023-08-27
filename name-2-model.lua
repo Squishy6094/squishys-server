@@ -40,6 +40,7 @@ Dani = "922231782131265588"
 Brob = "1000555727942865036"
 Dakun = "358779634625806347"
 Loganti = "801151972609622029"
+Ryley = "839155992091820053"
 
 modelTable = {
     [Default] = {
@@ -707,6 +708,15 @@ modelTable = {
             forcePlayer = CT_MARIO,
             credit = "MSatiro"
         }
+    },
+    [Ryley] = {
+        nickname = "Ryley",
+        [1] = {
+            model = smlua_model_util_get_id("ski_geo"),
+            modelName = "Ski",
+            forcePlayer = CT_TOAD,
+            credit = "BBPanzu / Port by SunSpirit",
+        },
     }
 }
 
