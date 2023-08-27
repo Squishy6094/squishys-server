@@ -401,3 +401,11 @@ end
 hook_event(HOOK_ON_HUD_RENDER, displayrules)
 hook_event(HOOK_MARIO_UPDATE, mario_update_msgtimer)
 hook_event(HOOK_ON_PLAYER_DISCONNECTED, on_player_disconnected)
+--Fix Custom Tree Billboarding
+hook_behavior(id_bhvTree, OBJ_LIST_POLELIKE, true, function(o)
+    o.oFlags = OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE
+    o.oInteractType = INTERACT_POLE
+    o.hitboxRadius = 80
+    o.hitboxHeight = 500
+    o.oIntangibleTimer = 0
+end, function(o) bhv_pole_base_loop() end, "id_bhvTree")
