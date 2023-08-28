@@ -117,10 +117,8 @@ function render_hud_radar(target, iconTexture, scale, x, y)
     djui_hud_set_rotation(0, 0, 0)
 end
 
-local stallScriptTimer = 5
-
 function hud_render()
-    if stallScriptTimer > 0 then stallScriptTimer = stallScriptTimer - 1 return end
+    if BootupTimer < 150 then return end
     local m = gMarioStates[0]
     currHUD = menuTable[2][1].status
     hud_hide()

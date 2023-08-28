@@ -89,9 +89,7 @@ function reset_roles()
     update_roles()
 end
 
-local stallScriptTimer = 10
 function update_roles()
-    if stallScriptTimer > 0 then stallScriptTimer = stallScriptTimer - 1 return end
     local ID = tonumber(network_discord_id_from_local_index(0))
     local sMario = gPlayerSyncTable[0]
 

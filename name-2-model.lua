@@ -31,10 +31,9 @@ if menuTable[3][1].status == nil then
     menuTable[3][1].status = 0
 end
 
-local stallScriptTimer = 3
 --- @param m MarioState
 function mario_update(m)
-    if stallScriptTimer > 0 then stallScriptTimer = stallScriptTimer - 1 return end
+    if BootupTimer < 3 then return end
     if modelTable[discordID][menuTable[3][1].status].icon ~= nil then
         lifeIcon = modelTable[discordID][menuTable[3][1].status].icon
     else

@@ -240,7 +240,6 @@ function theme_unlock(themestring, themeexplain)
     end
 end
 
-local stallScriptTimer = 15
 local noLoopSound = true
 
 local descSlide = -100
@@ -254,7 +253,7 @@ local prevVote = ""
 local voteScale = 1
 function displaymenu()
     local m = gMarioStates[0]
-    if stallScriptTimer < 0 then stallScriptTimer = stallScriptTimer - 1 return end
+    if BootupTimer < 15 then return end
 
     djui_hud_set_font(FONT_NORMAL)
     djui_hud_set_resolution(RESOLUTION_N64)

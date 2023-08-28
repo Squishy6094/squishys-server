@@ -54,6 +54,10 @@ function on_clear_command(msg)
 end
 
 function server_commands(msg)
+    if BootupTimer < 150 then
+        djui_chat_message_create("Cannot use Squishy's Server Commands During Bootup")
+        return true
+    end
     local args = split(msg)
     if args[1] == "help" or args[1] == nil then
         djui_chat_message_create("\\#008800\\Squishy's Server Avalible Commands:")
@@ -61,6 +65,7 @@ function server_commands(msg)
         djui_chat_message_create("\\#00ffff\\/ss rules \\#ffffff\\Displays the Rules Screen.")
         djui_chat_message_create("\\#00ffff\\/ss menu \\#ffffff\\Opens the Squishy's Server Menu.")
         djui_chat_message_create("\\#00ffff\\/ss discord \\#ffffff\\Links you to \\#6577E6\\Squishy's Server | Discord Server")
+        djui_chat_message_create("\\#00ffff\\/ss reload \\#ffffff\\Reloads Squishy's Server Local Assets & Data")
         djui_chat_message_create("\\#00ffff\\/ss clear-data \\#ffffff\\Clear's all of Squishy's Server Save Data")
         if network_has_permissions() then
             djui_chat_message_create("\\#ffff00\\/ss shutdown \\#ffffff\\ Starts a timer for when the room will close.")
@@ -80,6 +85,9 @@ function server_commands(msg)
     if args[1] == "discord" then
         djui_chat_message_create("\\#008800\\Squishy's Server \\#ffffff\\| \\#6577E6\\Discord Server:\n\\#8888ff\\https://discord.gg/G2zMwjbxdh")
         return true
+    end
+    if args[1] == "reload" then
+        return on_reload_command()
     end
     if args[1] == "clear-data" then
         return on_clear_command(args[2])
@@ -116,7 +124,6 @@ if mod_storage_load("RulesSave") ~= nil and mod_storage_load("RulesSave") ~= "1"
     firstRuleShow = false
 end
 
-local stallScriptTimer = 15
 function displayrules(m)
     if (rules or menu) then
         if gGlobalSyncTable.RoomStart ~= nil then
@@ -125,7 +132,7 @@ function displayrules(m)
             RoomTime = "Unknown"
         end
     end
-    if stallScriptTimer > 0 then stallScriptTimer = stallScriptTimer - 1 return end
+    if BootupTimer < 150 then return end
     
     if rules and offsetX < -1 then
         offsetX = offsetX/1.1
