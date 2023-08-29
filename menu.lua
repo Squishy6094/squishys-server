@@ -575,7 +575,7 @@ for i in pairs(gActiveMods) do
         currHack = 2
     elseif (gActiveMods[i].name:find("Star Road")) then
         currHack = 3
-    elseif (gActiveMods[i].name:find("B3313 (v0.7)")) or (gActiveMods[i].name:find("B3313 v0.7")) or (gActiveMods[i].name:find("(EPILESY WARNING!) B3313 v0.7 in SM64ex-coop")) then
+    elseif (gActiveMods[i].name:find("B3313 (v0.7)")) or (gActiveMods[i].name:find("B3313 v0.7")) or (gActiveMods[i].name:find("(EPILESY WARNING!) B3313 v0.7 in SM64ex-coop")) or (gActiveMods[i].name:find("\\#F78AF5\\B\\#F94A36\\3\\#4C5BFF\\3\\#EDD83D\\1\\#16C31C\\3\\#ffffff\\v0.7")) then
         currHack = 4
     end
 end
