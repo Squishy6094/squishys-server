@@ -1,6 +1,153 @@
 -- Only used on bootup, this script contains all of the heafty tables
 -- hopefully having them here will ease up the load on the other scripts and make them more consistantly load
 
+-- Themes (High Priority [We really fucking need this])
+themeTable = {
+    [0] = {
+        name = "Default",
+        texture = get_texture_info("theme-default"),
+        hasHeader = true,
+        headerColor = {r = 0, g = 131, b = 0}
+    }
+}
+
+local maxThemes = 10
+
+function theme_load()
+    for i = 1, maxThemes do
+        themeTable[i] = nil
+    end
+    for i = 1, maxThemes do
+        if mod_storage_load("UnlockedTheme-"..i) == "Uoker" then
+            themeTable[#themeTable + 1] = {
+                name = "Uoker",
+                saveName = "Uoker",
+                color = "\\#5b35ec\\",
+                hoverColor = {r = 91, g = 53, b = 236},
+                hasHeader = true,
+                texture = get_texture_info("theme-uoker"),
+                sound = audio_sample_load("tadahh.mp3")
+            }
+        elseif mod_storage_load("UnlockedTheme-"..i) == "Upper" then
+            themeTable[#themeTable + 1] = {
+                name = "Castle Upper",
+                saveName = "Upper",
+                color = "\\#ff1515\\",
+                hoverColor = {r = 131, g = 93, b = 99},
+                texture = get_texture_info("theme-50door")
+            }
+        elseif mod_storage_load("UnlockedTheme-"..i) == "Plus" then
+            themeTable[#themeTable + 1] = {
+                name = "Plusle",
+                saveName = "Plus",
+                color = "\\#e3616d\\",
+                hoverColor = {r = 227, g = 97, b = 109},
+                texture = get_texture_info("theme-plus")
+            }
+        elseif mod_storage_load("UnlockedTheme-"..i) == "Under" then
+            themeTable[#themeTable + 1] = {
+                name = "Underworld",
+                saveName = "Under",
+                color = "\\#19ffff\\",
+                hoverColor = {r = 25, g = 255, b = 255},
+                texture = get_texture_info("theme-underworld")
+            }
+        elseif mod_storage_load("UnlockedTheme-"..i) == "Crudelo" then
+            themeTable[#themeTable + 1] = {
+                name = "Crudelo Sphere",
+                saveName = "Crudelo",
+                color = "\\#910002\\",
+                hoverColor = {r = 145, g = 0, b = 2},
+                texture = get_texture_info("theme-crudelo")
+            }
+        elseif mod_storage_load("UnlockedTheme-"..i) == "StarRoad" then
+            themeTable[#themeTable + 1] = {
+                name = "Star Road",
+                saveName = "StarRoad",
+                color = "\\#ffff00\\",
+                hoverColor = {r = 255, g = 255, b = 0},
+                texture = get_texture_info("theme-starroad")
+            }
+        elseif mod_storage_load("UnlockedTheme-"..i) == "Cake" then
+            themeTable[#themeTable + 1] = {
+                name = "Delicious Cake",
+                saveName = "Cake",
+                color = "\\#ff6666\\",
+                hoverColor = {r = 255, g = 100, b = 100},
+                texture = get_texture_info("theme-120s")
+            }
+        elseif mod_storage_load("UnlockedTheme-"..i) == "Heavenly" then
+            themeTable[#themeTable + 1] = {
+                name = "Heaven's Blessing",
+                saveName = "Heavenly",
+                color = "\\#ffffff\\",
+                hoverColor = {r = 136, g = 119, b = 86},
+                texture = get_texture_info("theme-heaven")
+            }
+        elseif mod_storage_load("UnlockedTheme-"..i) == "Care" then
+            themeTable[#themeTable + 1] = {
+                name = "The Caretaker",
+                saveName = "Care",
+                color = "\\#c1417e\\",
+                hoverColor = {r = 193, g = 65, b = 126},
+                hasHeader = true,
+                headerColor = {r = 255, g = 255, b = 255},
+                texture = get_texture_info("theme-care")
+            }
+        elseif mod_storage_load("UnlockedTheme-"..i) == "Poly" then
+            themeTable[#themeTable + 1] = {
+                name = "Polygonal Chaos",
+                saveName = "Poly",
+                color = "\\#ff7700\\",
+                hoverColor = {r = 255, g = 128, b = 0},
+                hasHeader = true,
+                headerColor = {r = 255, g = 255, b = 255},
+                texture = get_texture_info("theme-poly")
+            }
+        end
+        if mod_storage_load("UnlockedTheme-1") == "nil" then
+            themeTable[0].name = "No Themes Unlocked"
+        else
+            themeTable[0].name = "Default"
+        end
+    end
+    for i = 0, #themeTable do
+        menuTable[2][3].statusNames[i] = themeTable[i].name
+    end
+    menuTable[2][3].statusMax = #themeTable
+end
+
+function theme_unlock(themestring, themeexplain)
+    for i = 1, #themeTable do
+        if themestring == themeTable[i].saveName then
+            return
+        end
+    end
+
+    local m = gMarioStates[0]
+    if themeexplain == nil then themeexplain = "No condition provided" end
+
+    for i = 1, maxThemes do
+        local currentTheme = mod_storage_load("UnlockedTheme-"..i)
+
+        if currentTheme == themestring then
+            -- Theme is already unlocked, stop the loop
+            break
+        end
+
+        if currentTheme == "nil" or currentTheme == nil then
+            -- Save themestring to the current UnlockedTheme slot and stop the loop
+            mod_storage_save("UnlockedTheme-"..i, themestring)
+            theme_load()
+            djui_popup_create("\\#008800\\Squishy's Server\n".. '\\#dcdcdc\\Theme Unlocked!\n'..themeTable[i].color..'"'..themeTable[i].name..'"\n\n\\#8c8c8c\\'..themeexplain, 5)
+            if themeTable[i].sound ~= nil then
+                audio_sample_play(themeTable[i].sound, m.pos, 1)
+            end
+            break
+        end
+    end
+end
+
 -- Custom HUD
 
 local DefaultHUD = 0
@@ -446,7 +593,13 @@ menuTable = {
             nameSave = "ModelSave",
             status = tonumber(mod_storage_load("ModelSave")),
             statusMax = nil,
-            statusDefault = 1, 
+            statusDefault = 1,
+            unlocked = 1,
+            lockTo = 0,
+            statusNames = {
+                [0] = "N/A",
+                [1] = "N/A",
+            },
             description = {
                 "Toggles your own Custom",
                 "Player Model, Only available",
@@ -628,15 +781,27 @@ menuTable = {
     },
 }
 
---Themes
-themeTable = {
-    [0] = {
-        name = "Default",
-        texture = get_texture_info("theme-default"),
-        hasHeader = true,
-        headerColor = {r = 0, g = 131, b = 0}
-    }
-}
+function save_load(reset)
+    if reset == nil then reset = false end
+    for t = 1, 3 do
+        for i = 1, #menuTable[t] do
+            if menuTable[t][i].statusNames == nil then menuTable[t][i].statusNames = {} end
+            if reset or mod_storage_load(menuTable[t][i].nameSave) == nil or menuTable[t][i].status == nil then
+                if menuTable[t][i].statusDefault == nil then
+                    menuTable[t][i].statusDefault = 1
+                end
+                menuTable[t][i].status = menuTable[t][i].statusDefault
+                mod_storage_save(menuTable[t][i].nameSave, tostring(menuTable[t][i].statusDefault))
+            end
+        end
+    end
+
+    for i = 1, maxThemes do
+        if mod_storage_load("UnlockedTheme-"..i) == nil or reset then
+            mod_storage_save("UnlockedTheme-"..i, "nil")
+        end
+    end
+end
 
 --Name-2-Model
 

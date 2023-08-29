@@ -2,13 +2,14 @@ menuErrorMsg = "Error not found"
 
 if discordID == "0" then
     menuErrorMsg = "Discord not Detected"
+    menuTable[3][1].unlocked = 0
 end
 if modelTable[discordID] == nil then
     if menuErrorMsg == "Error not found" then
         menuErrorMsg = "No Models Found"
     end
     discordID = "0"
-    menuTable[3][1].status = 0
+    menuTable[3][1].unlocked = 0
     print("Sign-in Failed, No Models Found")
 elseif discordID ~= "0" then
     print("Signed into Name-2-Model as ".. modelTable[discordID].nickname)
