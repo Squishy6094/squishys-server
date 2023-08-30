@@ -60,6 +60,7 @@ end)
 
 function on_reload_command()
     BootupTimer = 0
+    BootupInfo = "Reloading"
     return true
 end
 

@@ -1,7 +1,6 @@
 --- @param m MarioState
 function mario_update(m)
-    if m.playerIndex ~= 0 then return end
-    if BootupTimer == 90 then
+    if BootupTimer == 90 and m.playerIndex ~= 0 then
         -- Name = Discord ID
         Default = "0"
         Squishy = "678794043018182675"
@@ -760,7 +759,7 @@ function mario_update(m)
         BootupInfo = "Loaded Name-2-Model Data"
 
     end
-    if BootupTimer < 90 then return end
+    if BootupTimer < 100 then return end
     if modelTable[discordID][menuTable[3][1].status].icon ~= nil then
         lifeIcon = modelTable[discordID][menuTable[3][1].status].icon
     else
@@ -768,15 +767,17 @@ function mario_update(m)
     end
 
     if menuTable[3][2].status == 0 then return end
-    if discordID ~= "0" then
-        gPlayerSyncTable[0].modelId = modelTable[discordID][menuTable[3][1].status].model
-        if modelTable[discordID][menuTable[3][1].status].forcePlayer ~= nil and gPlayerSyncTable[m.playerIndex].modelId ~= nil then
-            gNetworkPlayers[m.playerIndex].overrideModelIndex = modelTable[discordID][menuTable[3][1].status].forcePlayer
-        end
-    else
-        gPlayerSyncTable[0].modelId = nil
-        if menuTable[3][1].status ~= 0 then
-            menuTable[3][1].status = 0
+    if m.playerIndex == 0 then
+        if discordID ~= "0" then
+            gPlayerSyncTable[0].modelId = modelTable[discordID][menuTable[3][1].status].model
+            if modelTable[discordID][menuTable[3][1].status].forcePlayer ~= nil and gPlayerSyncTable[m.playerIndex].modelId ~= nil then
+                gNetworkPlayers[m.playerIndex].overrideModelIndex = modelTable[discordID][menuTable[3][1].status].forcePlayer
+            end
+        else
+            gPlayerSyncTable[0].modelId = nil
+            if menuTable[3][1].status ~= 0 then
+                menuTable[3][1].status = 0
+            end
         end
     end
     if gPlayerSyncTable[m.playerIndex].modelId ~= nil then
