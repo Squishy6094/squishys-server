@@ -589,16 +589,6 @@ function displaymenu()
             },
         }
 
-        if apiTable[1] ~= nil then
-            for i = 1, #apiTable do
-                if apiTable[i].name == "Play Luigi's Casino" then
-                    if apiTable[i].status == 1 then
-                        menu = false
-                    end
-                end
-            end
-        end
-
         if gServerSettings.playerKnockbackStrength == 10 then
             KBTranslate = 0
         elseif gServerSettings.playerKnockbackStrength == 25 then
@@ -688,6 +678,10 @@ function displaymenu()
             djui_hud_set_color(255, 255, 255, 255)
             djui_hud_print_text("L Button - Server Options", (djui_hud_get_screen_width()*0.5 - (djui_hud_measure_text("L Button - Server Options")*0.5)), 42, 1)
         end
+    end
+
+    if _G.lcExists and _G.lcInGame then
+        menu = false
     end
 
     if menu then
