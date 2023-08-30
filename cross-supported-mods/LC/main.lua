@@ -276,10 +276,10 @@ local function on_hud_render()
         djui_hud_print_text("You can bet up to 5 coins using the L trigger. If you win,", (djui_hud_get_screen_width()/3)*2.10, djui_hud_get_screen_height() - 117.5, 0.25)
         djui_hud_print_text("they will be multiplied by how much your hand is worth.", (djui_hud_get_screen_width()/3)*2.10, djui_hud_get_screen_height() - 110, 0.25)
         djui_hud_print_text("The higher your level is, the more you'll be forced to bet.", (djui_hud_get_screen_width()/3)*2.10, djui_hud_get_screen_height() - 102.5, 0.25)
-        djui_hud_print_text("You can toggle this text by typing '/casino info'.", (djui_hud_get_screen_width()/3)*2.10, djui_hud_get_screen_height() - 87.5, 0.25)
-        djui_hud_print_text("You can manually save data by typing '/casino save'.", (djui_hud_get_screen_width()/3)*2.10, djui_hud_get_screen_height() - 80, 0.25)
+        djui_hud_print_text("You can toggle this text by typing '/lc info'.", (djui_hud_get_screen_width()/3)*2.10, djui_hud_get_screen_height() - 87.5, 0.25)
+        djui_hud_print_text("You can manually save data by typing '/lc save'.", (djui_hud_get_screen_width()/3)*2.10, djui_hud_get_screen_height() - 80, 0.25)
         if _G.ssExists then
-            djui_hud_print_text("You can quit the game by typing '/casino quit'.", (djui_hud_get_screen_width()/3)*2.10, djui_hud_get_screen_height() - 72.5, 0.25)
+            djui_hud_print_text("You can quit the game by typing '/lc quit'.", (djui_hud_get_screen_width()/3)*2.10, djui_hud_get_screen_height() - 72.5, 0.25)
         end
         djui_hud_print_text("The player list shows everyone's coin count.", (djui_hud_get_screen_width()/3)*2.10, djui_hud_get_screen_height() - 50, 0.25)
     end
@@ -1483,7 +1483,7 @@ end
 
 local function casino_commands(msg)
     if not inGame then
-        djui_chat_message_create("You must be in Luigi's Casino to use Casino Commands")
+        djui_chat_message_create("You must be in Luigi's Casino to use that command.")
         return true
     end
     args = split(msg)
@@ -1500,12 +1500,12 @@ local function casino_commands(msg)
         quit()
         return true
     else
-        djui_chat_message_create("\\#00ff00\\Luigi's Casino Commands:")
-        djui_chat_message_create("\\#00ff00\\/casino info\\#ffffff\\ - [on/off] Hide/Show the wall of text on the right.")
-        djui_chat_message_create("\\#00ff00\\/casino popups\\#ffffff\\ - [on/off] Hides the popups when data is saved.")
-        djui_chat_message_create("\\#00ff00\\/casino save\\#ffffff\\ - Manually saves data.")
+        djui_chat_message_create("\\#007700\\Luigi's Casino Commands:")
+        djui_chat_message_create("\\#007700\\/lc info\\#ffffff\\ - [on/off] Hide/Show the wall of text on the right.")
+        djui_chat_message_create("\\#007700\\/lc popups\\#ffffff\\ - [on/off] Hides the popups when data is saved.")
+        djui_chat_message_create("\\#007700\\/lc save\\#ffffff\\ - Manually saves data.")
         if _G.ssExists then
-            djui_chat_message_create("\\#00ff00\\/casino quit\\#ffffff\\ -  Quit the game if you're using Squishy's Server.")
+            djui_chat_message_create("\\#007700\\/lc quit\\#ffffff\\ -  Quit the game if you're using Squishy's Server.")
         end
         return true
     end
@@ -1555,7 +1555,7 @@ end
 hook_event(HOOK_ON_HUD_RENDER, on_hud_render)
 hook_event(HOOK_MARIO_UPDATE, server_update)
 hook_event(HOOK_ON_CHAT_MESSAGE, on_chat_message)
-hook_chat_command("casino", "- \\#00ff00\\Luigi's Casino Commands\\#ffffff\\", casino_commands)
+hook_chat_command("lc", "- \\#007700\\Luigi's Casino Commands\\#ffffff\\", casino_commands)
 
 for i = 0, MAX_PLAYERS - 1 do
     gPlayerSyncTable[i].score = tonumber(mod_storage_load("Coins")) or 0
