@@ -5,7 +5,6 @@ _G.lcExists = true
 _G.lcInGame = false
 _G.lcApi = {}
 
--- Using Plasma Temple from SM74EE because idfk how to implement custom levels lmaoooo
 LEVEL_LUIGIS_CASINO = level_register('level_luigis_casino_entry', COURSE_NONE, "Luigi's Casino", 'luigis_casino', 28000, 0x29, 0x29, 0x29)
 
 if _G.ssExists then
@@ -213,7 +212,7 @@ local function on_hud_render()
     end
     play_music(0, 0, 0)
     if not warped then
-        warp_to_level(LEVEL_LUIGIS_CASINO, 2, 0)
+        warp_to_level(LEVEL_LUIGIS_CASINO, 1, 0)
         warped = true
     end
     audio_stream_play(music, false, 1)
