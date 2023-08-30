@@ -4,13 +4,14 @@ local optionHover = 1
 local optionHoverTimer = -1
 local scrolling = 0
 
-local maxThemes = 10
+local maxThemes = 11
 
 --Optimization I guess
 local djui_hud_set_resolution = djui_hud_set_resolution
 local djui_hud_set_font = djui_hud_set_font
 local djui_hud_set_color = djui_hud_set_color
 local djui_hud_print_text = djui_hud_print_text
+local wariobag = get_texture_info("wario-bag")
 
 local KBTranslate = 0
 
@@ -36,6 +37,7 @@ function save_load(reset)
     end
 end
 
+local warioChallengeComplete = false
 function theme_load()
     for i = 1, maxThemes do
         themeTable[i] = nil
@@ -127,6 +129,17 @@ function theme_load()
                 headerColor = {r = 255, g = 255, b = 255},
                 texture = get_texture_info("theme-poly")
             }
+        elseif mod_storage_load("UnlockedTheme-"..i) == "Wario" then
+            themeTable[#themeTable + 1] = {
+                name = "Wario World",
+                saveName = "Wario",
+                color = "\\#ffff00\\",
+                hoverColor = {r = 255, g = 255, b = 0},
+                hasHeader = true,
+                headerColor = {r = 255, g = 255, b = 255},
+                texture = get_texture_info("theme-ww")
+            }
+            warioChallengeComplete = true
         end
         if mod_storage_load("UnlockedTheme-1") == "nil" then
             themeTable[0].name = "No Themes Unlocked"
@@ -177,6 +190,10 @@ local descSlide = -100
 local bobbingVar = 0
 local bobbingStatus = true
 local bobbing = -2.1
+local oWario = 0
+local warioTimer = 0
+local warioChallenge = 999
+local playedWarioSound = false
 
 local voteTimer = 3600
 local voteSlide = -150
@@ -924,6 +941,42 @@ function displaymenu()
     else
         voteTimer = 3600
     end
+
+    if oWario > 0 then
+        if warioTimer < 31 then
+            warioTimer = warioTimer + 1
+        end
+        if warioTimer >= 30 then
+            oWario = oWario - 3
+        end
+    end
+
+    if not warioChallengeComplete and warioChallenge ~= nil and gNetworkPlayers[0].modelIndex == 4 then
+        djui_hud_set_font(FONT_HUD)
+        djui_hud_set_color(255, 255, 255, oWario)
+        if menuTable[2][1].status == 0 or menuTable[2][1].status == 1 then
+            djui_hud_render_texture(wariobag, halfScreenWidth + 8, djui_hud_get_screen_height() * 0.135, 1, 1)
+            djui_hud_set_color(255, 255, 0, oWario)
+            djui_hud_print_text("x", halfScreenWidth + 24, djui_hud_get_screen_height() * 0.135, 1)
+            djui_hud_print_text(tostring(warioChallenge), halfScreenWidth + 38, djui_hud_get_screen_height() * 0.135, 1)
+        elseif menuTable[2][1].status == 2 then
+            djui_hud_render_texture(wariobag, 15, djui_hud_get_screen_height() * 0.31, 1, 1)
+            djui_hud_set_color(255, 255, 0, oWario)
+            djui_hud_print_text(tostring(warioChallenge), 25, djui_hud_get_screen_height() * 0.335, 1)
+        elseif menuTable[2][1].status == 3 then
+            djui_hud_render_texture(wariobag, djui_hud_get_screen_width() - 45 - djui_hud_measure_text(tostring(warioChallenge)), djui_hud_get_screen_height() * 0.9, 1, 1)
+            djui_hud_set_color(255, 255, 0, oWario)
+            djui_hud_print_text("x", djui_hud_get_screen_width() - 29 - djui_hud_measure_text(tostring(warioChallenge)), djui_hud_get_screen_height() * 0.9, 1)
+            djui_hud_print_text(tostring(warioChallenge), djui_hud_get_screen_width() - djui_hud_measure_text(tostring(warioChallenge)) - 15, djui_hud_get_screen_height() * 0.9, 1)
+        end
+    end
+
+    if warioChallenge > 0 and warioChallenge % 100 == 0 and not playedWarioSound then
+        audio_stream_play(audio_stream_load("EXCELLENT.mp3"), true, 2)
+        playedWarioSound = true
+    elseif warioChallenge > 0 and warioChallenge % 100 ~= 0 then
+        playedWarioSound = false
+    end
 end
 
 
@@ -1125,7 +1178,6 @@ end
 
 local crudeloChallenge = false
 local noLoopCrudeloChallenge = true
-local warioChallenge = 0
 local heavanlyChallenge = 0
 local currHack = 0
 for i in pairs(gActiveMods) do
@@ -1135,7 +1187,7 @@ for i in pairs(gActiveMods) do
         currHack = 2
     elseif (gActiveMods[i].name:find("Star Road")) then
         currHack = 3
-    elseif (gActiveMods[i].name:find("B3313 (v0.7)")) or (gActiveMods[i].name:find("B3313 v0.7")) or (gActiveMods[i].name:find("(EPILESY WARNING!) B3313 v0.7 in SM64ex-coop")) or (gActiveMods[i].name:find("\\#F78AF5\\B\\#F94A36\\3\\#4C5BFF\\3\\#EDD83D\\1\\#16C31C\\3\\#ffffff\\v0.7")) then
+    elseif (gActiveMods[i].name:find("B3313 (v0.7)")) or (gActiveMods[i].name:find("B3313 v0.7")) or (gActiveMods[i].name:find("(EPILESY WARNING!) B3313 v0.7 in SM64ex-coop")) then
         currHack = 4
     end
 end
@@ -1186,8 +1238,11 @@ function update_theme_requirements(m)
     end
 
     --Wario Challenge
-    if warioChallenge >= 1000 then
-
+    if not warioChallengeComplete then
+        if warioChallenge >= 1000 then
+            theme_unlock("Wario", "Collect 1000 Coins as Wario")
+            warioChallengeComplete = true
+        end
     end
 
     --Heavenly Challenge
@@ -1226,13 +1281,17 @@ function theme_interact_requirements(m, o, type)
 		end
 	end
 
-    if (type == INTERACT_COIN) and gNetworkPlayers[0].modelIndex == 4 then
-        if get_id_from_behavior(o.behavior) == id_bhvRedCoin then
-            warioChallenge = warioChallenge + 2
-        elseif blueCoinBhvs[get_id_from_behavior(o.behavior)] then
-            warioChallenge = warioChallenge + 5
-        else
-            warioChallenge = warioChallenge + 1
+    if not warioChallengeComplete then
+        if (type == INTERACT_COIN) and gNetworkPlayers[0].modelIndex == 4 then
+            oWario = 255
+            warioTimer = 0
+            if get_id_from_behavior(o.behavior) == id_bhvRedCoin then
+                warioChallenge = warioChallenge + 2
+            elseif blueCoinBhvs[get_id_from_behavior(o.behavior)] then
+                warioChallenge = warioChallenge + 5
+            else
+                warioChallenge = warioChallenge + 1
+            end
         end
     end
 end
