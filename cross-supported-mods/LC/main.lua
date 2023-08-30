@@ -202,7 +202,7 @@ local function on_hud_render()
         mod_storage_save("BGYellowPurchased", tostring(bought_bgs[10]))
         if show_saved_data then
             if not first_popup then
-                djui_popup_create("\\#00ff00\\Data saved!\\#ffffff\\\nYou can turn these pop-ups off by\ntyping '/popups off'.", 3)
+                djui_popup_create("\\#00ff00\\Data saved!\\#ffffff\\\nYou can toggle these pop-ups off by\ntyping '/lc popups [on/off]'.", 3)
                 first_popup = true
             else
                 djui_popup_create("\\#00ff00\\Data saved!\\#ffffff\\", 1)
