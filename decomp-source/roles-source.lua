@@ -163,6 +163,10 @@ function on_chat_message(m, msg)
             rolestring = rolestring .. " \\#dcdcdc\\| \\#00ffff\\M\\#ff5a5a\\H " .. _G.mhApi.get_tag(m.playerIndex)
         end
 
+        if _G.lcExists and _G.lcInGame and _G.lcApi.get_ranks() ~= nil then
+            rolestring = rolestring .. " \\#dcdcdc\\| \\#007700\\[LC] " .. _G.lcApi.get_ranks()
+        end
+
         if rolestring ~= "" then
             djui_chat_message_create(name .. "" .. rolestring .. ": \\#dcdcdc\\" .. msg)
         end

@@ -589,6 +589,16 @@ function displaymenu()
             },
         }
 
+        if apiTable[1] ~= nil then
+            for i = 1, #apiTable do
+                if apiTable[i].name == "Play Luigi's Casino" then
+                    if apiTable[i].status == 1 then
+                        menu = false
+                    end
+                end
+            end
+        end
+
         if gServerSettings.playerKnockbackStrength == 10 then
             KBTranslate = 0
         elseif gServerSettings.playerKnockbackStrength == 25 then
