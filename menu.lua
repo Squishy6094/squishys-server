@@ -117,6 +117,7 @@ function theme_load()
                 hoverColor = {r = 193, g = 65, b = 126},
                 hasHeader = true,
                 headerColor = {r = 255, g = 255, b = 255},
+                textColor = {r = 193, g = 65, b = 126},
                 texture = get_texture_info("theme-care")
             }
         elseif mod_storage_load("UnlockedTheme-"..i) == "Poly" then
@@ -127,6 +128,7 @@ function theme_load()
                 hoverColor = {r = 255, g = 128, b = 0},
                 hasHeader = true,
                 headerColor = {r = 255, g = 255, b = 255},
+                textColor = {r = 255, g = 128, b = 0},
                 texture = get_texture_info("theme-poly")
             }
         elseif mod_storage_load("UnlockedTheme-"..i) == "Wario" then
@@ -137,6 +139,7 @@ function theme_load()
                 hoverColor = {r = 255, g = 255, b = 0},
                 hasHeader = true,
                 headerColor = {r = 255, g = 255, b = 255},
+                textColor = {r = 255, g = 255, b = 0},
                 texture = get_texture_info("theme-ww")
             }
             warioChallengeComplete = true
@@ -708,6 +711,10 @@ function displaymenu()
         if themeTable[menuTable[2][3].status].headerColor == nil then
             themeTable[menuTable[2][3].status].headerColor = themeTable[menuTable[2][3].status].hoverColor
         end
+
+        if themeTable[menuTable[2][3].status].textColor == nil then
+            themeTable[menuTable[2][3].status].textColor = themeTable[menuTable[2][3].status].hoverColor
+        end
         
         djui_hud_set_color(0, 0, 0, 150)
         djui_hud_render_rect(0, 0, djui_hud_get_screen_width()+5, 240)
@@ -717,7 +724,7 @@ function displaymenu()
             djui_hud_render_texture_tile(themeTable[menuTable[2][3].status].texture, (halfScreenWidth + 91) + descSlide, ((djui_hud_get_screen_height()*0.5) - 42) - bobbing, 1.3, 1.3, 176, 0, 80, 80)
             djui_hud_set_color(0, 0, 0, 220)
             djui_hud_render_rect((halfScreenWidth + 93) + descSlide, ((djui_hud_get_screen_height()*0.5) - 40) - bobbing, 100, 100)
-            djui_hud_set_color(themeTable[menuTable[2][3].status].headerColor.r, themeTable[menuTable[2][3].status].headerColor.g, themeTable[menuTable[2][3].status].headerColor.b, 255)
+            djui_hud_set_color(themeTable[menuTable[2][3].status].textColor.r, themeTable[menuTable[2][3].status].textColor.g, themeTable[menuTable[2][3].status].textColor.b, 255)
             djui_hud_print_text(menuTable[optionTab][optionHover + scrolling].name, (halfScreenWidth + 100) + descSlide, 85 - bobbing, 0.35)
             djui_hud_set_color(255, 255, 255, 255)
             for i = 1, 9 do
@@ -886,7 +893,7 @@ function displaymenu()
         djui_hud_render_texture_tile(themeTable[menuTable[2][3].status].texture, 10 + voteSlide, 100, 1, 1, 176, 0, 80, 80)
         djui_hud_set_color(0, 0, 0, 220)
         djui_hud_render_rect(12 + voteSlide, 102, 76, 76)
-        djui_hud_set_color(themeTable[menuTable[2][3].status].headerColor.r, themeTable[menuTable[2][3].status].headerColor.g, themeTable[menuTable[2][3].status].headerColor.b, 255)
+        djui_hud_set_color(themeTable[menuTable[2][3].status].textColor.r, themeTable[menuTable[2][3].status].textColor.g, themeTable[menuTable[2][3].status].textColor.b, 255)
         djui_hud_print_text("Vote:", 15 + voteSlide, 105, 0.35)
         if voteTimer > 0 then
             djui_hud_print_text(tostring(math.ceil(voteTimer/30)).."s left", 84 - djui_hud_measure_text(tostring(math.ceil(voteTimer/30)).."s left")*0.35 + voteSlide, 105, 0.35)
