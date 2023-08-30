@@ -280,8 +280,10 @@ local function on_hud_render()
         djui_hud_print_text("You can manually save data by typing '/lc save'.", (djui_hud_get_screen_width()/3)*2.10, djui_hud_get_screen_height() - 80, 0.25)
         if _G.ssExists then
             djui_hud_print_text("You can quit the game by typing '/lc quit'.", (djui_hud_get_screen_width()/3)*2.10, djui_hud_get_screen_height() - 72.5, 0.25)
+            djui_hud_print_text("The player list shows everyone's coin count.", (djui_hud_get_screen_width()/3)*2.10, djui_hud_get_screen_height() - 57.5, 0.25)
+        else
+            djui_hud_print_text("The player list shows everyone's coin count.", (djui_hud_get_screen_width()/3)*2.10, djui_hud_get_screen_height() - 65, 0.25)
         end
-        djui_hud_print_text("The player list shows everyone's coin count.", (djui_hud_get_screen_width()/3)*2.10, djui_hud_get_screen_height() - 50, 0.25)
     end
 
     if gMarioStates[0].controller.buttonPressed & R_TRIG ~= 0 then
