@@ -192,7 +192,7 @@ local bobbingStatus = true
 local bobbing = -2.1
 local oWario = 0
 local warioTimer = 0
-local warioChallenge = 999
+local warioChallenge = 0
 local playedWarioSound = false
 
 local voteTimer = 3600
