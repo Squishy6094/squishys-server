@@ -478,6 +478,20 @@ function mario_update(m)
                     forcePlayer = CT_MARIO,
                     icon = "Default",
                     credit = "MSatiro"
+                },
+                [6] = {
+                    model = smlua_model_util_get_id("peach_geo"),
+                    modelName = "Princess Peach",
+                    forcePlayer = CT_MARIO,
+                    icon = "Default",
+                    credit = "Cheesester, ER1CK"
+                },
+                [7] = {
+                    model = smlua_model_util_get_id("daisy_geo"),
+                    modelName = "Princess Daisy",
+                    forcePlayer = CT_MARIO,
+                    icon = "Default",
+                    credit = "Cheesester, ER1CK"
                 }
             },
             [KitKat] = {
