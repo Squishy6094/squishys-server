@@ -157,6 +157,7 @@ IdiotSound = audio_sample_load("Idiot.mp3")
 --- @param m MarioState
 function mario_update(m)
     if m.playerIndex ~= 0 then return end
+    if BootupTimer < 150 then return end
     gPlayerSyncTable[m.playerIndex].moveset = menuTable[1][1].status
     gPlayerSyncTable[m.playerIndex].wallSlide = menuTable[1][5].status
     gPlayerSyncTable[m.playerIndex].betterswim = menuTable[1][2].status
@@ -396,6 +397,7 @@ end
 --- @param m MarioState
 --- @param o Object
 local function allow_interact(m, o)
+    if BootupTimer < 150 then return end
     if _G.mhExists and not _G.mhApi.interactionIsValid(m, o, type) then return false end
     if get_id_from_behavior(o.behavior) == id_bhvBrokenDoor and gNetworkPlayers[m.playerIndex].globalIndex == o.oDoorBuster then return false end
     return true
@@ -406,6 +408,7 @@ end
 ACT_WALL_SLIDE = (0x0BF | ACT_FLAG_AIR | ACT_FLAG_MOVING | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)
 
 function act_wall_slide(m)
+    if BootupTimer < 150 then return end
     if gPlayerSyncTable[m.playerIndex].wallSlide ~= 1 then return end
 
     if (m.input & INPUT_A_PRESSED) ~= 0 then
@@ -486,6 +489,7 @@ end
 ---@param m MarioState
 function before_phys_step(m)
     if m.playerIndex ~= 0 then return end
+    if BootupTimer < 150 then return end
     if gPlayerSyncTable[m.playerIndex].wallSlide ~= 1 then return end
     if m.wall ~= nil then
         if (m.wall.type == SURFACE_BURNING) then return end
@@ -550,6 +554,7 @@ local timer = TIMER_MAX
 function before_mario_update(m)
     --Early Wallkick Leniency--
     if m.playerIndex ~= 0 then return end
+    if BootupTimer < 150 then return end
 
     if m.controller.buttonPressed & A_BUTTON ~= 0 then
         pressed_A = true
@@ -592,6 +597,7 @@ end
 
 --- @param m MarioState
 function on_set_mario_action(m)
+    if BootupTimer < 150 then return end
     --Tech action
     if TECH_KB[m.action] then
         tech_tmr = 0
@@ -708,6 +714,7 @@ end
 rom_hack_cam_set_collisions(false)
 
 function update()
+    if BootupTimer < 150 then return end
     ---@type MarioState
     local m = gMarioStates[0]
     ---@type Camera

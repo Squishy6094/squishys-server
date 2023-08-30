@@ -125,6 +125,7 @@ if mod_storage_load("RulesSave") ~= nil and mod_storage_load("RulesSave") ~= "1"
 end
 
 function displayrules(m)
+    if BootupTimer < 150 then return end
     if (rules or menu) then
         if gGlobalSyncTable.RoomStart ~= nil then
             RoomTime = string.format("%s:%s:%s", string.format("%02d", math.floor((get_time() - gGlobalSyncTable.RoomStart)/60/60)), string.format("%02d", math.floor((get_time() - gGlobalSyncTable.RoomStart)/60)%60), string.format("%02d", math.floor(get_time() - gGlobalSyncTable.RoomStart)%60))
@@ -132,7 +133,6 @@ function displayrules(m)
             RoomTime = "Unknown"
         end
     end
-    if BootupTimer < 150 then return end
     
     if rules and offsetX < -1 then
         offsetX = offsetX/1.1
@@ -315,6 +315,7 @@ local timer = 0
 doSparkles = false
 function mario_update_msgtimer(m)
     if m.playerIndex ~= 0 then return end
+    if BootupTimer < 150 then return end
     if get_time() - popupTimer >= math.random(60,180) and menuTable[3][5].status == 1 then
         popupTimer = get_time()
         popupNum = math.random(1,#popupTable)

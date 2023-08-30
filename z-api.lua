@@ -1,11 +1,28 @@
 _G.ssExists = true
+_G.ssBooted = false
 _G.ssApi = {}
+
+hook_event(HOOK_UPDATE, function ()
+    if BootupTimer >= 150 then
+        _G.ssBooted = true
+    else
+        _G.ssBooted = false
+    end
+
+    if menuTable ~= nil then
+        menuTable[4] = apiTable
+    end
+end)
+
+apiTable = {
+    name = "External"
+}
 
 -- Toggles --
 _G.ssApi.option_add = function(name, statusDefault, statusMax, statusNames, description)
     if statusNames == nil then statusNames = {} end
     if description == nil then description = {"Added via the SS Api"} end
-    menuTable[4][#menuTable[4]+1] = {
+    apiTable[#apiTable + 1] = {
         name = name,
         status = statusDefault,
         statusMax = statusMax,

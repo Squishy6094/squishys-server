@@ -1,5 +1,5 @@
 BootupTimer = 0
-BootupInfo = nil
+BootupInfo = "Initializing"
 
 -- Heavy optimization, I want this bitch to run clean
 local djui_hud_set_resolution = djui_hud_set_resolution
@@ -61,4 +61,12 @@ end)
 function on_reload_command()
     BootupTimer = 0
     return true
+end
+
+function split(s)
+    local result = {}
+    for match in (s):gmatch(string.format("[^%s]+", " ")) do
+        table.insert(result, match)
+    end
+    return result
 end

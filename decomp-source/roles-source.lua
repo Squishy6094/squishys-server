@@ -11,14 +11,6 @@
 local network_is_server = network_is_server
 local network_is_moderator = network_is_moderator
 
-function split(s)
-    local result = {}
-    for match in (s):gmatch(string.format("[^%s]+", " ")) do
-        table.insert(result, match)
-    end
-    return result
-end
-
 local rolestringTable = {
     [1] = function (index)
         return "\\#00aa00\\[Creator]"

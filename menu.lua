@@ -4,6 +4,8 @@ local optionHover = 1
 local optionHoverTimer = -1
 local scrolling = 0
 
+local maxThemes = 10
+
 --Optimization I guess
 local djui_hud_set_resolution = djui_hud_set_resolution
 local djui_hud_set_font = djui_hud_set_font
@@ -12,58 +14,159 @@ local djui_hud_print_text = djui_hud_print_text
 
 local KBTranslate = 0
 
-if gServerSettings.playerKnockbackStrength == 10 then
-    KBTranslate = 0
-elseif gServerSettings.playerKnockbackStrength == 25 then
-    KBTranslate = 1
-elseif gServerSettings.playerKnockbackStrength == 60 then
-    KBTranslate = 2
-end
-
-gGlobalSyncTable.syncData = tostring(gServerSettings.bubbleDeath) .. " " .. tostring(gServerSettings.playerInteractions) .. " " .. tostring(KBTranslate) .. " " .. tostring(gServerSettings.stayInLevelAfterStar) .. " " .. tostring(1) .. " " .. tostring(1)
-
-gLevelValues.extendedPauseDisplay = true
-
-local sparklesOptionHover = #menuTable[3]+1
-if network_is_developer() then
-    menuTable[3][sparklesOptionHover] = {
-        name = "Developer Particles",
-        nameSave = "DvSpks",
-        status = tonumber(mod_storage_load("DvSpks")),
-        statusMax = 1,
-        statusDefault = 0,
-        description = {
-            "Displays particles around you",
-            "if you are a developer."
-        }
-    }
-end
-
-if menuTable[3][sparklesOptionHover] ~= nil then
-    if menuTable[3][sparklesOptionHover].status == 1 then
-        doSparkles = true
-    elseif menuTable[3][sparklesOptionHover].status == 0 then
-        doSparkles = false
-    end
-end
-
-
-for i in pairs(gActiveMods) do
-    --Mod Check Preventing Moveset Clashing
-    if (gActiveMods[i].incompatible ~= nil and gActiveMods[i].incompatible:find("moveset")) or gActiveMods[i].name:find("Pasta Castle") then
-        menuTable[5][5].status = 0
-        menuTable[1][1].statusNames[-1] = "External Moveset"
-        gGlobalSyncTable.syncData = tostring(gServerSettings.bubbleDeath) .. " " .. tostring(gServerSettings.playerInteractions) .. " " .. tostring(KBTranslate) .. " " .. tostring(gServerSettings.stayInLevelAfterStar) .. " " .. tostring(0) .. " " .. tostring(1)
-    end
-    --Mod Check Preventing HUD Overlapping
-    if menuTable[2][2].status ~= 0 then
-        if (gActiveMods[i].incompatible ~= nil and gActiveMods[i].incompatible:find("gamemode")) and not (gActiveMods[i].name:find("Personal Star Counter EX+")) and not (gActiveMods[i].name:find("\\#00ffff\\Mario\\#ff5a5a\\Hun\\\\t")) and menuTable[2][2].status > 0 then
-            menuTable[2][1].status = 3
-            menuTable[2][1].statusNames[3] = "External HUD"
+function save_load(reset)
+    if reset == nil then reset = false end
+    for t = 1, 3 do
+        for i = 1, #menuTable[t] do
+            if menuTable[t][i].statusNames == nil then menuTable[t][i].statusNames = {} end
+            if reset or mod_storage_load(menuTable[t][i].nameSave) == nil or menuTable[t][i].status == nil then
+                if menuTable[t][i].statusDefault == nil then
+                    menuTable[t][i].statusDefault = 1
+                end
+                menuTable[t][i].status = menuTable[t][i].statusDefault
+                mod_storage_save(menuTable[t][i].nameSave, tostring(menuTable[t][i].statusDefault))
+            end
         end
-        if (gActiveMods[i].name:find("OMM Rebirth")) or (gActiveMods[i].name:find("Super Mario 64: The Underworld")) or (gActiveMods[i].name:find("Super Mario Parallel Stars")) and menuTable[2][2].status == 1 then
-            menuTable[2][1].status = 3
-            menuTable[2][1].statusNames[3] = "External HUD"
+    end
+
+    for i = 1, maxThemes do
+        if mod_storage_load("UnlockedTheme-"..i) == nil or reset then
+            mod_storage_save("UnlockedTheme-"..i, "nil")
+        end
+    end
+end
+
+function theme_load()
+    for i = 1, maxThemes do
+        themeTable[i] = nil
+    end
+    for i = 1, maxThemes do
+        if mod_storage_load("UnlockedTheme-"..i) == "Uoker" then
+            themeTable[#themeTable + 1] = {
+                name = "Uoker",
+                saveName = "Uoker",
+                color = "\\#5b35ec\\",
+                hoverColor = {r = 91, g = 53, b = 236},
+                hasHeader = true,
+                texture = get_texture_info("theme-uoker"),
+                sound = audio_sample_load("tadahh.mp3")
+            }
+        elseif mod_storage_load("UnlockedTheme-"..i) == "Upper" then
+            themeTable[#themeTable + 1] = {
+                name = "Castle Upper",
+                saveName = "Upper",
+                color = "\\#ff1515\\",
+                hoverColor = {r = 131, g = 93, b = 99},
+                texture = get_texture_info("theme-50door")
+            }
+        elseif mod_storage_load("UnlockedTheme-"..i) == "Plus" then
+            themeTable[#themeTable + 1] = {
+                name = "Plusle",
+                saveName = "Plus",
+                color = "\\#e3616d\\",
+                hoverColor = {r = 227, g = 97, b = 109},
+                texture = get_texture_info("theme-plus")
+            }
+        elseif mod_storage_load("UnlockedTheme-"..i) == "Under" then
+            themeTable[#themeTable + 1] = {
+                name = "Underworld",
+                saveName = "Under",
+                color = "\\#19ffff\\",
+                hoverColor = {r = 25, g = 255, b = 255},
+                texture = get_texture_info("theme-underworld")
+            }
+        elseif mod_storage_load("UnlockedTheme-"..i) == "Crudelo" then
+            themeTable[#themeTable + 1] = {
+                name = "Crudelo Sphere",
+                saveName = "Crudelo",
+                color = "\\#910002\\",
+                hoverColor = {r = 145, g = 0, b = 2},
+                texture = get_texture_info("theme-crudelo")
+            }
+        elseif mod_storage_load("UnlockedTheme-"..i) == "StarRoad" then
+            themeTable[#themeTable + 1] = {
+                name = "Star Road",
+                saveName = "StarRoad",
+                color = "\\#ffff00\\",
+                hoverColor = {r = 255, g = 255, b = 0},
+                texture = get_texture_info("theme-starroad")
+            }
+        elseif mod_storage_load("UnlockedTheme-"..i) == "Cake" then
+            themeTable[#themeTable + 1] = {
+                name = "Delicious Cake",
+                saveName = "Cake",
+                color = "\\#ff6666\\",
+                hoverColor = {r = 255, g = 100, b = 100},
+                texture = get_texture_info("theme-120s")
+            }
+        elseif mod_storage_load("UnlockedTheme-"..i) == "Heavenly" then
+            themeTable[#themeTable + 1] = {
+                name = "Heaven's Blessing",
+                saveName = "Heavenly",
+                color = "\\#ffffff\\",
+                hoverColor = {r = 136, g = 119, b = 86},
+                texture = get_texture_info("theme-heaven")
+            }
+        elseif mod_storage_load("UnlockedTheme-"..i) == "Care" then
+            themeTable[#themeTable + 1] = {
+                name = "The Caretaker",
+                saveName = "Care",
+                color = "\\#c1417e\\",
+                hoverColor = {r = 193, g = 65, b = 126},
+                hasHeader = true,
+                headerColor = {r = 255, g = 255, b = 255},
+                texture = get_texture_info("theme-care")
+            }
+        elseif mod_storage_load("UnlockedTheme-"..i) == "Poly" then
+            themeTable[#themeTable + 1] = {
+                name = "Polygonal Chaos",
+                saveName = "Poly",
+                color = "\\#ff7700\\",
+                hoverColor = {r = 255, g = 128, b = 0},
+                hasHeader = true,
+                headerColor = {r = 255, g = 255, b = 255},
+                texture = get_texture_info("theme-poly")
+            }
+        end
+        if mod_storage_load("UnlockedTheme-1") == "nil" then
+            themeTable[0].name = "No Themes Unlocked"
+        else
+            themeTable[0].name = "Default"
+        end
+    end
+    for i = 0, #themeTable do
+        menuTable[2][3].statusNames[i] = themeTable[i].name
+    end
+    menuTable[2][3].statusMax = #themeTable
+end
+
+function theme_unlock(themestring, themeexplain)
+    for i = 1, #themeTable do
+        if themestring == themeTable[i].saveName then
+            return
+        end
+    end
+
+    local m = gMarioStates[0]
+    if themeexplain == nil then themeexplain = "No condition provided" end
+
+    for i = 1, maxThemes do
+        local currentTheme = mod_storage_load("UnlockedTheme-"..i)
+
+        if currentTheme == themestring then
+            -- Theme is already unlocked, stop the loop
+            break
+        end
+
+        if currentTheme == "nil" or currentTheme == nil then
+            -- Save themestring to the current UnlockedTheme slot and stop the loop
+            mod_storage_save("UnlockedTheme-"..i, themestring)
+            theme_load()
+            djui_popup_create("\\#008800\\Squishy's Server\n".. '\\#dcdcdc\\Theme Unlocked!\n'..themeTable[i].color..'"'..themeTable[i].name..'"\n\n\\#8c8c8c\\'..themeexplain, 5)
+            if themeTable[i].sound ~= nil then
+                audio_sample_play(themeTable[i].sound, m.pos, 1)
+            end
+            break
         end
     end
 end
@@ -81,11 +184,467 @@ local prevVote = ""
 local voteScale = 1
 function displaymenu()
     local m = gMarioStates[0]
-    if BootupTimer < 90 then return end
-    if BootupTimer == 90 then
+    if m.playerIndex ~= 0 then return end
+    if BootupTimer == 30 then
+
+        menuTable = {
+            [1] = {
+                name = "Movement",
+                [1] = {
+                    name = "Moveset",
+                    nameSave = "MoveSave",
+                    status = tonumber(mod_storage_load("MoveSave")),
+                    statusMax = 2,
+                    statusDefault = 0,
+                    unlocked = 1,
+                    lockTo = 0,
+                    --Status Toggle Names
+                    statusNames = {
+                        [-1] = "Forced Default",
+                        [0] = "Default",
+                        [1] = "Character",
+                        [2] = "Quality of Life",
+                    }, 
+                    description = {
+                        "Change small things about",
+                        "how Mario moves to make",
+                        "movement feel better"
+                    },
+                },
+                [2] = {
+                    name = "Better Swimming",
+                    nameSave = "BSSave",
+                    status = tonumber(mod_storage_load("BSSave")),
+                    statusMax = 1,
+                    unlocked = 1,
+                    statusNames = {
+                        [-1] = "Forced Off",
+                    },
+                    description = {
+                        "Makes water movement similar",
+                        "to ground movement, using",
+                        "Analog for Horozontal Movement",
+                        "and A & Z for Vertical Movement."
+                    },
+                },
+                [3] = {
+                    name = "Lava Groundpound",
+                    nameSave = "LGPSave",
+                    status = tonumber(mod_storage_load("LGPSave")),
+                    statusMax = 1,
+                    description = {
+                        "Ground-Pounding on lava will",
+                        "give you a speed and height",
+                        "boost, at the cost of health."
+                    },
+                },
+                [4] = {
+                    name = "Anti-Quicksand",
+                    nameSave = "AQSSave",
+                    status = tonumber(mod_storage_load("AQSSave")),
+                    statusMax = 1,
+                    unlocked = 1,
+                    lockTo = 0, 
+                    --Status Toggle Names
+                    statusNames = {
+                    [-1] = "Forced Off",
+                    },
+                    description = {
+                        "Makes instant quicksand act",
+                        "like lava, preventing what",
+                        "may seem like an unfair",
+                        "deaths. (Does not include",
+                        "Lava Groundpound functions)"
+                    },
+                },
+                [5] = {
+                    name = "Modded Wallkick",
+                    nameSave = "WKSave",
+                    status = tonumber(mod_storage_load("WKSave")),
+                    statusMax = 1, 
+                    description = {
+                        "Adds Wallsliding and more",
+                        "Lenient Angles and Timings",
+                        "you can wall kick at, best",
+                        "for a more modern experience."
+                    },
+                },
+                [6] = {
+                    name = "Strafing",
+                    nameSave = "StrafeSave",
+                    status = tonumber(mod_storage_load("StrafeSave")),
+                    statusMax = 1,
+                    statusDefault = 0, 
+                    description = {
+                        "Forces Mario to face the",
+                        "direction the Camera is",
+                        "facing, similar to Sonic Robo",
+                        "Blast 2. Recommended if you",
+                        "play with Mouse and Keyboard."
+                    },
+                },
+                [7] = {
+                    name = "Ledge Parkour",
+                    nameSave = "LedgeSave",
+                    status = tonumber(mod_storage_load("LedgeSave")),
+                    statusMax = 1, 
+                    description = {
+                        "Toggles the ability to press",
+                        "A or B while moving fast onto",
+                        "a ledge to trick off of it!",
+                        "Recommended if you want",
+                        "to retain your speed going",
+                        "off a ledge."
+                    },
+                }
+            },
+            [2] = {
+                name = "HUD",
+                [1] = {
+                    name = "HUD Type",
+                    nameSave = "HUDSave",
+                    status = tonumber(mod_storage_load("HUDSave")),
+                    statusMax = 3,
+                    statusDefault = 0,
+                    statusNames = {
+                        [0] = "Default",
+                        [1] = "4:3 Locked",
+                        [2] = "Compact",
+                        [3] = "Disabled",
+                    },
+                    description = {
+                        "Changes which HUD the screen",
+                        "displays! (WIP)"
+                    }
+                },
+                [2] = {
+                    name = "Prevent HUD Clashing",
+                    nameSave = "HUDDisableSave",
+                    status = tonumber(mod_storage_load("HUDDisableSave")),
+                    statusMax = 2,
+                    statusDefault = 1,
+                    statusNames = {
+                        [2] = "Gamemodes Only",
+                    },
+                    description = {
+                        "Toggles if your HUD",
+                        "automatically gets set to",
+                        "Disabled if another mod",
+                        "has a Custom HUD, This",
+                        "does not force the HUD to",
+                        "Disabled."
+                    }
+                },
+                [3] = {
+                    name = "Menu Theme",
+                    nameSave = "ThemeSave",
+                    status = tonumber(mod_storage_load("ThemeSave")),
+                    statusMax = nil,
+                    statusDefault = 0,
+                    statusNames = {},
+                    description = {
+                        "Toggles what theme the",
+                        "Server Menu Displays, these",
+                        "are unlocked via doing",
+                        "specific tasks or joining",
+                        "specific events."
+                    }
+                },
+                [4] = {
+                    name = "Menu Descriptions",
+                    nameSave = "DescSave",
+                    status = tonumber(mod_storage_load("DescSave")),
+                    statusMax = 1,
+                    statusDefault = 1,
+                    description = {
+                        "Toggles these descriptions",
+                        "you see on the right,",
+                        "Recommended to turn Off if",
+                        "you like a more minimalistic",
+                        "menu."
+                    }
+                },
+                [5] = {
+                    name = "Menu Animations",
+                    nameSave = "MenuAnimSave",
+                    status = tonumber(mod_storage_load("MenuAnimSave")),
+                    statusMax = 1,
+                    statusDefault = 1,
+                    description = {
+                        "Toggles Menu Animations like",
+                        "Transitions and Bobbing.",
+                        "(Might save Performance if",
+                        "Toggled Off)"
+                    }
+                },
+            },
+            [3] = {
+                name = "Misc.",
+                [1] = {
+                    name = "Personal Model",
+                    nameSave = "ModelSave",
+                    status = tonumber(mod_storage_load("ModelSave")),
+                    statusMax = nil,
+                    statusDefault = 1,
+                    unlocked = 1,
+                    lockTo = 0,
+                    statusNames = {
+                        [-1] = "N/A",
+                    },
+                    description = {
+                        "Toggles your own Custom",
+                        "Player Model, Only available",
+                        "for users with at least",
+                        "one Custom Model.",
+                        "",
+                        "",
+                        "Contact The Host for more",
+                        "information about",
+                        "Custom Models and DynOS"
+                    }
+                },
+                [2] = {
+                    name = "Locally Display Models",
+                    nameSave = "ModelDisplaySave",
+                    status = tonumber(mod_storage_load("ModelDisplaySave")),
+                    statusMax = 1,
+                    statusDefault = 1, 
+                    description = {
+                        "Toggles if Custom Player",
+                        "Models Display locally,",
+                        "Recommended if other people's",
+                        "Custom models are getting",
+                        "in the way.",
+                        "",
+                        "Contact The Host for more",
+                        "information about",
+                        "Custom Models and DynOS"
+                    }
+                },
+                [3] = {
+                    name = "Rom-Hack Camera",
+                    nameSave = "HackCamSave",
+                    status = tonumber(mod_storage_load("HackCamSave")),
+                    statusMax = 1,
+                    statusDefault = 1, 
+                    description = {
+                        "Toggles if the camera acts",
+                        "the same way it does in",
+                        "Rom-Hacks. (8 directional)"
+                    }
+                },
+                [4] = {
+                    name = "Star Spawn Cutscene",
+                    nameSave = "SSCSave",
+                    status = tonumber(mod_storage_load("SSCSave")),
+                    statusMax = 1,
+                    statusDefault = 1, 
+                    description = {
+                        "Toggles if Star Spawning",
+                        "Cutscenes play, Recommended",
+                        "if you don't know where a",
+                        "star spawns."
+                    }
+                },
+                [5] = {
+                    name = "Server Popups",
+                    nameSave = "notifSave",
+                    status = tonumber(mod_storage_load("notifSave")),
+                    statusMax = 1,
+                    statusDefault = 1, 
+                    description = {
+                        "Shows Tips/Hints about the",
+                        "server every 3-5 minutes.",
+                        "Recommended for if you're",
+                        "new to the server."
+                    }
+                },
+                [6] = {
+                    name = "Show Rules",
+                    nameSave = "RulesSave",
+                    status = tonumber(mod_storage_load("RulesSave")),
+                    statusMax = 1,
+                    statusDefault = 1, 
+                    description = {
+                        "Toggles if the Rules Screen",
+                        "Displays upon joining. By",
+                        "turning this option off,",
+                        "You're confirming that you",
+                        "have Read and Understand",
+                        "the Rules."
+                    }
+                }
+            },
+            [5] = {
+                name = "Server",
+                [1] = {
+                    name = "Death Type",
+                    status = tonumber(gServerSettings.bubbleDeath),
+                    statusMax = 1,
+                    statusDefault = 1,
+                    --Status Toggle Names
+                    statusNames = {
+                        [0] = "Default",
+                        [1] = "Bubble",
+                    }, 
+                    description = {
+                        "Chenges how players die",
+                        "and respawn after death."
+                    },
+                },
+                [2] = {
+                    name = "Player Interactions",
+                    status = tonumber(gServerSettings.playerInteractions),
+                    statusMax = 2,
+                    statusDefault = 2,
+                    --Status Toggle Names
+                    statusNames = {
+                        [0] = "Non-Solid",
+                        [1] = "Solid",
+                        [2] = "Friendly Fire",
+                    }, 
+                    description = {
+                        "Changes if and how players",
+                        "interact with each other."
+                    },
+                },
+                [3] = {
+                    name = "Player Knockback",
+                    status = gServerSettings.playerKnockbackStrength,
+                    statusMax = 2,
+                    statusDefault = 1,
+                    --Status Toggle Names
+                    statusNames = {
+                        [0] = "Weak",
+                        [1] = "Normal",
+                        [2] = "Too Much",
+                    }, 
+                    description = {
+                        "Changes how far players get",
+                        "knocked back after being hit",
+                        "by another player."
+                    },
+                },
+                [4] = {
+                    name = "On Star Collection",
+                    status = gServerSettings.stayInLevelAfterStar,
+                    statusMax = 2,
+                    statusDefault = 1,
+                    --Status Toggle Names
+                    statusNames = {
+                        [0] = "Leave Level",
+                        [1] = "Stay in Level",
+                        [2] = "Non-Stop",
+                    }, 
+                    description = {
+                        "Determines what happens",
+                        "after you collect a star."
+                    },
+                },
+                [5] = {
+                    name = "Global Movesets",
+                    status = 1,
+                    statusMax = 1,
+                    statusDefault = 1,
+                    statusNames = {}, 
+                    description = {
+                        "Determines if players can",
+                        "locally change what moveset",
+                        "they're using, Off forces",
+                        "everyone to default."
+                    },
+                },
+                [6] = {
+                    name = "Global Anti-Quicksand",
+                    status = 0,
+                    statusMax = 1,
+                    statusDefault = 1,
+                    statusNames = {}, 
+                    description = {
+                        "Determines if players can",
+                        "locally change AQS or if",
+                        "it's forced off."
+                    },
+                },
+            },
+        }
+
+        if gServerSettings.playerKnockbackStrength == 10 then
+            KBTranslate = 0
+        elseif gServerSettings.playerKnockbackStrength == 25 then
+            KBTranslate = 1
+        elseif gServerSettings.playerKnockbackStrength == 60 then
+            KBTranslate = 2
+        end
+        
+        gGlobalSyncTable.syncData = tostring(gServerSettings.bubbleDeath) .. " " .. tostring(gServerSettings.playerInteractions) .. " " .. tostring(KBTranslate) .. " " .. tostring(gServerSettings.stayInLevelAfterStar) .. " " .. tostring(1) .. " " .. tostring(1)
+        
+        gLevelValues.extendedPauseDisplay = true
+        
+        local sparklesOptionHover = #menuTable[3]+1
+        if network_is_developer() then
+            menuTable[3][sparklesOptionHover] = {
+                name = "Developer Particles",
+                nameSave = "DvSpks",
+                status = tonumber(mod_storage_load("DvSpks")),
+                statusMax = 1,
+                statusDefault = 0,
+                description = {
+                    "Displays particles around you",
+                    "if you are a developer."
+                }
+            }
+        end
+        
+        if menuTable[3][sparklesOptionHover] ~= nil then
+            if menuTable[3][sparklesOptionHover].status == 1 then
+                doSparkles = true
+            elseif menuTable[3][sparklesOptionHover].status == 0 then
+                doSparkles = false
+            end
+        end
         save_load()
-        theme_load()
+        
+        BootupInfo = "Loaded Menu Data"
+        
+        
+        for i in pairs(gActiveMods) do
+            --Mod Check Preventing Moveset Clashing
+            if (gActiveMods[i].incompatible ~= nil and gActiveMods[i].incompatible:find("moveset")) or gActiveMods[i].name:find("Pasta Castle") then
+                menuTable[5][5].status = 0
+                menuTable[1][1].statusNames[-1] = "External Moveset"
+                gGlobalSyncTable.syncData = tostring(gServerSettings.bubbleDeath) .. " " .. tostring(gServerSettings.playerInteractions) .. " " .. tostring(KBTranslate) .. " " .. tostring(gServerSettings.stayInLevelAfterStar) .. " " .. tostring(0) .. " " .. tostring(1)
+            end
+            --Mod Check Preventing HUD Overlapping
+            if menuTable[2][2].status ~= 0 then
+                if (gActiveMods[i].incompatible ~= nil and gActiveMods[i].incompatible:find("gamemode")) and not (gActiveMods[i].name:find("Personal Star Counter EX+")) and not (gActiveMods[i].name:find("\\#00ffff\\Mario\\#ff5a5a\\Hun\\\\t")) and menuTable[2][2].status > 0 then
+                    menuTable[2][1].status = 3
+                    menuTable[2][1].statusNames[3] = "External HUD"
+                end
+                if (gActiveMods[i].name:find("OMM Rebirth")) or (gActiveMods[i].name:find("Super Mario 64: The Underworld")) or (gActiveMods[i].name:find("Super Mario Parallel Stars")) and menuTable[2][2].status == 1 then
+                    menuTable[2][1].status = 3
+                    menuTable[2][1].statusNames[3] = "External HUD"
+                end
+            end
+        end
     end
+
+    if BootupTimer == 60 then
+        themeTable = {
+            [0] = {
+                name = "Default",
+                texture = get_texture_info("theme-default"),
+                hasHeader = true,
+                headerColor = {r = 0, g = 131, b = 0}
+            }
+        }
+
+        theme_load()
+
+        BootupInfo = "Loaded Theme Data"
+    end
+
+    if BootupTimer < 90 then return end
     djui_hud_set_font(FONT_NORMAL)
     djui_hud_set_resolution(RESOLUTION_N64)
     halfScreenWidth = djui_hud_get_screen_width()*0.5
@@ -370,6 +929,7 @@ end
 
 function before_update(m)
     if m.playerIndex ~= 0 then return end
+    if BootupTimer < 150 then return end
     if menu then
         if optionHoverTimer >= 5 then
             optionHoverTimer = -1
@@ -581,6 +1141,7 @@ for i in pairs(gActiveMods) do
 end
 function update_theme_requirements(m)
     if m.playerIndex ~= 0 then return end
+    if BootupTimer < 150 then return end
     --Uoker Check
     if network_discord_id_from_local_index(0) == "401406794649436161" and gGlobalSyncTable.event ~= "Space Lady Landed" then
         gGlobalSyncTable.event = "Space Lady Landed"
@@ -657,6 +1218,7 @@ local blueCoinBhvs = {
 
 function theme_interact_requirements(m, o, type)
     if m.playerIndex ~= 0 then return end
+    if BootupTimer < 150 then return end
 	if (type == INTERACT_STAR_OR_KEY) then
 		--This ensures that it increments ONLY if a star is collected.
 		if get_id_from_behavior(o.behavior) ~= id_bhvBowserKey and crudeloChallenge and gNetworkPlayers[0].currCourseNum == COURSE_RR and gNetworkPlayers[0].currAreaIndex == 2 then
@@ -741,6 +1303,7 @@ function on_vote_command(msg)
 end
 
 function update()
+    if BootupTimer < 150 then return end
     local args = split(gGlobalSyncTable.syncData)
 
     if menu and optionTab == 5 then

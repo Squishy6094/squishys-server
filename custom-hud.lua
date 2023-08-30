@@ -118,10 +118,196 @@ function render_hud_radar(target, iconTexture, scale, x, y)
 end
 
 function hud_render()
+    if BootupTimer == 120 then
+        hudTable = {
+            [0] = {
+                name = "Default",
+                res = RESOLUTION_N64,
+                font = FONT_HUD,
+                ["Lives"] = {
+                    alignment = {x = 0, y = 0},
+                    shownElements = {icon = true, div = true, num = true},
+                    iconOffset = {x = 21, y = 15},
+                    xOffset = {x = 37, y = 15},
+                    numOffset = {x = 54, y = 15},
+                },
+                ["Coins"] = {
+                    alignment = {x = 1, y = 0},
+                    shownElements = {icon = true, div = true, num = true},
+                    iconOffset = {x = 8, y = 15},
+                    xOffset = {x = 24, y = 15},
+                    numOffset = {x = 38, y = 15},
+                },
+                ["Stars"] = {
+                    alignment = {x = 2, y = 0},
+                    shownElements = {icon = true, div = true, num = true},
+                    hideOnTriple = true,
+                    iconOffset = {x = -77, y = 15},
+                    xOffset = {x = -61, y = 15},
+                    numOffset = {x = -46.8, y = 15},
+                },
+                ["RedStars"] = {
+                    alignment = {x = 2, y = 0},
+                    shownElements = {icon = true, div = true, num = true},
+                    hideOnTriple = true,
+                    iconColor = {r = 255, g = 0, b = 0, o = 255},
+                    iconOffset = {x = -77, y = 33},
+                    xOffset = {x = -61, y = 33},
+                    numOffset = {x = -46.8, y = 33},
+                },
+                ["GreenStars"] = {
+                    alignment = {x = 2, y = 0},
+                    shownElements = {icon = true, div = true, num = true},
+                    hideOnTriple = true,
+                    iconColor = {r = 0, g = 255, b = 0, o = 255},
+                    iconOffset = {x = -77, y = 51},
+                    xOffset = {x = -61, y = 51},
+                    numOffset = {x = -46.8, y = 51},
+                },
+                ["Compass"] = {
+                    alignment = { x = 2, y = 2 },
+                    color = { r = 255, g = 255, b = 255, o = 255},
+                    scale = 1,
+                    compassShow = true,
+                    compassOffset = {x = -52, y = -52},
+                },
+                ["Health"] = {
+                    alignment = { x = 1, y = 0 },
+                    color = { r = 255, g = 255, b = 255, o = 255},
+                    scale = 64,
+                    meterShow = true,
+                    meterOffset = {x = -52, y = 8},
+                }
+            },
+            [1] = {
+                name = "4:3 Locked",
+                res = RESOLUTION_N64,
+                font = FONT_HUD,
+                ["Lives"] = {
+                    alignment = {x = 1, y = 0},
+                    shownElements = {icon = true, div = true, num = true},
+                    iconOffset = {x = -138, y = 15},
+                    xOffset = {x = -122, y = 15},
+                    numOffset = {x = -106, y = 15},
+                },
+                ["Coins"] = {
+                    alignment = {x = 1, y = 0},
+                    shownElements = {icon = true, div = true, num = true},
+                    iconOffset = {x = 8, y = 15},
+                    xOffset = {x = 24, y = 15},
+                    numOffset = {x = 38, y = 15},
+                },
+                ["Stars"] = {
+                    alignment = {x = 1, y = 0},
+                    shownElements = {icon = true, div = true, num = true},
+                    hideOnTriple = true,
+                    iconOffset = {x = 83, y = 15},
+                    xOffset = {x = 99, y = 15},
+                    numOffset = {x = 113.2, y = 15},
+                },
+                ["RedStars"] = {
+                    alignment = {x = 1, y = 0},
+                    shownElements = {icon = true, div = true, num = true},
+                    iconColor = {r = 255, g = 0, b = 0, o = 255},
+                    hideOnTriple = true,
+                    iconOffset = {x = 83, y = 33},
+                    xOffset = {x = 99, y = 33},
+                    numOffset = {x = 113.2, y = 33},
+                },
+                ["GreenStars"] = {
+                    alignment = {x = 1, y = 0},
+                    shownElements = {icon = true, div = true, num = true},
+                    iconColor = {r = 0, g = 255, b = 0, o = 255},
+                    hideOnTriple = true,
+                    iconOffset = {x = 83, y = 51},
+                    xOffset = {x = 99, y = 51},
+                    numOffset = {x = 113.2, y = 51},
+                },
+                ["Compass"] = {
+                    alignment = { x = 1, y = 2 },
+                    color = { r = 255, g = 255, b = 255, o = 255},
+                    scale = 1,
+                    compassShow = true,
+                    compassOffset = {x = 108, y = -52},
+                },
+                ["Health"] = {
+                    alignment = { x = 1, y = 0 },
+                    color = { r = 255, g = 255, b = 255, o = 255},
+                    scale = 64,
+                    meterShow = true,
+                    meterOffset = {x = -52, y = 8},
+                }
+            },
+            [2] = {
+                name = "Compact",
+                res = RESOLUTION_N64,
+                font = FONT_HUD,
+                ["Lives"] = {
+                    alignment = {x = 0, y = 0},
+                    shownElements = {icon = true, div = false, num = true},
+                    iconOffset = {x = 15, y = 15},
+                    xOffset = {x = 0, y = 0},
+                    numOffset = {x = 25, y = 20},
+                },
+                ["Coins"] = {
+                    alignment = {x = 0, y = 0},
+                    shownElements = {icon = true, div = false, num = true},
+                    iconOffset = {x = 15, y = 35},
+                    xOffset = {x = 0, y = 0},
+                    numOffset = {x = 25, y = 40},
+                },
+                ["Stars"] = {
+                    alignment = {x = 0, y = 0},
+                    shownElements = {icon = true, div = false, num = true},
+                    iconOffset = {x = 15, y = 55},
+                    xOffset = {x = 0, y = 0},
+                    numOffset = {x = 25, y = 60},
+                },
+                ["RedStars"] = {
+                    alignment = {x = 0, y = 0},
+                    shownElements = {icon = true, div = false, num = true},
+                    iconColor = {r = 255, g = 0, b = 0, o = 255},
+                    scale = 0.6,
+                    iconOffset = {x = 20, y = 72},
+                    xOffset = {x = 0, y = 0},
+                    numOffset = {x = 25, y = 77},
+                },
+                ["GreenStars"] = {
+                    alignment = {x = 0, y = 0},
+                    shownElements = {icon = true, div = false, num = true},
+                    iconColor = {r = 0, g = 255, b = 0, o = 255},
+                    scale = 0.6,
+                    iconOffset = {x = 20, y = 82},
+                    xOffset = {x = 0, y = 0},
+                    numOffset = {x = 25, y = 87},
+                },
+                ["Compass"] = {
+                    alignment = { x = 2, y = 0 },
+                    color = { r = 255, g = 255, b = 255, o = 255},
+                    scale = 0.8,
+                    compassShow = true,
+                    compassOffset = {x = -92, y = 10},
+                },
+                ["Health"] = {
+                    alignment = { x = 2, y = 0},
+                    color = { r = 255, g = 255, b = 255, o = 255},
+                    scale = 64,
+                    meterShow = true,
+                    meterOffset = {x = -70, y = 10},
+                }
+            },
+            [3] = {
+                name = "Disabled",
+            },
+        }
+
+        BootupInfo = "Loaded Custom HUD Data"
+    end
     if BootupTimer < 150 then return end
+    hud_hide()
+    if menuTable[2][1].status == 3 then return end
     local m = gMarioStates[0]
     currHUD = menuTable[2][1].status
-    hud_hide()
 	if obj_get_first_with_behavior_id(id_bhvActSelector) ~= nil
 	or (m.action == ACT_END_PEACH_CUTSCENE
 	or m.action == ACT_CREDITS_CUTSCENE
