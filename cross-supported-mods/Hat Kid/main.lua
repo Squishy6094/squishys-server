@@ -71,10 +71,12 @@ function mario_update_local(m)
         gPlayerSyncTable[0].modelId = nil
     end
 
-    if _G.ssApi.option_read("Hat Kid") == 1 then
-        gPlayerSyncTable[0].modelId = E_MODEL_HAT_KID
-    else
-        gPlayerSyncTable[0].modelId = nil
+    if _G.ssBooted then
+        if _G.ssApi.option_read("Hat Kid") == 1 then
+            gPlayerSyncTable[0].modelId = E_MODEL_HAT_KID
+        else
+            gPlayerSyncTable[0].modelId = nil
+        end
     end
 end
 

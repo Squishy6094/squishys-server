@@ -1360,7 +1360,7 @@ end
 function mario_update(m)
     local e = gMarioStateExtras[m.playerIndex]
 
-    if _G.ssExists then
+    if _G.ssBooted then
         sonicchars = _G.ssApi.option_read("Sonic: Rebooted")
     end
 

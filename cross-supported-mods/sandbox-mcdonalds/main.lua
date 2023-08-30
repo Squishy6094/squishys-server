@@ -27,7 +27,7 @@ function notifynewplayers()
 end
 
 function check_status_change()
-    if not _G.ssExists then return end
+    if not _G.ssBooted then return end
     -- Check if the status of the Toggle was changed, and set it back to 0
     if _G.ssApi.option_read("Warp to McDonald's") == 1 then
         warp_to_level(LEVEL_MCDONALDS, 1, 0)
