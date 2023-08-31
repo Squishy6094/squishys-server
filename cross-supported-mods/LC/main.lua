@@ -211,9 +211,8 @@ local function on_hud_render()
         update_timer = 0
     end
     play_music(0, 0, 0)
-    if not warped then
+    if gNetworkPlayers[0].currLevelNum ~= LEVEL_LUIGIS_CASINO then
         warp_to_level(LEVEL_LUIGIS_CASINO, 1, 0)
-        warped = true
     end
     audio_stream_play(music, false, 1)
     djui_hud_set_resolution(RESOLUTION_N64)
