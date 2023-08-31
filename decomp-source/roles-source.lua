@@ -182,7 +182,22 @@ function on_chat_message(m, msg)
     end
 end
 
-function roles_get_tag()
+function roles_get_tag(localIndex)
+    local rolestring = ""
+    if gPlayerSyncTable[localIndex].role ~= nil then
+        local args = split(gPlayerSyncTable[localIndex].role)
+        if tonumber(args[1]) > 3 and tonumber(args[1]) < 0 then
+            gPlayerSyncTable[localIndex].role = "-1"
+        end
+        if gPlayerSyncTable[localIndex].ismod then
+            args[#args + 1] = "5"
+        end
+
+        rolestring = ""
+        for i = 1, #args do
+            rolestring = rolestring .. " " .. rolestringTable[tonumber(args[i])](m.playerIndex)
+        end
+    end
     return rolestring
 end
 

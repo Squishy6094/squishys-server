@@ -74,8 +74,8 @@ end
 
 
 -- Roles Info --
-_G.ssApi.roles_tag = function ()
-    return roles_get_tag()
+_G.ssApi.roles_tag = function (localIndex)
+    return roles_get_tag(localIndex)
 end
 
 
