@@ -1,4 +1,5 @@
 BootupTimer = 0
+LoadingTimer = 0
 BootupInfo = "Initializing"
 
 -- Heavy optimization, I want this bitch to run clean
@@ -14,6 +15,7 @@ local opacity = 255
 hook_event(HOOK_ON_HUD_RENDER, function ()
     if BootupTimer < 150 then
         BootupTimer = BootupTimer + 1
+        LoadingTimer = LoadingTimer + 1
         opacity = 255
     elseif opacity > 0 then
         opacity = opacity - 3
@@ -30,6 +32,22 @@ hook_event(HOOK_ON_HUD_RENDER, function ()
     end
     djui_hud_set_color(0, 131, 0, opacity)
     djui_hud_render_texture_tile(get_texture_info("theme-default"), djui_hud_get_screen_width()*0.5 - 106, djui_hud_get_screen_height()*0.5 - 30, 0.33333333332, 1.17333333332, 0, 206, 176, 50)
+
+    djui_hud_set_color(255, 255, 255, opacity)
+    if opacity > 0 then
+        if LoadingTimer >= 48 then
+            djui_hud_render_texture_tile(get_texture_info("ssLoading"), djui_hud_get_screen_width() - 40, djui_hud_get_screen_height() - 40, 1, 1, 32, 32, 32, 32)
+        elseif LoadingTimer >= 32 and LoadingTimer < 48 then
+            djui_hud_render_texture_tile(get_texture_info("ssLoading"), djui_hud_get_screen_width() - 40, djui_hud_get_screen_height() - 40, 1, 1, 0, 32, 32, 32)
+        elseif LoadingTimer >= 16 and LoadingTimer < 32 then
+            djui_hud_render_texture_tile(get_texture_info("ssLoading"), djui_hud_get_screen_width() - 40, djui_hud_get_screen_height() - 40, 1, 1, 32, 0, 32, 32)
+        elseif LoadingTimer < 16 then
+            djui_hud_render_texture_tile(get_texture_info("ssLoading"), djui_hud_get_screen_width() - 40, djui_hud_get_screen_height() - 40, 1, 1, 0, 0, 32, 32)
+        end
+        if LoadingTimer > 63 then
+            LoadingTimer = 0
+        end
+    end
 end)
 
 --Pervent all inputs
