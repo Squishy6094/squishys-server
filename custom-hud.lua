@@ -412,12 +412,52 @@ function hud_render()
         lifeIcon = "Default"
     end
     djui_hud_render_element("Lives", m.numLives, lifeIcon)
-    djui_hud_render_element("Coins", m.numCoins, gTextures.coin)
+    if themeTable[menuTable[2][3].status].name == "Wario World" then
+        djui_hud_render_element("Coins", m.numCoins, get_texture_info("wario-bag"))
+    else
+        djui_hud_render_element("Coins", m.numCoins, gTextures.coin)
+    end
     djui_hud_render_element("Stars", m.numStars, gTextures.star)
     if _G.PersonalStarCounter ~= nil then
         _G.PersonalStarCounter.hide_star_counters(true)
         djui_hud_render_element("RedStars", _G.PersonalStarCounter.get_star_counter(), gTextures.star)
         djui_hud_render_element("GreenStars", _G.PersonalStarCounter.get_total_star_counter(), gTextures.star)
+    end
+
+    if oWario > 0 then
+        if warioTimer < 31 then
+            warioTimer = warioTimer + 1
+        end
+        if warioTimer >= 30 then
+            oWario = oWario - 3
+        end
+    end
+
+    if not warioChallengeComplete and warioChallenge ~= nil and gNetworkPlayers[0].modelIndex == 4 then
+        djui_hud_set_font(FONT_HUD)
+        djui_hud_set_color(255, 255, 255, oWario)
+        if menuTable[2][1].status == 0 or menuTable[2][1].status == 1 then
+            djui_hud_render_texture(get_texture_info("wario-bag"), halfScreenWidth + 8, djui_hud_get_screen_height() * 0.135, 1, 1)
+            djui_hud_set_color(255, 255, 0, oWario)
+            djui_hud_print_text("x", halfScreenWidth + 24, djui_hud_get_screen_height() * 0.135, 1)
+            djui_hud_print_text(tostring(warioChallenge), halfScreenWidth + 38, djui_hud_get_screen_height() * 0.135, 1)
+        elseif menuTable[2][1].status == 2 then
+            djui_hud_render_texture(get_texture_info("wario-bag"), 15, djui_hud_get_screen_height() * 0.31, 1, 1)
+            djui_hud_set_color(255, 255, 0, oWario)
+            djui_hud_print_text(tostring(warioChallenge), 25, djui_hud_get_screen_height() * 0.335, 1)
+        elseif menuTable[2][1].status == 3 then
+            djui_hud_render_texture(get_texture_info("wario-bag"), djui_hud_get_screen_width() - 45 - djui_hud_measure_text(tostring(warioChallenge)), djui_hud_get_screen_height() * 0.9, 1, 1)
+            djui_hud_set_color(255, 255, 0, oWario)
+            djui_hud_print_text("x", djui_hud_get_screen_width() - 29 - djui_hud_measure_text(tostring(warioChallenge)), djui_hud_get_screen_height() * 0.9, 1)
+            djui_hud_print_text(tostring(warioChallenge), djui_hud_get_screen_width() - djui_hud_measure_text(tostring(warioChallenge)) - 15, djui_hud_get_screen_height() * 0.9, 1)
+        end
+    end
+
+    if warioChallenge > 0 and warioChallenge % 100 == 0 and not playedWarioSound then
+        audio_stream_play(audio_stream_load("EXCELLENT.mp3"), true, 2)
+        playedWarioSound = true
+    elseif warioChallenge > 0 and warioChallenge % 100 ~= 0 then
+        playedWarioSound = false
     end
 
     djui_hud_get_screen_height()

@@ -11,7 +11,6 @@ local djui_hud_set_resolution = djui_hud_set_resolution
 local djui_hud_set_font = djui_hud_set_font
 local djui_hud_set_color = djui_hud_set_color
 local djui_hud_print_text = djui_hud_print_text
-local wariobag = get_texture_info("wario-bag")
 
 local KBTranslate = 0
 
@@ -37,7 +36,7 @@ function save_load(reset)
     end
 end
 
-local warioChallengeComplete = false
+warioChallengeComplete = false
 function theme_load()
     for i = 1, maxThemes do
         themeTable[i] = nil
@@ -193,10 +192,10 @@ local descSlide = -100
 local bobbingVar = 0
 local bobbingStatus = true
 local bobbing = -2.1
-local oWario = 0
-local warioTimer = 0
-local warioChallenge = 0
-local playedWarioSound = false
+oWario = 0
+warioTimer = 0
+warioChallenge = 0
+playedWarioSound = false
 
 local voteTimer = 3600
 local voteSlide = -150
@@ -951,42 +950,6 @@ function displaymenu()
         end
     else
         voteTimer = 3600
-    end
-
-    if oWario > 0 then
-        if warioTimer < 31 then
-            warioTimer = warioTimer + 1
-        end
-        if warioTimer >= 30 then
-            oWario = oWario - 3
-        end
-    end
-
-    if not warioChallengeComplete and warioChallenge ~= nil and gNetworkPlayers[0].modelIndex == 4 then
-        djui_hud_set_font(FONT_HUD)
-        djui_hud_set_color(255, 255, 255, oWario)
-        if menuTable[2][1].status == 0 or menuTable[2][1].status == 1 then
-            djui_hud_render_texture(wariobag, halfScreenWidth + 8, djui_hud_get_screen_height() * 0.135, 1, 1)
-            djui_hud_set_color(255, 255, 0, oWario)
-            djui_hud_print_text("x", halfScreenWidth + 24, djui_hud_get_screen_height() * 0.135, 1)
-            djui_hud_print_text(tostring(warioChallenge), halfScreenWidth + 38, djui_hud_get_screen_height() * 0.135, 1)
-        elseif menuTable[2][1].status == 2 then
-            djui_hud_render_texture(wariobag, 15, djui_hud_get_screen_height() * 0.31, 1, 1)
-            djui_hud_set_color(255, 255, 0, oWario)
-            djui_hud_print_text(tostring(warioChallenge), 25, djui_hud_get_screen_height() * 0.335, 1)
-        elseif menuTable[2][1].status == 3 then
-            djui_hud_render_texture(wariobag, djui_hud_get_screen_width() - 45 - djui_hud_measure_text(tostring(warioChallenge)), djui_hud_get_screen_height() * 0.9, 1, 1)
-            djui_hud_set_color(255, 255, 0, oWario)
-            djui_hud_print_text("x", djui_hud_get_screen_width() - 29 - djui_hud_measure_text(tostring(warioChallenge)), djui_hud_get_screen_height() * 0.9, 1)
-            djui_hud_print_text(tostring(warioChallenge), djui_hud_get_screen_width() - djui_hud_measure_text(tostring(warioChallenge)) - 15, djui_hud_get_screen_height() * 0.9, 1)
-        end
-    end
-
-    if warioChallenge > 0 and warioChallenge % 100 == 0 and not playedWarioSound then
-        audio_stream_play(audio_stream_load("EXCELLENT.mp3"), true, 2)
-        playedWarioSound = true
-    elseif warioChallenge > 0 and warioChallenge % 100 ~= 0 then
-        playedWarioSound = false
     end
 end
 
