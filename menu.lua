@@ -323,13 +323,14 @@ function displaymenu()
                     name = "HUD Type",
                     nameSave = "HUDSave",
                     status = tonumber(mod_storage_load("HUDSave")),
-                    statusMax = 3,
+                    statusMax = 4,
                     statusDefault = 0,
                     statusNames = {
                         [0] = "Default",
                         [1] = "4:3 Locked",
                         [2] = "Compact",
                         [3] = "Disabled",
+                        [4] = "Wario World"
                     },
                     description = {
                         "Changes which HUD the screen",
@@ -1215,6 +1216,7 @@ function update_theme_requirements(m)
     if not warioChallengeComplete then
         if warioChallenge >= 1000 then
             theme_unlock("Wario", "Collect 1000 Coins as Wario")
+            djui_chat_message_create("\\#ffff00\\This theme comes with a special Wario World HUD layout when used! Check it out!\\#ffffff\\")
             warioChallengeComplete = true
         end
     end

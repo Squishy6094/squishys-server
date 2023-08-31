@@ -303,11 +303,81 @@ function hud_render()
 
         BootupInfo = "Loaded Custom HUD Data"
     end
+
     if BootupTimer < 150 then return end
+
+    if themeTable[menuTable[2][3].status].name == "Wario World" then
+        menuTable[2][1].statusMax = 4
+        hudTable[#hudTable + 1] = {
+            name = "Wario World",
+            res = RESOLUTION_N64,
+            font = FONT_HUD,
+            ["Lives"] = {
+                alignment = {x = 0, y = 0},
+                shownElements = {icon = true, div = true, num = true},
+                iconOffset = {x = 21, y = 15},
+                xOffset = {x = 37, y = 15},
+                numOffset = {x = 51, y = 15},
+            },
+            ["Coins"] = {
+                alignment = {x = 0, y = 0},
+                shownElements = {icon = true, div = true, num = true},
+                iconOffset = {x = 21, y = 192},
+                xOffset = {x = 37, y = 192},
+                numOffset = {x = 51, y = 192},
+            },
+            ["Stars"] = {
+                alignment = {x = 0, y = 0},
+                shownElements = {icon = true, div = true, num = true},
+                iconOffset = {x = 21, y = 174},
+                xOffset = {x = 37, y = 174},
+                numOffset = {x = 51, y = 174},
+            },
+            ["RedStars"] = {
+                alignment = {x = 0, y = 0},
+                shownElements = {icon = true, div = true, num = true},
+                iconColor = {r = 255, g = 0, b = 0, o = 255},
+                scale = 1,
+                iconOffset = {x = 21, y = 156},
+                xOffset = {x = 37, y = 156},
+                numOffset = {x = 51, y = 156},
+            },
+            ["GreenStars"] = {
+                alignment = {x = 0, y = 0},
+                shownElements = {icon = true, div = true, num = true},
+                iconColor = {r = 0, g = 255, b = 0, o = 255},
+                scale = 1,
+                iconOffset = {x = 21, y = 138},
+                xOffset = {x = 37, y = 138},
+                numOffset = {x = 51, y = 138},
+            },
+            ["Compass"] = {
+                alignment = {x = 2, y = 2},
+                color = {r = 255, g = 255, b = 255, o = 255},
+                scale = 1,
+                compassShow = true,
+                compassOffset = {x = -52, y = -52},
+            },
+            ["Health"] = {
+                alignment = {x = 2, y = 0},
+                color = {r = 255, g = 255, b = 255, o = 255},
+                scale = 64,
+                meterShow = false,
+                meterOffset = {x = -70, y = 10},
+            }
+        }
+    else
+        if currHUD == 4 then
+            currHUD = 0
+            menuTable[2][1].status = 0
+        end
+        menuTable[2][1].statusMax = 3
+    end
+
     hud_hide()
+    currHUD = menuTable[2][1].status
     if menuTable[2][1].status == 3 then return end
     local m = gMarioStates[0]
-    currHUD = menuTable[2][1].status
 	if obj_get_first_with_behavior_id(id_bhvActSelector) ~= nil
 	or (m.action == ACT_END_PEACH_CUTSCENE
 	or m.action == ACT_CREDITS_CUTSCENE
@@ -414,6 +484,22 @@ function hud_render()
     djui_hud_render_element("Lives", m.numLives, lifeIcon)
     if themeTable[menuTable[2][3].status].name == "Wario World" then
         djui_hud_render_element("Coins", m.numCoins, get_texture_info("wario-bag"))
+        if currHUD == 4 then
+            local health = math.ceil(gMarioStates[0].health / 256) - 1
+            local xHealth = 21
+            if health > 0 then
+                for i = 0, health do
+                    if health - 2 >= 0 then
+                        djui_hud_render_texture_tile(get_texture_info("wwHeart"), xHealth, 210, 1, 1, 0, 0, 16, 16)
+                        health = health - 2
+                        xHealth = xHealth + 18
+                    elseif health - 1 >= 0 then
+                        djui_hud_render_texture_tile(get_texture_info("wwHeart"), xHealth, 210, 1, 1, 16, 0, 16, 16)
+                        health = health - 1
+                    end
+                end
+            end
+        end
     else
         djui_hud_render_element("Coins", m.numCoins, gTextures.coin)
     end
