@@ -1,3 +1,8 @@
+-- Compilation Info
+-- Website: https://www.luac.nl/simple/
+-- Encrypt Version: Lua 5.3.5
+-- Ensure that you compile with and without 64-bit for a-roles and a-roles-32
+
 -- 1 = Creator
 -- 2 = Developer
 -- 3 = Verified Host
@@ -63,10 +68,10 @@ local roleIDtable = {
     --Epic Gamer Squad (Verified Host)
     [397219199375769620] = "3", --Average
     [1092073683377455215] ="3", --Nut
-    --sm64ex-coop (Verified Host)
+    --sm64ex-coop-dx (Verified Host)
     [541396312608866305] = "3", --Mocha
     [164574042479656962] = "3", --Chilly
-
+    [837686580965015613] = "3", --Garlicker
 
     --Contributer
     [409438020870078486] = "4", --EmilyEmmi (The entire Roles System)
@@ -195,7 +200,7 @@ function roles_get_tag(localIndex)
 
         rolestring = ""
         for i = 1, #args do
-            rolestring = rolestring .. " " .. rolestringTable[tonumber(args[i])](m.playerIndex)
+            rolestring = rolestring .. " " .. rolestringTable[tonumber(args[i])](gMarioStates[i].playerIndex)
         end
     end
     return rolestring

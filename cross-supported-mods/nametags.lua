@@ -124,7 +124,7 @@ local function split(s)
 end
 
 local function on_hud_render()
-    if gGlobalSyncTable.dist == 0 or (not showSelfTag and network_player_connected_count() == 1) or not gNetworkPlayers[0].currAreaSyncValid or obj_get_first_with_behavior_id(id_bhvActSelector) ~= nil or not _G.ssBooted then return end
+    if gGlobalSyncTable.dist == 0 or (not showSelfTag and network_player_connected_count() == 1) or not gNetworkPlayers[0].currAreaSyncValid or obj_get_first_with_behavior_id(id_bhvActSelector) ~= nil or not _G.ssBooted or _G.ssApi.menu_open() then return end
 
     djui_hud_set_resolution(RESOLUTION_N64)
     djui_hud_set_font(FONT_NORMAL)
@@ -142,8 +142,8 @@ local function on_hud_render()
                 scale = clampf(1 - scale, 0, MAX_SCALE)
             end
             local name = name_without_hex(gNetworkPlayers[i].name)
-            if _G.ssExists then
-                name = name.." ".._G.ssApi.roles_tag(i)
+            if _G.ssExists and _G.ssApi.roles_tag(i) ~= "" then
+                name = name.." "..name_without_hex(_G.ssApi.roles_tag(i))
             end
             local color = { r = 162, g = 202, b = 234 }
             network_player_palette_to_color(gNetworkPlayers[i], SHIRT, color)

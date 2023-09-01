@@ -1,2 +1,0 @@
-[Website] = https://www.luac.nl/simple/
-[Encrypt Type] = Lua 5.3.6
