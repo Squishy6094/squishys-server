@@ -314,7 +314,7 @@ function hud_render()
             font = FONT_HUD,
             ["Lives"] = {
                 alignment = {x = 0, y = 0},
-                shownElements = {icon = true, div = true, num = true},
+                shownElements = {icon = false, div = false, num = false},
                 iconOffset = {x = 21, y = 15},
                 xOffset = {x = 37, y = 15},
                 numOffset = {x = 51, y = 15},
@@ -499,6 +499,20 @@ function hud_render()
                     end
                 end
             end
+            djui_hud_render_texture_tile(get_texture_info("wwHeart"), 93, 210, 1, 1, 0, 16, 16, 16)
+            djui_hud_set_color(96, 255, 96, 255)
+            if gMarioStates[0].numLives == 1 then
+                djui_hud_print_text(tostring(gMarioStates[0].numLives), 96.5, 214.5, 0.5)
+            elseif gMarioStates[0].numLives < 10 then
+                djui_hud_print_text(tostring(gMarioStates[0].numLives), 97.25, 214.5, 0.5)
+            elseif gMarioStates[0].numLives >= 10 and gMarioStates[0].numLives < 20 then
+                djui_hud_print_text(tostring(gMarioStates[0].numLives), 93.5, 214.5, 0.5)
+            elseif gMarioStates[0].numLives >= 20 and gMarioStates[0].numLives < 100 then
+                djui_hud_print_text(tostring(gMarioStates[0].numLives), 94.25, 214.5, 0.5)
+            else
+                djui_hud_print_text(tostring(gMarioStates[0].numLives), 90.5, 214.5, 0.5)
+            end
+            djui_hud_set_color(255, 255, 255, 255)
         end
     else
         djui_hud_render_element("Coins", m.numCoins, gTextures.coin)
