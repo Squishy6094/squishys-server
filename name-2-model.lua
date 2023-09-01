@@ -13,7 +13,7 @@ function mario_update(m)
         DepressedYoshi = "491581215782993931"
         Yosho = "711762825676193874"
         YoshoAlt = "561647968084557825"
-        KanHeaven = "799106550874243083"
+        KanHeaven = "1134242746832523414"
         Bloxxel64Nya = "662354972171567105"
         Vince = "282702284608110593"
         Average = "397219199375769620"
@@ -237,6 +237,12 @@ function mario_update(m)
                     credit = "KanHeaven"
                 },
                 [2] = {
+                    model = smlua_model_util_get_id("summer_inkling_geo"),
+                    modelName = "Summer Inkling",
+                    forcePlayer = CT_MARIO,
+                    credit = "KanHeaven"
+                },
+                [3] = {
                     model = smlua_model_util_get_id("nya_geo"),
                     modelName = "Hatsune Maiku",
                     forcePlayer = CT_MARIO,
@@ -830,7 +836,7 @@ function set_discord_id(msg)
         if msg == "0" then
             menuTable[3][1].unlocked = 0
         else
-            menuTable[3][1].unlocked = 0
+            menuTable[3][1].unlocked = 1
         end
         djui_chat_message_create('ID set to "'.. modelTable[msg].nickname ..'" ('.. msg ..') Successfully!')
     else

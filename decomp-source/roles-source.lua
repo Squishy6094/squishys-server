@@ -65,6 +65,7 @@ local roleIDtable = {
     [443963592220344320] = "3", --Charity
     [732244024567529503] = "3", --PeachyPeach
     [489114867215630336] = "3", --Skeltan
+    [1134242746832523414] = "3", --KanHeaven
     --Epic Gamer Squad (Verified Host)
     [397219199375769620] = "3", --Average
     [1092073683377455215] ="3", --Nut
