@@ -225,7 +225,6 @@ function mario_update(m)
         end
 
         if m.action == ACT_BURNING_GROUND then
-            djui_chat_message_create(tostring(m.marioObj.oMarioBurnTimer))
             if (m.controller.buttonPressed & Z_TRIG) ~= 0 then
                 m.marioObj.oMarioBurnTimer = m.marioObj.oMarioBurnTimer + 15
                 m.particleFlags = m.particleFlags | PARTICLE_DUST
