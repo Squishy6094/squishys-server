@@ -34,7 +34,6 @@ local TECH_KB = {
   
 }
 local tech_tmr = 0
-local burn_press = 0
 local slopetimer = 0
 
 z = 0
@@ -226,15 +225,11 @@ function mario_update(m)
         end
 
         if m.action == ACT_BURNING_GROUND then
+            djui_chat_message_create(tostring(m.marioObj.oMarioBurnTimer))
             if (m.controller.buttonPressed & Z_TRIG) ~= 0 then
-                burn_press = burn_press + 1
+                m.marioObj.oMarioBurnTimer = m.marioObj.oMarioBurnTimer + 15
                 m.particleFlags = m.particleFlags | PARTICLE_DUST
                 play_sound(SOUND_GENERAL_FLAME_OUT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-            end
-            if burn_press >= 5 then
-                m.marioObj.oMarioBurnTimer = 161
-                m.hurtCounter = 0
-                set_mario_action(m, ACT_WALKING, 0)
             end
         end
         --Instant Slope Jump--
@@ -601,9 +596,6 @@ function on_set_mario_action(m)
     --Tech action
     if TECH_KB[m.action] then
         tech_tmr = 0
-    end
-    if m.action ~= ACT_BURNING_GROUND then
-        burn_press = 0
     end
 
     --Swim Star Anim--
