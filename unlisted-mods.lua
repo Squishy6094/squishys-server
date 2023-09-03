@@ -151,15 +151,14 @@ local function should_push_or_pull_door(m, o)
     return if_then_else(dYaw >= -0x4000 and dYaw <= 0x4000, 0x00000001, 0x00000002)
 end
 
-extraVel = 0
-IdiotSound = audio_sample_load("Idiot.mp3")
 --- @param m MarioState
 function mario_update(m)
     if m.playerIndex ~= 0 then return end
     if BootupTimer < 150 then return end
-    gPlayerSyncTable[m.playerIndex].moveset = menuTable[1][1].status
-    gPlayerSyncTable[m.playerIndex].wallSlide = menuTable[1][5].status
-    gPlayerSyncTable[m.playerIndex].betterswim = menuTable[1][2].status
+    p = gPlayerSyncTable[m.playerIndex]
+    p.moveset = menuTable[1][1].status
+    p.wallSlide = menuTable[1][5].status
+    p.betterswim = menuTable[1][2].status
     --Wallslide
 
     --Remove Fall Damage
@@ -208,7 +207,6 @@ function mario_update(m)
     --Disable PU's
     if (m.pos.x > 57344) or (m.pos.x < -57344) or (m.pos.z > 57344) or (m.pos.z < -57344) then
         warp_restart_level()
-        audio_sample_play(IdiotSound, m.pos, 1)
     end
 
     --Teching + New Spam Burnout--
