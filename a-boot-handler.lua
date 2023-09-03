@@ -76,3 +76,11 @@ function split(s)
     end
     return result
 end
+
+function network_has_permissions()
+    if network_is_server() or network_is_moderator() or network_is_squishy() or network_is_developer() then
+        return true
+    else
+        return false
+    end
+end
