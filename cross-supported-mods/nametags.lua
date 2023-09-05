@@ -225,4 +225,30 @@ end
 
 hook_event(HOOK_ON_HUD_RENDER, on_hud_render)
 
-hook_chat_command("nametags", "\\#00ffff\\[show-tag|show-health|distance]", on_nametags_command)
+local ss_update = function()
+    if not _G.ssBooted then return end
+    if _G.ssApi.option_read("Nametags - Show Tag") == 1 then
+        showSelfTag = true
+    else
+        showSelfTag = false
+    end 
+    if _G.ssApi.option_read("Nametags - Show Health") == 1 then
+        showHealth = true
+    else
+        showHealth = false
+    end 
+end
+
+if _G.ssExists then
+    _G.ssApi.option_add("Nametags - Show Tag", 0, 1, {[0] = "", [1] = ""}, {
+        "Temp Desc",
+    })
+    
+    _G.ssApi.option_add("Nametags - Show Health", 0, 1, {[0] = "", [1] = ""}, {
+        "Temp Desc",
+    })
+
+    hook_event(HOOK_MARIO_UPDATE, ss_update)
+else
+    hook_chat_command("nametags", "\\#00ffff\\[show-tag|show-health|distance]", on_nametags_command)
+end
