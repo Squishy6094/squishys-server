@@ -1377,8 +1377,6 @@ function update()
     end
 end
 
-
-
 hook_event(HOOK_ON_HUD_RENDER, displaymenu)
 hook_event(HOOK_BEFORE_MARIO_UPDATE, before_update)
 hook_event(HOOK_MARIO_UPDATE, update_theme_requirements)

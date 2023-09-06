@@ -124,7 +124,7 @@ local function split(s)
 end
 
 local function on_hud_render()
-    if gGlobalSyncTable.dist == 0 or (not showSelfTag and network_player_connected_count() == 1) or not gNetworkPlayers[0].currAreaSyncValid or obj_get_first_with_behavior_id(id_bhvActSelector) ~= nil or not _G.ssBooted or _G.ssApi.menu_open() then return end
+    if gGlobalSyncTable.dist == 0 or (not showSelfTag and network_player_connected_count() == 1) or not gNetworkPlayers[0].currAreaSyncValid or obj_get_first_with_behavior_id(id_bhvActSelector) ~= nil or (_G.ssExists and (not _G.ssBooted or _G.ssApi.menu_open())) then return end
 
     djui_hud_set_resolution(RESOLUTION_N64)
     djui_hud_set_font(FONT_NORMAL)
@@ -240,15 +240,17 @@ local ss_update = function()
 end
 
 if _G.ssExists then
-    _G.ssApi.option_add("Nametags - Show Tag", 0, 1, {[0] = "", [1] = ""}, {
-        "Temp Desc",
+    _G.ssApi.option_add("Nametags - Show Tag", 0, 1, {}, {
+        "Toggles your own nametag,",
+        "Default is Off",
     })
     
-    _G.ssApi.option_add("Nametags - Show Health", 0, 1, {[0] = "", [1] = ""}, {
-        "Temp Desc",
+    _G.ssApi.option_add("Nametags - Show Health", 1, 1, {}, {
+        "Toggles showing health above",
+        "the nametag, Default is On"
     })
 
     hook_event(HOOK_MARIO_UPDATE, ss_update)
-else
-    hook_chat_command("nametags", "\\#00ffff\\[show-tag|show-health|distance]", on_nametags_command)
 end
+
+hook_chat_command("nametags", "\\#00ffff\\[show-tag|show-health|distance]", on_nametags_command)
