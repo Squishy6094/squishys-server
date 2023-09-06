@@ -8,9 +8,6 @@ local djui_hud_set_rotation = djui_hud_set_rotation
 local djui_hud_get_screen_width = djui_hud_get_screen_width
 local djui_hud_get_screen_height = djui_hud_get_screen_height
 
-
-
-
 function djui_hud_set_adjusted_color(r, g, b, a)
     local multiplier = 1
     if is_game_paused() then multiplier = 0.5 end

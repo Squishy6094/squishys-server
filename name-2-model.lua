@@ -1,3 +1,19 @@
+--[[
+-------------------------------------------
+-- Name-2-Model Addition Do's and Don'ts --
+-------------------------------------------
+
+Do:
+Unique Characters/Outfits that add to the Character
+(Mawio, Builder Mario, Casino Luigi, etc.)
+
+Don't:
+Alt Models that would work better as just a locally used DynOS Pack 
+(HD Mario, R96 Mario, DS Mario, Beta Luigi, Better Toad, etc.)
+
+Avoid Models Seen in Mods such as Mario or Luigi Skin Pack Mod, While some are unique most are just basic modifications
+--]]
+
 --- @param m MarioState
 function mario_update(m)
     if BootupTimer == 90 and m.playerIndex ~= 0 then
@@ -41,7 +57,6 @@ function mario_update(m)
         Dani = "922231782131265588"
         Brob = "1000555727942865036"
         Dakun = "358779634625806347"
-        Loganti = "801151972609622029"
         Ryley = "839155992091820053"
 
         modelTable = {
@@ -710,25 +725,10 @@ function mario_update(m)
             [Dakun] = {
                 nickname = "Dakun",
                 [1] = {
-                    model = smlua_model_util_get_id("ds_geo"),
-                    modelName = "SM64DS Mario",
-                    forcePlayer = CT_MARIO,
-                    credit = "FluffaMario"
-                },
-                [2] = {
                     model = smlua_model_util_get_id("mawio_geo"),
                     modelName = "Mawio :3",
                     forcePlayer = CT_MARIO,
                     credit = "sm64rise"
-                }
-            },
-            [Loganti] = {
-                nickname = "Loganti",
-                [1] = {
-                    model = smlua_model_util_get_id("hd_mario_geo"),
-                    modelName = "HD Mario",
-                    forcePlayer = CT_MARIO,
-                    credit = "MSatiro"
                 }
             },
             [Ryley] = {
