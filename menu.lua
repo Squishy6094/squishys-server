@@ -189,9 +189,8 @@ end
 local noLoopSound = true
 
 local descSlide = -100
-local bobbingVar = 0
-local bobbingStatus = true
-local bobbing = -2.1
+local bobbing = 0
+local bobbingInt = 0
 oWario = 0
 warioTimer = 0
 warioChallenge = 0
@@ -692,15 +691,8 @@ function displaymenu()
         noLoopSound = false
 
         if menuTable[2][5].status == 1 then
-            if math.abs(bobbingVar) > 100 then
-                bobbingStatus = not bobbingStatus
-            end
-            if bobbingStatus then
-                bobbingVar = bobbingVar + 1
-            else
-                bobbingVar = bobbingVar - 1
-            end
-            bobbing = bobbing + bobbingVar*0.00041666666
+            bobbingInt = bobbingInt + 0.01
+            bobbing = math.sin(bobbingInt)*2
             if descSlide < -1 then
                 descSlide = descSlide*0.83333333333
             end
