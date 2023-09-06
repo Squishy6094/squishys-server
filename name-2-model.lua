@@ -9,10 +9,8 @@ Models:
     (Mawio, Builder Mario, Casino Luigi, etc.)
 
     Don't:
-    Alt Models that would work better as just a locally used DynOS Pack 
-    (HD Mario, R96 Mario, DS Mario, Beta Luigi, Better Toad, etc.)
-
-    Avoid Models Seen in Mods such as Mario or Luigi Skin Pack Mod, While some are unique most are just basic modifications
+    Alt Models that would work better as just a locally used DynOS Pack, Avoid Basic Mario Modifications
+    (R96 Mario, Retro Mario, Beta Luigi, Better Toad, etc.)
 
 Users:
     Do:
@@ -797,7 +795,14 @@ function set_discord_id(msg)
         else
             menuTable[3][1].unlocked = 1
         end
-        djui_chat_message_create('ID set to "'.. modelTable[msg].nickname ..'" ('.. msg ..') Successfully!')
+        local modelString = ""
+        for i = 1, #modelTable[discordID] do
+            modelString = modelString..modelTable[discordID][i].modelName
+            if i ~= #modelTable[discordID] then
+                modelString = modelString..", "
+            end
+        end
+        djui_chat_message_create('Name-2-Model User set to "'.. modelTable[msg].nickname ..'" Successfully!\nUser ID: '.. msg ..'\nModel Count: '..#modelTable[discordID]..'\nModels: '..modelString)
     else
         djui_chat_message_create("Invalid ID Entered")
     end
