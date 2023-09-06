@@ -3,64 +3,32 @@
 -- Name-2-Model Addition Do's and Don'ts --
 -------------------------------------------
 
-Do:
-Unique Characters/Outfits that add to the Character
-(Mawio, Builder Mario, Casino Luigi, etc.)
+Models:
+    Do:
+    Unique Characters/Outfits that add to the Character
+    (Mawio, Builder Mario, Casino Luigi, etc.)
 
-Don't:
-Alt Models that would work better as just a locally used DynOS Pack 
-(HD Mario, R96 Mario, DS Mario, Beta Luigi, Better Toad, etc.)
+    Don't:
+    Alt Models that would work better as just a locally used DynOS Pack 
+    (HD Mario, R96 Mario, DS Mario, Beta Luigi, Better Toad, etc.)
 
-Avoid Models Seen in Mods such as Mario or Luigi Skin Pack Mod, While some are unique most are just basic modifications
+    Avoid Models Seen in Mods such as Mario or Luigi Skin Pack Mod, While some are unique most are just basic modifications
+
+Users:
+    Do:
+    Active/Well-Known Users that will commonly play on SS when it's Public
+
+    Don't:
+    Banned/Inactive/Controverstial Users that the community overall wouldn't agree with their inclusion
+
+    We still include users such as sm64rise in the offchance they join, and Mawio is already used by so many other people anyways.
 --]]
 
 --- @param m MarioState
 function mario_update(m)
     if BootupTimer == 90 and m.playerIndex ~= 0 then
-        -- Name = Discord ID
-        Default = "0"
-        Squishy = "678794043018182675"
-        Spoomples = "1028561407433777203"
-        Nut = "1092073683377455215"
-        Cosmic = "767513529036832799"
-        Trashcam = "827596624590012457"
-        Skeltan = "489114867215630336"
-        AgentX = "490613035237507091"
-        DepressedYoshi = "491581215782993931"
-        Yosho = "711762825676193874"
-        YoshoAlt = "561647968084557825"
-        KanHeaven = "1134242746832523414"
-        Bloxxel64Nya = "662354972171567105"
-        Vince = "282702284608110593"
-        Average = "397219199375769620"
-        Elby = "673582558507827221"
-        Crispyman = "817821798363955251"
-        Butter = "759464398946566165"
-        Mathew = "873511038551724152"
-        Peachy = "732244024567529503"
-        Eros = "376304957168812032"
-        Oquanaut = "459762042274840587"
-        RedBun = "426548210790825984"
-        Dvk = "542676894244536350"
-        KitKat = "664638362484867121"
-        Rise = "371344058167328768"
-        Yuyake = "397891541160558593"
-        Plusle = "635629441678180362"
-        Frosty = "541396312608866305"
-        Shard = "1064980922371420313"
-        Isaackie = "1093357396920901643"
-        TroopaParaKoopa = "984667169738600479"
-        floofyxd = "1091528175575642122"
-        flipflop = "603198923120574494"
-        Koffee = "397847847283720193"
-        Uoker = "401406794649436161"
-        Dani = "922231782131265588"
-        Brob = "1000555727942865036"
-        Dakun = "358779634625806347"
-        Ryley = "839155992091820053"
-
         modelTable = {
-            [Default] = {
+            ["0"] = {
                 nickname = "Default",
                 [0] = {
                     model = nil,
@@ -73,7 +41,7 @@ function mario_update(m)
                     icon = "Default",
                 },
             },
-            [Squishy] = {
+            ["678794043018182675"] = {
                 nickname = "Squishy",
                 [1] = {
                     model = smlua_model_util_get_id("squishy_geo"),
@@ -101,7 +69,7 @@ function mario_update(m)
                     credit = "sm64rise"
                 }
             },
-            [Spoomples] = {
+            ["1028561407433777203"] = {
                 nickname = "Spoomples",
                 [1] = {
                     model = smlua_model_util_get_id("ss_toad_player_geo"),
@@ -124,7 +92,7 @@ function mario_update(m)
                     credit = "Trashcam"
                 },
             },
-            [Nut] = {
+            ["1092073683377455215"] = {
                 nickname = "Nut",
                 [1] = {
                     model = smlua_model_util_get_id("n64_goomba_player_geo"),
@@ -159,7 +127,7 @@ function mario_update(m)
                     credit = "AlexXRGames"
                 },
             },
-            [Cosmic] = {
+            ["767513529036832799"] = {
                 nickname = "Cosmic",
                 [1] = {
                     model = smlua_model_util_get_id("cosmic_geo"),
@@ -169,7 +137,7 @@ function mario_update(m)
                     credit = "Cosmic(Wo)Man08"
                 }
             },
-            [Trashcam] = {
+            ["827596624590012457"] = {
                 nickname = "Trashcam",
                 [1] = {
                     model = smlua_model_util_get_id("trashcam_geo"),
@@ -193,7 +161,7 @@ function mario_update(m)
                     credit = "Trashcam"
                 }
             },
-            [Skeltan] = {
+            ["489114867215630336"] = {
                 nickname = "Skeltan",
                 [1] = {
                     model = smlua_model_util_get_id("woop_geo"),
@@ -203,7 +171,7 @@ function mario_update(m)
                     credit = "6b"
                 }
             },
-            [AgentX] = {
+            ["490613035237507091"] = {
                 nickname = "Agent X",
                 [1] = {
                     model = smlua_model_util_get_id("gordon_geo"),
@@ -218,7 +186,7 @@ function mario_update(m)
                 }
 
             },
-            [DepressedYoshi] = {
+            ["491581215782993931"] = {
                 nickname = "Depressed Yoshi",
                 [1] = {
                     model = smlua_model_util_get_id("yoshi_player_geo"),
@@ -233,7 +201,7 @@ function mario_update(m)
                     credit = "DepressedYoshi"
                 },
             },
-            [Yosho] = {
+            ["561647968084557825"] = {
                 nickname = "Yosho",
                 [1] = {
                     model = smlua_model_util_get_id("yoshi_player_geo"),
@@ -242,7 +210,7 @@ function mario_update(m)
                     credit = "CheesyNacho"
                 }
             },
-            [KanHeaven] = {
+            ["1134242746832523414"] = {
                 nickname = "KanHeaven",
                 [1] = {
                     model = smlua_model_util_get_id("kan_geo"),
@@ -264,7 +232,7 @@ function mario_update(m)
                     icon = "Default"
                 }
             },
-            [Bloxxel64Nya] = {
+            ["662354972171567105"] = {
                 nickname = "Bloxxel",
                 [1] = {
                     model = smlua_model_util_get_id("nya_geo"),
@@ -273,7 +241,7 @@ function mario_update(m)
                     icon = "Default"
                 }
             },
-            [Vince] = {
+            ["282702284608110593"] = {
                 nickname = "0x2480",
                 [1] = {
                     model = smlua_model_util_get_id("croc_geo"),
@@ -283,7 +251,7 @@ function mario_update(m)
                     credit = "0x2480"
                 }
             },
-            [Average] = {
+            ["397219199375769620"] = {
                 nickname = "Average <3",
                 [1] = {
                     model = smlua_model_util_get_id("natsuki_geo"),
@@ -305,7 +273,7 @@ function mario_update(m)
                     credit = "TheAnkleDestroyer"
                 }
             },
-            [Elby] = {
+            ["673582558507827221"] = {
                 nickname = "Elby",
                 [1] = {
                     model = smlua_model_util_get_id("elby_geo"),
@@ -353,7 +321,7 @@ function mario_update(m)
                     credit = "brob2nd"
                 }
             },
-            [Crispyman] = {
+            ["817821798363955251"] = {
                 nickname = "Crispy",
                 [1] = {
                     model = smlua_model_util_get_id("wario_man_geo"),
@@ -411,7 +379,7 @@ function mario_update(m)
                     credit = "TheAnkleDestroyer"
                 }
             },
-            [Butter] = {
+            ["759464398946566165"] = {
                 nickname = "Butter",
                 [1] = {
                     model = smlua_model_util_get_id("nya_geo"),
@@ -419,7 +387,7 @@ function mario_update(m)
                     forcePlayer = CT_MARIO
                 }
             },
-            [Mathew] = {
+            ["873511038551724152"] = {
                 nickname = "Mathew",
                 [1] = {
                     model = smlua_model_util_get_id("mathew_geo"),
@@ -428,7 +396,7 @@ function mario_update(m)
                     credit = "Mathew"
                 }
             },
-            [Peachy] = {
+            ["732244024567529503"] = {
                 nickname = "PeachyPeach",
                 [1] = {
                     model = smlua_model_util_get_id("peach_player_geo"),
@@ -436,7 +404,7 @@ function mario_update(m)
                     forcePlayer = CT_MARIO
                 },
             },
-            [Eros] = {
+            ["376304957168812032"] = {
                 nickname = "Eros71",
                 [1] = {
                     model = smlua_model_util_get_id("eros_geo"),
@@ -445,7 +413,7 @@ function mario_update(m)
                     credit = "Eros71"
                 },
             },
-            [Oquanaut] = {
+            ["459762042274840587"] = {
                 nickname = "Oqua",
                 [1] = {
                     model = smlua_model_util_get_id("oqua_geo"),
@@ -454,7 +422,7 @@ function mario_update(m)
                     credit = "Oquanaut"
                 }
             },
-            [RedBun] = {
+            ["426548210790825984"] = {
                 nickname = "Jonch",
                 [1] = {
                     model = smlua_model_util_get_id("yoshi_player_geo"),
@@ -463,7 +431,7 @@ function mario_update(m)
                     credit = "CheesyNacho"
                 },
             },
-            [Dvk] = {
+            ["542676894244536350"] = {
                 nickname = "Floralys",
                 [1] = {
                     model = smlua_model_util_get_id("crudelo_geo"),
@@ -515,7 +483,7 @@ function mario_update(m)
                     credit = "Cheesester, ER1CK"
                 }
             },
-            [KitKat] = {
+            ["664638362484867121"] = {
                 nickname = "KitKat",
                 [1] = {
                     model = smlua_model_util_get_id("pepperman_geo"),
@@ -525,7 +493,7 @@ function mario_update(m)
                     credit = "CheesyNacho"
                 }
             },
-            [Rise] = {
+            ["371344058167328768"] = {
                 nickname = "sm64rise",
                 [1] = {
                     model = smlua_model_util_get_id("mawio_geo"),
@@ -535,7 +503,7 @@ function mario_update(m)
                     credit = "sm64rise"
                 }
             },
-            [Yuyake] = {
+            ["397891541160558593"] = {
                 nickname = "Yuyake",
                 [1] = {
                     model = smlua_model_util_get_id("yuyake_geo"),
@@ -550,7 +518,7 @@ function mario_update(m)
                     credit = "Yuyake"
                 }
             },
-            [Plusle] = {
+            ["635629441678180362"] = {
                 nickname = "Plus",
                 [1] = {
                     model = smlua_model_util_get_id("veph_geo"),
@@ -605,7 +573,7 @@ function mario_update(m)
                     credit = "TheAnkleDestroyer"
                 }
             },
-            [Frosty] = {
+            ["541396312608866305"] = {
                 nickname = "Frosty",
                 [1] = {
                     model = smlua_model_util_get_id("ski_geo"),
@@ -614,7 +582,7 @@ function mario_update(m)
                     credit = "BBPanzu / Port by SunSpirit",
                 },
             },
-            [Shard] = {
+            ["1064980922371420313"] = {
                 nickname = "Archie",
                 [1] = {
                     model = smlua_model_util_get_id("archie_geo"),
@@ -624,16 +592,7 @@ function mario_update(m)
                     credit = "Trashcam",
                 },
             },
-            [TroopaParaKoopa] = {
-                nickname = "TroopaParaKoopa",
-                [1] = {
-                    model = smlua_model_util_get_id("koopa_geo"),
-                    modelName = "Koopa Shell Mario",
-                    forcePlayer = CT_MARIO,
-                    credit = "sm64mods & Brob2nd",
-                },
-            },
-            [floofyxd] = {
+            ["1091528175575642122"] = {
                 nickname = "Floofy",
                 [1] = {
                     model = smlua_model_util_get_id("boyfriend_geo"),
@@ -642,7 +601,7 @@ function mario_update(m)
                     credit = "KuroButt",
                 },
             },
-            [flipflop] = {
+            ["603198923120574494"] = {
                 nickname = "Flipflop Bell",
                 [1] = {
                     model = smlua_model_util_get_id("amy_geo"),
@@ -650,7 +609,7 @@ function mario_update(m)
                     forcePlayer = CT_MARIO,
                 },
             },
-            [Koffee] = {
+            ["397847847283720193"] = {
                 nickname = "KoffeeMood",
                 [1] = {
                     model = smlua_model_util_get_id("lime_geo"),
@@ -667,7 +626,7 @@ function mario_update(m)
                     credit = "Trashcam",
                 },
             },
-            [Uoker] = {
+            ["401406794649436161"] = {
                 nickname = "Uoker",
                 [1] = {
                     model = smlua_model_util_get_id("ari_geo"),
@@ -677,7 +636,7 @@ function mario_update(m)
                     credit = "Trashcam",
                 },
             },
-            [Dani] = {
+            ["922231782131265588"] = {
                 nickname = "Dani",
                 [1] = {
                     model = smlua_model_util_get_id("mawio_geo"),
@@ -687,7 +646,7 @@ function mario_update(m)
                     credit = "sm64rise"
                 },
             },
-            [Brob] = {
+            ["1000555727942865036"] = {
                 nickname = "Brob2nd",
                 [1] = {
                     model = smlua_model_util_get_id("dk_geo"),
@@ -722,7 +681,7 @@ function mario_update(m)
                     credit = "Endood, AquariusAlexx and Brobgonal"
                 },
             },
-            [Dakun] = {
+            ["358779634625806347"] = {
                 nickname = "Dakun",
                 [1] = {
                     model = smlua_model_util_get_id("mawio_geo"),
@@ -731,7 +690,7 @@ function mario_update(m)
                     credit = "sm64rise"
                 }
             },
-            [Ryley] = {
+            ["839155992091820053"] = {
                 nickname = "Ryley",
                 [1] = {
                     model = smlua_model_util_get_id("ski_geo"),
