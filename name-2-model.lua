@@ -28,7 +28,7 @@ Users:
 function mario_update(m)
     if BootupTimer == 90 and m.playerIndex ~= 0 then
         modelTable = {
-            ["0"] = {
+            ["0"] = { -- Unregistered users will be set to 0
                 nickname = "Default",
                 [0] = {
                     model = nil,
@@ -41,8 +41,8 @@ function mario_update(m)
                     icon = "Default",
                 },
             },
-            ["678794043018182675"] = {
-                nickname = "Squishy",
+            ["678794043018182675"] = { -- Registered Users now use the raw ID in their table
+                nickname = "Squishy", -- We can still Identify People via this nickname varible
                 [1] = {
                     model = smlua_model_util_get_id("squishy_geo"),
                     modelName = "Squishy",
