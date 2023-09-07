@@ -237,9 +237,11 @@ local function on_hud_render()
             set_override_skybox(4)
         end
         if gMarioStates[0].pos.y >= (gMarioStates[0].waterLevel - 350) then
+            djui_hud_set_rotation(math.sin(gMarioStates[0].area.camera.yaw/2)*0x1000, 0, 0)
             for i = 0, 500 do
-                djui_hud_render_texture(particle, math.random(resx), math.random(resy), 0.005, 0.03)
+                djui_hud_render_rect(math.random(resx), math.random(resy), 1, math.random(6, 18))
             end
+            djui_hud_set_rotation(0, 0, 0)
         end
     else -- If it's sunny or the rain doesn't want to come to you then nothing changes lmao
         if gGlobalSyncTable.sandstorm and gNetworkPlayers[0].currCourseNum == COURSE_SSL then
