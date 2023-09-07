@@ -154,11 +154,14 @@ local network_is_server = network_is_server
 local djui_hud_print_text = djui_hud_print_text
 
 local show_x = 0
+local camMath = 0
 local function on_hud_render()
     local resx = djui_hud_get_screen_width()
     local resy = djui_hud_get_screen_height()
     djui_hud_set_resolution(RESOLUTION_N64)
     djui_hud_set_render_behind_hud(true)
+
+    local rainTilt = 0x700
 
     local r = 0
     local g = 0
@@ -170,6 +173,7 @@ local function on_hud_render()
     end
 
     if gGlobalSyncTable.windy and wind_compatible and gNetworkPlayers[0].currLevelNum ~= LEVEL_CASTLE then
+        rainTilt = rainTilt + 0xA00
         if gNetworkPlayers[0].currAreaIndex == 2 then
             if gNetworkPlayers[0].currCourseNum == COURSE_THI then
                 wind_compatible = true
@@ -202,6 +206,7 @@ local function on_hud_render()
         --djui_hud_set_color(255, 255, 255, 255)
         --djui_hud_print_text("Britain", (resx/10), (resy/50), 1)
         if gGlobalSyncTable.thunderstorm then
+            rainTilt = rainTilt + 0x1000
             set_lighting_dir(1, -1)
             r, g, b, a = 0, 0, 0, 186
             djui_hud_set_color(255, 255, 255, opacity)
@@ -237,7 +242,12 @@ local function on_hud_render()
             set_override_skybox(4)
         end
         if gMarioStates[0].pos.y >= (gMarioStates[0].waterLevel - 350) then
-            djui_hud_set_rotation(math.sin(gMarioStates[0].area.camera.yaw/2)*0x1000, 0, 0)
+            if gMarioStates[0].area.camera.yaw ~= nil then
+                camMath = gMarioStates[0].area.camera.yaw/0x2800
+            end
+            djui_hud_set_rotation(math.sin(camMath)*rainTilt, 0, 0)
+            --djui_chat_message_create("Raw: "..camMath)
+            --djui_chat_message_create("Sin: "..math.sin(camMath))
             for i = 0, 500 do
                 djui_hud_render_rect(math.random(resx), math.random(resy), 1, math.random(6, 18))
             end
