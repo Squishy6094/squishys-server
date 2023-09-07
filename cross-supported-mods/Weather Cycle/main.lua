@@ -1,6 +1,7 @@
--- name: [SS] Weather Cycle
+-- name: Weather Cycle
 -- description: \\#00ffff\\Weather Cycle v1.2.1\\#ffffff\\\n\nThis mod features wind, rain, thunderstorms, blizzards and sandstorms! Not only do they alter the game's atmosphere in different ways, they also alter your gameplay in various ways such as slippery ground when raining, lightning bolts to avoid, dust you shouldn't inhale... And more!\n\nMod made by \\#2b0013\\Floralys\\#ffffff\\ and special thanks to \\#ec7731\\ Agent X\\#ffffff\\ for helping with fixing an annoying glitch that disabled warps (v1.0).
 
+local particle = get_texture_info("rain") -- i spent approximatively 30 seconds on that texture
 local sand_spot = get_texture_info("sand")
 gGlobalSyncTable.is_raining = false
 gGlobalSyncTable.sandstorm = false
@@ -231,7 +232,7 @@ local function on_hud_render()
         djui_hud_set_color(r, g, b, a)
         djui_hud_render_rect(0, 0, resx, resy)
         if gGlobalSyncTable.thunderstorm then
-            djui_hud_set_color(128, 255, 255, math.random(0,92))
+            djui_hud_set_color(128, 255, 255, math.random(0,128))
         else
             djui_hud_set_color(128, 255, 255, math.random(0,255))
         end
@@ -248,7 +249,7 @@ local function on_hud_render()
             --djui_chat_message_create("Raw: "..camMath)
             --djui_chat_message_create("Sin: "..math.sin(camMath))
             for i = 0, 500 do
-                djui_hud_render_rect(math.random(resx), math.random(resy), 0.2, 15)
+                djui_hud_render_rect(math.random(resx), math.random(resy), 1, math.random(6, 18))
             end
             djui_hud_set_rotation(0, 0, 0)
         end
