@@ -1,4 +1,4 @@
--- name: Weather Cycle
+-- name: [SS] Weather Cycle
 -- description: \\#00ffff\\Weather Cycle v1.2.1\\#ffffff\\\n\nThis mod features wind, rain, thunderstorms, blizzards and sandstorms! Not only do they alter the game's atmosphere in different ways, they also alter your gameplay in various ways such as slippery ground when raining, lightning bolts to avoid, dust you shouldn't inhale... And more!\n\nMod made by \\#2b0013\\Floralys\\#ffffff\\ and special thanks to \\#ec7731\\ Agent X\\#ffffff\\ for helping with fixing an annoying glitch that disabled warps (v1.0).
 
 local sand_spot = get_texture_info("sand")
