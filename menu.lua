@@ -1162,11 +1162,10 @@ function update_theme_requirements(m)
     if m.playerIndex ~= 0 then return end
     if BootupTimer < 150 then return end
     --Uoker Check
-    if network_discord_id_from_local_index(0) == "401406794649436161" and gGlobalSyncTable.event ~= "Space Lady Landed" then
-        gGlobalSyncTable.event = "Space Lady Landed"
-    end
-    if gGlobalSyncTable.event == "Space Lady Landed" then
-        theme_unlock("Uoker", "Smile and wait for her arrival and wait and wa wai  smile and sm SMILESMILESMILESMILEthe stars")
+    for i = 0, MAX_PLAYERS - 1 do 
+        if network_discord_id_from_local_index(i) == "401406794649436161" then
+            theme_unlock("Uoker", "Smile and wait for her arrival and wait and wa wai  smile and sm SMILESMILESMILESMILEthe stars")
+        end
     end
     --Fucking Dead Check
     if (m.action == ACT_SHOCKED or m.action == ACT_WATER_SHOCKED) and m.health == 255 then

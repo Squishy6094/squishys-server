@@ -64,17 +64,21 @@ end
 
 
 -- Name-2-Model Info --
-_G.ssApi.name2model_get_ID = function()
+_G.ssApi.name2model_get_ID = function() -- Returns User's current the Name-2-Model ID
     return discordID
 end
 
-_G.ssApi.name2model_get_nickname = function ()
+_G.ssApi.name2model_get_nickname = function () -- Returns the User's Nickname
     return modelTable[discordID].nickname
+end
+
+_G.ssApi.name2model_get_model_name = function () -- Returns the User's Current Model Name
+    return modelTable[discordID][menuTable[3][1].status].modelName
 end
 
 
 -- Roles Info --
-_G.ssApi.roles_tag = function (localIndex)
+_G.ssApi.roles_tag = function (localIndex) -- Returns the User's Roles String (if they have any)
     return roles_get_tag(localIndex)
 end
 
@@ -109,4 +113,17 @@ end
 _G.ssApi.theme_get_texture = function (themeNumber) -- Returns the texture info
     if themeNumber == nil then themeNumber = menuTable[2][3].status end
     return themeTable[themeNumber].texture
+end
+
+_G.ssApi.theme_unlock = function (themeString, themeexplain) -- Unlocks a theme as long as it exists in SS
+    theme_unlock(themeString, themeexplain)
+end
+
+-- Event Management --
+_G.ssApi.event = function (eventString) -- Returns or Sets the current event (Useful for mod collabs)
+    if eventString ~= nil then
+        gGlobalSyncTable.event = eventString
+    else
+        return gGlobalSyncTable.event
+    end
 end
