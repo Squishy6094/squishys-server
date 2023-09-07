@@ -399,7 +399,8 @@ function mario_update(m)
                 [1] = {
                     model = smlua_model_util_get_id("peach_player_geo"),
                     modelName = "Princess Peach",
-                    forcePlayer = CT_MARIO
+                    forcePlayer = CT_MARIO,
+                    credit = "Cheesester, ER1CK"
                 },
             },
             ["376304957168812032"] = {
@@ -467,7 +468,7 @@ function mario_update(m)
                     credit = "MSatiro"
                 },
                 [6] = {
-                    model = smlua_model_util_get_id("peach_geo"),
+                    model = smlua_model_util_get_id("peach_player_geo"),
                     modelName = "Princess Peach",
                     forcePlayer = CT_MARIO,
                     icon = "Default",
