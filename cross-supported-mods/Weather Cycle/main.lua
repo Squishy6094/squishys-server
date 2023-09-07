@@ -1,7 +1,6 @@
--- name: Weather Cycle
+-- name: [SS] Weather Cycle
 -- description: \\#00ffff\\Weather Cycle v1.2.1\\#ffffff\\\n\nThis mod features wind, rain, thunderstorms, blizzards and sandstorms! Not only do they alter the game's atmosphere in different ways, they also alter your gameplay in various ways such as slippery ground when raining, lightning bolts to avoid, dust you shouldn't inhale... And more!\n\nMod made by \\#2b0013\\Floralys\\#ffffff\\ and special thanks to \\#ec7731\\ Agent X\\#ffffff\\ for helping with fixing an annoying glitch that disabled warps (v1.0).
 
-local particle = get_texture_info("rain") -- i spent approximatively 30 seconds on that texture
 local sand_spot = get_texture_info("sand")
 gGlobalSyncTable.is_raining = false
 gGlobalSyncTable.sandstorm = false
@@ -227,7 +226,7 @@ local function on_hud_render()
         djui_hud_set_color(r, g, b, a)
         djui_hud_render_rect(0, 0, resx, resy)
         if gGlobalSyncTable.thunderstorm then
-            djui_hud_set_color(128, 255, 255, math.random(0,128))
+            djui_hud_set_color(128, 255, 255, math.random(0,92))
         else
             djui_hud_set_color(128, 255, 255, math.random(0,255))
         end
@@ -239,7 +238,7 @@ local function on_hud_render()
         if gMarioStates[0].pos.y >= (gMarioStates[0].waterLevel - 350) then
             djui_hud_set_rotation(math.sin(gMarioStates[0].area.camera.yaw/2)*0x1000, 0, 0)
             for i = 0, 500 do
-                djui_hud_render_rect(math.random(resx), math.random(resy), 1, math.random(6, 18))
+                djui_hud_render_rect(math.random(resx), math.random(resy), 0.2, 15)
             end
             djui_hud_set_rotation(0, 0, 0)
         end
