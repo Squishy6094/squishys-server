@@ -250,8 +250,14 @@ local function on_hud_render()
             djui_hud_set_rotation(math.sin(camMath)*rainTilt, 0, 0)
             --djui_chat_message_create("Raw: "..camMath)
             --djui_chat_message_create("Sin: "..math.sin(camMath))
-            for i = 0, math.random(150, 250) do
-                djui_hud_render_rect(math.random(resx), math.random(resy), 0.3, 15)
+            if particleToggle then
+                for i = 0, 500 do
+                    djui_hud_render_rect(math.random(resx), math.random(resy), 0.3, 15)
+                end
+            else
+                for i = 0, math.random(150, 250) do
+                    djui_hud_render_rect(math.random(resx), math.random(resy), 0.3, 15)
+                end
             end
             djui_hud_set_rotation(0, 0, 0)
         end
