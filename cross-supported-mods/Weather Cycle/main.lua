@@ -243,7 +243,7 @@ local function on_hud_render()
         else
             set_override_skybox(4)
         end
-        if gMarioStates[0].pos.y >= (gMarioStates[0].waterLevel - 350) and particleToggle then
+        if gMarioStates[0].pos.y >= (gMarioStates[0].waterLevel - 350) then
             if gMarioStates[0].area.camera ~= nil then
                 camMath = gMarioStates[0].area.camera.yaw/0x2800
             end
