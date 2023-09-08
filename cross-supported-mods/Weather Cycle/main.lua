@@ -231,9 +231,9 @@ local function on_hud_render()
         djui_hud_set_color(r, g, b, a)
         djui_hud_render_rect(0, 0, resx, resy)
         if gGlobalSyncTable.thunderstorm then
-            djui_hud_set_color(128, 255, 255, math.random(0,92))
+            djui_hud_set_color(128, 255, 255, math.random(50,92))
         else
-            djui_hud_set_color(128, 255, 255, math.random(0,255))
+            djui_hud_set_color(128, 255, 255, math.random(50,255))
         end
         if gGlobalSyncTable.thunderstorm then
             set_override_skybox(9)
@@ -247,7 +247,7 @@ local function on_hud_render()
             djui_hud_set_rotation(math.sin(camMath)*rainTilt, 0, 0)
             --djui_chat_message_create("Raw: "..camMath)
             --djui_chat_message_create("Sin: "..math.sin(camMath))
-            for i = 0, 500 do
+            for i = 0, math.random(150, 250) do
                 djui_hud_render_rect(math.random(resx), math.random(resy), 0.3, 15)
             end
             djui_hud_set_rotation(0, 0, 0)
@@ -562,7 +562,15 @@ local function render_menu()
 
     if menu or sliding >= 0 then -- 124 154
         djui_hud_set_color(255, 255, 255, 255)
-        --djui_hud_render_rect(20 - sliding, 50, 120, 150)
+        -- djui_hud_render_rect(20 - sliding, 50, 120, 150)
+        --[[
+            WIP SS Themes
+        if _G.ssBooted and _G.ssApi.option_read("Menu Theme") ~= 0 then
+            djui_hud_render_texture_tile(_G.ssApi.theme_get_texture(), 18 - sliding, 48, 0.78181818181, 0.72115384615, 0, 0, 176, 205)
+        else
+            djui_hud_render_texture_tile(menu_bg, 18 - sliding, 48, 1.24, 1, 0, 0, 124, 154)
+        end
+        --]]
         djui_hud_render_texture_tile(menu_bg, 18 - sliding, 48, 1.24, 1, 0, 0, 124, 154)
         djui_hud_set_color(0, 0, 0, 192)
         djui_hud_render_rect(25 - sliding, 160, 110, 36)
