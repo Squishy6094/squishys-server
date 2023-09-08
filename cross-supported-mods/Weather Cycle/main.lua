@@ -542,7 +542,7 @@ local function render_menu()
     djui_hud_set_resolution(RESOLUTION_N64)
 
     if network_is_server() then
-        if gMarioStates[0].controller.buttonPressed & L_TRIG ~= 0 and not _G.ssExists then
+        if gMarioStates[0].controller.buttonPressed & L_TRIG ~= 0 then
             if menu then play_sound(SOUND_MENU_MESSAGE_APPEAR, gMarioStates[0].marioObj.header.gfx.cameraToObject) end
             if not menu then play_sound(SOUND_MENU_MESSAGE_DISAPPEAR, gMarioStates[0].marioObj.header.gfx.cameraToObject) end
             menu = not menu
@@ -697,10 +697,6 @@ local function menu_changes(m)
                 gGlobalSyncTable.wind_timer = 0
                 gGlobalSyncTable.windy = false
             end
-        end
-
-        if m.controller.buttonPressed & B_BUTTON ~= 0 and _G.ssExists then
-            menu = false
         end
 
         m.controller.buttonPressed = m.controller.buttonPressed & ~U_JPAD
