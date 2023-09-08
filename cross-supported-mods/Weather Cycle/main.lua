@@ -38,6 +38,7 @@ local opacity = 0
 
 local menu_bg = get_texture_info("menubg")
 local menu = false
+local particleToggle = true
 local optionHover = 1
 
 local menuOptions = {
@@ -186,12 +187,14 @@ local function on_hud_render()
             else
                 show_x = 100
             end
-            for j = 0, show_x do
-                djui_hud_set_color(math.random(128, 255), math.random(128, 255), math.random(128, 255), math.random(0, 32))
-                if gGlobalSyncTable.wind_orient == 1 then
-                    djui_hud_render_texture(wind_tex, math.random(resx), math.random(resy), 2, 0.5)
-                elseif gGlobalSyncTable.wind_orient == 2 then
-                    djui_hud_render_texture(wind_tex2, math.random(resx), math.random(resy), 2, 0.5)
+            if particleToggle then
+                for j = 0, show_x do
+                    djui_hud_set_color(math.random(128, 255), math.random(128, 255), math.random(128, 255), math.random(0, 32))
+                    if gGlobalSyncTable.wind_orient == 1 then
+                        djui_hud_render_texture(wind_tex, math.random(resx), math.random(resy), 2, 0.5)
+                    elseif gGlobalSyncTable.wind_orient == 2 then
+                        djui_hud_render_texture(wind_tex2, math.random(resx), math.random(resy), 2, 0.5)
+                    end
                 end
             end
             audio_stream_play(wind, false, 4)
@@ -240,7 +243,7 @@ local function on_hud_render()
         else
             set_override_skybox(4)
         end
-        if gMarioStates[0].pos.y >= (gMarioStates[0].waterLevel - 350) then
+        if gMarioStates[0].pos.y >= (gMarioStates[0].waterLevel - 350) and particleToggle then
             if gMarioStates[0].area.camera ~= nil then
                 camMath = gMarioStates[0].area.camera.yaw/0x2800
             end
@@ -260,9 +263,11 @@ local function on_hud_render()
                 djui_hud_set_render_behind_hud(true)
                 djui_hud_render_rect(0, 0, 3000, 3000)
                 set_override_skybox(1)
-                djui_hud_set_color(255, 255, 255, 8)
-                for j = 0, 500 do
-                    djui_hud_render_texture(sand_spot, math.random(resx), math.random(resy), 0.1, 0.1)
+                if particleToggle then
+                    djui_hud_set_color(255, 255, 255, 8)
+                    for j = 0, 500 do
+                        djui_hud_render_texture(sand_spot, math.random(resx), math.random(resy), 0.1, 0.1)
+                    end
                 end
             end
         else
@@ -715,6 +720,11 @@ local function weather(msg)
     end
 end
 
+local function particles(msg)
+    particleToggle = not particleToggle
+    return true
+end
+
 local function softlock() -- /respawn (you die. like, seriously. you die.)
     gMarioStates[0].health = 0
     gMarioStates[0].numLives = gMarioStates[0].numLives + 1
@@ -726,6 +736,11 @@ local ss_update = function()
     if _G.ssApi.option_read("Weather Menu") == 1 then
         weather("menu")
         _G.ssApi.option_write("Weather Menu", 0)
+    end 
+    if _G.ssApi.option_read("Weather Particles") == 1 then
+        particleToggle = true
+    else
+        particleToggle = false
     end 
     if _G.ssApi.option_read("Respawn") == 1 then
         softlock()
@@ -745,6 +760,11 @@ if _G.ssExists then
         "using this command.",
         "Host Only",
     })
+
+    _G.ssApi.option_add("Weather Particles", 1, 1, {}, {
+        "Toggles Particles such as Rain",
+        "Reduces Lag at the cost of detail",
+    })
     
     _G.ssApi.option_add("Respawn", 0, 1, {[0] = "", [1] = ""}, {
         "If you ever end up permanently",
@@ -755,6 +775,7 @@ if _G.ssExists then
     hook_event(HOOK_MARIO_UPDATE, ss_update)
 else
     hook_chat_command("weather", "menu -\\#00ffff\\ [Weather Cycle]\\#ffffff\\ Open the Weather Cycle menu using this command. \\#ffff00\\[Host Command]", weather)
+    hook_chat_command("wc-particles", "- \\#00ffff\\[Weather Cycle]\\#ffffff\\ Toggles Particles such as Rain, Reduces Lag at the cost of detail", particles)
     hook_chat_command("respawn", "- \\#00ffff\\[Weather Cycle]\\#ffffff\\ If you ever end up permanently stuck while sliding, use this. Or if you just want to die...", softlock)
 end
 
