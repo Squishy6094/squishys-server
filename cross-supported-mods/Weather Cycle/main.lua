@@ -565,18 +565,19 @@ local function render_menu()
         end
     end
 
-    if menu or sliding >= 0 then -- 124 154
-        djui_hud_set_color(255, 255, 255, 255)
+    if menu or sliding >= 1 then -- 124 154
         -- djui_hud_render_rect(20 - sliding, 50, 120, 150)
-        --[[
-            WIP SS Themes
         if _G.ssBooted and _G.ssApi.option_read("Menu Theme") ~= 0 then
-            djui_hud_render_texture_tile(_G.ssApi.theme_get_texture(), 18 - sliding, 48, 0.78181818181, 0.72115384615, 0, 0, 176, 205)
+            djui_hud_set_color(0, 0, 0, 255)
+            djui_hud_render_rect(18 - sliding, 48, 124, 154)
+            djui_hud_set_color(255, 255, 255, 255)
+            djui_hud_render_texture_tile(_G.ssApi.theme_get_texture(), 20 - sliding, 50, 0.793, 0.730769231, 0, 0, 176, 205)
+            djui_hud_set_color(255, 255, 255, 50)
+            djui_hud_render_texture_tile(menu_bg, 18 - sliding, 48, 1.24, 1, 0, 0, 124, 154)
         else
+            djui_hud_set_color(255, 255, 255, 255)
             djui_hud_render_texture_tile(menu_bg, 18 - sliding, 48, 1.24, 1, 0, 0, 124, 154)
         end
-        --]]
-        djui_hud_render_texture_tile(menu_bg, 18 - sliding, 48, 1.24, 1, 0, 0, 124, 154)
         djui_hud_set_color(0, 0, 0, 192)
         djui_hud_render_rect(25 - sliding, 160, 110, 36)
         djui_hud_render_rect(22 - sliding, 87, 116, (14.1 * #menuOptions))
