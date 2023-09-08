@@ -231,9 +231,9 @@ local function on_hud_render()
         djui_hud_set_color(r, g, b, a)
         djui_hud_render_rect(0, 0, resx, resy)
         if gGlobalSyncTable.thunderstorm then
-            djui_hud_set_color(128, 255, 255, math.random(50,92))
+            djui_hud_set_color(128, 255, 255, math.random(0,92))
         else
-            djui_hud_set_color(128, 255, 255, math.random(50,255))
+            djui_hud_set_color(128, 255, 255, math.random(0,255))
         end
         if gGlobalSyncTable.thunderstorm then
             set_override_skybox(9)
