@@ -1,5 +1,5 @@
--- name: [SS] Weather Cycle
--- description: \\#00ffff\\Weather Cycle v1.2.1\\#ffffff\\\n\nThis mod features wind, rain, thunderstorms, blizzards and sandstorms! Not only do they alter the game's atmosphere in different ways, they also alter your gameplay in various ways such as slippery ground when raining, lightning bolts to avoid, dust you shouldn't inhale... And more!\n\nMod made by \\#2b0013\\Floralys\\#ffffff\\ and special thanks to \\#ec7731\\ Agent X\\#ffffff\\ for helping with fixing an annoying glitch that disabled warps (v1.0).
+-- name: Weather Cycle v1.3
+-- description: \\#00ffff\\Weather Cycle v1.3\\#ffffff\\\n\nThis mod features wind, rain, thunderstorms, blizzards and sandstorms! Not only do they alter the game's atmosphere in different ways, they also alter your gameplay in various ways such as slippery ground when raining, lightning bolts to avoid, dust you shouldn't inhale... And more!\n\nMod made by \\#2b0013\\Floralys\\#ffffff\\ and special thanks to \\#ec7731\\ Agent X\\#ffffff\\ and \\#007700\\Squishy\\#ffffff\\ for helping / certain features.
 
 local sand_spot = get_texture_info("sand")
 gGlobalSyncTable.is_raining = false
@@ -118,7 +118,7 @@ end
 
 if network_is_server() then
     if _G.ssExists then
-        djui_popup_create("\\#00ffff\\[Weather Cycle]\\#ffffff\\\nAs the host, you have access to the\nWeather Cycle menu.\nAccess it via the External Tab", 4)
+        djui_popup_create("\\#00ffff\\[SS - Weather Cycle]\\#ffffff\\\nAs the host, you have access to the\nWeather Cycle menu.\nAccess it via the External Tab!", 4)
     else
         djui_popup_create("\\#00ffff\\[Weather Cycle]\\#ffffff\\\nAs the host, you have access to the\nWeather Cycle menu.\nAccess it by typing '/weather menu'\nor by pressing L!", 5)
     end
@@ -243,7 +243,7 @@ local function on_hud_render()
         else
             set_override_skybox(4)
         end
-        if gMarioStates[0].pos.y >= (gMarioStates[0].waterLevel - 350) then
+        if gMarioStates[0].pos.y >= (gMarioStates[0].waterLevel - 350) and particleToggle then
             if gMarioStates[0].area.camera ~= nil then
                 camMath = gMarioStates[0].area.camera.yaw/0x2800
             end
@@ -272,7 +272,7 @@ local function on_hud_render()
                 if particleToggle then
                     djui_hud_set_color(255, 255, 255, 8)
                     for j = 0, 500 do
-                        djui_hud_render_texture(sand_spot, math.random(resx), math.random(resy), 0.1, 0.1)
+                        djui_hud_render_texture(sand_spot, math.random(-100, resx + 100), math.random(-100, resy + 100), 2.5, 2.5)
                     end
                 end
             end
@@ -778,7 +778,7 @@ if _G.ssExists then
     hook_event(HOOK_MARIO_UPDATE, ss_update)
 else
     hook_chat_command("weather", "menu -\\#00ffff\\ [Weather Cycle]\\#ffffff\\ Open the Weather Cycle menu using this command. \\#ffff00\\[Host Command]", weather)
-    hook_chat_command("wc-particles", "- \\#00ffff\\[Weather Cycle]\\#ffffff\\ Toggles Particles such as Rain, Reduces Lag at the cost of detail", particles)
+    hook_chat_command("wc-particles", "- \\#00ffff\\[Weather Cycle]\\#ffffff\\ Toggles particles such as rain, reduces lag at the cost of detail.", particles)
     hook_chat_command("respawn", "- \\#00ffff\\[Weather Cycle]\\#ffffff\\ If you ever end up permanently stuck while sliding, use this. Or if you just want to die...", softlock)
 end
 
@@ -786,3 +786,4 @@ end
 -- v1.1.2 changes: improved visual effects for blizzards and thunderstorms
 -- v1.2 concept: windy weather state, need to figure out how to get certain particles to appear as intended
 -- v1.2 changes: windy state + weather cycle menu
+-- v1.3 changes: SS Cross Support finished + sick tricks!!!!
