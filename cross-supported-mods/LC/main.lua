@@ -184,7 +184,7 @@ local b = {32, 255, 0, 255, 255, 0, 100, 128, 0, 0}
 
 local function on_hud_render()
     if not inGame then return end
-    if _G.ssBooted and _G.ssApi.menu_open() then _G.ssApi.menu_open(false) end
+    if _G.ssExists and _G.ssBooted and _G.ssApi.menu_open() then _G.ssApi.menu_open(false) end
     update_timer = update_timer + 1
     if update_timer % 1800 == 0 then
         mod_storage_save("Coins", tostring(coins))
