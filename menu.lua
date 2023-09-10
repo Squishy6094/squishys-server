@@ -679,10 +679,6 @@ function displaymenu()
         end
     end
 
-    if _G.lcExists and _G.lcInGame then
-        menu = false
-    end
-
     if menu then
         djui_hud_set_resolution(RESOLUTION_N64)
         if noLoopSound and themeTable[menuTable[2][3].status].sound ~= nil then
