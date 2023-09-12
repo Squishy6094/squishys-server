@@ -396,6 +396,25 @@ function displaymenu()
                         "Toggled Off)"
                     }
                 },
+                [6] = {
+                    name = "Timer",
+                    nameSave = "TimerSave",
+                    status = tonumber(mod_storage_load("TimerSave")),
+                    statusMax = 3,
+                    statusDefault = 0,
+                    statusNames = {
+                        [0] = "Off",
+                        [1] = "In Level",
+                        [2] = "Room Opened",
+                        [3] = "Since Joined",
+                        [4] = "Total Play Time",
+                    },
+                    description = {
+                        "Toggles a Pizza Tower Type",
+                        "Timer that displays whatever",
+                        "you choose",
+                    }
+                },
             },
             [3] = {
                 name = "Misc.",

@@ -1,19 +1,17 @@
 -- name: -Squishy's Server-
 -- description: \\#008800\\Squishy's Server\n\n\\#dcdcdc\\A Server Mod filled with a bunch of Quality of Life Mods and Customizability made to suit anyones play style!\n\n\\#AAAAFF\\Github:\nSQUISHY6094/squishys-server\n\n\\#FF0000\\This mod is not intended for public hosting by anyone other than Verified Hosts! Please only use this mod privatly!
 
-print("Connected to Server Successfully!")
-discordID = network_discord_id_from_local_index(0)
+------------
+-- Timers --
+------------
 
-if network_is_server() then
-    gGlobalSyncTable.RoomStart = get_time()
-    gGlobalSyncTable.event = "Default"
-    gGlobalSyncTable.shutdownTimer = nil
-end
 if gGlobalSyncTable.RoomStart ~= nil then
     RoomTime = string.format("%s:%s:%s", string.format("%02d", math.floor((get_time() - gGlobalSyncTable.RoomStart)/60/60)), string.format("%02d", math.floor((get_time() - gGlobalSyncTable.RoomStart)/60)%60), string.format("%02d", math.floor(get_time() - gGlobalSyncTable.RoomStart)%60))
 else
     RoomTime = "Unknown"
 end
+
+local JoinedAt = get_time()
 
 --------------
 -- Commands --
@@ -126,12 +124,14 @@ end
 
 function displayrules(m)
     if BootupTimer < 150 then return end
-    if (rules or menu) then
+    if rules or menu or menuTable[2][6].status ~= 0 then
         if gGlobalSyncTable.RoomStart ~= nil then
             RoomTime = string.format("%s:%s:%s", string.format("%02d", math.floor((get_time() - gGlobalSyncTable.RoomStart)/60/60)), string.format("%02d", math.floor((get_time() - gGlobalSyncTable.RoomStart)/60)%60), string.format("%02d", math.floor(get_time() - gGlobalSyncTable.RoomStart)%60))
         else
             RoomTime = "Unknown"
         end
+
+        JoinTime = string.format("%s:%s:%s", string.format("%02d", math.floor((get_time() - JoinedAt)/60/60)), string.format("%02d", math.floor((get_time() - JoinedAt)/60)%60), string.format("%02d", math.floor(get_time() - JoinedAt)%60))
     end
     
     if rules and offsetX < -1 then

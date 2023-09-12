@@ -10,6 +10,16 @@ local djui_hud_print_text = djui_hud_print_text
 local djui_hud_measure_text = djui_hud_measure_text
 local djui_hud_render_texture_tile = djui_hud_render_texture_tile
 
+-- Initialization
+print("Connected to Server Successfully!")
+discordID = network_discord_id_from_local_index(0)
+
+if network_is_server() then
+    gGlobalSyncTable.RoomStart = get_time()
+    gGlobalSyncTable.event = "Default"
+    gGlobalSyncTable.shutdownTimer = nil
+end
+
 local opacity = 255
 hook_event(HOOK_ON_HUD_RENDER, function ()
     if BootupTimer < 150 then

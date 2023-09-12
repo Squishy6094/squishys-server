@@ -114,6 +114,12 @@ function render_hud_radar(target, iconTexture, scale, x, y)
     djui_hud_set_rotation(0, 0, 0)
 end
 
+if _G.PersonalStarCounter ~= nil then
+    _G.PersonalStarCounter.hide_star_counters(true)
+end
+
+local prevLevel = 0
+local levelTimer = 0
 function hud_render()
     if BootupTimer == 120 then
         hudTable = {
@@ -556,8 +562,27 @@ function hud_render()
     elseif warioChallenge > 0 and warioChallenge % 100 ~= 0 then
         playedWarioSound = false
     end
-
-    djui_hud_get_screen_height()
+    
+    -- Timer --
+    if menuTable[2][6].status ~= 0 then
+        if menuTable[2][6].status == 1 then
+            if prevLevel ~= gNetworkPlayers[0].currCourseNum then
+                levelTimer = 0
+                prevLevel = gNetworkPlayers[0].currCourseNum
+            end
+            levelTimer = levelTimer + 1
+            timerString = string.format("%s:%s:%s", string.format("%02d", math.floor((get_time() - levelTimer)/60/60)), string.format("%02d", math.floor((get_time() - levelTimer)/60)%60), string.format("%02d", math.floor(get_time() - levelTimer)%60))
+        elseif menuTable[2][6].status == 2 then
+            timerString = RoomTime
+        elseif menuTable[2][6].status == 3 then
+        elseif menuTable[2][6].status == 4 then
+        end
+        djui_hud_set_font(FONT_TINY)
+        djui_hud_set_color(0, 0, 0, 150)
+        djui_hud_render_rect(djui_hud_get_screen_width() - djui_hud_measure_text(timerString) - 6, djui_hud_get_screen_height() - 18, djui_hud_measure_text(timerString) + 6, 50)
+        djui_hud_set_color(255, 255, 255, 255)
+        djui_hud_print_text(timerString, djui_hud_get_screen_width() - djui_hud_measure_text(timerString) - 3, djui_hud_get_screen_height() - 15, 1)
+    end
 end
 
 hook_event(HOOK_ON_HUD_RENDER, hud_render)
