@@ -65,7 +65,13 @@ function mario_update(m)
                     forcePlayer = CT_MARIO,
                     icon = 8,
                     credit = "sm64rise"
-                }
+                },  
+                [5] = {
+                    model = smlua_model_util_get_id("tuxmario_geo"),
+                    modelName = "Tuxedo Mario",
+                    forcePlayer = CT_MARIO,
+                    credit = "Brob2nd",
+                },
             },
             ["1028561407433777203"] = {
                 nickname = "Spoomples",
@@ -678,6 +684,18 @@ function mario_update(m)
                     modelName = "Tired",
                     forcePlayer = CT_MARIO,
                     credit = "Endood, AquariusAlexx and Brobgonal"
+                },
+                [6] = {
+                    model = smlua_model_util_get_id("tuxmario_geo"),
+                    modelName = "Tuxedo Mario",
+                    forcePlayer = CT_MARIO,
+                    credit = "Brob2nd",
+                },
+                [7] = {
+                    model = smlua_model_util_get_id("tuxluigi_geo"),
+                    modelName = "Tuxedo Luigi",
+                    forcePlayer = CT_LUIGI,
+                    credit = "Brob2nd",
                 },
             },
             ["358779634625806347"] = {
