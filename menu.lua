@@ -34,7 +34,13 @@ function save_load(reset)
             mod_storage_save("UnlockedTheme-"..i, "nil")
         end
     end
+
+    if mod_storage_load("SSplaytime") == nil or reset then
+        mod_storage_save("SSplaytime", "0")
+        LoadedSaveTime = 0
+    end
 end
+LoadedSaveTime = tonumber(mod_storage_load("SSplaytime"))
 
 warioChallengeComplete = false
 function theme_load()
@@ -400,7 +406,7 @@ function displaymenu()
                     name = "Timer",
                     nameSave = "TimerSave",
                     status = tonumber(mod_storage_load("TimerSave")),
-                    statusMax = 3,
+                    statusMax = 4,
                     statusDefault = 0,
                     statusNames = {
                         [0] = "Off",

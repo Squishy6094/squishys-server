@@ -309,19 +309,20 @@ function hud_render()
     if BootupTimer < 150 then return end
     
     -- Timer --
+    levelTimer = levelTimer + 1
     if menuTable[2][6].status ~= 0 then
         if menuTable[2][6].status == 1 then
             if prevLevel ~= gNetworkPlayers[0].currCourseNum then
                 levelTimer = 0
                 prevLevel = gNetworkPlayers[0].currCourseNum
             end
-            levelTimer = levelTimer + 1
             timerString = string.format("%s:%s.%s", string.format("%02d", math.floor(levelTimer/30/60)), string.format("%02d", math.floor(levelTimer/30)%60), string.format("%03d", math.floor((levelTimer*33.3333333333)%1000)))
         elseif menuTable[2][6].status == 2 then
             timerString = RoomTime
         elseif menuTable[2][6].status == 3 then
             timerString = JoinTime
         elseif menuTable[2][6].status == 4 then
+            timerString = SavedTimer
         end
         djui_hud_set_font(FONT_TINY)
         djui_hud_set_resolution(RESOLUTION_N64)

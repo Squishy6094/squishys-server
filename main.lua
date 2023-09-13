@@ -11,7 +11,7 @@ else
     RoomTime = "Unknown"
 end
 
-local JoinedAt = get_time()
+
 
 --------------
 -- Commands --
@@ -42,7 +42,7 @@ end
 
 function on_clear_command(msg)
     if msg ~= "confirm" then
-        djui_chat_message_create("Are you sure you want to do this? This will clear all Toggles and Themes from your save data!\nType \\#ff8888\\/ss clear-data confirm\\#ffffff\\ to confirm")
+        djui_chat_message_create("Are you sure you want to do this? This will clear all Toggles, Themes, and previous playtime from your save data!\nType \\#ff8888\\/ss clear-data confirm\\#ffffff\\ to confirm")
     else
         djui_chat_message_create("Clearing Squishy's Server Save Data...")
         save_load(true)
@@ -122,6 +122,13 @@ if mod_storage_load("RulesSave") ~= nil and mod_storage_load("RulesSave") ~= "1"
     firstRuleShow = false
 end
 
+local JoinedAt = get_time() + 5
+local saveTimerTimer = 0
+
+RoomTime = "00:00:00"
+JoinTime = "00:00:00"
+SavedTimer = "00:00:00"
+
 function displayrules(m)
     if BootupTimer < 150 then return end
     if rules or menu or menuTable[2][6].status ~= 0 then
@@ -132,6 +139,12 @@ function displayrules(m)
         end
 
         JoinTime = string.format("%s:%s:%s", string.format("%02d", math.floor((get_time() - JoinedAt)/60/60)), string.format("%02d", math.floor((get_time() - JoinedAt)/60)%60), string.format("%02d", math.floor(get_time() - JoinedAt)%60))
+        SavedTimer = string.format("%s:%s:%s", string.format("%02d", math.floor((LoadedSaveTime + get_time() - JoinedAt)/60/60)), string.format("%02d", math.floor((LoadedSaveTime + get_time() - JoinedAt)/60)%60), string.format("%02d", math.floor(LoadedSaveTime + get_time() - JoinedAt)%60))
+        if saveTimerTimer > 30 then
+            mod_storage_save("SSplaytime", tostring(LoadedSaveTime + get_time() - JoinedAt))
+        else
+            saveTimerTimer = saveTimerTimer + 1
+        end
     end
     
     if rules and offsetX < -1 then
