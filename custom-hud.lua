@@ -308,14 +308,14 @@ function hud_render()
     end
     if BootupTimer < 150 then return end
     
-    -- Timer --
+    -- Timers --
     levelTimer = levelTimer + 1
+    if prevLevel ~= gNetworkPlayers[0].currCourseNum then
+        levelTimer = 0
+        prevLevel = gNetworkPlayers[0].currCourseNum
+    end
     if menuTable[2][6].status ~= 0 then
         if menuTable[2][6].status == 1 then
-            if prevLevel ~= gNetworkPlayers[0].currCourseNum then
-                levelTimer = 0
-                prevLevel = gNetworkPlayers[0].currCourseNum
-            end
             timerString = string.format("%s:%s.%s", string.format("%02d", math.floor(levelTimer/30/60)), string.format("%02d", math.floor(levelTimer/30)%60), string.format("%03d", math.floor((levelTimer*33.3333333333)%1000)))
         elseif menuTable[2][6].status == 2 then
             timerString = RoomTime
