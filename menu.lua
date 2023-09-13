@@ -482,7 +482,7 @@ function displaymenu()
                     nameSave = "SSCSave",
                     status = tonumber(mod_storage_load("SSCSave")),
                     statusMax = 1,
-                    statusDefault = 1, 
+                    statusDefault = 0, 
                     description = {
                         "Toggles if Star Spawning",
                         "Cutscenes play, Recommended",
