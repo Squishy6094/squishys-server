@@ -571,7 +571,7 @@ function hud_render()
                 prevLevel = gNetworkPlayers[0].currCourseNum
             end
             levelTimer = levelTimer + 1
-            timerString = string.format("%s:%s:%s", string.format("%02d", math.floor((get_time() - levelTimer)/60/60)), string.format("%02d", math.floor((get_time() - levelTimer)/60)%60), string.format("%02d", math.floor(get_time() - levelTimer)%60))
+            timerString = string.format("%s:%s.%s", string.format("%02d", math.floor(levelTimer/30/60)), string.format("%02d", math.floor(levelTimer/30)%60), string.format("%03d", math.floor((levelTimer*33.3333333333)%1000)))
         elseif menuTable[2][6].status == 2 then
             timerString = RoomTime
         elseif menuTable[2][6].status == 3 then
