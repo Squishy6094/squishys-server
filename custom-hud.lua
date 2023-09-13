@@ -306,8 +306,30 @@ function hud_render()
 
         BootupInfo = "Loaded Custom HUD Data"
     end
-
     if BootupTimer < 150 then return end
+    
+    -- Timer --
+    if menuTable[2][6].status ~= 0 then
+        if menuTable[2][6].status == 1 then
+            if prevLevel ~= gNetworkPlayers[0].currCourseNum then
+                levelTimer = 0
+                prevLevel = gNetworkPlayers[0].currCourseNum
+            end
+            levelTimer = levelTimer + 1
+            timerString = string.format("%s:%s.%s", string.format("%02d", math.floor(levelTimer/30/60)), string.format("%02d", math.floor(levelTimer/30)%60), string.format("%03d", math.floor((levelTimer*33.3333333333)%1000)))
+        elseif menuTable[2][6].status == 2 then
+            timerString = RoomTime
+        elseif menuTable[2][6].status == 3 then
+            timerString = JoinTime
+        elseif menuTable[2][6].status == 4 then
+        end
+        djui_hud_set_font(FONT_TINY)
+        djui_hud_set_resolution(RESOLUTION_N64)
+        djui_hud_set_color(0, 0, 0, 150)
+        djui_hud_render_rect(djui_hud_get_screen_width() - djui_hud_measure_text(timerString) - 10, djui_hud_get_screen_height() - 18, djui_hud_measure_text(timerString) + 6, 50)
+        djui_hud_set_color(255, 255, 255, 255)
+        djui_hud_print_text(timerString, djui_hud_get_screen_width() - djui_hud_measure_text(timerString) - 7, djui_hud_get_screen_height() - 15, 1)
+    end
 
     if themeTable[menuTable[2][3].status].name == "Wario World" then
         menuTable[2][1].statusMax = 4
@@ -562,27 +584,7 @@ function hud_render()
     elseif warioChallenge > 0 and warioChallenge % 100 ~= 0 then
         playedWarioSound = false
     end
-    
-    -- Timer --
-    if menuTable[2][6].status ~= 0 then
-        if menuTable[2][6].status == 1 then
-            if prevLevel ~= gNetworkPlayers[0].currCourseNum then
-                levelTimer = 0
-                prevLevel = gNetworkPlayers[0].currCourseNum
-            end
-            levelTimer = levelTimer + 1
-            timerString = string.format("%s:%s.%s", string.format("%02d", math.floor(levelTimer/30/60)), string.format("%02d", math.floor(levelTimer/30)%60), string.format("%03d", math.floor((levelTimer*33.3333333333)%1000)))
-        elseif menuTable[2][6].status == 2 then
-            timerString = RoomTime
-        elseif menuTable[2][6].status == 3 then
-        elseif menuTable[2][6].status == 4 then
-        end
-        djui_hud_set_font(FONT_TINY)
-        djui_hud_set_color(0, 0, 0, 150)
-        djui_hud_render_rect(djui_hud_get_screen_width() - djui_hud_measure_text(timerString) - 6, djui_hud_get_screen_height() - 18, djui_hud_measure_text(timerString) + 6, 50)
-        djui_hud_set_color(255, 255, 255, 255)
-        djui_hud_print_text(timerString, djui_hud_get_screen_width() - djui_hud_measure_text(timerString) - 3, djui_hud_get_screen_height() - 15, 1)
-    end
+
 end
 
 hook_event(HOOK_ON_HUD_RENDER, hud_render)
