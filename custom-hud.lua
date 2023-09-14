@@ -315,9 +315,9 @@ function hud_render()
         djui_hud_set_font(FONT_TINY)
         djui_hud_set_resolution(RESOLUTION_N64)
         djui_hud_set_color(0, 0, 0, 150)
-        djui_hud_render_rect(djui_hud_get_screen_width() - djui_hud_measure_text(timerString) - 10, djui_hud_get_screen_height() - 18, djui_hud_measure_text(timerString) + 6, 50)
+        djui_hud_render_rect(djui_hud_get_screen_width() - djui_hud_measure_text(timerString) - 13, djui_hud_get_screen_height() - 16, djui_hud_measure_text(timerString) + 6, 50)
         djui_hud_set_color(255, 255, 255, 255)
-        djui_hud_print_text(timerString, djui_hud_get_screen_width() - djui_hud_measure_text(timerString) - 7, djui_hud_get_screen_height() - 15, 1)
+        djui_hud_print_text(timerString, djui_hud_get_screen_width() - djui_hud_measure_text(timerString) - 10, djui_hud_get_screen_height() - 15, 1)
     end
 
     if themeTable[menuTable[2][3].status].name == "Wario World" then
