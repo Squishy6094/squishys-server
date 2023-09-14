@@ -612,7 +612,11 @@ function displaymenu()
                 },
             },
         }
+            
+        BootupInfo = "Loaded Menu Data"
+    end
 
+    if BootupTimer == 45 then
         if gServerSettings.playerKnockbackStrength == 10 then
             KBTranslate = 0
         elseif gServerSettings.playerKnockbackStrength == 25 then
@@ -641,16 +645,10 @@ function displaymenu()
         end
         
         if menuTable[3][sparklesOptionHover] ~= nil then
-            if menuTable[3][sparklesOptionHover].status == 1 then
-                doSparkles = true
-            elseif menuTable[3][sparklesOptionHover].status == 0 then
-                doSparkles = false
-            end
+            doSparkles = tobool(menuTable[3][sparklesOptionHover].status)
         end
+    
         save_load()
-        
-        BootupInfo = "Loaded Menu Data"
-        
         
         for i in pairs(gActiveMods) do
             --Mod Check Preventing Moveset Clashing
@@ -671,6 +669,8 @@ function displaymenu()
                 end
             end
         end
+            
+        BootupInfo = "Finished Menu Setup"
     end
 
     if BootupTimer == 60 then

@@ -464,19 +464,6 @@ local actions_able_to_wallkick =
     [ACT_FREEFALL] = ACT_FREEFALL
 }
 
---Thanks Djoslin
-function convert_s16(num)
-    local min = -32768
-    local max = 32767
-    while (num < min) do
-        num = max + (num - min)
-    end
-    while (num > max) do
-        num = min + (num - max)
-    end
-    return num
-end
-
 --This is mostly copied from the wall bonk check code
 ---@param m MarioState
 function before_phys_step(m)

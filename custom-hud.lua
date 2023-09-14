@@ -8,12 +8,6 @@ local djui_hud_set_rotation = djui_hud_set_rotation
 local djui_hud_get_screen_width = djui_hud_get_screen_width
 local djui_hud_get_screen_height = djui_hud_get_screen_height
 
-function djui_hud_set_adjusted_color(r, g, b, a)
-    local multiplier = 1
-    if is_game_paused() then multiplier = 0.5 end
-    djui_hud_set_color(r * multiplier, g * multiplier, b * multiplier, a)
-end
-
 local function djui_hud_render_element(element, number, icon)
     local m = gMarioStates[0]
 
@@ -81,12 +75,6 @@ local function djui_hud_render_element(element, number, icon)
             djui_hud_print_text(tostring(number), numX, numY, scale)
         end
     end
-end
-
-function s16(num)
-    num = math.floor(num) & 0xFFFF
-    if num >= 32768 then return num - 65536 end
-    return num
 end
 
 --- @param target Object
