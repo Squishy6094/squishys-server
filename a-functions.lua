@@ -46,3 +46,19 @@ function tointeger(input)
         return 0
     end
 end
+
+function nullify_inputs(m)
+    m.controller.rawStickY = 0
+    m.controller.rawStickX = 0
+    m.controller.stickX = 0
+    m.controller.stickY = 0
+    m.controller.stickMag = 0
+    m.controller.buttonPressed = m.controller.buttonPressed & ~R_TRIG
+    m.controller.buttonDown = m.controller.buttonDown & ~R_TRIG
+    m.controller.buttonPressed = m.controller.buttonPressed & ~A_BUTTON
+    m.controller.buttonDown = m.controller.buttonDown & ~A_BUTTON
+    m.controller.buttonPressed = m.controller.buttonPressed & ~B_BUTTON
+    m.controller.buttonDown = m.controller.buttonDown & ~B_BUTTON
+    m.controller.buttonPressed = m.controller.buttonPressed & ~START_BUTTON
+    m.controller.buttonDown = m.controller.buttonDown & ~START_BUTTON
+end

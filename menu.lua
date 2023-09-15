@@ -19,7 +19,7 @@ function save_load(reset)
     for t = 1, 3 do
         for i = 1, #menuTable[t] do
             if menuTable[t][i].statusNames == nil then menuTable[t][i].statusNames = {} end
-            if reset or mod_storage_load(menuTable[t][i].nameSave) == nil or menuTable[t][i].status == nil then
+            if menuTable[t][i].nameSave ~= nil and (reset or mod_storage_load(menuTable[t][i].nameSave) == nil or menuTable[t][i].status == nil) then
                 if menuTable[t][i].statusDefault == nil then
                     menuTable[t][i].statusDefault = 1
                 end
@@ -516,6 +516,18 @@ function displaymenu()
                         "You're confirming that you",
                         "have Read and Understand",
                         "the Rules."
+                    }
+                },
+                [7] = {
+                    name = "Credits",
+                    status = 0,
+                    statusMax = 1,
+                    statusDefault = 0, 
+                    description = {
+                        "Shows off everyone who has ",
+                        "helped make this mod what ",
+                        "it is today, Thank you all",
+                        "so much!",
                     }
                 }
             },
@@ -1080,19 +1092,7 @@ function before_update(m)
             play_sound(SOUND_MENU_MESSAGE_DISAPPEAR, m.marioObj.header.gfx.cameraToObject)
         end
 
-        m.controller.rawStickY = 0
-        m.controller.rawStickX = 0
-        m.controller.stickX = 0
-        m.controller.stickY = 0
-        m.controller.stickMag = 0
-        m.controller.buttonPressed = m.controller.buttonPressed & ~R_TRIG
-        m.controller.buttonDown = m.controller.buttonDown & ~R_TRIG
-        m.controller.buttonPressed = m.controller.buttonPressed & ~A_BUTTON
-        m.controller.buttonDown = m.controller.buttonDown & ~A_BUTTON
-        m.controller.buttonPressed = m.controller.buttonPressed & ~B_BUTTON
-        m.controller.buttonDown = m.controller.buttonDown & ~B_BUTTON
-        m.controller.buttonPressed = m.controller.buttonPressed & ~START_BUTTON
-        m.controller.buttonDown = m.controller.buttonDown & ~START_BUTTON
+        nullify_inputs(m)
     end
 
     if is_game_paused() and not djui_hud_is_pause_menu_created() and m.action ~= ACT_EXIT_LAND_SAVE_DIALOG then
