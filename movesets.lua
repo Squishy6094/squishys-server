@@ -362,7 +362,9 @@ gEventTable[CT_TOAD] = {
 -- waluigi --
 -------------
 
-ACT_WALL_SLIDE = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_MOVING | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)
+ACT_WALL_SLIDE       = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_MOVING | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)
+ACT_ELEGANT_JUMP     = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)
+ACT_WALUIGI_AIR_SWIM = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_MOVING | ACT_FLAG_ALLOW_VERTICAL_WIND_ACTION)
 
 function act_wall_slide(m)
     if (m.input & INPUT_A_PRESSED) ~= 0 then
@@ -403,6 +405,102 @@ function act_wall_slide(m)
     return 0
 end
 
+function act_elegant_jump(m)
+    local e = gStateExtras[m.playerIndex]
+    if m.actionTimer == 0 then
+        m.particleFlags = m.particleFlags | PARTICLE_MIST_CIRCLE
+        m.vel.y = 40
+        e.animFrame = 68
+        play_character_sound(m, CHAR_SOUND_HAHA)
+    end
+    local stepResult = common_air_action_step(m, ACT_DOUBLE_JUMP_LAND, MARIO_ANIM_FINAL_BOWSER_RAISE_HAND_SPIN, 
+	                                                            AIR_STEP_CHECK_LEDGE_GRAB | AIR_STEP_CHECK_HANG)
+    set_anim_to_frame(m, 68)
+    m.particleFlags = m.particleFlags | PARTICLE_SPARKLES
+    m.marioBodyState.eyeState = MARIO_EYES_CLOSED
+    m.faceAngle.y = m.intendedYaw
+    
+    if (m.input & INPUT_Z_PRESSED) ~= 0 then
+        return set_mario_action(m, ACT_GROUND_POUND, 0)
+    end
+    
+    if stepResult == AIR_STEP_LANDED then
+        if should_get_stuck_in_ground(m) ~= 0 then
+            queue_rumble_data_mario(m, 5, 80)
+            play_sound(SOUND_MARIO_OOOF2, m.marioObj.header.gfx.cameraToObject)
+            m.particleFlags = m.particleFlags | PARTICLE_MIST_CIRCLE
+            set_mario_action(m, ACT_FEET_STUCK_IN_GROUND, 0)
+        else
+            if check_fall_damage(m, ACT_HARD_BACKWARD_GROUND_KB) == 0 then
+                play_sound(SOUND_ACTION_TERRAIN_LANDING, m.marioObj.header.gfx.cameraToObject)
+                set_mario_action(m, ACT_DOUBLE_JUMP_LAND, 0)
+            end
+        end
+    end
+    
+    e.rotAngle = e.rotAngle + 0x2000
+    m.marioObj.header.gfx.angle.y = m.marioObj.header.gfx.angle.y + e.rotAngle
+    
+    m.actionTimer = m.actionTimer + 1
+    return 0
+end
+
+function act_waluigi_air_swim(m)
+    local e = gStateExtras[m.playerIndex]
+    
+    if m.actionTimer == 0 then
+        e.animFrame = 0
+        play_sound(SOUND_ACTION_SWIM_FAST, m.marioObj.header.gfx.cameraToObject)
+        if m.forwardVel <= 40 then 
+            mario_set_forward_vel(m, 40)
+        else
+            mario_set_forward_vel(m, m.forwardVel + 5)
+        end
+    elseif m.actionTimer >= 20 then
+        m.vel.y = 0
+        m.faceAngle.x = 0
+		mario_set_forward_vel(m, 0)
+        set_mario_action(m, ACT_DIVE, 0)
+    elseif m.actionTimer > 10 and (m.controller.buttonPressed & B_BUTTON) ~= 0 and e.swims > 0 then
+        e.swims = e.swims - 1
+        return set_mario_action(m, ACT_WALUIGI_AIR_SWIM, 0)
+    end
+    
+    if (m.input & INPUT_Z_PRESSED) ~= 0 then
+        return set_mario_action(m, ACT_GROUND_POUND, 0)
+    end
+    
+    m.vel.y = 0
+    
+    if e.animFrame >= m.marioObj.header.gfx.animInfo.curAnim.loopEnd then
+        e.animFrame = m.marioObj.header.gfx.animInfo.curAnim.loopEnd
+    end
+    
+    set_mario_animation(m, MARIO_ANIM_SWIM_PART1)
+    set_anim_to_frame(m, e.animFrame)
+    
+    local stepResult = perform_air_step(m, 0)
+    if stepResult == AIR_STEP_LANDED then
+        if should_get_stuck_in_ground(m) ~= 0 then
+            queue_rumble_data_mario(m, 5, 80)
+            play_character_sound(m, CHAR_SOUND_OOOF2)
+            set_mario_action(m, ACT_FEET_STUCK_IN_GROUND, 0)
+        else
+            if check_fall_damage(m, ACT_SQUISHED) == 0 then
+                set_mario_action(m, ACT_DIVE_SLIDE, 0)
+            end
+        end
+    elseif stepResult == AIR_STEP_HIT_WALL then
+        return set_mario_action(m, ACT_SOFT_BONK, 0)
+    end
+    
+    if m.forwardVel > 4 then mario_set_forward_vel(m, m.forwardVel - 2) end
+    e.animFrame = e.animFrame + 1
+    m.actionTimer = m.actionTimer + 1
+    m.faceAngle.y = m.intendedYaw - approach_s32(convert_s16(m.intendedYaw - m.faceAngle.y), 0, 0x200, 0x200)
+    return 0
+end
+
 function waluigi_before_phys_step(m)
     local e = gStateExtras[m.playerIndex]
 
@@ -411,7 +509,7 @@ function waluigi_before_phys_step(m)
 
     -- faster ground movement
     if (m.action & ACT_FLAG_MOVING) ~= 0 then
-        hScale = hScale * 1.085
+        hScale = hScale * 1.09
     end
 
     m.vel.x = m.vel.x * hScale
@@ -457,21 +555,41 @@ end
 function waluigi_update(m)
     local e = gStateExtras[m.playerIndex]
 
-    -- increase player damage
+    -- increase player damage (go easy on the capless players)
     if m.hurtCounter > e.lastHurtCounter then
-        m.hurtCounter = m.hurtCounter * 2
+		if m.flags & (MARIO_NORMAL_CAP | MARIO_CAP_ON_HEAD) == 0 then
+			m.hurtCounter = m.hurtCounter + 6
+		else
+			m.hurtCounter = m.hurtCounter + 8
+		end
     end
     e.lastHurtCounter = m.hurtCounter
 
     -- double jump
-    if m.action == ACT_DOUBLE_JUMP and m.actionTimer > 0 and (m.controller.buttonPressed & A_BUTTON) ~= 0 then
-        set_mario_action(m, ACT_TRIPLE_JUMP, 0)
-        m.vel.y = m.vel.y * 0.8
+    local shouldDoubleJump = (m.action == ACT_DOUBLE_JUMP or m.action == ACT_JUMP or m.action == ACT_SIDE_FLIP or m.action == ACT_BACKFLIP)
+    
+    if shouldDoubleJump and m.actionTimer > 0 and (m.controller.buttonPressed & A_BUTTON) ~= 0 then
+        return set_mario_action(m, ACT_ELEGANT_JUMP, 0)
     end
-    if m.action == ACT_DOUBLE_JUMP then
+    if shouldDoubleJump then
         m.actionTimer = m.actionTimer + 1
     end
 
+    -- swim mid-air
+    if m.action == ACT_DIVE and m.actionTimer > 0 and (m.controller.buttonPressed & B_BUTTON) ~= 0 and e.swims > 0 then
+        e.swims = e.swims - 1
+        return set_mario_action(m, ACT_WALUIGI_AIR_SWIM, 0)
+    end
+    if m.action ~= ACT_DIVE and m.action ~= ACT_WALUIGI_AIR_SWIM then
+        e.swims = 3
+    end
+    if m.action == ACT_DIVE then
+        m.actionTimer = m.actionTimer + 1
+        if m.prevAction == ACT_WALUIGI_AIR_SWIM then
+            set_mario_animation(m, MARIO_ANIM_SWIM_PART1)
+            set_anim_to_frame(m, 30)
+        end
+    end
 end
 
 gEventTable[CT_WALUIGI] = {
@@ -1091,6 +1209,8 @@ hook_event(HOOK_ON_SET_MARIO_ACTION, mario_on_set_action)
 hook_event(HOOK_BEFORE_PHYS_STEP, mario_before_phys_step)
 
 hook_mario_action(ACT_WALL_SLIDE,         { every_frame = act_wall_slide })
+hook_mario_action(ACT_ELEGANT_JUMP,       { every_frame = act_elegant_jump })
+hook_mario_action(ACT_WALUIGI_AIR_SWIM,   { every_frame = act_waluigi_air_swim })
 hook_mario_action(ACT_SPIN_POUND,         { every_frame = act_spin_pound },      INT_GROUND_POUND_OR_TWIRL)
 hook_mario_action(ACT_SPIN_POUND_LAND,    { every_frame = act_spin_pound_land }, INT_GROUND_POUND_OR_TWIRL)
 hook_mario_action(ACT_WARIO_DASH,         { every_frame = act_wario_dash },      INT_KICK)
