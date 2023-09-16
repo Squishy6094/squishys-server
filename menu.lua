@@ -518,6 +518,7 @@ function displaymenu()
                         "the Rules."
                     }
                 },
+                --[[
                 [7] = {
                     name = "Credits",
                     status = 0,
@@ -530,6 +531,7 @@ function displaymenu()
                         "so much!",
                     }
                 }
+                --]]
             },
             [5] = {
                 name = "Server",
