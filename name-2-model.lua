@@ -768,8 +768,6 @@ function mario_update(m)
             gPlayerSyncTable[0].modelId = modelTable[discordID][menuTable[3][1].status].model
             if modelTable[discordID][menuTable[3][1].status].forcePlayer ~= nil and gPlayerSyncTable[m.playerIndex].modelId ~= nil then
                 gNetworkPlayers[m.playerIndex].overrideModelIndex = modelTable[discordID][menuTable[3][1].status].forcePlayer
-            else
-                gNetworkPlayers[m.playerIndex].overrideModelIndex = 255
             end
         else
             gPlayerSyncTable[0].modelId = nil
