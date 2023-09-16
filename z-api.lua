@@ -2,6 +2,11 @@ _G.ssExists = true
 _G.ssBooted = false
 _G.ssApi = {}
 
+local apiTable = {
+    name = "External",
+    viewable = false,
+}
+
 hook_event(HOOK_UPDATE, function ()
     if BootupTimer >= 150 then
         _G.ssBooted = true
@@ -11,12 +16,11 @@ hook_event(HOOK_UPDATE, function ()
 
     if menuTable ~= nil then
         menuTable[4] = apiTable
+        if apiTable[1] ~= nil then 
+            apiTable.viewable = true
+        end
     end
 end)
-
-apiTable = {
-    name = "External"
-}
 
 -- Toggles --
 _G.ssApi.option_add = function(name, statusDefault, statusMax, statusNames, description)

@@ -214,6 +214,7 @@ function displaymenu()
         menuTable = {
             [1] = {
                 name = "Movement",
+                viewable = true,
                 [1] = {
                     name = "Moveset",
                     nameSave = "MoveSave",
@@ -324,6 +325,7 @@ function displaymenu()
             },
             [2] = {
                 name = "HUD",
+                viewable = true,
                 [1] = {
                     name = "HUD Type",
                     nameSave = "HUDSave",
@@ -424,6 +426,7 @@ function displaymenu()
             },
             [3] = {
                 name = "Misc.",
+                viewable = true,
                 [1] = {
                     name = "Personal Model",
                     nameSave = "ModelSave",
@@ -535,6 +538,7 @@ function displaymenu()
             },
             [5] = {
                 name = "Server",
+                viewable = false,
                 [1] = {
                     name = "Death Type",
                     status = tonumber(gServerSettings.bubbleDeath),
@@ -786,52 +790,18 @@ function displaymenu()
         djui_hud_set_font(FONT_NORMAL)
         djui_hud_set_resolution(RESOLUTION_N64)
         if network_has_permissions() then
-            djui_hud_set_color(themeTable[menuTable[2][3].status].hoverColor.r, themeTable[menuTable[2][3].status].hoverColor.g, themeTable[menuTable[2][3].status].hoverColor.b, 200)
-            if menuTable[4][1] ~= nil then
-                djui_hud_render_rect((halfScreenWidth - 60 + ((optionTab * 30 - 30) - 15)), 70 + bobbing, 30, 9)
-            else
-                n = optionTab
-                if optionTab == 5 then
-                    n = 4
-                end
-                djui_hud_render_rect((halfScreenWidth - 60 + (n * 30 - 30)), 70 + bobbing, 30, 9)
-            end
-            djui_hud_set_color(255, 255, 255, 255)
-            if menuTable[4][1] ~= nil then
-                djui_hud_print_text("Movement", (halfScreenWidth - (djui_hud_measure_text("Movement")* 0.3 / 2) - 60), 70 + bobbing, 0.3)
-                djui_hud_print_text("HUD", (halfScreenWidth - (djui_hud_measure_text("HUD")* 0.3 / 2) - 30), 70 + bobbing, 0.3)
-                djui_hud_print_text("Misc.", (halfScreenWidth - (djui_hud_measure_text("Misc.")* 0.3 / 2)), 70 + bobbing, 0.3)
-                djui_hud_print_text("External", (halfScreenWidth - (djui_hud_measure_text("External")* 0.3 / 2) + 30), 70 + bobbing, 0.3)
-                djui_hud_print_text("Server", (halfScreenWidth - (djui_hud_measure_text("Server")* 0.3 / 2) + 60), 70 + bobbing, 0.3)
-            else
-                djui_hud_print_text("Movement", (halfScreenWidth - (djui_hud_measure_text("Movement")* 0.3 / 2) - 45), 70 + bobbing, 0.3)
-                djui_hud_print_text("HUD", (halfScreenWidth - (djui_hud_measure_text("HUD")* 0.3 / 2) - 15), 70 + bobbing, 0.3)
-                djui_hud_print_text("Misc.", (halfScreenWidth - (djui_hud_measure_text("Misc.")* 0.3 / 2) + 15), 70 + bobbing, 0.3)
-                djui_hud_print_text("Server", (halfScreenWidth - (djui_hud_measure_text("External")* 0.3 / 2) + 45), 70 + bobbing, 0.3)
-            end
-        else
-            djui_hud_set_color(themeTable[menuTable[2][3].status].hoverColor.r, themeTable[menuTable[2][3].status].hoverColor.g, themeTable[menuTable[2][3].status].hoverColor.b, 200)
-            if menuTable[4][1] ~= nil then
-                djui_hud_render_rect((halfScreenWidth - 60 + (optionTab * 30 - 30)), 70 + bobbing, 30, 9)
-            else
-                n = optionTab
-                if optionTab == 5 then
-                    n = 4
-                end
-                djui_hud_render_rect((halfScreenWidth - 60 + (n * 30 - 30) + 15), 70 + bobbing, 30, 9)
-            end
-            djui_hud_set_color(255, 255, 255, 255)
-            if menuTable[4][1] ~= nil then
-                djui_hud_print_text("Movement", (halfScreenWidth - (djui_hud_measure_text("Movement")* 0.3 / 2) - 45), 70 + bobbing, 0.3)
-                djui_hud_print_text("HUD", (halfScreenWidth - (djui_hud_measure_text("HUD")* 0.3 / 2) - 15), 70 + bobbing, 0.3)
-                djui_hud_print_text("Misc.", (halfScreenWidth - (djui_hud_measure_text("Misc.")* 0.3 / 2) + 15), 70 + bobbing, 0.3)
-                djui_hud_print_text("External", (halfScreenWidth - (djui_hud_measure_text("External")* 0.3 / 2) + 45), 70 + bobbing, 0.3)
-            else
-                djui_hud_print_text("Movement", (halfScreenWidth - (djui_hud_measure_text("Movement")* 0.3 / 2) - 30), 70 + bobbing, 0.3)
-                djui_hud_print_text("HUD", (halfScreenWidth - (djui_hud_measure_text("HUD")* 0.3 / 2)), 70 + bobbing, 0.3)
-                djui_hud_print_text("Misc.", (halfScreenWidth - (djui_hud_measure_text("Misc.")* 0.3 / 2) + 30), 70 + bobbing, 0.3)
+            menuTable[5].viewable = true
+        end
+
+        djui_hud_set_color(themeTable[menuTable[2][3].status].hoverColor.r, themeTable[menuTable[2][3].status].hoverColor.g, themeTable[menuTable[2][3].status].hoverColor.b, 200)
+        djui_hud_render_rect(halfScreenWidth - 15, 70 + bobbing, 30, 9)
+
+        for i = -1, 1 do
+            if menuTable[optionTab + i] ~= nil and menuTable[optionTab + i].viewable then
+                djui_hud_print_text(menuTable[optionTab + i].name, (halfScreenWidth - (djui_hud_measure_text(menuTable[optionTab + i].name) * 0.3 / 2) + i * 30), 70 + bobbing, 0.3)
             end
         end
+
         if discordID ~= "0" then
             djui_hud_set_color(150, 150, 150, 255)
             djui_hud_print_text("Registered as "..modelTable[discordID].nickname.. " via Name-2-Model", (halfScreenWidth - 80), 216 + bobbing, 0.3)
