@@ -151,6 +151,15 @@ local function should_push_or_pull_door(m, o)
     return if_then_else(dYaw >= -0x4000 and dYaw <= 0x4000, 0x00000001, 0x00000002)
 end
 
+local doorBustActs = {
+    [ACT_SLIDE_KICK] = true,
+    [ACT_SLIDE_KICK_SLIDE] = true,
+    [ACT_JUMP_KICK] = true,
+    [ACT_WARIO_DASH] = true,
+    [ACT_WARIO_AIR_DASH] = true,
+    [ACT_CORKSCREW_CONK] = true,
+}
+
 --- @param m MarioState
 function mario_update(m)
     if m.playerIndex ~= 0 then return end
@@ -297,7 +306,7 @@ function mario_update(m)
         local dist = 200
         if m.action == ACT_LONG_JUMP and m.forwardVel <= -70 then dist = 1000 end
 
-        if (m.action == ACT_SLIDE_KICK or m.action == ACT_SLIDE_KICK_SLIDE or m.action == ACT_JUMP_KICK or (m.action == ACT_LONG_JUMP and m.forwardVel <= -80)) and dist_between_objects(m.marioObj, targetDoor) < dist then
+        if (doorBustActs[m.action] or (m.action == ACT_LONG_JUMP and m.forwardVel <= -80)) and dist_between_objects(m.marioObj, targetDoor) < dist then
             local model = E_MODEL_CASTLE_CASTLE_DOOR
 
             if get_id_from_behavior(targetDoor.behavior) ~= id_bhvStarDoor then
