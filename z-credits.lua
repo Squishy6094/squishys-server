@@ -66,6 +66,8 @@ function render_credits()
         djui_hud_set_font(FONT_NORMAL)
         djui_hud_set_color(0, 0, 0, 255)
         djui_hud_render_rect(0, 0, djui_hud_get_screen_width() + 5, djui_hud_get_screen_height() + 5)
+        djui_hud_set_color(60, 60, 60, 255)
+        djui_hud_render_texture_tile(themeTable[menuTable[2][3].status].texture, halfScreenWidth - 113.75, 0, 1.514204545451, 1.3, 0, 0, 175, 204)
         for i = 1, #creditsTable do
             if creditsTable[i].sectionColor == nil then creditsTable[i].sectionColor = {r = 0, g = 150, b = 0} end
             djui_hud_set_color(creditsTable[i].sectionColor.r, creditsTable[i].sectionColor.g, creditsTable[i].sectionColor.b, 255)
@@ -86,6 +88,11 @@ function render_credits()
                     djui_hud_print_text(creditsTable[i][k].handle, x, y, scale)
                 end
             end
+        end
+        for i = 0, 20 do
+            djui_hud_set_color(0, 0, 0, 255 - 12.25 * i)
+            djui_hud_render_rect((halfScreenWidth - 113.75) + i, 0, 1, djui_hud_get_screen_height() + 5)
+            djui_hud_render_rect((halfScreenWidth + 113.75) - i, 0, 1, djui_hud_get_screen_height() + 5)
         end
     end
 end
