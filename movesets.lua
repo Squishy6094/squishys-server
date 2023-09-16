@@ -1112,7 +1112,7 @@ function wario_update(m)
 
     -- faster ground pound
     if m.action == ACT_GROUND_POUND then
-        m.vel.y = m.vel.y * 1.3
+        m.vel.y = math.abs(m.vel.y * 1.3)*-1
     end
 
     -- decrease player damage
