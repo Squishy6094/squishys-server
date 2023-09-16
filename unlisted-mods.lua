@@ -176,14 +176,22 @@ function mario_update(m)
         if ledgeTimer <= 5 and velStore >= 15 then
             if m.action == ACT_LEDGE_CLIMB_FAST and (m.controller.buttonPressed & A_BUTTON) ~= 0 then
                 set_mario_action(m, ACT_SIDE_FLIP, 0)
-                m.vel.y = 30 * velStore/50 + 10
-                m.forwardVel = velStore * 0.9
+                m.vel.y = math.min(velStore*0.5, 40)
+                if ledgeTimer == 1 then -- Firstie gives back raw speed
+                    m.forwardVel = velStore
+                else
+                    m.forwardVel = velStore * 0.85
+                end
             end
 
             if m.action == ACT_LEDGE_GRAB and (m.controller.buttonPressed & B_BUTTON) ~= 0 then
                 set_mario_action(m, ACT_SLIDE_KICK, 0)
-                m.vel.y = 10 * velStore/50
-                m.forwardVel = velStore
+                m.vel.y = math.min(velStore*0.2, 20)
+                if ledgeTimer == 1 then -- Firstie gives back raw speed
+                    m.forwardVel = velStore
+                else
+                    m.forwardVel = velStore * 0.9
+                end
             end
         else
             if m.action == ACT_LEDGE_CLIMB_FAST and (m.controller.buttonPressed & A_BUTTON) ~= 0 then
