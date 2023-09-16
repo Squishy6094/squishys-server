@@ -1097,7 +1097,7 @@ function wario_update(m)
     end
 
     -- turn dive into dash
-    if m.action == ACT_DIVE and m.prevAction == ACT_WALKING then
+    if m.prevAction == ACT_WALKING and math.abs(m.controller.stickMag) > 60 and m.forwardVel > 15 then
         if (m.controller.buttonPressed & B_BUTTON) ~= 0 then
             m.actionTimer = 0
             return set_mario_action(m, ACT_WARIO_DASH, 0)
