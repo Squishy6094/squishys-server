@@ -8,7 +8,7 @@ local creditsTable = {
         sectionName = "Developers",
         sectionColor = {r = 255, g = 36, b = 0},
         sectionColumns = 2,
-        sectionPos = 30,
+        sectionPos = 45,
         {
             name = "Squishy",
             color = {r = 0, g = 150, b = 0},
@@ -31,8 +31,8 @@ local creditsTable = {
     },
     {
         sectionName = "Support / Contribution",
-        sectionColumns = 4,
-        sectionPos = 120,
+        sectionColumns = 3,
+        sectionPos = 140,
         {
             name = "Agent X",
         },
@@ -67,8 +67,17 @@ function render_credits()
         djui_hud_set_color(0, 0, 0, 255)
         djui_hud_render_rect(0, 0, djui_hud_get_screen_width() + 5, djui_hud_get_screen_height() + 5)
         djui_hud_set_color(60, 60, 60, 255)
-        djui_hud_render_texture_tile(themeTable[menuTable[2][3].status].texture, halfScreenWidth - 113.75, 0, 1.514204545451, 1.3, 0, 0, 175, 204)
+        if themeTable[menuTable[2][3].status].texture ~= nil then
+            djui_hud_render_texture_tile(themeTable[menuTable[2][3].status].texture, halfScreenWidth - 113.75, 0, 1.514204545451, 1.3, 0, 0, 175, 204)
+        end
         for i = 1, #creditsTable do
+            djui_hud_set_color(255, 255, 255, 255)
+            if themeTable[menuTable[2][3].status].hasHeader then
+                djui_hud_render_texture_tile(themeTable[menuTable[2][3].status].texture, halfScreenWidth - 53.5, 15 + creditsScroll, 0.3, 0.6, 0, 206, 160, 80)
+            else
+                djui_hud_set_color(themeTable[menuTable[2][3].status].hoverColor.r, themeTable[menuTable[2][3].status].hoverColor.g, themeTable[menuTable[2][3].status].hoverColor.b, 255)
+                djui_hud_render_texture_tile(themeTable[0].texture, halfScreenWidth - 53.5, 15 + creditsScroll, 0.16666666666, 0.58666666666, 0, 206, 176, 50)
+            end
             if creditsTable[i].sectionColor == nil then creditsTable[i].sectionColor = {r = 0, g = 150, b = 0} end
             djui_hud_set_color(creditsTable[i].sectionColor.r, creditsTable[i].sectionColor.g, creditsTable[i].sectionColor.b, 255)
             djui_hud_print_text(creditsTable[i].sectionName, djui_hud_get_screen_width() * 0.5 - djui_hud_measure_text(creditsTable[i].sectionName) * 0.5, creditsTable[i].sectionPos + creditsScroll, 1)
@@ -78,14 +87,22 @@ function render_credits()
 
                 local scale = 0.5
                 local x = (djui_hud_get_screen_width() * 0.5) - (djui_hud_measure_text(creditsTable[i][k].name)*(scale*0.5)) + (k%creditsTable[i].sectionColumns) * 55 - (creditsTable[i].sectionColumns - 1)*27.5
-                local y = creditsTable[i].sectionPos + 15 + creditsScroll + math.ceil(k/creditsTable[i].sectionColumns)*25
+                local y = creditsTable[i].sectionPos + 15 + creditsScroll + math.ceil(k/creditsTable[i].sectionColumns)*27.5
 
                 djui_hud_print_text(creditsTable[i][k].name, x, y, scale)
+
                 if creditsTable[i][k].handle ~= nil then
                     local scale = 0.25
                     local x = (djui_hud_get_screen_width() * 0.5) - (djui_hud_measure_text(creditsTable[i][k].handle)*(scale*0.5)) + (k%creditsTable[i].sectionColumns) * 55 - (creditsTable[i].sectionColumns - 1)*27.5
                     y = y + 15
                     djui_hud_print_text(creditsTable[i][k].handle, x, y, scale)
+                end
+
+                if creditsTable[i][k].creditFor ~= nil then
+                    djui_hud_set_color(255, 170, 170, 200)
+                    --djui_hud_set_color(creditsTable[i][k].color.r, creditsTable[i][k].color.g + 100, creditsTable[i][k].color.b + 100, 255)
+                    x = (djui_hud_get_screen_width() * 0.5) - (djui_hud_measure_text(creditsTable[i][k].creditFor)*(0.25*0.5)) + (k%creditsTable[i].sectionColumns) * 55 - (creditsTable[i].sectionColumns - 1)*27.5
+                    djui_hud_print_text(creditsTable[i][k].creditFor, x, y - 21, 0.25)
                 end
             end
         end
