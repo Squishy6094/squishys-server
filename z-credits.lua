@@ -79,12 +79,12 @@ function render_credits()
             djui_hud_render_texture_tile(themeTable[menuTable[2][3].status].texture, halfScreenWidth - 113.75, 0, 1.514204545451, 1.3, 0, 0, 175, 204)
         end
         djui_hud_set_color(255, 255, 255, 255)
-            if themeTable[menuTable[2][3].status].hasHeader ~= nil then
-                djui_hud_render_texture_tile(themeTable[menuTable[2][3].status].texture, halfScreenWidth - 53.5, 15 + creditsScroll, 0.3, 0.6, 0, 206, 160, 80)
-            else
-                djui_hud_set_color(themeTable[menuTable[2][3].status].hoverColor.r, themeTable[menuTable[2][3].status].hoverColor.g, themeTable[menuTable[2][3].status].hoverColor.b, 255)
-                djui_hud_render_texture_tile(themeTable[0].texture, halfScreenWidth - 53.5, 15 + creditsScroll, 0.16666666666, 0.58666666666, 0, 206, 176, 50)
-            end
+        if themeTable[menuTable[2][3].status].hasHeader ~= nil then
+            djui_hud_render_texture_tile(themeTable[menuTable[2][3].status].texture, halfScreenWidth - 52, 15 + creditsScroll, 0.3, 0.6, 0, 206, 160, 80)
+        else
+            djui_hud_set_color(themeTable[menuTable[2][3].status].hoverColor.r, themeTable[menuTable[2][3].status].hoverColor.g, themeTable[menuTable[2][3].status].hoverColor.b, 255)
+            djui_hud_render_texture_tile(themeTable[0].texture, halfScreenWidth - 52, 15 + creditsScroll, 0.3, 0.6, 0, 206, 160, 80)
+        end
         for i = 1, #creditsTable do
             if creditsTable[i].sectionColor == nil then creditsTable[i].sectionColor = {r = 0, g = 150, b = 0} end
             djui_hud_set_color(creditsTable[i].sectionColor.r, creditsTable[i].sectionColor.g, creditsTable[i].sectionColor.b, 128)
@@ -132,7 +132,7 @@ function render_credits()
                 end
             end
         end
-        local thanksHeight = 210
+        local thanksHeight = creditsTable[#creditsTable].sectionPos + 70
         djui_hud_set_color(255, 255, 255, 128)
         djui_hud_print_text("YOU, the player!", halfScreenWidth - djui_hud_measure_text("YOU, the player!")*0.5 + 1, thanksHeight + 1 + creditsScroll, 1)
         djui_hud_print_text("For playing on ", halfScreenWidth - djui_hud_measure_text("For playing on Squishy's Server!")*0.5*0.5 + 0.5, thanksHeight + 30 + 0.5 + creditsScroll, 0.5)
@@ -143,6 +143,13 @@ function render_credits()
         djui_hud_print_text("Squishy's Server!", halfScreenWidth - djui_hud_measure_text("For playing on Squishy's Server!")*0.5*0.5 + djui_hud_measure_text("For playing on ")*0.5 + 0.5, thanksHeight + 30 + 0.5 + creditsScroll, 0.5)
         djui_hud_set_color(0, 128, 0, 255)
         djui_hud_print_text("Squishy's Server!", halfScreenWidth - djui_hud_measure_text("For playing on Squishy's Server!")*0.5*0.5 + djui_hud_measure_text("For playing on ")*0.5, thanksHeight + 30 + creditsScroll, 0.5)
+        djui_hud_set_color(128, 128, 128, 64)
+        djui_hud_print_text("Art by Floralys", halfScreenWidth - djui_hud_measure_text("Art by Floralys") * 0.5 * 0.3 + 0.3, thanksHeight + 160 + 0.3 + creditsScroll, 0.3)
+        djui_hud_set_color(128, 128, 128, 128)
+        djui_hud_print_text("Art by Floralys", halfScreenWidth - djui_hud_measure_text("Art by Floralys") * 0.5 * 0.3, thanksHeight + 160 + creditsScroll, 0.3)
+        djui_hud_set_color(255, 255, 255, 255)
+        djui_hud_render_texture(get_texture_info("credits"), halfScreenWidth - (128 * 0.75), thanksHeight + 60 + creditsScroll, 0.75, 0.75)
+        djui_hud_render_texture(get_texture_info("troll"), halfScreenWidth - (16 * 0.5), thanksHeight + 410 + creditsScroll, 0.5, 0.5)
         for i = 0, 20 do
             djui_hud_set_color(0, 0, 0, 255 - 12.25 * i)
             djui_hud_render_rect((halfScreenWidth - 113.75) + i, 0, 1, djui_hud_get_screen_height() + 5)
