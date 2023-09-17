@@ -797,11 +797,14 @@ function displaymenu()
             menuTable[6].viewable = true
         end
 
-        djui_hud_set_color(themeTable[menuTable[2][3].status].hoverColor.r, themeTable[menuTable[2][3].status].hoverColor.g, themeTable[menuTable[2][3].status].hoverColor.b, 200)
-        djui_hud_render_rect(halfScreenWidth - 15, 70 + bobbing, 30, 9)
-
+        -- New Tab Renderer
         for i = -1, 1 do
             if menuTable[optionTab + i] ~= nil and menuTable[optionTab + i].viewable then
+                djui_hud_set_color(themeTable[menuTable[2][3].status].hoverColor.r, themeTable[menuTable[2][3].status].hoverColor.g, themeTable[menuTable[2][3].status].hoverColor.b, 200)
+                if i == 0 then
+                    djui_hud_render_rect(halfScreenWidth - 15, 70 + bobbing, 30, 9)
+                    djui_hud_set_color(255, 255, 255, 255)
+                end
                 djui_hud_print_text(menuTable[optionTab + i].name, (halfScreenWidth - (djui_hud_measure_text(menuTable[optionTab + i].name) * 0.3 / 2) + i * 30), 70 + bobbing, 0.3)
             end
         end
