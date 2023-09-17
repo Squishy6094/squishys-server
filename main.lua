@@ -331,7 +331,7 @@ doSparkles = false
 function mario_update_msgtimer(m)
     if m.playerIndex ~= 0 then return end
     if BootupTimer < 150 then return end
-    if get_time() - popupTimer >= math.random(60,180) and menuTable[3][5].status == 1 then
+    if get_time() - popupTimer >= math.random(60,180) and menuTable[4][3].status == 1 then
         popupTimer = get_time()
         popupNum = math.random(1,#popupTable)
         if lastpopupNum == popupNum then

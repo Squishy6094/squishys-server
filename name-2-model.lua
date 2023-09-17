@@ -722,14 +722,14 @@ function mario_update(m)
 
         if discordID == "0" then
             menuErrorMsg = "Discord not Detected"
-            menuTable[3][1].unlocked = 0
+            menuTable[4][1].unlocked = 0
         end
         if modelTable[discordID] == nil then
             if menuErrorMsg == "Error not found" then
                 menuErrorMsg = "No Models Found"
             end
             discordID = "0"
-            menuTable[3][1].unlocked = 0
+            menuTable[4][1].unlocked = 0
             print("Sign-in Failed, No Models Found")
         elseif discordID ~= "0" then
             print("Signed into Name-2-Model as ".. modelTable[discordID].nickname)
@@ -744,35 +744,35 @@ function mario_update(m)
         end
 
         for i = 0, #modelTable[discordID] do
-            menuTable[3][1].statusNames[i] = modelTable[discordID][i].modelName
+            menuTable[4][1].statusNames[i] = modelTable[discordID][i].modelName
         end
-        menuTable[3][1].statusMax = #modelTable[discordID]
+        menuTable[4][1].statusMax = #modelTable[discordID]
 
-        if menuTable[3][1].status == nil then
-            menuTable[3][1].status = 0
+        if menuTable[4][1].status == nil then
+            menuTable[4][1].status = 0
         end
 
         BootupInfo = "Loaded Name-2-Model Data"
 
     end
     if BootupTimer < 100 then return end
-    if modelTable[discordID][menuTable[3][1].status].icon ~= nil then
-        lifeIcon = modelTable[discordID][menuTable[3][1].status].icon
+    if modelTable[discordID][menuTable[4][1].status].icon ~= nil then
+        lifeIcon = modelTable[discordID][menuTable[4][1].status].icon
     else
         lifeIcon = 0
     end
 
-    if menuTable[3][2].status == 0 then return end
+    if menuTable[4][2].status == 0 then return end
     if m.playerIndex == 0 then
         if discordID ~= "0" then
-            gPlayerSyncTable[0].modelId = modelTable[discordID][menuTable[3][1].status].model
-            if modelTable[discordID][menuTable[3][1].status].forcePlayer ~= nil and gPlayerSyncTable[m.playerIndex].modelId ~= nil then
-                gNetworkPlayers[m.playerIndex].overrideModelIndex = modelTable[discordID][menuTable[3][1].status].forcePlayer
+            gPlayerSyncTable[0].modelId = modelTable[discordID][menuTable[4][1].status].model
+            if modelTable[discordID][menuTable[4][1].status].forcePlayer ~= nil and gPlayerSyncTable[m.playerIndex].modelId ~= nil then
+                gNetworkPlayers[m.playerIndex].overrideModelIndex = modelTable[discordID][menuTable[4][1].status].forcePlayer
             end
         else
             gPlayerSyncTable[0].modelId = nil
-            if menuTable[3][1].status ~= 0 then
-                menuTable[3][1].status = 0
+            if menuTable[4][1].status ~= 0 then
+                menuTable[4][1].status = 0
             end
         end
     end
@@ -783,7 +783,7 @@ end
 
 function set_model(o, id)
     if BootupTimer < 150 then return end
-    if id == E_MODEL_MARIO and menuTable[3][2].status ~= 0 then
+    if id == E_MODEL_MARIO and menuTable[4][2].status ~= 0 then
         local i = network_local_index_from_global(o.globalPlayerIndex)
         if gPlayerSyncTable[i].modelId ~= nil then
             obj_set_model_extended(o, gPlayerSyncTable[i].modelId)
@@ -805,14 +805,14 @@ function set_discord_id(msg)
             }
         end
         for i = 0, #modelTable[discordID] do
-            menuTable[3][1].statusNames[i] = modelTable[discordID][i].modelName
+            menuTable[4][1].statusNames[i] = modelTable[discordID][i].modelName
         end
-        menuTable[3][1].statusMax = #modelTable[discordID]
-        menuTable[3][1].status = 1
+        menuTable[4][1].statusMax = #modelTable[discordID]
+        menuTable[4][1].status = 1
         if msg == "0" then
-            menuTable[3][1].unlocked = 0
+            menuTable[4][1].unlocked = 0
         else
-            menuTable[3][1].unlocked = 1
+            menuTable[4][1].unlocked = 1
         end
         local modelString = ""
         for i = 1, #modelTable[discordID] do

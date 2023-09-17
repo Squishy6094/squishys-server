@@ -15,7 +15,7 @@ hook_event(HOOK_UPDATE, function ()
     end
 
     if menuTable ~= nil then
-        menuTable[4] = apiTable
+        menuTable[5] = apiTable
         if apiTable[1] ~= nil then 
             apiTable.viewable = true
         end
@@ -77,7 +77,7 @@ _G.ssApi.name2model_get_nickname = function () -- Returns the User's Nickname
 end
 
 _G.ssApi.name2model_get_model_name = function () -- Returns the User's Current Model Name
-    return modelTable[discordID][menuTable[3][1].status].modelName
+    return modelTable[discordID][menuTable[4][1].status].modelName
 end
 
 

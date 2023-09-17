@@ -295,7 +295,6 @@ function hud_render()
         BootupInfo = "Loaded Custom HUD Data"
     end
     if BootupTimer < 150 then return end
-    
     -- Timers --
     levelTimer = levelTimer + 1
     if prevLevel ~= gNetworkPlayers[0].currCourseNum then

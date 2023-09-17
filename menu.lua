@@ -16,7 +16,7 @@ local KBTranslate = 0
 
 function save_load(reset)
     if reset == nil then reset = false end
-    for t = 1, 3 do
+    for t = 1, 4 do
         for i = 1, #menuTable[t] do
             if menuTable[t][i].statusNames == nil then menuTable[t][i].statusNames = {} end
             if menuTable[t][i].nameSave ~= nil and (reset or mod_storage_load(menuTable[t][i].nameSave) == nil or menuTable[t][i].status == nil) then
@@ -425,6 +425,35 @@ function displaymenu()
                 },
             },
             [3] = {
+                name = "Camera",
+                viewable = true,
+                [1] = {
+                    name = "Rom-Hack Camera",
+                    nameSave = "HackCamSave",
+                    status = tonumber(mod_storage_load("HackCamSave")),
+                    statusMax = 1,
+                    statusDefault = 1, 
+                    description = {
+                        "Toggles if the camera acts",
+                        "the same way it does in",
+                        "Rom-Hacks. (8 directional)"
+                    }
+                },
+                [2] = {
+                    name = "Star Spawn Cutscene",
+                    nameSave = "SSCSave",
+                    status = tonumber(mod_storage_load("SSCSave")),
+                    statusMax = 1,
+                    statusDefault = 0, 
+                    description = {
+                        "Toggles if Star Spawning",
+                        "Cutscenes play, Recommended",
+                        "if you don't know where a",
+                        "star spawns."
+                    }
+                },
+            },
+            [4] = {
                 name = "Misc.",
                 viewable = true,
                 [1] = {
@@ -469,31 +498,6 @@ function displaymenu()
                     }
                 },
                 [3] = {
-                    name = "Rom-Hack Camera",
-                    nameSave = "HackCamSave",
-                    status = tonumber(mod_storage_load("HackCamSave")),
-                    statusMax = 1,
-                    statusDefault = 1, 
-                    description = {
-                        "Toggles if the camera acts",
-                        "the same way it does in",
-                        "Rom-Hacks. (8 directional)"
-                    }
-                },
-                [4] = {
-                    name = "Star Spawn Cutscene",
-                    nameSave = "SSCSave",
-                    status = tonumber(mod_storage_load("SSCSave")),
-                    statusMax = 1,
-                    statusDefault = 0, 
-                    description = {
-                        "Toggles if Star Spawning",
-                        "Cutscenes play, Recommended",
-                        "if you don't know where a",
-                        "star spawns."
-                    }
-                },
-                [5] = {
                     name = "Server Popups",
                     nameSave = "notifSave",
                     status = tonumber(mod_storage_load("notifSave")),
@@ -506,7 +510,7 @@ function displaymenu()
                         "new to the server."
                     }
                 },
-                [6] = {
+                [4] = {
                     name = "Show Rules",
                     nameSave = "RulesSave",
                     status = tonumber(mod_storage_load("RulesSave")),
@@ -522,7 +526,7 @@ function displaymenu()
                     }
                 },
                 --[[
-                [7] = {
+                [5] = {
                     name = "Credits",
                     status = 0,
                     statusMax = 1,
@@ -536,7 +540,7 @@ function displaymenu()
                 }
                 --]]
             },
-            [5] = {
+            [6] = {
                 name = "Server",
                 viewable = false,
                 [1] = {
@@ -647,9 +651,9 @@ function displaymenu()
         
         gLevelValues.extendedPauseDisplay = true
         
-        local sparklesOptionHover = #menuTable[3]+1
+        local sparklesOptionHover = #menuTable[4]+1
         if network_is_developer() then
-            menuTable[3][sparklesOptionHover] = {
+            menuTable[4][sparklesOptionHover] = {
                 name = "Developer Particles",
                 nameSave = "DvSpks",
                 status = tonumber(mod_storage_load("DvSpks")),
@@ -662,8 +666,8 @@ function displaymenu()
             }
         end
         
-        if menuTable[3][sparklesOptionHover] ~= nil then
-            doSparkles = tobool(menuTable[3][sparklesOptionHover].status)
+        if menuTable[4][sparklesOptionHover] ~= nil then
+            doSparkles = tobool(menuTable[4][sparklesOptionHover].status)
         end
     
         save_load()
@@ -671,7 +675,7 @@ function displaymenu()
         for i in pairs(gActiveMods) do
             --Mod Check Preventing Moveset Clashing
             if (gActiveMods[i].incompatible ~= nil and gActiveMods[i].incompatible:find("moveset")) or gActiveMods[i].name:find("Pasta Castle") then
-                menuTable[5][5].status = 0
+                menuTable[6][5].status = 0
                 menuTable[1][1].statusNames[-1] = "External Moveset"
                 gGlobalSyncTable.syncData = tostring(gServerSettings.bubbleDeath) .. " " .. tostring(gServerSettings.playerInteractions) .. " " .. tostring(KBTranslate) .. " " .. tostring(gServerSettings.stayInLevelAfterStar) .. " " .. tostring(0) .. " " .. tostring(1)
             end
@@ -790,7 +794,7 @@ function displaymenu()
         djui_hud_set_font(FONT_NORMAL)
         djui_hud_set_resolution(RESOLUTION_N64)
         if network_has_permissions() then
-            menuTable[5].viewable = true
+            menuTable[6].viewable = true
         end
 
         djui_hud_set_color(themeTable[menuTable[2][3].status].hoverColor.r, themeTable[menuTable[2][3].status].hoverColor.g, themeTable[menuTable[2][3].status].hoverColor.b, 200)
@@ -843,17 +847,17 @@ function displaymenu()
             print("Autofilled Toggle for '" ..menuTable[optionTab][optionHover + scrolling].nameSave "' created.")
         end
 
-        if optionTab == 3 and optionHover == 1 and menuTable[3][1].status ~= 0 then
+        if optionTab == 4 and optionHover == 1 and menuTable[4][1].status ~= 0 then
             djui_hud_set_color(128, 128, 128, 255)
-            if modelTable[discordID][menuTable[3][1].status].credit ~= nil then
-                djui_hud_print_text("By "..modelTable[discordID][menuTable[3][1].status].credit, halfScreenWidth, 90 + bobbing, 0.2)
+            if modelTable[discordID][menuTable[4][1].status].credit ~= nil then
+                djui_hud_print_text("By "..modelTable[discordID][menuTable[4][1].status].credit, halfScreenWidth, 90 + bobbing, 0.2)
             end
         end
 
-        if menuTable[3][sparklesOptionHover] ~= nil then
-            if menuTable[3][sparklesOptionHover].status == 1 then
+        if menuTable[4][sparklesOptionHover] ~= nil then
+            if menuTable[4][sparklesOptionHover].status == 1 then
                 doSparkles = true
-            elseif menuTable[3][sparklesOptionHover].status == 0 then
+            elseif menuTable[4][sparklesOptionHover].status == 0 then
                 doSparkles = false
             end
         end
@@ -971,16 +975,16 @@ function before_update(m)
                 play_sound(SOUND_MENU_MESSAGE_NEXT_PAGE, gMarioStates[0].marioObj.header.gfx.cameraToObject)
                 scrolling = 0
                 optionTab = optionTab - 1
-                if optionTab == 4 and menuTable[4][1] == nil then
-                    optionTab = 3
+                if optionTab == 5 and menuTable[5][1] == nil then
+                    optionTab = 4
                 end
                 optionHoverTimer = 0
             elseif (stickX > 10 or (buttonDown & R_JPAD ~= 0)) then
                 play_sound(SOUND_MENU_MESSAGE_NEXT_PAGE, gMarioStates[0].marioObj.header.gfx.cameraToObject)
                 scrolling = 0
                 optionTab = optionTab + 1
-                if optionTab == 4 and menuTable[4][1] == nil then
-                    optionTab = 5
+                if optionTab == 5 and menuTable[5][1] == nil then
+                    optionTab = 6
                 end
                 optionHoverTimer = 0
             end
@@ -998,9 +1002,9 @@ function before_update(m)
             end
         end
 
-        local maxTabLimit = 4
+        local maxTabLimit = 5
         if (network_has_permissions()) then
-            maxTabLimit = 5
+            maxTabLimit = 6
         end
 
         if optionTab > maxTabLimit then optionTab = 1 end
@@ -1051,7 +1055,7 @@ function before_update(m)
                     mod_storage_save(menuTable[optionTab][optionHover + scrolling].nameSave, tostring(menuTable[optionTab][optionHover + scrolling].status))
                 end
                 if network_has_permissions() then
-                    if optionTab == 5 and optionHover >= 1 then
+                    if optionTab == 6 and optionHover >= 1 then
                         djui_popup_create_global("\\#00aa00\\Squishy's Server Ruleset:\n\\#ffff77\\"..menuTable[optionTab][optionHover + scrolling].name.."\\#dcdcdc\\ was set to \\#ffff00\\"..tostring(menuTable[optionTab][optionHover + scrolling].statusNames[menuTable[optionTab][optionHover + scrolling].status].."\\#dcdcdc\\!"), 3)
                     end
                 end
@@ -1099,7 +1103,7 @@ function on_menu_command(msg)
             end
             menu = false
             if network_has_permissions() then
-                if tonumber(args[2]) == 5 and tonumber(args[4]) <= table.statusMax then
+                if tonumber(args[2]) == 6 and tonumber(args[4]) <= table.statusMax then
                     djui_popup_create_global("\\#00aa00\\Squishy's Server Ruleset:\n\\#ffff77\\"..table.name.."\\#dcdcdc\\ was set to \\#ffff00\\"..tostring(table.statusNames[table.status].."\\#dcdcdc\\!"), 3)
                 end
             end
@@ -1325,21 +1329,21 @@ function update()
     if BootupTimer < 150 then return end
     local args = split(gGlobalSyncTable.syncData)
 
-    if menu and optionTab == 5 then
-        gGlobalSyncTable.syncData = tostring(menuTable[5][1].status) .. " " .. tostring(menuTable[5][2].status) .. " " .. tostring(menuTable[5][3].status) .. " " .. tostring(menuTable[5][4].status) .. " " .. tostring(menuTable[5][5].status) .. " " .. tostring(menuTable[5][6].status)
+    if menu and optionTab == 6 then
+        gGlobalSyncTable.syncData = tostring(menuTable[6][1].status) .. " " .. tostring(menuTable[6][2].status) .. " " .. tostring(menuTable[6][3].status) .. " " .. tostring(menuTable[6][4].status) .. " " .. tostring(menuTable[6][5].status) .. " " .. tostring(menuTable[6][6].status)
     else
         --Death Type
-        menuTable[5][1].status = tonumber(args[1])
+        menuTable[6][1].status = tonumber(args[1])
         --Player Interactions
-        menuTable[5][2].status = tonumber(args[2])
+        menuTable[6][2].status = tonumber(args[2])
         --Player Knockback
-        menuTable[5][3].status = tonumber(args[3])
+        menuTable[6][3].status = tonumber(args[3])
         --On Star Collection
-        menuTable[5][4].status = tonumber(args[4])
+        menuTable[6][4].status = tonumber(args[4])
         --Global Movesets
-        menuTable[5][5].status = tonumber(args[5])
+        menuTable[6][5].status = tonumber(args[5])
         --Global AQS
-        menuTable[5][6].status = tonumber(args[6])
+        menuTable[6][6].status = tonumber(args[6])
     end
     gServerSettings.bubbleDeath = tonumber(args[1])
     gServerSettings.playerInteractions = tonumber(args[2])

@@ -55,11 +55,13 @@ local djui_hud_render_texture_tile = djui_hud_render_texture_tile
 
 function render_credits()
     if BootupTimer < 150 then return end
-    if menuTable[3][7].status == 1 then
+    --[[
+    if menuTable[4][7].status == 1 then
         creditsOpen = true
         menu = false
-        menuTable[3][7].status = 0
+        menuTable[4][7].status = 0
     end
+    --]]
 
     if creditsOpen then
         djui_hud_set_resolution(RESOLUTION_N64)
