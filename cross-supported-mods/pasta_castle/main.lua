@@ -1879,6 +1879,10 @@ local ss_update = function()
         _G.ssApi.menu_open(false)
         _G.ssApi.option_write("Pasta Castle Menu", 0)
     end 
+
+    if _G.ssApi.option_read("Better Swimming") == 1 and _G.pcCharacter ~= "Mario" then
+        _G.ssApi.option_write("Better Swimming", 0)
+    end
 end
 
 if _G.ssExists then
