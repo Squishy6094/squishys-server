@@ -1,7 +1,16 @@
--- Compilation Info
--- Website: https://www.luac.nl/simple/
--- Encrypt Version: Lua 5.3.5
--- Ensure that you compile with and without 64-bit for a-roles and a-roles-32
+--[[
+    How-to-Compile-this-file (for dumb little babies)
+
+    64-bit file:
+    Drag and Drop this file onto the luac.exe
+    Rename "luac.out" to "a-roles-64.lua" and move it to the proper directory
+
+    32-bit file:
+    Go to https://lua-bytecode.github.io/
+    Press the Browse Button and find the compiled "a-roles-64.lua" file
+    Click the dropdown that defaults to "Convert to another Enbi" and set it to "L4488 (x86 Default)"
+    Save the file it returns as "a-roles-32.lua"
+--]]
 
 -- 1 = Creator
 -- 2 = Developer
@@ -44,12 +53,12 @@ local rolestringTable = {
 
 local roleIDtable = {
     --Creator
-    [678794043018182675] = "1", --Squishy
+    [678794043018182675] = "1",  --Squishy
 
     --Developer
-    [635629441678180362] = "2", --Plussle
-    [542676894244536350] = "2", --Floralys
-    [817821798363955251] = "2", --Crispy
+    [635629441678180362] = "2",  --Plussle
+    [542676894244536350] = "2",  --Floralys
+    [817821798363955251] = "2",  --Crispy
 
     --Gm_Boo3volved (Verified Host)
     [401406794649436161] = "3",  --Uoker
@@ -61,22 +70,22 @@ local roleIDtable = {
     [376304957168812032] = "3",  --eros71
     [282702284608110593] = "3",  --0x
     [767513529036832799] = "3",  --Cosmic
-    [827596624590012457] = "3", --Trashcam
-    [443963592220344320] = "3", --Charity
-    [732244024567529503] = "3", --PeachyPeach
-    [489114867215630336] = "3", --Skeltan
+    [827596624590012457] = "3",  --Trashcam
+    [443963592220344320] = "3",  --Charity
+    [732244024567529503] = "3",  --PeachyPeach
+    [489114867215630336] = "3",  --Skeltan
     [1134242746832523414] = "3", --KanHeaven
     --Epic Gamer Squad (Verified Host)
-    [397219199375769620] = "3", --Average
-    [1092073683377455215] ="3", --Nut
+    [397219199375769620] = "3",  --Average
+    [1092073683377455215] ="3",  --Nut
     --sm64ex-coop-dx (Verified Host)
-    [541396312608866305] = "3", --Mocha
-    [164574042479656962] = "3", --Chilly
-    [837686580965015613] = "3", --Garlicker
+    [541396312608866305] = "3",  --Mocha
+    [164574042479656962] = "3",  --Chilly
+    [837686580965015613] = "3",  --Garlicker
 
     --Contributer
-    [409438020870078486] = "4", --EmilyEmmi (The entire Roles System)
-    [376426041788465173] = "4", --Sunk (A bunch of QOL mods)
+    [409438020870078486] = "4",  --EmilyEmmi (The entire Roles System)
+    [376426041788465173] = "4",  --Sunk (A bunch of QOL mods)
 }
 
 function reset_roles()
@@ -197,6 +206,14 @@ function roles_get_tag(localIndex)
         end
     end
     return rolestring
+end
+
+function network_has_permissions()
+    if network_is_server() or network_is_moderator() or network_is_squishy() or network_is_developer() then
+        return true
+    else
+        return false
+    end
 end
 
 hook_event(HOOK_UPDATE, update_roles)

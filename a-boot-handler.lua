@@ -78,11 +78,3 @@ function on_reload_command()
     BootupInfo = "Reloading"
     return true
 end
-
-function network_has_permissions()
-    if network_is_server() or network_is_moderator() or network_is_squishy() or network_is_developer() then
-        return true
-    else
-        return false
-    end
-end

@@ -612,6 +612,7 @@ function mario_update(m)
                     model = smlua_model_util_get_id("amy_geo"),
                     modelName = "Amy",
                     forcePlayer = CT_MARIO,
+                    credit = "Flipflop Bell",
                 },
             },
             ["397847847283720193"] = {
@@ -629,6 +630,12 @@ function mario_update(m)
                     forcePlayer = CT_LUIGI,
                     icon = 15,
                     credit = "Trashcam",
+                },
+                [3] = {
+                    model = smlua_model_util_get_id("amy_geo"),
+                    modelName = "Amy",
+                    forcePlayer = CT_MARIO,
+                    credit = "Flipflop Bell",
                 },
             },
             ["401406794649436161"] = {
