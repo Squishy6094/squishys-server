@@ -2,6 +2,8 @@
 --Mods are bundled here to prevent lag and clutter--
 --Credits go to all their original mod creators--
 
+-- The 2nd worst torture would be to rewrite all of this to work together and remove redundant code
+
 gLevelValues.starHeal = true
 gLevelValues.floatingStarDance = true
 gLevelValues.mushroom1UpHeal = true
@@ -31,7 +33,6 @@ local TECH_KB = {
     [ACT_HARD_FORWARD_GROUND_KB]  = ACT_FORWARD_ROLLOUT,
     [ACT_FORWARD_GROUND_KB]       = ACT_FORWARD_ROLLOUT,
     [ACT_DEATH_EXIT_LAND]         = ACT_BACKWARD_ROLLOUT,
-  
 }
 local tech_tmr = 0
 local slopetimer = 0
@@ -422,7 +423,7 @@ function act_wall_slide(m)
 
     if (m.input & INPUT_A_PRESSED) ~= 0 then
         local rc = set_mario_action(m, ACT_WALL_KICK_AIR, 0)
-        
+
         m.vel.y = 60.0
 
         if m.forwardVel < 20.0 then
@@ -495,7 +496,7 @@ function before_phys_step(m)
         local limitNegative = (-((180 - 61) * (8192/45))) + 1
         local limitPositive = ((180 - 61) * (8192/45)) - 1
         --wallDYaw is s16, so I converted it
-        wallDYaw = convert_s16(wallDYaw)
+        wallDYaw = s16(wallDYaw)
 
         --Standard air hit wall requirements
         if (m.forwardVel >= 16) and (actions_able_to_wallkick[m.action] ~= nil) then
@@ -612,7 +613,7 @@ function on_set_mario_action(m)
             m.health = m.health - 272
         end
     end
-    
+
     --Anti quicksand--
     if menuTable[1][4].status == 1 then
         if m.action == ACT_QUICKSAND_DEATH then
@@ -859,12 +860,6 @@ play_mario_sound, mario_get_collided_object =
 set_mario_action, is_anim_at_end, mario_grab_used_object, set_mario_animation, set_mario_anim_with_accel, perform_ground_step,
 perform_air_step, apply_water_current, set_mario_particle_flags, math.abs, set_swimming_at_surface_particles, approach_f32, play_sound,
 play_mario_sound, mario_get_collided_object
-
-local s16 = function(x)
-    x = (math.floor(x) & 0xFFFF)
-    if x >= 32768 then return x - 65536 end
-    return x
-end
 
 local clamp = function(x, min, max)
     if x < min then return min end

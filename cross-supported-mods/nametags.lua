@@ -115,7 +115,7 @@ local function name_without_hex(name)
     return s
 end
 
-local function split(s)
+local function string_split(s)
     local result = {}
     for match in (s):gmatch(string.format("[^%s]+", " ")) do
         table.insert(result, match)
@@ -212,7 +212,7 @@ local function on_show_tag_command(msg)
 end
 
 local function on_nametags_command(msg)
-    local args = split(msg)
+    local args = string_split(msg)
     if args[1] == "distance" then
         return on_distance_command(args[2])
     elseif args[1] == "show-health" then

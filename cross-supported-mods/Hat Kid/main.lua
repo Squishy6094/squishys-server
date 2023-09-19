@@ -10,7 +10,7 @@ ACT_HAT_KID_DIVE_CANCEL = allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AI
 ACT_HAT_KID_DIVE_SLIDE =
     allocate_mario_action(ACT_GROUP_MOVING | ACT_FLAG_MOVING | ACT_FLAG_BUTT_OR_STOMACH_SLIDE | ACT_FLAG_ATTACKING)
 
-function convert_s16(num)
+function s16(num)
     local min = -32768
     local max = 32767
     while (num < min) do
@@ -472,7 +472,7 @@ function custom_update_walking_speed(m)
         m.forwardVel = m.forwardVel - 1
     end
 
-    m.faceAngle.y = m.intendedYaw - approach_s32(convert_s16(m.intendedYaw - m.faceAngle.y), 0, 0x800, 0x800)
+    m.faceAngle.y = m.intendedYaw - approach_s32(s16(m.intendedYaw - m.faceAngle.y), 0, 0x800, 0x800)
 
     apply_slope_accel(m)
 end
@@ -547,8 +547,8 @@ function custom_tilt_body_walking(m, startYaw)
     local dYaw = m.faceAngle.y - startYaw
     -- (Speed Crash) These casts can cause a crash if (dYaw * forwardVel / 12) or
     -- (forwardVel * 170) exceed or equal 2^31.
-    local val02 = 0 - convert_s16((dYaw * m.forwardVel / 12.0))
-    local val00 = convert_s16((m.forwardVel * 170.0))
+    local val02 = 0 - s16((dYaw * m.forwardVel / 12.0))
+    local val00 = s16((m.forwardVel * 170.0))
 
     if (val02 > 0x1000) then
         val02 = 0x1000

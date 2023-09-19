@@ -64,7 +64,7 @@ allocate_mario_action(ACT_GROUP_AIRBORNE | ACT_FLAG_AIR | ACT_FLAG_ATTACKING | A
 
 -- Misc functions
 
-function convert_s16(num)
+function s16(num)
     local min = -32768
     local max = 32767
     while (num < min) do
@@ -118,7 +118,7 @@ function update_sonic_walking_speed(m)
         m.forwardVel = 250
     end
 
-    m.faceAngle.y = m.intendedYaw - approach_s32(convert_s16(m.intendedYaw - m.faceAngle.y), 0, 0x800, 0x800)
+    m.faceAngle.y = m.intendedYaw - approach_s32(s16(m.intendedYaw - m.faceAngle.y), 0, 0x800, 0x800)
 
     apply_slope_accel(m)
 end
@@ -214,7 +214,7 @@ function sonic_anim_and_audio_for_walk(m)
         end
     end
 
-    marioObj.oMarioWalkingPitch = convert_s16(approach_s32(marioObj.oMarioWalkingPitch, find_floor_slope(m, 0x8000), 0x800, 0x800))
+    marioObj.oMarioWalkingPitch = s16(approach_s32(marioObj.oMarioWalkingPitch, find_floor_slope(m, 0x8000), 0x800, 0x800))
     marioObj.header.gfx.angle.x = marioObj.oMarioWalkingPitch
 end
 
@@ -263,7 +263,7 @@ function sonic_common_air_action_step(m, landAction, animation, stepArg, turning
 
     sonic_update_air(m)
     if turning then
-        m.faceAngle.y = m.intendedYaw - approach_s32(convert_s16(m.intendedYaw - m.faceAngle.y), 0, 0x1000, 0x1000)
+        m.faceAngle.y = m.intendedYaw - approach_s32(s16(m.intendedYaw - m.faceAngle.y), 0, 0x1000, 0x1000)
         if m.faceAngle.y ~= m.intendedYaw and m.forwardVel > 32 then
             mario_set_forward_vel(m, approach_f32(m.forwardVel, 0, m.forwardVel/16, m.forwardVel/16))
         else
@@ -599,7 +599,7 @@ function act_sonic_roll(m)
         else
             mario_set_forward_vel(m, approach_f32(m.forwardVel, 0, 1, 1))
         end
-        m.faceAngle.y = m.intendedYaw - approach_s32(convert_s16(m.intendedYaw - m.faceAngle.y), 0, 0x1000, 0x1000)
+        m.faceAngle.y = m.intendedYaw - approach_s32(s16(m.intendedYaw - m.faceAngle.y), 0, 0x1000, 0x1000)
     elseif stepResult == GROUND_STEP_HIT_WALL then
         mario_set_forward_vel(m, -16.0)
 
@@ -1124,7 +1124,7 @@ function act_sonic_eagle(m)
     end
 
     sonic_update_air(m)
-    m.faceAngle.y = m.intendedYaw - approach_s32(convert_s16(m.intendedYaw - m.faceAngle.y), 0, 0x1000, 0x1000)
+    m.faceAngle.y = m.intendedYaw - approach_s32(s16(m.intendedYaw - m.faceAngle.y), 0, 0x1000, 0x1000)
 
     if m.faceAngle.y ~= m.intendedYaw and m.forwardVel > 32 then
         mario_set_forward_vel(m, approach_f32(m.forwardVel, 0, m.forwardVel/16, m.forwardVel/16))

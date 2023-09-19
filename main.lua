@@ -16,13 +16,12 @@ end
 --------------
 -- Commands --
 --------------
-
-function on_rules_command()
+local function on_rules_command()
     rules = true
     return true
 end
 
-function on_shutdown_command(msg)
+local function on_shutdown_command(msg)
     if not network_is_server() and not network_is_moderator() then
         return false
     end
@@ -40,7 +39,7 @@ function on_shutdown_command(msg)
     return true
 end
 
-function on_clear_command(msg)
+local function on_clear_command(msg)
     if msg ~= "confirm" then
         djui_chat_message_create("Are you sure you want to do this? This will clear all Toggles, Themes, and previous playtime from your save data!\nType \\#ff8888\\/ss clear-data confirm\\#ffffff\\ to confirm")
     else
@@ -51,12 +50,12 @@ function on_clear_command(msg)
     return true
 end
 
-function server_commands(msg)
+local function server_commands(msg)
     if BootupTimer < 150 then
         djui_chat_message_create("Cannot use Squishy's Server Commands During Bootup")
         return true
     end
-    local args = split(msg)
+    local args = string_split(msg)
     if args[1] == "help" or args[1] == nil then
         djui_chat_message_create("\\#008800\\Squishy's Server Avalible Commands:")
         djui_chat_message_create("\\#00ffff\\/ss help \\#ffffff\\Displays these Commands whenever you need them.")
@@ -124,6 +123,8 @@ end
 
 local JoinedAt = get_time() + 5
 local saveTimerTimer = 0
+local LoadedSaveTime = tonumber(mod_storage_load("SSplaytime"))
+reset_loaded_save_time = function () LoadedSaveTime = 0 end
 
 RoomTime = "00:00:00"
 JoinTime = "00:00:00"
@@ -131,7 +132,7 @@ SavedTimer = "00:00:00"
 
 function displayrules(m)
     if BootupTimer < 150 then return end
-    if rules or menu or menuTable[2][6].status ~= 0 then
+    if rules or get_menu() or menuTable[2][6].status ~= 0 then
         if gGlobalSyncTable.RoomStart ~= nil then
             RoomTime = string.format("%s:%s:%s", string.format("%02d", math.floor((get_time() - gGlobalSyncTable.RoomStart)/60/60)), string.format("%02d", math.floor((get_time() - gGlobalSyncTable.RoomStart)/60)%60), string.format("%02d", math.floor(get_time() - gGlobalSyncTable.RoomStart)%60))
         else

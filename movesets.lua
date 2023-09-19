@@ -1,3 +1,5 @@
+-- The actual worst torture would be to manage all of this
+
 --Char Movesets (1)
 
 ANGLE_QUEUE_SIZE = 9
@@ -497,7 +499,7 @@ function act_waluigi_air_swim(m)
     if m.forwardVel > 4 then mario_set_forward_vel(m, m.forwardVel - 2) end
     e.animFrame = e.animFrame + 1
     m.actionTimer = m.actionTimer + 1
-    m.faceAngle.y = m.intendedYaw - approach_s32(convert_s16(m.intendedYaw - m.faceAngle.y), 0, 0x200, 0x200)
+    m.faceAngle.y = m.intendedYaw - approach_s32(s16(m.intendedYaw - m.faceAngle.y), 0, 0x200, 0x200)
     return 0
 end
 
@@ -685,7 +687,7 @@ function act_wario_dash(m)
         return set_mario_action(m, ACT_SLIDE_KICK, 0)
     end
     
-    m.faceAngle.y = m.intendedYaw - approach_s32(convert_s16(m.intendedYaw - m.faceAngle.y), 0, 0x400, 0x400)
+    m.faceAngle.y = m.intendedYaw - approach_s32(s16(m.intendedYaw - m.faceAngle.y), 0, 0x400, 0x400)
 
     m.actionTimer = m.actionTimer + 1
     return 0
@@ -734,7 +736,7 @@ function act_wario_air_dash(m)
         return set_mario_action(m, ACT_SLIDE_KICK, 0)
     end
     
-    m.faceAngle.y = m.intendedYaw - approach_s32(convert_s16(m.intendedYaw - m.faceAngle.y), 0, 0x400, 0x400)
+    m.faceAngle.y = m.intendedYaw - approach_s32(s16(m.intendedYaw - m.faceAngle.y), 0, 0x400, 0x400)
 
     m.actionTimer = m.actionTimer + 1
     return 0

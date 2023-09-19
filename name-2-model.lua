@@ -759,7 +759,7 @@ function mario_update(m)
             menuTable[4][1].status = 0
         end
 
-        BootupInfo = "Loaded Name-2-Model Data"
+        BootupInfo = BOOTUP_LOADED_NAME_2_MODEL_DATA
 
     end
     if BootupTimer < 100 then return end

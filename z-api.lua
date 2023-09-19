@@ -120,7 +120,7 @@ _G.ssApi.theme_get_texture = function (themeNumber) -- Returns the texture info
 end
 
 _G.ssApi.theme_unlock = function (themeString, themeexplain) -- Unlocks a theme as long as it exists in SS
-    theme_unlock(themeString, themeexplain)
+    theme_unlock(themeString, themeexplain, gMarioStates[0])
 end
 
 -- Event Management --

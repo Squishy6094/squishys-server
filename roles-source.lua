@@ -85,7 +85,7 @@ local roleIDtable = {
 
     --Contributer
     [409438020870078486] = "4",  --EmilyEmmi (The entire Roles System)
-    [376426041788465173] = "4",  --Sunk (A bunch of QOL mods)
+    [376426041788465173] = "1",  --Sunk (A bunch of QOL mods)
 }
 
 function reset_roles()
@@ -124,7 +124,7 @@ function network_is_developer()
     if network_discord_id_from_local_index(0) == "0" then
         return false
     end
-    local args = split(roleIDtable[tonumber(network_discord_id_from_local_index(0))])
+    local args = string_split(roleIDtable[tonumber(network_discord_id_from_local_index(0))])
     if tonumber(args[1]) <= 2 and tonumber(args[1]) >= 1 then
         return true
     else
@@ -136,7 +136,7 @@ function network_is_bestie()
     if network_discord_id_from_local_index(0) == "0" then
         return false
     end
-    local args = split(roleIDtable[tonumber(network_discord_id_from_local_index(0))])
+    local args = string_split(roleIDtable[tonumber(network_discord_id_from_local_index(0))])
     if tonumber(args[1]) <= 3 and tonumber(args[1]) >= 1 then
         return true
     else
@@ -153,7 +153,7 @@ function on_chat_message(m, msg)
     local name = playerColor .. np.name
 
     if sMario.role ~= nil then
-        local args = split(sMario.role)
+        local args = string_split(sMario.role)
         if tonumber(args[1]) > 3 and tonumber(args[1]) < 0 then
             sMario.role = "-1"
         end
@@ -192,7 +192,7 @@ end
 function roles_get_tag(localIndex)
     local rolestring = ""
     if gPlayerSyncTable[localIndex].role ~= nil then
-        local args = split(gPlayerSyncTable[localIndex].role)
+        local args = string_split(gPlayerSyncTable[localIndex].role)
         if tonumber(args[1]) > 3 and tonumber(args[1]) < 0 then
             gPlayerSyncTable[localIndex].role = "-1"
         end

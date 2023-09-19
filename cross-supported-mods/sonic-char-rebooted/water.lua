@@ -50,7 +50,7 @@ function act_sonic_water_falling(m)
         end
 
         if (m.input & INPUT_NONZERO_ANALOG) ~= 0 then
-            m.faceAngle.y = m.intendedYaw - approach_s32(convert_s16(m.intendedYaw - m.faceAngle.y), 0, 0x300, 0x300)
+            m.faceAngle.y = m.intendedYaw - approach_s32(s16(m.intendedYaw - m.faceAngle.y), 0, 0x300, 0x300)
             mario_set_forward_vel(m, 20)
         else
             mario_set_forward_vel(m, 0)
@@ -237,7 +237,7 @@ function act_water_roll(m)
         else
             mario_set_forward_vel(m, m.forwardVel - 1)
         end
-        m.faceAngle.y = m.intendedYaw - approach_s32(convert_s16(m.intendedYaw - m.faceAngle.y), 0, 0x1000, 0x1000)
+        m.faceAngle.y = m.intendedYaw - approach_s32(s16(m.intendedYaw - m.faceAngle.y), 0, 0x1000, 0x1000)
     elseif stepResult == GROUND_STEP_HIT_WALL then
         mario_set_forward_vel(m, -16.0)
 
@@ -350,7 +350,7 @@ function mario_update(m)
     end
 end
 
-function convert_s16(num)
+function s16(num)
     local min = -32768
     local max = 32767
     while (num < min) do

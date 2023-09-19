@@ -1397,7 +1397,7 @@ local function server_update()
     end
 end
 
-local function split(s)
+local function string_split(s)
     local result = {}
     for match in (s):gmatch(string.format("[^%s]+", " ")) do
         table.insert(result, match)
@@ -1488,7 +1488,7 @@ local function casino_commands(msg)
         djui_chat_message_create("You must be in Luigi's Casino to use that command.")
         return true
     end
-    args = split(msg)
+    args = string_split(msg)
     if args[1] == "info" then
         info_command(args[2])
         return true
