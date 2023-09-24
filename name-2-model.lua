@@ -72,6 +72,12 @@ function mario_update(m)
                     forcePlayer = CT_MARIO,
                     credit = "Brob2nd",
                 },
+                [6] = {
+                    model = smlua_model_util_get_id("yumi_geo"),
+                    modelName = "Yumi Martinez",
+                    forcePlayer = CT_MARIO,
+                    credit = "frijoles"
+                }
             },
             ["1028561407433777203"] = {
                 nickname = "Spoomples",
@@ -486,6 +492,12 @@ function mario_update(m)
                     forcePlayer = CT_MARIO,
                     icon = "Default",
                     credit = "Cheesester, ER1CK"
+                },
+                [8] = {
+                    model = smlua_model_util_get_id("yumi_geo"),
+                    modelName = "Yumi Martinez",
+                    forcePlayer = CT_MARIO,
+                    credit = "frijoles"
                 }
             },
             ["664638362484867121"] = {
