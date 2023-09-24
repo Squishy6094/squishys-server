@@ -124,6 +124,12 @@ end
 
 local JoinedAt = get_time() + 5
 local saveTimerTimer = 0
+local LoadedSaveTime = tonumber(mod_storage_load("SSplaytime"))
+
+if LoadedSaveTime == nil then
+    mod_storage_save("SSplaytime", "0")
+    LoadedSaveTime = 0
+end
 
 RoomTime = "00:00:00"
 JoinTime = "00:00:00"

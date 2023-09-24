@@ -35,12 +35,10 @@ function save_load(reset)
         end
     end
 
-    if mod_storage_load("SSplaytime") == nil or reset then
+    if reset then
         mod_storage_save("SSplaytime", "0")
-        LoadedSaveTime = 0
     end
 end
-LoadedSaveTime = tonumber(mod_storage_load("SSplaytime"))
 
 warioChallengeComplete = false
 function theme_load()
