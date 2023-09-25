@@ -23,6 +23,11 @@ hook_event(HOOK_UPDATE, function ()
 end)
 
 -- Toggles --
+---@param name string
+---@param statusDefault integer
+---@param statusMax integer
+---@param statusNames table
+---@param description table
 _G.ssApi.option_add = function(name, statusDefault, statusMax, statusNames, description)
     if statusNames == nil then statusNames = {} end
     if description == nil then description = {"Added via the SS Api"} end
@@ -35,6 +40,7 @@ _G.ssApi.option_add = function(name, statusDefault, statusMax, statusNames, desc
     }
 end
 
+---@param name string
 _G.ssApi.option_read = function(name)
     for i = 1, #menuTable do
         for k = 1, #menuTable[i] do
@@ -45,6 +51,8 @@ _G.ssApi.option_read = function(name)
     end
 end
 
+---@param name string
+---@param status integer
 _G.ssApi.option_write = function(name, status)
     for i = 1, #menuTable do
         for k = 1, #menuTable[i] do
@@ -58,9 +66,10 @@ end
 
 
 -- Menu Info --
-_G.ssApi.menu_open = function (boolean)
-    if boolean ~= nil then
-        menu = boolean
+---@param toggle boolean
+_G.ssApi.menu_open = function (toggle)
+    if toggle ~= nil then
+        menu = toggle
     else
         return menu
     end
@@ -82,6 +91,7 @@ end
 
 
 -- Roles Info --
+---@param localIndex integer
 _G.ssApi.roles_tag = function (localIndex) -- Returns the User's Roles String (if they have any)
     return roles_get_tag(localIndex)
 end
@@ -89,41 +99,50 @@ end
 
 -- Theme Info --
 -- Perfect if you want your own Menus to use SS themes
+---@param themeNumber integer
 _G.ssApi.theme_get_name = function (themeNumber) -- Returns the Theme's Name String
     if themeNumber == nil then themeNumber = menuTable[2][3].status end
     return themeTable[themeNumber].name
 end
 
+---@param themeNumber integer
 _G.ssApi.theme_get_color = function (themeNumber) -- Returns a Hex Code String: \\#ffffff\\
     if themeNumber == nil then themeNumber = menuTable[2][3].status end
     return themeTable[themeNumber].color
 end
 
+---@param themeNumber integer
 _G.ssApi.theme_get_color_hover = function (themeNumber) -- Returns a table: {r, g, b}
     if themeNumber == nil then themeNumber = menuTable[2][3].status end
     return themeTable[themeNumber].hoverColor
 end
 
+---@param themeNumber integer
 _G.ssApi.theme_get_color_header = function (themeNumber) -- Returns a table: {r, g, b}
     if themeNumber == nil then themeNumber = menuTable[2][3].status end
     return themeTable[themeNumber].headerColor
 end
 
+---@param themeNumber integer
 _G.ssApi.theme_get_has_header = function (themeNumber) -- Returns either true or false
     if themeNumber == nil then themeNumber = menuTable[2][3].status end
     return themeTable[themeNumber].hasHeader
 end
 
+---@param themeNumber integer
 _G.ssApi.theme_get_texture = function (themeNumber) -- Returns the texture info
     if themeNumber == nil then themeNumber = menuTable[2][3].status end
     return themeTable[themeNumber].texture
 end
 
+---@param themeString string
+---@param themeexplain string
 _G.ssApi.theme_unlock = function (themeString, themeexplain) -- Unlocks a theme as long as it exists in SS
     theme_unlock(themeString, themeexplain)
 end
 
 -- Event Management --
+---@param eventString string
 _G.ssApi.event = function (eventString) -- Returns or Sets the current event (Useful for mod collabs)
     if eventString ~= nil then
         gGlobalSyncTable.event = eventString
