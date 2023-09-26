@@ -38,11 +38,11 @@ local TEX_SS_LOADING = get_texture_info("ssLoading")
 local get_boot_info = {
     [BOOTUP_INITALIZING] = "Initalizing",
     [BOOTUP_RELOADING] = "Reloading",
-    [BOOTUP_LOADED_CUSTOM_HUD_DATA] = "Loaded custom hud data",
-    [BOOTUP_LOADED_MENU_DATA] = "Loaded menu data",
-    [BOOTUP_FINISHED_MENU_SETUP] = "Finished menu setup",
-    [BOOTUP_LOADED_THEME_DATA] = "Loaded theme data",
-    [BOOTUP_LOADED_NAME_2_MODEL_DATA] = "Loaded name-2-model data"
+    [BOOTUP_LOADED_CUSTOM_HUD_DATA] = "Loaded Custom Hud data",
+    [BOOTUP_LOADED_MENU_DATA] = "Loaded Menu data",
+    [BOOTUP_FINISHED_MENU_SETUP] = "Finished Menu Setup",
+    [BOOTUP_LOADED_THEME_DATA] = "Loaded Theme data",
+    [BOOTUP_LOADED_NAME_2_MODEL_DATA] = "Loaded Name-2-Model data"
 }
 
 local function boot_hud_render()
@@ -53,23 +53,23 @@ local function boot_hud_render()
         opacity = opacity - 3
     end
 
+    djui_hud_set_resolution(RESOLUTION_N64)
     local screen_width = djui_hud_get_screen_width()
     local half_width = screen_width * 0.5
     local screen_height = djui_hud_get_screen_height()
     local half_height = screen_height * 0.5
-    djui_hud_set_resolution(RESOLUTION_N64)
     djui_hud_set_color(0, 0, 0, opacity)
     djui_hud_render_rect(0, 0, screen_width + 5, screen_width + 5)
     djui_hud_set_color(255, 255, 255, opacity)
     djui_hud_render_rect(0, screen_height - 5, ((screen_width + 5) / 150) * BootupTimer, 10)
     djui_hud_set_font(FONT_NORMAL)
     djui_hud_print_text(NOW_LOADING, half_width - djui_hud_measure_text(NOW_LOADING) * 0.5, 30, 1)
-    if BootupInfo then
+    if BootupInfo ~= nil then
         local bootup_info_text = get_boot_info[BootupInfo]
         djui_hud_print_text(bootup_info_text, half_width - djui_hud_measure_text(bootup_info_text) * 0.35, screen_height - 30, 0.7)
     end
     djui_hud_set_color(0, 131, 0, opacity)
-    djui_hud_render_texture_tile(TEX_THEME_DEFAULT, half_width - 106, half_height - 30, THIRD, TWENTYSIXFIFTEENTH, 0, 206, 176, 50)
+    djui_hud_render_texture_tile(TEX_THEME_DEFAULT, half_width - 106, half_height - 30, THIRD, 1.17333333333, 0, 206, 176, 50)
 
     djui_hud_set_color(255, 255, 255, opacity)
     if opacity > 0 then

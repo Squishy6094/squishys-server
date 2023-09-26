@@ -1012,6 +1012,7 @@ warioTimer = 0
 warioChallenge = 0
 playedWarioSound = false
 
+local TEXT_SERVER_OPTIONS = "L Button - Server Options"
 local function hud_render()
     local m = gMarioStates[0]
 
@@ -1033,17 +1034,16 @@ local function hud_render()
     if BootupTimer < 90 then return end
 
     djui_hud_set_font(FONT_NORMAL)
-    djui_hud_set_resolution(RESOLUTION_N64)
+    djui_hud_set_resolution(RESOLUTION_DJUI)
     local half_screen_width = djui_hud_get_screen_width() * 0.5
 
     if is_game_paused() and not djui_hud_is_pause_menu_created() then
         djui_hud_set_render_behind_hud(false)
         if m.action ~= ACT_EXIT_LAND_SAVE_DIALOG then
-            djui_hud_set_resolution(RESOLUTION_DJUI)
             djui_hud_set_color(0, 0, 0, 255)
-            djui_hud_print_text("L Button - Server Options", (half_screen_width - (djui_hud_measure_text("L Button - Server Options")*0.5)) + 1, 43, 1)
+            djui_hud_print_text(TEXT_SERVER_OPTIONS, (half_screen_width - (djui_hud_measure_text(TEXT_SERVER_OPTIONS)*0.5)) + 1, 43, 1)
             djui_hud_set_color(255, 255, 255, 255)
-            djui_hud_print_text("L Button - Server Options", (half_screen_width - (djui_hud_measure_text("L Button - Server Options")*0.5)), 42, 1)
+            djui_hud_print_text(TEXT_SERVER_OPTIONS, (half_screen_width - (djui_hud_measure_text(TEXT_SERVER_OPTIONS)*0.5)), 42, 1)
         end
     end
 
