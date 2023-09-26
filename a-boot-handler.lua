@@ -29,7 +29,6 @@ local opacity = 255
 
 -- Omega
 local THIRD = 1/3
-local TWENTYSIXFIFTEENTH = 26/15
 local NOW_LOADING = "Now loading..."
 
 local TEX_THEME_DEFAULT = get_texture_info("theme-default")

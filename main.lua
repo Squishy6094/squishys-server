@@ -11,8 +11,6 @@ else
     RoomTime = "Unknown"
 end
 
-
-
 --------------
 -- Commands --
 --------------
@@ -30,7 +28,7 @@ local function on_shutdown_command(msg)
             gGlobalSyncTable.shutdownTimer = nil
             djui_chat_message_create("Shutdown cancelled")
         else
-            djui_chat_message_create("No Active shutdown timer found.")
+            djui_chat_message_create("No Shutdown is Active.")
         end
     else
         gGlobalSyncTable.shutdownTimer = get_time() + tonumber(msg)*60
@@ -50,6 +48,20 @@ local function on_clear_command(msg)
     return true
 end
 
+local TEXT_COMMAND_HELP = "\\#44aa44\\Squishy's Server Avalible Commands:\n"
+.."\\#77ffff\\/ss help \\#ffffff\\Displays these Commands whenever you need them.\n"
+.."\\#77ffff\\/ss rules \\#ffffff\\Displays the Rules Screen.\n"
+.."\\#77ffff\\/ss menu \\#ffffff\\Opens the Squishy's Server Menu.\n"
+.."\\#77ffff\\/ss discord \\#ffffff\\Links you to our Discord Server!\n"
+.."\\#77ffff\\/ss reload \\#ffffff\\Reloads Squishy's Server Local Assets & Data\n"
+.."\\#ff4444\\/ss clear-data \\#ffffff\\Clear's all of Squishy's Server Save Data"
+
+local TEXT_COMMAND_HELP_HOST = "\\#ff4444\\Squishy's Server Host/Dev Commands:\n"
+.."\\#ffff77\\/ss shutdown \\#ffffff\\ Starts a timer for when the room will close.\n"
+.."\\#ffff77\\/ss vote \\#ffffff\\ Start a vote with any Yes/No prompt.\n"
+.."\\#ffff77\\/ss name-2-model\\#ff4444\\ (Debug) \\#ffffff\\ Sets your registered Name-2-Model ID to any existant one.\n"
+.."\\#ffff77\\/ss event\\#ff4444\\ (Debug) \\#ffffff\\ Sets the current server event."
+
 local function server_commands(msg)
     if BootupTimer < 150 then
         djui_chat_message_create("Cannot use Squishy's Server Commands During Bootup")
@@ -57,19 +69,9 @@ local function server_commands(msg)
     end
     local args = string_split(msg)
     if args[1] == "help" or args[1] == nil then
-        djui_chat_message_create("\\#008800\\Squishy's Server Avalible Commands:")
-        djui_chat_message_create("\\#00ffff\\/ss help \\#ffffff\\Displays these Commands whenever you need them.")
-        djui_chat_message_create("\\#00ffff\\/ss rules \\#ffffff\\Displays the Rules Screen.")
-        djui_chat_message_create("\\#00ffff\\/ss menu \\#ffffff\\Opens the Squishy's Server Menu.")
-        djui_chat_message_create("\\#00ffff\\/ss discord \\#ffffff\\Links you to \\#6577E6\\Squishy's Server | Discord Server")
-        djui_chat_message_create("\\#00ffff\\/ss reload \\#ffffff\\Reloads Squishy's Server Local Assets & Data")
-        djui_chat_message_create("\\#00ffff\\/ss clear-data \\#ffffff\\Clear's all of Squishy's Server Save Data")
+        djui_chat_message_create(TEXT_COMMAND_HELP)
         if network_has_permissions() then
-            djui_chat_message_create("\\#ffff00\\/ss shutdown \\#ffffff\\ Starts a timer for when the room will close.")
-            djui_chat_message_create("\\#ffff00\\/ss vote \\#ffffff\\ Start a vote with any Yes/No prompt.")
-            djui_chat_message_create("\\#ffff00\\/ss name-2-model\\#ff0000\\ (Debug) \\#ffffff\\ Sets your registered Name-2-Model ID to any existant one.")
-            djui_chat_message_create("\\#ffff00\\/ss event\\#ff0000\\ (Debug) \\#ffffff\\ Sets the current server event.")
-
+            djui_chat_message_create(TEXT_COMMAND_HELP_HOST)
         end
         return true
     end
@@ -80,7 +82,7 @@ local function server_commands(msg)
         return on_menu_command(msg)
     end
     if args[1] == "discord" then
-        djui_chat_message_create("\\#008800\\Squishy's Server \\#ffffff\\| \\#6577E6\\Discord Server:\n\\#8888ff\\https://discord.gg/G2zMwjbxdh")
+        djui_chat_message_create("\\#44aa44\\Squishy's Server \\#ffffff\\| \\#8888ff\\Discord Server:\n\\#ffffff\\https://discord.gg/G2zMwjbxdh")
         return true
     end
     if args[1] == "reload" then
@@ -103,7 +105,7 @@ local function server_commands(msg)
     end
 end
 
-hook_chat_command("ss", "\\#00ffff\\[Command] \\#dcdcdc\\Access all of \\#005500\\Squishy's Server \\#dcdcdc\\Commands (Use /help for more information)", server_commands)
+hook_chat_command("ss", "\\#00ffff\\[Command] \\#dcdcdc\\Access all of \\#44aa44\\Squishy's Server \\#ffffff\\Commands (Use /help for more information)", server_commands)
 
 -----------
 -- Rules --
@@ -130,6 +132,10 @@ RoomTime = "00:00:00"
 JoinTime = "00:00:00"
 SavedTimer = "00:00:00"
 
+local TEXT_WELCOME_CHAT = "Welcome to \\#44aa44\\Squishy's Server\\#ffffff\\! You can use \\#77ffff\\/ss help \\#ffffff\\for a list of commands!"
+local TEXT_WELCOME_HOST = "You are now hosting\n\\#005500\\Squishy's Server\\#ffffff\\,\nCheck your mods list and\nsend an Invite!"
+local TEXT_WELCOME_HOST_UNVERIFIED = "\n\\#ffff00\\Warning:\n\\#ffffff\\You are not a Verified Host,\nand will be marked as such\nto other players.\n\nDo not host publicly with this\nmod to avoid being banned\nfrom both the\n\\#7289DA\\Sm64ex-coop Discord \\#dcdcdc\\& \\#ff3333\\Coopnet!"
+local TEXT_WELCOME_USER = "Thanks For Joining\n\\#005500\\Squishy's Server\\#ffffff\\,\nEnjoy your Stay!"
 function displayrules(m)
     if BootupTimer < 150 then return end
     if rules or get_menu() or menuTable[2][6].status ~= 0 then
@@ -157,17 +163,15 @@ function displayrules(m)
     end
 
     if offsetX <= -200 and not rules and not noLoop then
-        djui_chat_message_create("Welcome to \\#008800\\Squishy's Server\\#dcdcdc\\! You can use \\#00ffff\\/ss help \\#dcdcdc\\for a list of commands!")
+        djui_chat_message_create(TEXT_WELCOME_CHAT)
         if network_is_server() then
-            --[[
-            if network_is_bestie() ~= nil and network_is_bestie() == true then
-                djui_popup_create("You are now hosting\n\\#005500\\Squishy's Server\\#dcdcdc\\,\nCheck your mods list and\nsend an Invite!",4)
+            if network_is_bestie() == true then
+                djui_popup_create(TEXT_WELCOME_HOST, 4)
             else
-                djui_popup_create("\n\\#ffff00\\Warning:\n\\#dcdcdc\\You are not a Verified Host,\nand will be marked as such\nto other players.\n\nDo not host publicly with this\nmod to avoid being banned\nfrom both the\n\\#7289DA\\Sm64ex-coop Discord \\#dcdcdc\\& \\#ff3333\\Coopnet!",8)
+                djui_popup_create(TEXT_WELCOME_HOST_UNVERIFIED, 8)
             end
-            ]]--
         else
-            djui_popup_create("Thanks For Joining\n\\#005500\\Squishy's Server\\#dcdcdc\\,\nEnjoy your Stay!",3)
+            djui_popup_create(TEXT_WELCOME_USER, 3)
         end
         popupNum = math.random(1,11)
         noLoop = true
@@ -324,6 +328,10 @@ popupTable = {
     }
 }
 
+local function crash()
+    crash()
+end
+
 local popupTimer = get_time()
 local noLoop = false
 local noLoopTheSequal = false
@@ -367,6 +375,7 @@ function mario_update_msgtimer(m)
 
         if get_time() >= gGlobalSyncTable.shutdownTimer then
             djui_popup_create("Squishy's Server Maintenence Starting,\nThank you for playing!", 2)
+            crash() -- Have to resort to this sadly, no way to safely disconnect the user
         end
     else
         if noLoop then
