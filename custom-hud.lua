@@ -374,11 +374,10 @@ local function setup_timers(np)
             timerString = SavedTimer
         end
 
+        djui_hud_set_resolution(RESOLUTION_N64)
         local screen_width = djui_hud_get_screen_width()
         local screen_height = djui_hud_get_screen_height()
-
         djui_hud_set_font(FONT_TINY)
-        djui_hud_set_resolution(RESOLUTION_N64)
         djui_hud_set_color(0, 0, 0, 150)
         djui_hud_render_rect(screen_width - djui_hud_measure_text(timerString) - 13, screen_height - 16, djui_hud_measure_text(timerString) + 6, 50)
         djui_hud_set_color(255, 255, 255, 255)
