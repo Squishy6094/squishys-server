@@ -11,102 +11,6 @@ else
     RoomTime = "Unknown"
 end
 
---------------
--- Commands --
---------------
-local function on_rules_command()
-    rules = true
-    return true
-end
-
-local function on_shutdown_command(msg)
-    if not network_is_server() and not network_is_moderator() then
-        return false
-    end
-    if msg == "cancel" then
-        if gGlobalSyncTable.shutdownTimer ~= nil then
-            gGlobalSyncTable.shutdownTimer = nil
-            djui_chat_message_create("Shutdown cancelled")
-        else
-            djui_chat_message_create("No Shutdown is Active.")
-        end
-    else
-        gGlobalSyncTable.shutdownTimer = get_time() + tonumber(msg)*60
-        djui_chat_message_create("Server Shutdown set for ".. msg.. " Minutes from now")
-    end
-    return true
-end
-
-local function on_clear_command(msg)
-    if msg ~= "confirm" then
-        djui_chat_message_create("Are you sure you want to do this? This will clear all Toggles, Themes, and previous playtime from your save data!\nType \\#ff8888\\/ss clear-data confirm\\#ffffff\\ to confirm")
-    else
-        djui_chat_message_create("Clearing Squishy's Server Save Data...")
-        save_load(true)
-        theme_load()
-    end
-    return true
-end
-
-local TEXT_COMMAND_HELP = "\\#44aa44\\Squishy's Server Avalible Commands:\n"
-.."\\#77ffff\\/ss help \\#ffffff\\Displays these Commands whenever you need them.\n"
-.."\\#77ffff\\/ss rules \\#ffffff\\Displays the Rules Screen.\n"
-.."\\#77ffff\\/ss menu \\#ffffff\\Opens the Squishy's Server Menu.\n"
-.."\\#77ffff\\/ss discord \\#ffffff\\Links you to our Discord Server!\n"
-.."\\#77ffff\\/ss reload \\#ffffff\\Reloads Squishy's Server Local Assets & Data\n"
-.."\\#ff4444\\/ss clear-data \\#ffffff\\Clear's all of Squishy's Server Save Data"
-
-local TEXT_COMMAND_HELP_HOST = "\\#ff4444\\Squishy's Server Host/Dev Commands:\n"
-.."\\#ffff77\\/ss shutdown \\#ffffff\\ Starts a timer for when the room will close.\n"
-.."\\#ffff77\\/ss vote \\#ffffff\\ Start a vote with any Yes/No prompt.\n"
-.."\\#ffff77\\/ss name-2-model\\#ff4444\\ (Debug) \\#ffffff\\ Sets your registered Name-2-Model ID to any existant one.\n"
-.."\\#ffff77\\/ss event\\#ff4444\\ (Debug) \\#ffffff\\ Sets the current server event."
-
-local function server_commands(msg)
-    if BootupTimer < 150 then
-        djui_chat_message_create("Cannot use Squishy's Server Commands During Bootup")
-        return true
-    end
-    local args = string_split(msg)
-    if args[1] == "help" or args[1] == nil then
-        djui_chat_message_create(TEXT_COMMAND_HELP)
-        if network_has_permissions() then
-            djui_chat_message_create(TEXT_COMMAND_HELP_HOST)
-        end
-        return true
-    end
-    if args[1] == "rules" then
-        return on_rules_command()
-    end
-    if args[1] == "menu" then
-        return on_menu_command(msg)
-    end
-    if args[1] == "discord" then
-        djui_chat_message_create("\\#44aa44\\Squishy's Server \\#ffffff\\| \\#8888ff\\Discord Server:\n\\#ffffff\\https://discord.gg/G2zMwjbxdh")
-        return true
-    end
-    if args[1] == "reload" then
-        return on_reload_command()
-    end
-    if args[1] == "clear-data" then
-        return on_clear_command(args[2])
-    end
-    if args[1] == "shutdown" then
-        return on_shutdown_command(args[2])
-    end
-    if args[1] == "name-2-model" then
-        return set_discord_id(args[2])
-    end
-    if args[1] == "event" then
-        return on_event_command(msg)
-    end
-    if args[1] == "vote" then
-        return on_vote_command(msg)
-    end
-end
-
-hook_chat_command("ss", "\\#00ffff\\[Command] \\#dcdcdc\\Access all of \\#44aa44\\Squishy's Server \\#ffffff\\Commands (Use /help for more information)", server_commands)
-
 -----------
 -- Rules --
 -----------
@@ -429,6 +333,99 @@ local function on_player_disconnected()
         gMarioStates[i].particleFlags = gPlayerSyncTable[i].particleFlags
     end
 end
+
+
+--------------
+-- Commands --
+--------------
+local function on_shutdown_command(msg)
+    if not network_is_server() and not network_is_moderator() then
+        return false
+    end
+    if msg == "cancel" then
+        if gGlobalSyncTable.shutdownTimer ~= nil then
+            gGlobalSyncTable.shutdownTimer = nil
+            djui_chat_message_create("Shutdown cancelled")
+        else
+            djui_chat_message_create("No Shutdown is Active.")
+        end
+    else
+        gGlobalSyncTable.shutdownTimer = get_time() + tonumber(msg)*60
+        djui_chat_message_create("Server Shutdown set for ".. msg.. " Minutes from now")
+    end
+    return true
+end
+
+local function on_clear_command(msg)
+    if msg ~= "confirm" then
+        djui_chat_message_create("Are you sure you want to do this? This will clear all Toggles, Themes, and previous playtime from your save data!\nType \\#ff8888\\/ss clear-data confirm\\#ffffff\\ to confirm")
+    else
+        djui_chat_message_create("Clearing Squishy's Server Save Data...")
+        save_data_load(true)
+        theme_load()
+    end
+    return true
+end
+
+local TEXT_COMMAND_HELP = "\\#44aa44\\Squishy's Server Avalible Commands:\n"
+.."\\#77ffff\\/ss help \\#ffffff\\Displays these Commands whenever you need them.\n"
+.."\\#77ffff\\/ss rules \\#ffffff\\Displays the Rules Screen.\n"
+.."\\#77ffff\\/ss menu \\#ffffff\\Opens the Squishy's Server Menu.\n"
+.."\\#77ffff\\/ss discord \\#ffffff\\Links you to our Discord Server!\n"
+.."\\#77ffff\\/ss reload \\#ffffff\\Reloads Squishy's Server Local Assets & Data\n"
+.."\\#ff4444\\/ss clear-data \\#ffffff\\Clear's all of Squishy's Server Save Data"
+
+local TEXT_COMMAND_HELP_HOST = "\\#ff4444\\Squishy's Server Host/Dev Commands:\n"
+.."\\#ffff77\\/ss shutdown \\#ffffff\\ Starts a timer for when the room will close.\n"
+.."\\#ffff77\\/ss vote \\#ffffff\\ Start a vote with any Yes/No prompt.\n"
+.."\\#ffff77\\/ss name-2-model\\#ff4444\\ (Debug) \\#ffffff\\ Sets your registered Name-2-Model ID to any existant one.\n"
+.."\\#ffff77\\/ss event\\#ff4444\\ (Debug) \\#ffffff\\ Sets the current server event."
+
+local function server_commands(msg)
+    if BootupTimer < 150 then
+        djui_chat_message_create("Cannot use Squishy's Server Commands During Bootup")
+        return true
+    end
+    local args = string_split(msg)
+    if args[1] == "help" or args[1] == nil then
+        djui_chat_message_create(TEXT_COMMAND_HELP)
+        if network_has_permissions() then
+            djui_chat_message_create(TEXT_COMMAND_HELP_HOST)
+        end
+        return true
+    end
+    if args[1] == "rules" then
+        rules = true
+        return true
+    end
+    if args[1] == "menu" then
+        return on_menu_command(msg)
+    end
+    if args[1] == "discord" then
+        djui_chat_message_create("\\#44aa44\\Squishy's Server \\#ffffff\\| \\#8888ff\\Discord Server:\n\\#ffffff\\https://discord.gg/G2zMwjbxdh")
+        return true
+    end
+    if args[1] == "reload" then
+        return on_reload_command()
+    end
+    if args[1] == "clear-data" then
+        return on_clear_command(args[2])
+    end
+    if args[1] == "shutdown" then
+        return on_shutdown_command(args[2])
+    end
+    if args[1] == "name-2-model" then
+        return set_discord_id(args[2])
+    end
+    if args[1] == "event" then
+        return on_event_command(msg)
+    end
+    if args[1] == "vote" then
+        return on_vote_command(msg)
+    end
+end
+
+hook_chat_command("ss", "\\#00ffff\\[Command] \\#dcdcdc\\Access all of \\#44aa44\\Squishy's Server \\#ffffff\\Commands (Use /help for more information)", server_commands)
 
 hook_event(HOOK_ON_HUD_RENDER, displayrules)
 hook_event(HOOK_MARIO_UPDATE, mario_update_msgtimer)

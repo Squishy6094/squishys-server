@@ -70,7 +70,7 @@ local MENU_TAB_MISC = {
 local KBTranslate = 0
 
 ---@param reset boolean
-function save_load(reset)
+function save_data_load(reset)
     for tab = 1, 4 do
         for option = 1, #menuTable[tab] do
             local current_option = menuTable[tab][option]
@@ -712,7 +712,7 @@ local function setup_ss_menu_misc()
         doSparkles = tobool(menuTable[MENU_TABS.misc][sparklesOptionHover].status)
     end
 
-    save_load(false)
+    save_data_load(false)
 
     for i in pairs(gActiveMods) do
         local name = gActiveMods[i].name
