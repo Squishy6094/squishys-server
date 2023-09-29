@@ -21,8 +21,11 @@ Users:
 
     We still include users such as sm64rise in the offchance they join, and Mawio is already used by so many other people anyways.
 --]]
+
 local modelTable = {}
 
+local currModel = 0
+local localModelDisplay = true
 local function setup_models()
 modelTable = {
     ["0"] = { -- Unregistered users will be set to 0
@@ -729,6 +732,8 @@ end
 local function mario_update(m)
     if BootupTimer == 90 and m.playerIndex ~= 0 then
         setup_models()
+        currModel = menuTable[4][1].status
+        localModelDisplay = tobool(menuTable[4][2].status)
         menuErrorMsg = "Error not found"
 
         if discordID == "0" then
@@ -759,20 +764,24 @@ local function mario_update(m)
         end
         menuTable[4][1].statusMax = #modelTable[discordID]
 
-        if menuTable[4][1].status == nil then
-            menuTable[4][1].status = 0
+        if currModel == nil then
+            currModel = 0
         end
 
         BootupInfo = BOOTUP_LOADED_NAME_2_MODEL_DATA
     end
+    
     if BootupTimer < 100 then return end
+    currModel = menuTable[4][1].status
+    localModelDisplay = tobool(menuTable[4][2].status)
+
     if modelTable[discordID][menuTable[4][1].status].icon ~= nil then
         lifeIcon = modelTable[discordID][menuTable[4][1].status].icon
     else
         lifeIcon = 0
     end
 
-    if menuTable[4][2].status == 0 then return end
+    if not localModelDisplay then return end
     if m.playerIndex == 0 then
         if discordID ~= "0" then
             gPlayerSyncTable[0].modelId = modelTable[discordID][menuTable[4][1].status].model
@@ -781,7 +790,7 @@ local function mario_update(m)
             end
         else
             gPlayerSyncTable[0].modelId = nil
-            if menuTable[4][1].status ~= 0 then
+            if currModel ~= 0 then
                 menuTable[4][1].status = 0
             end
         end
@@ -793,7 +802,7 @@ end
 
 local function set_model(o, id)
     if BootupTimer < 150 then return end
-    if id == E_MODEL_MARIO and menuTable[4][2].status ~= 0 then
+    if id == E_MODEL_MARIO and localModelDisplay then
         local i = network_local_index_from_global(o.globalPlayerIndex)
         if gPlayerSyncTable[i].modelId ~= nil then
             obj_set_model_extended(o, gPlayerSyncTable[i].modelId)
