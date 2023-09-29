@@ -5,11 +5,11 @@
 
 Models:
     Do:
-    Unique Characters/Outfits that add to the Character
+    Unique Characters/Outfits that add to the Character/Personality
     (Mawio, Builder Mario, Casino Luigi, etc.)
 
     Don't:
-    Alt Models that would work better as just a locally used DynOS Pack, Avoid Basic Mario Modifications
+    Alt Models that would work better as just a locally used DynOS Pack, Avoid Modifications that don't give a different feel for Personality
     (R96 Mario, Retro Mario, Beta Luigi, Better Toad, etc.)
 
 Users:
@@ -26,6 +26,7 @@ local modelTable = {}
 
 local currModel = 0
 local localModelDisplay = true
+
 local function setup_models()
 modelTable = {
     ["0"] = { -- Unregistered users will be set to 0
@@ -771,22 +772,24 @@ local function mario_update(m)
         BootupInfo = BOOTUP_LOADED_NAME_2_MODEL_DATA
     end
     
-    if BootupTimer < 100 then return end
+    if BootupTimer < 110 then return end
     currModel = menuTable[4][1].status
     localModelDisplay = tobool(menuTable[4][2].status)
 
-    if modelTable[discordID][menuTable[4][1].status].icon ~= nil then
-        lifeIcon = modelTable[discordID][menuTable[4][1].status].icon
-    else
-        lifeIcon = 0
+    if not localModelDisplay then
+        lifeIcon = "Default"
+        return
     end
-
-    if not localModelDisplay then return end
     if m.playerIndex == 0 then
         if discordID ~= "0" then
-            gPlayerSyncTable[0].modelId = modelTable[discordID][menuTable[4][1].status].model
-            if modelTable[discordID][menuTable[4][1].status].forcePlayer ~= nil and gPlayerSyncTable[m.playerIndex].modelId ~= nil then
-                gNetworkPlayers[m.playerIndex].overrideModelIndex = modelTable[discordID][menuTable[4][1].status].forcePlayer
+            if modelTable[discordID][currModel].icon ~= nil then
+                lifeIcon = modelTable[discordID][currModel].icon
+            else
+                lifeIcon = 0
+            end
+            gPlayerSyncTable[0].modelId = modelTable[discordID][currModel].model
+            if modelTable[discordID][currModel].forcePlayer ~= nil and gPlayerSyncTable[m.playerIndex].modelId ~= nil then
+                gNetworkPlayers[m.playerIndex].overrideModelIndex = modelTable[discordID][currModel].forcePlayer
             end
         else
             gPlayerSyncTable[0].modelId = nil
@@ -853,11 +856,11 @@ function name2model_get_nickname()
 end
 
 function name2model_get_model_name()
-    return modelTable[discordID][menuTable[4][1].status].modelName
+    return modelTable[discordID][currModel].modelName
 end
 
 function name2model_get_model_credit()
-    return modelTable[discordID][menuTable[4][1].status].credit
+    return modelTable[discordID][currModel].credit
 end
 
 hook_event(HOOK_MARIO_UPDATE, mario_update)
