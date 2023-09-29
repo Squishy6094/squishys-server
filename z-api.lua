@@ -73,13 +73,16 @@ _G.ssApi.name2model_get_ID = function() -- Returns User's current the Name-2-Mod
 end
 
 _G.ssApi.name2model_get_nickname = function () -- Returns the User's Nickname
-    return modelTable[discordID].nickname
+    return name2model_get_nickname()
 end
 
 _G.ssApi.name2model_get_model_name = function () -- Returns the User's Current Model Name
-    return modelTable[discordID][menuTable[4][1].status].modelName
+    return name2model_get_model_name()
 end
 
+_G.ssApi.name2model_get_model_credit = function () -- Returns the User's Current Model Credit
+    return name2model_get_model_credit()
+end
 
 -- Roles Info --
 _G.ssApi.roles_tag = function (localIndex) -- Returns the User's Roles String (if they have any)

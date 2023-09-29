@@ -91,8 +91,9 @@ function displayrules(m)
         djui_hud_set_font(FONT_NORMAL)
         djui_hud_set_color(255, 255, 255, 50)
         if discordID ~= "0" then
+            TEXT_REGISTERED = "Registered as "..name2model_get_nickname().. " via Name-2-Model"
             djui_hud_set_color(150, 150, 150, 255)
-            djui_hud_print_text("Registered as "..modelTable[discordID].nickname.. " via Name-2-Model", 190 - (djui_hud_measure_text("Registered as "..modelTable[discordID].nickname.. " via Name-2-Model")*0.2) + offsetX, 5, 0.2)
+            djui_hud_print_text(TEXT_REGISTERED, 190 - (djui_hud_measure_text(TEXT_REGISTERED)*0.2) + offsetX, 5, 0.2)
         else
             djui_hud_set_color(150, 150, 150, 255)
             djui_hud_print_text("Unregistered via Name-2-Model", 190 - (djui_hud_measure_text("Unregistered via Name-2-Model")*0.2) + offsetX, 5, 0.2)

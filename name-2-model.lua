@@ -21,6 +21,7 @@ Users:
 
     We still include users such as sm64rise in the offchance they join, and Mawio is already used by so many other people anyways.
 --]]
+local modelTable = {}
 
 local function setup_models()
 modelTable = {
@@ -725,7 +726,7 @@ modelTable = {
 end
 
 --- @param m MarioState
-function mario_update(m)
+local function mario_update(m)
     if BootupTimer == 90 and m.playerIndex ~= 0 then
         setup_models()
         menuErrorMsg = "Error not found"
@@ -790,7 +791,7 @@ function mario_update(m)
     end
 end
 
-function set_model(o, id)
+local function set_model(o, id)
     if BootupTimer < 150 then return end
     if id == E_MODEL_MARIO and menuTable[4][2].status ~= 0 then
         local i = network_local_index_from_global(o.globalPlayerIndex)
@@ -835,6 +836,19 @@ function set_discord_id(msg)
         djui_chat_message_create("Invalid ID Entered")
     end
     return true
+end
+
+--Functions to keep our table local
+function name2model_get_nickname()
+    return modelTable[discordID].nickname
+end
+
+function name2model_get_model_name()
+    return modelTable[discordID][menuTable[4][1].status].modelName
+end
+
+function name2model_get_model_credit()
+    return modelTable[discordID][menuTable[4][1].status].credit
 end
 
 hook_event(HOOK_MARIO_UPDATE, mario_update)

@@ -859,7 +859,7 @@ local function ss_menu_handler(m)
 
     if discordID ~= "0" then
         djui_hud_set_color(150, 150, 150, 255)
-        djui_hud_print_text("Registered as "..modelTable[discordID].nickname.. " via Name-2-Model", (half_screen_width - 80), 216 + bobbing, 0.3)
+        djui_hud_print_text("Registered as "..name2model_get_nickname().. " via Name-2-Model", (half_screen_width - 80), 216 + bobbing, 0.3)
     else
         djui_hud_set_color(150, 150, 150, 255)
         djui_hud_print_text("Unregistered via Name-2-Model / ".. menuErrorMsg, (half_screen_width - 80), 216 + bobbing, 0.3)
@@ -901,7 +901,7 @@ local function ss_menu_handler(m)
     local model_status = menuTable[MENU_TABS.misc][MENU_TAB_MISC.personalModel].status
     if optionTab == 4 and optionHover == 1 and model_status ~= 0 then
         djui_hud_set_color(128, 128, 128, 255)
-        local credit = modelTable[discordID][model_status].credit
+        local credit = name2model_get_model_credit()
         if credit then
             djui_hud_print_text("By ".. (credit or "Unknown"), half_screen_width, 90 + bobbing, 0.2)
         end
@@ -1168,7 +1168,7 @@ local function before_update(m)
             end
         end
 
-        if (m.controller.buttonDown & B_BUTTON) ~= 0 or (m.controller.buttonDown & START_BUTTON) ~= 0 or (m.controller.buttonPressed & L_TRIG) ~= 0 and menu then
+        if (m.controller.buttonPressed & B_BUTTON) ~= 0 or (m.controller.buttonPressed & START_BUTTON) ~= 0 and menu then
             print("Saving configuration to 'squishys-server.sav'")
             menu = false
             play_sound(SOUND_MENU_MESSAGE_DISAPPEAR, m.marioObj.header.gfx.cameraToObject)
