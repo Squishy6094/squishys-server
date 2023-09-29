@@ -133,12 +133,6 @@ local function setup_models()
                 icon = 7,
                 credit = "Trashcam"
             },
-            [5] = {
-                model = smlua_model_util_get_id("wander_geo"),
-                modelName = "Wander",
-                forcePlayer = CT_TOAD,
-                credit = "AlexXRGames"
-            },
         },
         ["767513529036832799"] = {
             nickname = "Cosmic",
@@ -354,38 +348,32 @@ local function setup_models()
                 forcePlayer = CT_LUIGI
             },
             [4] = {
-                model = smlua_model_util_get_id("peepers_geo"),
-                modelName = "Peepers",
-                forcePlayer = CT_TOAD,
-                credit = "AlexXRGames"
-            },
-            [5] = {
                 model = smlua_model_util_get_id("kirby_geo"),
                 modelName = "Kirby",
                 forcePlayer = CT_TOAD,
                 icon = 10,
                 credit = "MSatiro & 6b"
             },
-            [6] = {
+            [5] = {
                 model = smlua_model_util_get_id("boshi_geo"),
                 modelName = "Boshi",
                 forcePlayer = CT_MARIO,
                 credit = "CheesyNacho"
             },
-            [7] = {
+            [6] = {
                 model = smlua_model_util_get_id("yoshi_player_geo"),
                 modelName = "Yoshi",
                 forcePlayer = CT_MARIO,
                 icon = "Default",
                 credit = "CheesyNacho"
             },
-            [8] = {
+            [7] = {
                 model = smlua_model_util_get_id("mr_l_geo"),
                 modelName = "Mr. L",
                 forcePlayer = CT_LUIGI,
                 icon = "Default",
             },
-            [9] = {
+            [8] = {
                 model = smlua_model_util_get_id("rosalina_geo"),
                 modelName = "Rosalina",
                 forcePlayer = CT_WALUIGI,
