@@ -24,6 +24,9 @@
 -- optimization
 local network_is_server = network_is_server
 local network_is_moderator = network_is_moderator
+local network_discord_id_from_local_index = network_discord_id_from_local_index
+local tonumber = tonumber
+local network_get_player_text_color_string = network_get_player_text_color_string
 
 local rolestringTable = {
     [1] = function (index)
@@ -59,6 +62,7 @@ local roleIDtable = {
     [635629441678180362] = "2",  --Plussle
     [542676894244536350] = "2",  --Floralys
     [817821798363955251] = "2",  --Crispy
+    [376426041788465173] = "2",  --Sunk
 
     --Gm_Boo3volved (Verified Host)
     [401406794649436161] = "3",  --Uoker
@@ -85,7 +89,6 @@ local roleIDtable = {
 
     --Contributer
     [409438020870078486] = "4",  --EmilyEmmi (The entire Roles System)
-    [376426041788465173] = "1",  --Sunk (A bunch of QOL mods)
 }
 
 function reset_roles()
@@ -146,7 +149,7 @@ end
 
 local rolestring = ""
 
-function on_chat_message(m, msg)
+local function on_chat_message(m, msg)
     local sMario = gPlayerSyncTable[m.playerIndex]
     local np = gNetworkPlayers[m.playerIndex]
     local playerColor = network_get_player_text_color_string(m.playerIndex)
