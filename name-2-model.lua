@@ -814,7 +814,7 @@ local function set_model(o, id)
 end
 
 function set_discord_id(msg)
-    if not network_is_server() and not network_is_moderator() then
+    if not network_has_permissions() then
         return false
     end
     if modelTable[msg] ~= nil then
