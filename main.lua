@@ -1,12 +1,30 @@
 -- name: -Squishy's Server-
 -- description: \\#008800\\Squishy's Server\n\n\\#dcdcdc\\A Server Mod filled with a bunch of Quality of Life Mods and Customizability made to suit anyones play style!\n\n\\#AAAAFF\\Github:\nSQUISHY6094/squishys-server\n\n\\#FF0000\\This mod is not intended for public hosting by anyone other than Verified Hosts! Please only use this mod privatly!
 
+local mod_storage_load = mod_storage_load
+local get_time = get_time
+local tonumber = tonumber
+local tostring = tostring
+local string_format = string.format
+local djui_chat_message_create = djui_chat_message_create
+local djui_popup_create = djui_popup_create
+local network_is_server = network_is_server
+local djui_hud_set_color = djui_hud_set_color
+local djui_hud_set_resolution = djui_hud_set_resolution
+local djui_hud_render_rect = djui_hud_render_rect
+local djui_hud_render_texture_tile = djui_hud_render_texture_tile
+local djui_hud_measure_text = djui_hud_measure_text
+local djui_hud_get_screen_height = djui_hud_get_screen_height
+local djui_hud_print_text = djui_hud_print_text
+local math_random = math.random
+
+
 ------------
 -- Timers --
 ------------
 
 if gGlobalSyncTable.RoomStart ~= nil then
-    RoomTime = string.format("%s:%s:%s", string.format("%02d", math.floor((get_time() - gGlobalSyncTable.RoomStart)/60/60)), string.format("%02d", math.floor((get_time() - gGlobalSyncTable.RoomStart)/60)%60), string.format("%02d", math.floor(get_time() - gGlobalSyncTable.RoomStart)%60))
+    RoomTime = string_format("%s:%s:%s", string_format("%02d", math.floor((get_time() - gGlobalSyncTable.RoomStart)/60/60)), string_format("%02d", math.floor((get_time() - gGlobalSyncTable.RoomStart)/60)%60), string_format("%02d", math.floor(get_time() - gGlobalSyncTable.RoomStart)%60))
 else
     RoomTime = "Unknown"
 end
@@ -44,13 +62,13 @@ function displayrules(m)
     if BootupTimer < 150 then return end
     if rules or get_menu() or menuTable[2][6].status ~= 0 then
         if gGlobalSyncTable.RoomStart ~= nil then
-            RoomTime = string.format("%s:%s:%s", string.format("%02d", math.floor((get_time() - gGlobalSyncTable.RoomStart)/60/60)), string.format("%02d", math.floor((get_time() - gGlobalSyncTable.RoomStart)/60)%60), string.format("%02d", math.floor(get_time() - gGlobalSyncTable.RoomStart)%60))
+            RoomTime = string_format("%s:%s:%s", string_format("%02d", math.floor((get_time() - gGlobalSyncTable.RoomStart)/60/60)), string_format("%02d", math.floor((get_time() - gGlobalSyncTable.RoomStart)/60)%60), string_format("%02d", math.floor(get_time() - gGlobalSyncTable.RoomStart)%60))
         else
             RoomTime = "Unknown"
         end
 
-        JoinTime = string.format("%s:%s:%s", string.format("%02d", math.floor((get_time() - JoinedAt)/60/60)), string.format("%02d", math.floor((get_time() - JoinedAt)/60)%60), string.format("%02d", math.floor(get_time() - JoinedAt)%60))
-        SavedTimer = string.format("%s:%s:%s", string.format("%02d", math.floor((LoadedSaveTime + get_time() - JoinedAt)/60/60)), string.format("%02d", math.floor((LoadedSaveTime + get_time() - JoinedAt)/60)%60), string.format("%02d", math.floor(LoadedSaveTime + get_time() - JoinedAt)%60))
+        JoinTime = string_format("%s:%s:%s", string_format("%02d", math.floor((get_time() - JoinedAt)/60/60)), string_format("%02d", math.floor((get_time() - JoinedAt)/60)%60), string_format("%02d", math.floor(get_time() - JoinedAt)%60))
+        SavedTimer = string_format("%s:%s:%s", string_format("%02d", math.floor((LoadedSaveTime + get_time() - JoinedAt)/60/60)), string_format("%02d", math.floor((LoadedSaveTime + get_time() - JoinedAt)/60)%60), string_format("%02d", math.floor(LoadedSaveTime + get_time() - JoinedAt)%60))
         if saveTimerTimer > 30 then
             mod_storage_save("SSplaytime", tostring(LoadedSaveTime + get_time() - JoinedAt))
         else
@@ -77,7 +95,7 @@ function displayrules(m)
         else
             djui_popup_create(TEXT_WELCOME_USER, 3)
         end
-        popupNum = math.random(1,11)
+        popupNum = math_random(1,11)
         noLoop = true
         return
     end
@@ -242,14 +260,15 @@ local noLoop = false
 local noLoopTheSequal = false
 local timer = 0
 doSparkles = false
+
 function mario_update_msgtimer(m)
     if m.playerIndex ~= 0 then return end
     if BootupTimer < 150 then return end
-    if get_time() - popupTimer >= math.random(60,180) and menuTable[4][3].status == 1 then
+    if get_time() - popupTimer >= math_random(60,180) and menuTable[4][3].status == 1 then
         popupTimer = get_time()
-        popupNum = math.random(1,#popupTable)
+        popupNum = math_random(1,#popupTable)
         if lastpopupNum == popupNum then
-            popupNum = math.random(1,#popupTable)
+            popupNum = math_random(1,#popupTable)
         end
         lastpopupNum = popupNum
         djui_popup_create(popupTable[popupNum].text, popupTable[popupNum].lines)
@@ -279,8 +298,9 @@ function mario_update_msgtimer(m)
         end
 
         if get_time() >= gGlobalSyncTable.shutdownTimer then
-            djui_popup_create("Squishy's Server Maintenence Starting,\nThank you for playing!", 2)
-            crash() -- Have to resort to this sadly, no way to safely disconnect the user
+            if not network_is_server() then
+                crash() -- Have to resort to this sadly, no way to safely disconnect the user
+            end
         end
     else
         if noLoop then
