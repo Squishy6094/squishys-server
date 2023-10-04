@@ -66,13 +66,8 @@ end
 
 
 -- Menu Info --
----@param toggle boolean
 _G.ssApi.menu_open = function (toggle)
-    if toggle ~= nil then
-        menu = toggle
-    else
-        return menu
-    end
+    menu_open(toggle)
 end
 
 

@@ -21,7 +21,13 @@ local play_sound = play_sound
 local network_player_connected_count = network_player_connected_count
 
 local menu = false
-get_menu = function () return menu end
+menu_open = function (toggle)
+    if toggle ~= nil then
+        menu = toggle
+    else
+        return menu
+    end
+end
 
 local optionTab = 1
 local optionHover = 1

@@ -60,7 +60,7 @@ local TEXT_WELCOME_HOST_UNVERIFIED = "\n\\#ffff00\\Warning:\n\\#ffffff\\You are 
 local TEXT_WELCOME_USER = "Thanks For Joining\n\\#005500\\Squishy's Server\\#ffffff\\,\nEnjoy your Stay!"
 function displayrules(m)
     if BootupTimer < 150 then return end
-    if rules or get_menu() or menuTable[2][6].status ~= 0 then
+    if rules or menu_open() or menuTable[2][6].status ~= 0 then
         if gGlobalSyncTable.RoomStart ~= nil then
             RoomTime = string_format("%s:%s:%s", string_format("%02d", math.floor((get_time() - gGlobalSyncTable.RoomStart)/60/60)), string_format("%02d", math.floor((get_time() - gGlobalSyncTable.RoomStart)/60)%60), string_format("%02d", math.floor(get_time() - gGlobalSyncTable.RoomStart)%60))
         else
