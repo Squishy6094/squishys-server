@@ -70,3 +70,17 @@ function obj_get_nearest_objects_from_set(compare_object, behavior_id_table)
     end
     return found_object_table
 end
+
+function string_without_hex(string)
+    local s = ''
+    local inSlash = false
+    for i = 1, #string do
+        local c = string:sub(i,i)
+        if c == '\\' then
+            inSlash = not inSlash
+        elseif not inSlash then
+            s = s .. c
+        end
+    end
+    return s
+end
