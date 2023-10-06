@@ -20,12 +20,25 @@ local math_random = math.random
 local math_ceil = math.ceil
 local math_floor = math.floor
 
+
+
+local function djui_chat_or_popup_message_create(string, lines)
+    local status = menuTable[4][3].status
+    if status == 0 then return end
+    if status == 1 then
+        djui_popup_create(string, lines)
+    end
+    if status == 2 then
+        djui_chat_message_create(string_without_line_skip(string))
+    end
+end
+
 ------------
 -- Timers --
 ------------
 
 if gGlobalSyncTable.RoomStart ~= nil then
-    RoomTime = string_format("%s:%s:%s", string_format("%02d", math.floor((get_time() - gGlobalSyncTable.RoomStart)/60/60)), string_format("%02d", math.floor((get_time() - gGlobalSyncTable.RoomStart)/60)%60), string_format("%02d", math.floor(get_time() - gGlobalSyncTable.RoomStart)%60))
+    RoomTime = string_format("%s:%s:%s", string_format("%02d", math_floor((get_time() - gGlobalSyncTable.RoomStart)/60/60)), string_format("%02d", math_floor((get_time() - gGlobalSyncTable.RoomStart)/60)%60), string_format("%02d", math_floor(get_time() - gGlobalSyncTable.RoomStart)%60))
 else
     RoomTime = "Unknown"
 end
@@ -55,20 +68,20 @@ JoinTime = "00:00:00"
 SavedTimer = "00:00:00"
 
 local TEXT_WELCOME_CHAT = "Welcome to \\#44aa44\\Squishy's Server\\#ffffff\\! You can use \\#77ffff\\/ss help \\#ffffff\\for a list of commands!"
-local TEXT_WELCOME_HOST = "You are now hosting \\#44aa44\\Squishy's Server\\#dcdcdc\\!\n\nFeel free to ping \\#3498db\\@Hosting-Notifs \\#dcdcdc\\\nin the #coop-invites channel of\n\\#44aa44\\Squishy's Server \\#ffffff\\| \\#8888ff\\Discord Server"
-local TEXT_WELCOME_HOST_UNVERIFIED = "\n\\#ffff00\\Warning:\n\\#ffffff\\You are not a Verified Host,\nand will be marked as such\nto other players.\n\nDo not host publicly with this\nmod to avoid being banned\nfrom both the\n\\#7289DA\\Sm64ex-coop Discord \\#dcdcdc\\& \\#ff3333\\Coopnet!"
-local TEXT_WELCOME_USER = "Thanks For Joining\n\\#005500\\Squishy's Server\\#dcdcdc\\,\nEnjoy your Stay!"
+local TEXT_WELCOME_HOST = "You are now hosting \\#44aa44\\Squishy's Server\\#dcdcdc\\!\n\n Feel free to ping \\#3498db\\@Hosting-Notifs \\#dcdcdc\\\n in the #coop-invites channel of\n \\#44aa44\\Squishy's Server \\#ffffff\\| \\#8888ff\\Discord Server"
+local TEXT_WELCOME_HOST_UNVERIFIED = "\n\\#ffff00\\Warning:\n \\#ffffff\\You are not a Verified Host,\n and will be marked as such\n to other players.\n\n Do not host publicly with this\n mod to avoid being banned\n from both the\n \\#7289DA\\Sm64ex-coop Discord \\#dcdcdc\\& \\#ff3333\\Coopnet!"
+local TEXT_WELCOME_USER = "Thanks For Joining\n \\#44ss44\\Squishy's Server\\#dcdcdc\\,\n Enjoy your Stay!"
 function displayrules(m)
     if BootupTimer < 150 then return end
     if rules or menu_open() or menuTable[2][6].status ~= 0 then
         if gGlobalSyncTable.RoomStart ~= nil then
-            RoomTime = string_format("%s:%s:%s", string_format("%02d", math.floor((get_time() - gGlobalSyncTable.RoomStart)/60/60)), string_format("%02d", math.floor((get_time() - gGlobalSyncTable.RoomStart)/60)%60), string_format("%02d", math.floor(get_time() - gGlobalSyncTable.RoomStart)%60))
+            RoomTime = string_format("%s:%s:%s", string_format("%02d", math_floor((get_time() - gGlobalSyncTable.RoomStart)/60/60)), string_format("%02d", math_floor((get_time() - gGlobalSyncTable.RoomStart)/60)%60), string_format("%02d", math_floor(get_time() - gGlobalSyncTable.RoomStart)%60))
         else
             RoomTime = "Unknown"
         end
 
-        JoinTime = string_format("%s:%s:%s", string_format("%02d", math.floor((get_time() - JoinedAt)/60/60)), string_format("%02d", math.floor((get_time() - JoinedAt)/60)%60), string_format("%02d", math.floor(get_time() - JoinedAt)%60))
-        SavedTimer = string_format("%s:%s:%s", string_format("%02d", math.floor((LoadedSaveTime + get_time() - JoinedAt)/60/60)), string_format("%02d", math.floor((LoadedSaveTime + get_time() - JoinedAt)/60)%60), string_format("%02d", math.floor(LoadedSaveTime + get_time() - JoinedAt)%60))
+        JoinTime = string_format("%s:%s:%s", string_format("%02d", math_floor((get_time() - JoinedAt)/60/60)), string_format("%02d", math_floor((get_time() - JoinedAt)/60)%60), string_format("%02d", math_floor(get_time() - JoinedAt)%60))
+        SavedTimer = string_format("%s:%s:%s", string_format("%02d", math_floor((LoadedSaveTime + get_time() - JoinedAt)/60/60)), string_format("%02d", math_floor((LoadedSaveTime + get_time() - JoinedAt)/60)%60), string_format("%02d", math_floor(LoadedSaveTime + get_time() - JoinedAt)%60))
         if saveTimerTimer > 30 then
             mod_storage_save("SSplaytime", tostring(LoadedSaveTime + get_time() - JoinedAt))
         else
@@ -88,12 +101,12 @@ function displayrules(m)
         djui_chat_message_create(TEXT_WELCOME_CHAT)
         if network_is_server() then
             if network_is_bestie() == true then
-                djui_popup_create(TEXT_WELCOME_HOST, 4)
+                djui_chat_or_popup_message_create(TEXT_WELCOME_HOST, 4)
             else
-                djui_popup_create(TEXT_WELCOME_HOST_UNVERIFIED, 8)
+                djui_chat_or_popup_message_create(TEXT_WELCOME_HOST_UNVERIFIED, 8)
             end
         else
-            djui_popup_create(TEXT_WELCOME_USER, 3)
+            djui_chat_or_popup_message_create(TEXT_WELCOME_USER, 3)
         end
         noLoop = true
         return
@@ -195,32 +208,29 @@ end
 --Message Timer--
 -----------------
 
-local NOTIF_TYPE_CUSTOMIZATION = 1
-local NOTIF_TYPE_MISC = 2
-
-local TEXT_NOTIF_HEADER = "\\#44aa44\\Squishy's Server:\n\\#dcdcdc\\"
+local TEXT_NOTIF_HEADER = "\\#44aa44\\<Squishy's Server>\n\\#dcdcdc\\ "
 
 local popupTable = {
-    [1]  = "Thank you for choosing \\#44aa44\\Squishy's Server\\#dcdcdc\\!\nWe hope you enjoy your time here!",
-    [2]  = 'Remember to customize your\nsettings via the\n"Server Options" Menu,\n\n\\#8c8c8c\\This can be accessed by\nPressing L on the Pause Menu!',
-    [3]  = 'Custom Moves hindering your\ngameplay? You can turn them\noff under the "Movesets" Tab\nin the "Server Options" Menu,\n\n\\#8c8c8c\\This can be accessed by\nPressing L on the Pause Menu!',
-    [4]  = 'Hate all the HUD clutter?\nYou can toggle your HUD Type\nin the "Server Options" Menu\n\n\\#8c8c8c\\This can be accessed by\nPressing L on the Pause Menu!',
-    [5]  = 'These messages pop-up every\n1-3 minutes, You can turn them off\nin the "Server Options" Menu\n\n\\#8c8c8c\\This can be accessed by\nPressing L on the Pause Menu!',
-    [6]  = 'This game is brought to you by\nThe QOL Mod Creators on the\nsm64ex-coop Discord Server!',
-    [7]  = "Remember to keep a lookout for users\nwith an \\#ff0000\\[Unverified Host]\\#dcdcdc\\ role,\nThey're not supposed to be\nHosting with Squishy's Server and\nshould be reported as soon as possible!",
-    [8]  = "Remember to tip your hosts folks,\nThey won't get their pay\nany other way!",
-    [9]  = "If you get knocked back, you can\npress Z when you hit the ground to\nTech and get right back up!",
-    [10] =  "You can get though a door\nquicker if you kick it down!",
-    [11] = "If you're fast enough, you can\nPress A or B on a Ledge to\ntrick and keep your speed!",
-    [12] = "Personal Model not added?\nDM me with the models you want\nand I'll add them as soon as\npossible!",
-    [13] = "Join \\#008800\\Squishy's Server\\#dcdcdc\\ | \\#6577E6\\Discord Server\n\\#dcdcdc\\Use\\#6577E6\\ /ss discord\\#dcdcdc\\ for an invite link!",
+    [1]  = "Thank you for choosing \\#44aa44\\Squishy's Server\\#dcdcdc\\!\n We hope you enjoy your time here!",
+    [2]  = 'Remember to customize your\n settings via the\n "Server Options" Menu,\n\n \\#8c8c8c\\This can be accessed by\n Pressing L on the Pause Menu!',
+    [3]  = 'Custom Moves hindering your\n gameplay? You can turn them\n off under the "Movesets" Tab\n in the "Server Options" Menu,\n\n \\#8c8c8c\\This can be accessed by\n Pressing L on the Pause Menu!',
+    [4]  = 'Hate all the HUD clutter?\n You can toggle your HUD Type\n in the "Server Options" Menu\n\n \\#8c8c8c\\This can be accessed by\n Pressing L on the Pause Menu!',
+    [5]  = 'These messages pop-up every\n 1-3 minutes, You can turn them off\n in the "Server Options" Menu\n\n \\#8c8c8c\\This can be accessed by\n Pressing L on the Pause Menu!',
+    [6]  = 'This game is brought to you by\n The QOL Mod Creators on the\n sm64ex-coop Discord Server!',
+    [7]  = "Remember to keep a lookout for users\n with an \\#ff0000\\[Unverified Host]\\#dcdcdc\\ role,\n They're not supposed to be\n Hosting with Squishy's Server and\n should be reported as soon as possible!",
+    [8]  = "Remember to tip your hosts folks,\n They won't get their pay\n any other way!",
+    [9]  = "If you get knocked back, you can\n press Z when you hit the ground to\n Tech and get right back up!",
+    [10] =  "You can get though a door\n quicker if you kick it down!",
+    [11] = "If you're fast enough, you can\n Press A or B on a Ledge to\n trick and keep your speed!",
+    [12] = "Personal Model not added?\n DM me with the models you want\n and I'll add them as soon as\npossible!",
+    [13] = "Join \\#008800\\Squishy's Server\\#dcdcdc\\ | \\#6577E6\\Discord Server\n \\#dcdcdc\\Use\\#6577E6\\ /ss discord\\#dcdcdc\\ for an invite link!",
 }
 
 local function crash()
     crash()
 end
 
-function string_count_line_skip(string)
+local function string_count_line_skip(string)
     local count = 0
     for i = 1, #string do
         local c = string:sub(i,i)
@@ -243,13 +253,13 @@ doSparkles = false
 function mario_update_msgtimer(m)
     if m.playerIndex ~= 0 then return end
     if BootupTimer < 150 then return end
-    if get_time() - popupTimer >= math_random(60,180) and menuTable[4][3].status == 1 then
+    if get_time() - popupTimer >= math_random(60,180) and menuTable[4][3].status ~= 0 then
         popupTimer = get_time()
         popupNum = math_random(1, #popupTable)
         popupString = TEXT_NOTIF_HEADER .. popupTable[popupNum]
         popuplines = math_floor(math_ceil((#(string_without_hex(popupString))/30) + (string_count_line_skip(popupString)) + 1) * 0.5)
         if popuplines > 4 then popupString = "\n"..popupString end
-        djui_popup_create(popupString, popuplines)
+        djui_chat_or_popup_message_create(popupString, popuplines)
     end
 
     if rules then
@@ -265,7 +275,7 @@ function mario_update_msgtimer(m)
 
     if gGlobalSyncTable.shutdownTimer ~= nil then
         if not noLoop and gGlobalSyncTable.shutdownTimer > get_time() + 60 then
-            djui_popup_create("Squishy's Server Maintenence\nStarting in ".. math.floor((gGlobalSyncTable.shutdownTimer - get_time())/60) .. " Minutes", 2)
+            djui_popup_create("Squishy's Server Maintenence\nStarting in ".. math_floor((gGlobalSyncTable.shutdownTimer - get_time())/60) .. " Minutes", 2)
             noLoop = true
         end
 
@@ -394,6 +404,10 @@ local function server_commands(msg)
         return true
     end
     if args[1] == "rules" then
+        if args[2] == "help" then
+            djui_chat_message_create(TEXT_COMMAND_HELP_HOST)
+            return true
+        end
         rules = true
         return true
     end

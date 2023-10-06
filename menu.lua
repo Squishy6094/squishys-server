@@ -550,11 +550,16 @@ local function setup_ss_menu()
                 }
             },
             [MENU_TAB_MISC.popups] = {
-                name = "Server Popups",
+                name = "Server Notifications",
                 nameSave = "notifSave",
                 status = tonumber(mod_storage_load("notifSave")),
-                statusMax = 1,
+                statusMax = 2,
                 statusDefault = 1,
+                statusNames = {
+                    [0] = "Don't show",
+                    [1] = "Show as Pop-up",
+                    [2] = "Show as Chat Message",
+                },
                 description = {
                     "Shows Tips/Hints about the",
                     "server every 3-5 minutes.",

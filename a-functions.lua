@@ -84,3 +84,14 @@ function string_without_hex(string)
     end
     return s
 end
+
+function string_without_line_skip(string)
+    local s = ''
+    for i = 1, #string do
+        local c = string:sub(i,i)
+        if c ~= '\n' then
+            s = s .. c
+        end
+    end
+    return s
+end
