@@ -18,7 +18,7 @@ local djui_hud_get_screen_height = djui_hud_get_screen_height
 local djui_hud_print_text = djui_hud_print_text
 local math_random = math.random
 local math_ceil = math.ceil
-
+local math_floor = math.floor
 
 ------------
 -- Timers --
@@ -200,46 +200,20 @@ local NOTIF_TYPE_MISC = 2
 
 local TEXT_NOTIF_HEADER = "\\#44aa44\\Squishy's Server:\n\\#dcdcdc\\"
 
-popupTable = {
-    [1] = {
-        text = "Thanks For Playing on\n\\#005500\\Squishy's Server\\#dcdcdc\\!",
-    },
-    [2] = {
-        text = '\nRemember to customize your\nsettings via the\n"Server Options" Menu,\n\n\\#8c8c8c\\This can be accessed by\nPressing L on the Pause Menu!',
-    },
-    [3] = {
-        text = '\nCustom Moves hindering your\ngameplay? You can turn them\noff under the "Movesets" Tab\nin the "Server Options" Menu,\n\n\\#8c8c8c\\This can be accessed by\nPressing L on the Pause Menu!',
-    },
-    [4] = {
-        text = '\nHate all the HUD clutter?\nYou can toggle your HUD Type\nin the "Server Options" Menu\n\n\\#8c8c8c\\This can be accessed by\nPressing L on the Pause Menu!',
-    },
-    [5] = {
-        text = '\nThese messages pop-up every 1-3 minutes, You can turn them off\nin the "Server Options" Menu\n\n\\#8c8c8c\\This can be accessed by\nPressing L on the Pause Menu!',
-    },
-    [6] = {
-        text = 'This game is brought to you by\nThe QOL Mod Creators on the\nsm64ex-coop Discord Server!',
-    },
-    [7] = {
-        text = "Remember to keep a lookout for users\nwith an \\#ff0000\\[Unverified Host]\\#dcdcdc\\ role,\nThey're not supposed to be\nHosting with Squishy's Server and\nshould be reported as soon as possible!",
-    },
-    [8] = {
-        text = "Remember to tip your hosts folks,\nThey won't get their pay\nany other way!",
-    },
-    [9] = {
-        text = "If you get knocked back, you can\npress Z when you hit the ground to\nTech and get right back up!",
-    },
-    [10] = {
-        text = "You can get though a door\nquicker if you kick it down!",
-    },
-    [11] = {
-        text = "If you're fast enough, you can\nPress A or B on a Ledge to\ntrick and keep your speed!",
-    },
-    [12] = {
-        text = "\nPersonal Model not added?\nDM me with the models you want\nand I'll add them as soon as\npossible!",
-    },
-    [13] = {
-        text = "Join \\#008800\\Squishy's Server\\#dcdcdc\\ | \\#6577E6\\Discord Server\n\\#dcdcdc\\Use\\#6577E6\\ /ss discord\\#dcdcdc\\ for an invite link!",
-    }
+local popupTable = {
+    [1]  = "Thank you for choosing \\#44aa44\\Squishy's Server\\#dcdcdc\\!\nWe hope you enjoy your time here!",
+    [2]  = 'Remember to customize your\nsettings via the\n"Server Options" Menu,\n\n\\#8c8c8c\\This can be accessed by\nPressing L on the Pause Menu!',
+    [3]  = 'Custom Moves hindering your\ngameplay? You can turn them\noff under the "Movesets" Tab\nin the "Server Options" Menu,\n\n\\#8c8c8c\\This can be accessed by\nPressing L on the Pause Menu!',
+    [4]  = 'Hate all the HUD clutter?\nYou can toggle your HUD Type\nin the "Server Options" Menu\n\n\\#8c8c8c\\This can be accessed by\nPressing L on the Pause Menu!',
+    [5]  = 'These messages pop-up every\n1-3 minutes, You can turn them off\nin the "Server Options" Menu\n\n\\#8c8c8c\\This can be accessed by\nPressing L on the Pause Menu!',
+    [6]  = 'This game is brought to you by\nThe QOL Mod Creators on the\nsm64ex-coop Discord Server!',
+    [7]  = "Remember to keep a lookout for users\nwith an \\#ff0000\\[Unverified Host]\\#dcdcdc\\ role,\nThey're not supposed to be\nHosting with Squishy's Server and\nshould be reported as soon as possible!",
+    [8]  = "Remember to tip your hosts folks,\nThey won't get their pay\nany other way!",
+    [9]  = "If you get knocked back, you can\npress Z when you hit the ground to\nTech and get right back up!",
+    [10] =  "You can get though a door\nquicker if you kick it down!",
+    [11] = "If you're fast enough, you can\nPress A or B on a Ledge to\ntrick and keep your speed!",
+    [12] = "Personal Model not added?\nDM me with the models you want\nand I'll add them as soon as\npossible!",
+    [13] = "Join \\#008800\\Squishy's Server\\#dcdcdc\\ | \\#6577E6\\Discord Server\n\\#dcdcdc\\Use\\#6577E6\\ /ss discord\\#dcdcdc\\ for an invite link!",
 }
 
 local function crash()
@@ -258,6 +232,7 @@ function string_count_line_skip(string)
 end
 
 local popupTimer = get_time()
+local popupNum = 1
 local popupString = ""
 local popuplines = 1
 local noLoop = false
@@ -268,11 +243,12 @@ doSparkles = false
 function mario_update_msgtimer(m)
     if m.playerIndex ~= 0 then return end
     if BootupTimer < 150 then return end
-    if get_time() - popupTimer >= math_random(6,18) and menuTable[4][3].status == 1 then
+    if get_time() - popupTimer >= math_random(60,180) and menuTable[4][3].status == 1 then
         popupTimer = get_time()
         popupNum = math_random(1, #popupTable)
-        popupString = TEXT_NOTIF_HEADER .. popupTable[popupNum].text
-        popuplines = math_ceil(#(string_without_hex(popupString))/40)
+        popupString = TEXT_NOTIF_HEADER .. popupTable[popupNum]
+        popuplines = math_floor(math_ceil((#(string_without_hex(popupString))/30) + (string_count_line_skip(popupString)) + 1) * 0.5)
+        if popuplines > 4 then popupString = "\n"..popupString end
         djui_popup_create(popupString, popuplines)
     end
 
