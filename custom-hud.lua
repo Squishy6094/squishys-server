@@ -73,7 +73,7 @@ local MENU_TAB_HUD = {
     timer = 6,
 }
 
-local currHUD = 1
+local currHUD = 0
 local hudTable = {}
 local HUD_TABLE_MAX = 0
 
@@ -355,6 +355,7 @@ end
 
 local prevLevel = 0
 local levelTimer = 0
+local timerString = "00:00:00"
 ---@param np NetworkPlayer
 local function setup_timers(np)
     levelTimer = levelTimer + 1
@@ -377,11 +378,13 @@ local function setup_timers(np)
         djui_hud_set_resolution(RESOLUTION_N64)
         local screen_width = djui_hud_get_screen_width()
         local screen_height = djui_hud_get_screen_height()
-        djui_hud_set_font(FONT_TINY)
-        djui_hud_set_color(0, 0, 0, 150)
-        djui_hud_render_rect(screen_width - djui_hud_measure_text(timerString) - 13, screen_height - 16, djui_hud_measure_text(timerString) + 6, 50)
-        djui_hud_set_color(255, 255, 255, 255)
-        djui_hud_print_text(timerString, screen_width - djui_hud_measure_text(timerString) - 10, screen_height - 15, 1)
+        if timerString ~= nil then
+            djui_hud_set_font(FONT_TINY)
+            djui_hud_set_color(0, 0, 0, 150)
+            djui_hud_render_rect(screen_width - djui_hud_measure_text(timerString) - 13, screen_height - 16, djui_hud_measure_text(timerString) + 6, 50)
+            djui_hud_set_color(255, 255, 255, 255)
+            djui_hud_print_text(timerString, screen_width - djui_hud_measure_text(timerString) - 10, screen_height - 15, 1)
+        end
     end
 end
 
@@ -506,20 +509,23 @@ local function hud_render()
 
         if currHUD == HUD_TABLE_MAX + 1 then
             currHUD = HUD_SETTING_DEFAULT
-            hud_type.status = 0
+            menuTable[MENU_TABS.hud][MENU_TAB_HUD.hudType].status = 0
         end
     else
         if currHUD == HUD_TABLE_MAX then
             currHUD = HUD_SETTING_DEFAULT
-            hud_type.status = 0
+            menuTable[MENU_TABS.hud][MENU_TAB_HUD.hudType].status = 0
         end
-        hud_type.statusMax = 3
+        menuTable[MENU_TABS.hud][MENU_TAB_HUD.hudType].statusMax = 3
     end
 
     -- Finally start doing stuff with the hud
     hud_hide()
 
-    currHUD = hud_type.status
+    if menuTable[MENU_TABS.hud][MENU_TAB_HUD.hudType].status == nil then
+        menuTable[MENU_TABS.hud][MENU_TAB_HUD.hudType].status = 0
+    end
+    currHUD = menuTable[MENU_TABS.hud][MENU_TAB_HUD.hudType].status
     if currHUD == 3 then return end
 
     -- If in some cutscenes
@@ -529,6 +535,9 @@ local function hud_render()
 	or m.action == ACT_END_WAVING_CUTSCENE) then return end
 
     local current_hud = hudTable[currHUD]
+    if current_hud == nil then
+        current_hud = hudTable[HUD_SETTING_DEFAULT]
+    end
     djui_hud_set_resolution(current_hud.res)
     djui_hud_set_font(current_hud.font)
     djui_hud_set_color(255, 255, 255, 255)
