@@ -725,7 +725,25 @@ local function setup_models()
                 forcePlayer = CT_TOAD,
                 credit = "BBPanzu / Port by SunSpirit",
             },
-        }
+        },
+        ["397460777608544257"] = {
+            nickname = "Frijoles",
+            [1] = {
+                model = smlua_model_util_get_id("yumi_geo"),
+                modelName = "Yumi Martinez",
+                forcePlayer = CT_MARIO,
+                credit = "frijoles"
+            }
+        },
+        ["681851481913425944"] = {
+            nickname = "DM-kun",
+            [1] = {
+                model = smlua_model_util_get_id("dm_geo"),
+                modelName = "DM-kun",
+                forcePlayer = CT_MARIO,
+                credit = "DM-kun"
+            }
+        },
     }
 end
 
