@@ -20,19 +20,6 @@ local math_random = math.random
 local math_ceil = math.ceil
 local math_floor = math.floor
 
-
-
-local function djui_chat_or_popup_message_create(string, lines)
-    local status = menuTable[4][3].status
-    if status == 0 then return end
-    if status == 1 then
-        djui_popup_create(string, lines)
-    end
-    if status == 2 then
-        djui_chat_message_create(string_without_line_skip(string))
-    end
-end
-
 ------------
 -- Timers --
 ------------

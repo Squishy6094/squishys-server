@@ -81,7 +81,7 @@ function save_data_load(reset)
         for option = 1, #menuTable[tab] do
             local current_option = menuTable[tab][option]
             if not current_option.statusNames then menuTable[tab][option].statusNames = {} end
-            if current_option.nameSave and (reset or not mod_storage_load(current_option.nameSave) or current_option.status == nil) then
+            if current_option.nameSave and (reset or not mod_storage_load(current_option.nameSave) or current_option.status == nil or tonumber(mod_storage_load(current_option.nameSave)) > current_option.statusMax) then
                 if current_option.statusDefault == nil --[[explicit nil check because `not` doesn't work]] then
                     menuTable[tab][option].statusDefault = 1
                 end
@@ -219,6 +219,11 @@ function theme_load()
         else
             themeTable[0].name = "Default"
         end
+
+        if tonumber(mod_storage_load("ThemeSave")) > #themeTable then
+            mod_storage_save("ThemeSave", "0")
+            menuTable[MENU_TABS.hud][MENU_TAB_HUD.theme].status = 0
+        end
     end
 
     for i = 0, #themeTable do
@@ -253,7 +258,7 @@ function theme_unlock(theme_name, theme_description, m)
             -- Save themestring to the current UnlockedTheme slot and stop the loop
             mod_storage_save("UnlockedTheme-"..i, theme_name)
             theme_load()
-            djui_popup_create("\\#008800\\Squishy's Server\n".. '\\#dcdcdc\\Theme Unlocked!\n'..themeTable[i].color..'"'..themeTable[i].name..'"\n\n\\#8c8c8c\\'..theme_description, 5)
+            djui_chat_or_popup_message_create("\\#008800\\Squishy's Server\n ".. '\\#dcdcdc\\Theme Unlocked!\n '..themeTable[i].color..'"'..themeTable[i].name..'"\n\n \\#8c8c8c\\'..theme_description, 5)
             if themeTable[i].sound then
                 audio_sample_play(themeTable[i].sound, m.pos, 1)
             end
