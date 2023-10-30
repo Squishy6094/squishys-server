@@ -17,47 +17,68 @@ end
 -- Commands --
 --------------
 
+--Set if we should show the Rules or not.
 function on_rules_command()
     rules = true
     return true
 end
 
+--Command to shutdown the server via command.
 function on_shutdown_command(msg)
+    --No moderator? Nuh-uh.
     if not network_is_server() and not network_is_moderator() then
         return false
     end
+    --Cancel the shutdown.
     if msg == "cancel" then
+        --Does the timer = nil? If not there is probably a numeric value, mean the timer is going.
         if gGlobalSyncTable.shutdownTimer ~= nil then
+            --Destroy the timer!
             gGlobalSyncTable.shutdownTimer = nil
+            --Let Everyone know the timer has stopped.
             djui_chat_message_create("Shutdown cancelled")
         else
+            --If the timer value does not exist, the it's probably not going.
             djui_chat_message_create("No Active shutdown timer found.")
         end
     else
+        --TBC
         gGlobalSyncTable.shutdownTimer = get_time() + tonumber(msg)*60
         djui_chat_message_create("Server Shutdown set for ".. msg.. " Minutes from now")
     end
+    --Tell the game that the command went through.
     return true
 end
 
+--Command to allow the player to clear all their preferences. Such as your moveset.
 function on_clear_command(msg)
+    --The player didn't confirm that they wanted to clear settings. Make sure they want to.
     if msg ~= "confirm" then
+        --Ask if they REALLY wanna do dat.
         djui_chat_message_create("Are you sure you want to do this? This will clear all Toggles, Themes, and previous playtime from your save data!\nType \\#ff8888\\/ss clear-data confirm\\#ffffff\\ to confirm")
     else
+        --DESTROY THE SETTINGS! FUCK.
         djui_chat_message_create("Clearing Squishy's Server Save Data...")
         save_load(true)
         theme_load()
     end
+    --Tell the game that the command went through.
     return true
 end
 
+--Every usable command ever at all.
 function server_commands(msg)
+    --Check how long the server has been up, we don't want people running commands too early.
     if BootupTimer < 150 then
         djui_chat_message_create("Cannot use Squishy's Server Commands During Bootup")
+        --Tell the game the command has gone through. Just to make sure.
         return true
     end
+    --What does the player want? If anything...
     local args = split(msg)
+    --Did the player try the command out of curiosity? Or do they want help?
     if args[1] == "help" or args[1] == nil then
+        --Show every possible command.
         djui_chat_message_create("\\#008800\\Squishy's Server Avalible Commands:")
         djui_chat_message_create("\\#00ffff\\/ss help \\#ffffff\\Displays these Commands whenever you need them.")
         djui_chat_message_create("\\#00ffff\\/ss rules \\#ffffff\\Displays the Rules Screen.")
@@ -65,6 +86,8 @@ function server_commands(msg)
         djui_chat_message_create("\\#00ffff\\/ss discord \\#ffffff\\Links you to \\#6577E6\\Squishy's Server | Discord Server")
         djui_chat_message_create("\\#00ffff\\/ss reload \\#ffffff\\Reloads Squishy's Server Local Assets & Data")
         djui_chat_message_create("\\#00ffff\\/ss clear-data \\#ffffff\\Clear's all of Squishy's Server Save Data")
+        
+        --Make sure non-moderators don't see these commands, mostly because they don't have to.
         if network_has_permissions() then
             djui_chat_message_create("\\#ffff00\\/ss shutdown \\#ffffff\\ Starts a timer for when the room will close.")
             djui_chat_message_create("\\#ffff00\\/ss vote \\#ffffff\\ Start a vote with any Yes/No prompt.")
@@ -74,42 +97,53 @@ function server_commands(msg)
         end
         return true
     end
+    --Show that player the rules.
     if args[1] == "rules" then
         return on_rules_command()
     end
+    --Open the "L" menu, But with a command. :3
     if args[1] == "menu" then
         return on_menu_command(msg)
     end
+    --Show the player an invite to the Discord Server.
     if args[1] == "discord" then
         djui_chat_message_create("\\#008800\\Squishy's Server \\#ffffff\\| \\#6577E6\\Discord Server:\n\\#8888ff\\https://discord.gg/G2zMwjbxdh")
         return true
     end
+
     if args[1] == "reload" then
         return on_reload_command()
     end
+    --Command to allow the player to clear all their preferences.
     if args[1] == "clear-data" then
         return on_clear_command(args[2])
     end
+    --MOD-ONLY. Command for shutting down the server.
     if args[1] == "shutdown" then
         return on_shutdown_command(args[2])
     end
+    --Allow the player to set their Discord ID.
     if args[1] == "name-2-model" then
         return set_discord_id(args[2])
     end
+    --MOD-ONLY. Command to... Start an event..?
     if args[1] == "event" then
         return on_event_command(msg)
     end
+    --MOD-ONLY. Allow a mod to call a vote. (Amo-)
     if args[1] == "vote" then
         return on_vote_command(msg)
     end
 end
 
+--Chat action hook.
 hook_chat_command("ss", "\\#00ffff\\[Command] \\#dcdcdc\\Access all of \\#005500\\Squishy's Server \\#dcdcdc\\Commands (Use /help for more information)", server_commands)
 
 -----------
 -- Rules --
 -----------
 
+--Varibles relating to menu appearance.
 local offsetX = -200
 local opacity = 255
 local rulesTimer = get_time() + 10
@@ -117,13 +151,16 @@ local lastpopupNum = 0
 local firstRuleShow = true
 local rules = true
 
+--Check the player's SS save data, have we shown them the rules yet?
 if mod_storage_load("RulesSave") ~= nil and mod_storage_load("RulesSave") ~= "1" then
     rules = false
     firstRuleShow = false
 end
 
+--Set when the player joined.
 local JoinedAt = get_time() + 5
 local saveTimerTimer = 0
+--Get the total amount of time the player has played on SS, in general.
 local LoadedSaveTime = tonumber(mod_storage_load("SSplaytime"))
 
 if LoadedSaveTime == nil then
@@ -135,7 +172,9 @@ RoomTime = "00:00:00"
 JoinTime = "00:00:00"
 SavedTimer = "00:00:00"
 
+--Time to show off those epic rules. X3. To be fully commented.
 function displayrules(m)
+    --Make sure the server is fully initalized before being able to show off the rules.
     if BootupTimer < 150 then return end
     if rules or menu or menuTable[2][6].status ~= 0 then
         if gGlobalSyncTable.RoomStart ~= nil then
@@ -274,6 +313,7 @@ end
 --Message Timer--
 -----------------
 
+--Pop-up Tips. To be fully commented.
 popupTable = {
     [1] = {
         text = "Thanks For Playing on\n\\#005500\\Squishy's Server\\#dcdcdc\\!",
