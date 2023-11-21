@@ -12,28 +12,40 @@ local djui_hud_render_texture_tile = djui_hud_render_texture_tile
 
 -- Initialization
 print("Connected to Server Successfully!")
+--Get the players Discord ID
 discordID = network_discord_id_from_local_index(0)
 
+--Are the player the server
 if network_is_server() then
     gGlobalSyncTable.RoomStart = get_time()
     gGlobalSyncTable.event = "Default"
     gGlobalSyncTable.shutdownTimer = nil
 end
 
+--How transparent is the silly black void on the loading screen?
 local opacity = 255
+--Has the HUD started rendering?
 hook_event(HOOK_ON_HUD_RENDER, function ()
+    --Has the server been open long enough?
     if BootupTimer < 150 then
+        --No it has not, keep the timer going and increment by one.
         BootupTimer = BootupTimer + 1
+        --The silly black void, is still silly and black.
         opacity = 255
+    --Is the silly black void visible at all?
     elseif opacity > 0 then
+        --Yes, so decrease it's visibillity.
         opacity = opacity - 3
     end
+    --Set the resolustion of the hud
     djui_hud_set_resolution(RESOLUTION_N64)
+    --Make the silly black void real.
     djui_hud_set_color(0, 0, 0, opacity)
     djui_hud_render_rect(0, 0, djui_hud_get_screen_width() + 5, djui_hud_get_screen_height() + 5)
     djui_hud_set_color(255, 255, 255, opacity)
     djui_hud_render_rect(0, djui_hud_get_screen_height() - 5, ((djui_hud_get_screen_width() + 5) / 150) * BootupTimer, 10)
     djui_hud_set_font(FONT_NORMAL)
+    --Print the loading text.
     djui_hud_print_text("Now loading...", djui_hud_get_screen_width()*0.5 - djui_hud_measure_text("Now loading...")*0.5, 30, 1)
     if BootupInfo ~= nil then
         djui_hud_print_text(BootupInfo, djui_hud_get_screen_width()*0.5 - djui_hud_measure_text(BootupInfo)*0.35, djui_hud_get_screen_height() - 30, 0.7)
